@@ -1,0 +1,21 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.moowork.gradle:gradle-node-plugin:0.12'
+  }
+}
+
+apply plugin: "com.moowork.node"
+
+repositories {
+	 mavenCentral()
+}
+
+task buildClient(type: NpmTask, dependsOn: 'npmInstall') {
+    group = 'build'
+    description = 'Compile client side'
+    args = ['run', 'build']
+}

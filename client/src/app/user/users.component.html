@@ -1,0 +1,10 @@
+<h2>{{title}}</h2>
+<div class="well well-sm">
+    <ul class="list-group">
+        <li *ngFor="let user of users" class="list-group-item">
+            <p class="text-justify"><b>Name:</b> {{user.firstName}} {{user.lastName}}
+                <button type="button" class="btn btn-info" [routerLink]="['/user', user.id]">Detail</button>
+            </p>
+        </li>
+    </ul>
+</div>
