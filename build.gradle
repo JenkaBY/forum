@@ -4,7 +4,6 @@ version '0.1.0'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.tomcat'
 apply plugin: 'idea'
-apply plugin: 'java'
 
 buildscript {
     repositories {
@@ -24,6 +23,7 @@ def springSecurityOauthVersion = '2.2.0.RELEASE'
 def hibernateVersion = '5.2.10.Final'
 def postgreSqlVersion = '9.4.1212'
 def logbackVersion = '1.2.3'
+def jaksonVersion = '2.9.0'
 sourceCompatibility = 1.8
 
 repositories {
@@ -31,18 +31,23 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauthVersion}"
     compile "org.springframework:spring-webmvc:${springVersion}"
     compile 'org.springframework.data:spring-data-jpa:1.11.7.RELEASE'
+    compile "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauthVersion}"
+
+//    TODO may be need specify providedCompile???
     compile 'javax.servlet:javax.servlet-api:3.1.0'
+
     compile "org.hibernate:hibernate-entitymanager:${hibernateVersion}"
     compile "org.postgresql:postgresql:${postgreSqlVersion}"
-    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${jaksonVersion}"
 
 //    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
 //    compile "org.springframework.security:spring-security-config:${springSecurityVersion}"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.9.0"
-    compile "com.github.isrsal:spring-mvc-logger:0.2"
+
+//    Logging...after project will be completed, leave only logback
+    compile "ch.qos.logback:logback-classic:${logbackVersion}"
+    compile 'com.github.isrsal:spring-mvc-logger:0.2'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:8.5.2",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
