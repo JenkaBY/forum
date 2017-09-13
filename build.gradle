@@ -1,5 +1,5 @@
-group 'com.intexsoft'
-version '1.0.0'
+group 'by.intexsoft'
+version '0.1.0'
 
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.tomcat'
@@ -10,7 +10,6 @@ buildscript {
     repositories {
         jcenter()
     }
-
     dependencies {
         classpath 'com.bmuschko:gradle-tomcat-plugin:2.3'
     }
@@ -24,7 +23,7 @@ def springSecurityVersion = '4.2.3.RELEASE'
 def springSecurityOauthVersion = '2.2.0.RELEASE'
 def hibernateVersion = '5.2.10.Final'
 def postgreSqlVersion = '9.4.1212'
-def logbackVersion =  '1.2.3'
+def logbackVersion = '1.2.3'
 sourceCompatibility = 1.8
 
 repositories {
@@ -51,7 +50,7 @@ dependencies {
 
 tomcat {
     httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+    ajpProtocol = 'org.apache.coyote.ajp.AjpNio2Protocol'
 }
 
 idea {
@@ -62,5 +61,7 @@ idea {
 }
 
 war {
+    dependsOn = ['client:buildClient']
+    from 'client/dist'
     destinationDir = file("$rootDir/build/war")
 }
