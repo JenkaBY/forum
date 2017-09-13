@@ -15,7 +15,7 @@ public class AbstractEntity extends AbstractPersistable<Integer> {
 	@Column(columnDefinition = "boolean default false", nullable = false)
 	public boolean deleted;
 	
-	@Column(name = "created_at", nullable = true)
+	@Column(name = "created_at")
 	@CreationTimestamp
 	public Timestamp createdAt;
 }
