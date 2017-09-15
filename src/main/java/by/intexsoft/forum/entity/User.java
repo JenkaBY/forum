@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * User class describes the 'user' table in DB.
  */
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "\"users\"")
 public class User extends AbstractEntity{
 
 	private static final long serialVersionUID = 2114056750097110098L;
@@ -17,7 +17,7 @@ public class User extends AbstractEntity{
 	@Column(name = "first_name", nullable = false, length = 128)
 	public String firstName;
 
-	@Column(name = "last_name", nullable = false, length = 255)
+	@Column(name = "last_name", nullable = false)
 	public String lastName;
 
 	@Column(unique = true, nullable = false)
