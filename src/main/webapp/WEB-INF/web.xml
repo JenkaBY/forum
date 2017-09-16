@@ -14,7 +14,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <!-- Указываем на файл конфигурации контекста...-->
-        <param-value>classpath:dispatcher-servlet.xml</param-value>
+        <param-value>classpath:application-context.xml</param-value>
     </context-param>
 
     <!-- фильтр для логирования запросов и реквестов-->

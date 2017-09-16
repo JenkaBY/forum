@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-    <import resource="classpath:web-context.xml"/>
+    <context:component-scan base-package="by.intexsoft.forum.controller" />
     <mvc:annotation-driven/>
     <mvc:resources mapping="/assets/**" location="/assets/"/>
 
