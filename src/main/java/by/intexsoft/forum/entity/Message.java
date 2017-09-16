@@ -6,6 +6,9 @@ import java.sql.Timestamp;
 
 import static javax.persistence.FetchType.LAZY;
 
+/**
+ * Message class describes the 'messages' table in DB.
+ */
 @Entity
 @Table(name = "messages")
 public class Message extends AbstractEntity {
@@ -13,9 +16,13 @@ public class Message extends AbstractEntity {
     public String text;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "created_by")
-    public User createdBy;
+    @JoinColumn(name = "created_by", updatable = false)
+    public UserNew createdBy;
 
     @Column(name = "updated_at")
     public Timestamp updatedAt;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "updated_by")
+    public UserNew updatedBy;
 }

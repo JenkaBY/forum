@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * Role class describes the 'roles' table in DB.
+ */
 @Entity
 @Table(name = "roles")
 public class Role extends AbstractEntity implements Serializable{

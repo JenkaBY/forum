@@ -12,10 +12,10 @@ public class AbstractEntity extends AbstractPersistable<Integer> {
 
 	private static final long serialVersionUID = -140584652196083093L;
 
-	@Column(columnDefinition = "boolean default false", nullable = false)
+	@Column(columnDefinition = "boolean default false", nullable = false, insertable = false)
 	public boolean deleted;
 	
-	@Column(name = "created_at")
+	@Column(name = "created_at", updatable = false)
 	@CreationTimestamp
 	public Timestamp createdAt;
 }
