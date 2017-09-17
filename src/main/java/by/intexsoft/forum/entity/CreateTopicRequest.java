@@ -17,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 public class CreateTopicRequest extends AbstractEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "requested_by", updatable = false, nullable = false)
-    public UserNew requestedBy;
+    public User requestedBy;
 
     @Column(name = "requested_topic_title", updatable = false, nullable = false)
     public String requestedTopicTitle;

@@ -1,7 +1,6 @@
 package by.intexsoft.forum.entity;
 
 import javax.persistence.*;
-
 import java.util.Set;
 
 import static javax.persistence.FetchType.LAZY;
@@ -18,11 +17,11 @@ public class Topic extends AbstractEntity{
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "created_by", updatable = false)
-    public UserNew createdBy;
+    public User createdBy;
 
     @ManyToMany(fetch = LAZY)
     @JoinTable(name = "topics_users",
             joinColumns = @JoinColumn(name = "topic_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    public Set<UserNew> allowedUsers;
+    public Set<User> allowedUsers;
 }

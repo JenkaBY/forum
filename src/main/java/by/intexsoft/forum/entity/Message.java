@@ -16,12 +16,12 @@ public class Message extends AbstractEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "created_by", updatable = false)
-    public UserNew createdBy;
+    public User createdBy;
 
     @Column(name = "updated_at")
     public Timestamp updatedAt;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "updated_by")
-    public UserNew updatedBy;
+    public User updatedBy;
 }

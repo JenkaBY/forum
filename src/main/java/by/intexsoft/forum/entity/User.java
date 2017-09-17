@@ -1,5 +1,7 @@
 package by.intexsoft.forum.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -11,8 +13,9 @@ import static javax.persistence.FetchType.LAZY;
  * User class describes the 'users' table in DB.
  */
 @Entity
-@Table(name = "\"users_new\"")
-public class UserNew extends AbstractEntity {
+@Table(name = "\"users\"")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class User extends AbstractEntity {
 
     private static final long serialVersionUID = 2114056750097110098L;
 
@@ -33,10 +36,10 @@ public class UserNew extends AbstractEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "approved_by", insertable = false)
-    public UserNew approvedBy;
+    public User approvedBy;
 
     @OneToMany(mappedBy="approvedBy",fetch = LAZY)
-    public Set<UserNew> approvers;
+    public Set<User> approvers;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "role_id", nullable = false)
