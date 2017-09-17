@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 /**
  * TODO: rename table name
@@ -16,13 +16,13 @@ public class UserNew extends AbstractEntity {
 
     private static final long serialVersionUID = 2114056750097110098L;
 
-    @Column(name = "nickname", nullable = false, length = 127, unique = true)
-    public String nickname;
+    @Column(name = "name", nullable = false, length = 127, unique = true)
+    public String name;
 
     @Column(unique = true, nullable = false)
     public String email;
 
-    @Column(name = "hash_password", nullable = false, length = 30)
+    @Column(name = "hash_password", nullable = false, length = 50)
     public String hashPassword;
 
     @Column(name = "last_logon_at", insertable = false)

@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import java.sql.Timestamp;
 
 @MappedSuperclass
-public class AbstractEntity extends AbstractPersistable<Integer> {
+public class AbstractEntity extends AbstractPersistable<Long> {
 
 	private static final long serialVersionUID = -140584652196083093L;
 
