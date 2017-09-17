@@ -24,4 +24,8 @@ public class Message extends AbstractEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "updated_by")
     public User updatedBy;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "topic_id", updatable = false, nullable = false)
+    public Topic inTopic;
 }
