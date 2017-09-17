@@ -1,5 +1,6 @@
 package by.intexsoft.forum.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -8,6 +9,7 @@ import javax.persistence.MappedSuperclass;
 import java.sql.Timestamp;
 
 @MappedSuperclass
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AbstractEntity extends AbstractPersistable<Long> {
 
 	private static final long serialVersionUID = -140584652196083093L;
