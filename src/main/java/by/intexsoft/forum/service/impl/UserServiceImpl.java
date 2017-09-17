@@ -8,14 +8,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements UserService {
+
 	@Autowired
-	private UserRepository repository;
-	
+	public UserServiceImpl(UserRepository repository) {
+		super(repository);
+	}
+
 	@Override
 	public User findByEmail(String email) {
-		if (email != null) {
-			return repository.findByEmail(email);
-		}
+		if (email != null) return ((UserService) repository).findByEmail(email);
 		return null;
 	}
 }

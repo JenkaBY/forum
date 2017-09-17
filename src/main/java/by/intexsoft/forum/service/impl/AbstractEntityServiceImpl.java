@@ -9,11 +9,15 @@ import java.util.List;
 
 public class AbstractEntityServiceImpl<T extends AbstractEntity> implements AbstractEntityService<T> {
 
+	protected JpaRepository<T, Long> repository;
+
 	@Autowired
-	private JpaRepository<T, Integer> repository;
+	public AbstractEntityServiceImpl(JpaRepository<T, Long> repository) {
+		this.repository = repository;
+	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(long id) {
 		repository.delete(id);
 	}
 
@@ -23,7 +27,7 @@ public class AbstractEntityServiceImpl<T extends AbstractEntity> implements Abst
 	}
 
 	@Override
-	public T find(int id) {
+	public T find(long id) {
 		return repository.findOne(id);
 	}
 
