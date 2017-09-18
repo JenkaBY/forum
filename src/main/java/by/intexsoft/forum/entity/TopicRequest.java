@@ -7,14 +7,13 @@ import javax.persistence.*;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
-
 /**
- * CreateTopicRequest class describes the 'create_topic_requests' table in DB.
+ * TopicRequest class describes the 'topic_requests' table in DB.
  * User's requests to create a topic with specified theme/
  */
 @Entity
-@Table(name = "create_topic_requests")
-public class CreateTopicRequest extends AbstractEntity {
+@Table(name = "topic_requests")
+public class TopicRequest extends AbstractEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "requested_by", updatable = false, nullable = false)
     public User requestedBy;
