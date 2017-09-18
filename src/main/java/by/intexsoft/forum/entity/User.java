@@ -30,6 +30,9 @@ public class User extends AbstractEntity {
     @Column(columnDefinition = "boolean default false", nullable = false, insertable = false)
     public boolean blocked;
 
+    @Column(columnDefinition = "boolean default false", nullable = false, insertable = false)
+    public boolean rejected;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "approved_by", insertable = false)
     public User approvedBy;
@@ -42,5 +45,4 @@ public class User extends AbstractEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     public Role role;
-
 }
