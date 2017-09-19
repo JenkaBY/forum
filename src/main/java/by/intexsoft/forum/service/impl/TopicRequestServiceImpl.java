@@ -33,7 +33,7 @@ public class TopicRequestServiceImpl extends AbstractEntityServiceImpl<TopicRequ
      */
     @Override
     public Page<TopicRequest> findAllPending(Pageable pageable) {
-        return ((TopicRequestRepository) repository).findAllByStatus(Status.PENDING, pageable);
+        return ((TopicRequestRepository) repository).findByStatus(Status.PENDING, pageable);
     }
 
     /**
