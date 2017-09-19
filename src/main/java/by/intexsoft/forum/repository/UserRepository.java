@@ -5,14 +5,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+// Try to realize soft deleting
+//https://github.com/dzinot/spring-boot-jpa-soft-delete/blob/master/src/main/java/com/kristijangeorgiev/softdelete/repository/SoftDeletesRepositoryImpl.java
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    public Page<User> findByApprovedByIsNull(Pageable pageable);
+    Page<User> findByApprovedByIsNull(Pageable pageable);
 
-    public Page<User> findByApprovedByAndRejectedFalse(User approvedBy, Pageable pageable);
+    Page<User> findByApprovedByAndRejectedFalse(User approvedBy, Pageable pageable);
 
-    public Page<User> findByApprovedByAndRejectedTrue(User approvedBy, Pageable pageable);
+    Page<User> findByApprovedByAndRejectedTrue(User approvedBy, Pageable pageable);
 
-    public Page<User> findByBlockedTrue(Pageable pageable);
+    Page<User> findByBlockedTrue(Pageable pageable);
 }
 

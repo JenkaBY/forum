@@ -48,7 +48,7 @@ public class UserController {
             return new ResponseEntity<>(message, BAD_REQUEST);
         }
         userService.delete(id);
-        LOGGER.info("User with Id={0} haas been deleted.", id);
+        LOGGER.info("User with Id={0} has been deleted.", id);
         return new ResponseEntity<>(userService.find(id) == null ? OK : BAD_REQUEST);
     }
 

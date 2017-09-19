@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping(path = "/admin")
 public class AdminController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(AdminController.class);
 

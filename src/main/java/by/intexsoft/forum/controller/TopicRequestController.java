@@ -10,11 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
-@RequestMapping("/topic/request")
+@RequestMapping(path = "/topic/request")
 public class TopicRequestController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicRequestController.class);
     private TopicRequestService topicRequestService;
@@ -24,14 +23,14 @@ public class TopicRequestController {
         this.topicRequestService = topicRequestService;
     }
 
-    @GetMapping(value = "/pending")
+    @GetMapping(path = "/pending")
     public ResponseEntity<?> getAllPending(Pageable pageable) {
 //        TODO add checking isAdmin?
-        LOGGER.info("{0} requests all pending topic requests", "ADMiN");
+        LOGGER.info("{0} requests all pending topic requests", "ADMIN");
         return new ResponseEntity<>(topicRequestService.findAllPending(pageable), OK);
     }
 
-    @GetMapping(value = "/my")
+    @GetMapping(path = "/my")
     public ResponseEntity<?> getAllByUser(Pageable pageable) {
 //        TODO add CURRENT_USER
         User currentUser = new User();
@@ -45,15 +44,15 @@ public class TopicRequestController {
             LOGGER.warn("Trying to create topic request with null parameter.");
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        //        TODO add CURRENT_USER
+        //TODO add CURRENT_USER
         User currentUser = new User();
         LOGGER.info("New topic request was created by ", currentUser);
-        return ResponseEntity.ok(topicRequestService.save(topicRequest));
+        return new ResponseEntity(topicRequestService.save(topicRequest), CREATED);
     }
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<?> updateRequest(@PathVariable(value = "id") Long id, @RequestBody TopicRequest topicRequest) {
-        if ((topicRequest == null) || (topicRequest.getId() != id)) {
+        if ((topicRequest == null) || (!topicRequest.getId().equals(id))) {
             LOGGER.warn("Attempt the editing of topic request was by {0}", "ADMIN_SHOULD_BE_HERE");
             return new ResponseEntity<>(BAD_REQUEST);
         }
