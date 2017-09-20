@@ -1,4 +1,4 @@
-import { User } from '../../model/user';
+import { User } from "../../model/user";
 /**
  * Service for User
  */
@@ -35,9 +35,5 @@ interface IUserService {
      * @see User
      */
     create(user: User): Promise<User>;
-
-    getMockFirstUser(): Promise<User>;
-
-    getAllMockUsers(): Promise<User[]>;
 }
 export default IUserService;

@@ -1,11 +1,13 @@
-import { AbstractEntity } from './abstract-entity';
+import { AbstractEntity } from "./abstract-entity";
+import { Role } from "./role";
 
 export class User extends AbstractEntity {
-    firstName: string;
-    lastName: string;
+    name: string;
     email: string;
     hashPassword: string;
     lastLogonAt: Date;
     blocked: boolean;
-    admin: boolean;
+    rejected: boolean;
+    approvedBy: User;
+    role: Role;
 }

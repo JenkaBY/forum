@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
-import IUserService from './interface/iuser.service';
-import { User } from '../model/user';
-import { Http, Headers } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
-import { USERS } from '../mock/mock-users';
+import { Injectable } from "@angular/core";
+import IUserService from "./interface/iuser.service";
+import { User } from "../model/user";
+import { Http, Headers } from "@angular/http";
+import "rxjs/add/operator/toPromise";
 
-const PROJECT_NAME = '/userfaces/'
-const GET_ALL = 'api/user/all';
+const PROJECT_NAME = '/forum/'
+const GET_ALL = 'api/admin/user/all';
 const GET_ONE = 'api/user/';
 const SUCCESS = 'User was successfully updated.';
 const CREATED = 'User was successfully created.';
@@ -15,7 +14,6 @@ const ERROR = 'Something went wrong! Server isn\'t available now.';
 
 @Injectable()
 export class UserService implements IUserService {
-    mockUsers: User[] = USERS;
     private headers = new Headers({'Content-Type': 'application/json'});
 
     constructor(private  http: Http) {
@@ -26,7 +24,8 @@ export class UserService implements IUserService {
             .toPromise()
             .then(response =>
             {console.log(response);
-                return response.json();})
+                return response.json()["content"];
+            })
             .catch(error => this.errorHandle(error));
     }
 
@@ -54,18 +53,6 @@ export class UserService implements IUserService {
 
     create(user: User): Promise<User> {
         return null;
-    }
-
-    getMockFirstUser(): Promise<User> {
-        return new Promise((resolve, reject) => {
-            resolve(this.mockUsers[0]);
-        });
-    }
-
-    getAllMockUsers(): Promise<User[]> {
-        return new Promise((resolve, reject) => {
-            resolve(this.mockUsers);
-        });
     }
 
     private errorHandle(error): Promise<User> {
