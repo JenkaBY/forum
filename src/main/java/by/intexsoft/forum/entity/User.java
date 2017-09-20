@@ -21,7 +21,7 @@ public class User extends AbstractEntity {
     @Column(unique = true, nullable = false)
     public String email;
 
-    @Column(name = "hash_password", nullable = false, length = 50)
+    @Column(name = "hash_password", nullable = false, length = 60)
     public String hashPassword;
 
     @Column(name = "last_logon_at", insertable = false)

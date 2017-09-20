@@ -15,14 +15,14 @@ import java.util.Objects;
 
 @Service
 public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements UserService {
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
     private RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public UserServiceImpl(UserRepository repository, RoleService roleService) {
         super(repository);
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -85,7 +85,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
     @Override
     public User save(User user) {
         if (Objects.isNull(user.getId())) {
-            user.hashPassword = passwordEncoder.encode(user.hashPassword);
+            user.hashPassword = bCryptPasswordEncoder.encode(user.hashPassword);
         }
         if (Objects.isNull(user.role)) {
             user.role = roleService.findByTitle(RoleConst.USER);
@@ -96,18 +96,24 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
 
     @Override
     public void changePassword(User user, String newPassword) {
-        user.hashPassword = passwordEncoder.encode(newPassword);
+        user.hashPassword = bCryptPasswordEncoder.encode(newPassword);
         save(user);
     }
 
+    @Override
     public boolean isEmailExist(String email) {
         return Objects.nonNull(((UserRepository) repository).findByEmail(email.toLowerCase()));
     }
 
+    @Override
     public boolean isNameExist(String name) {
         return Objects.nonNull(((UserRepository) repository).findByName(name));
     }
 
+    @Override
+    public User getUserByEmail(String email) {
+        return ((UserRepository) repository).findByEmail(email);
+    }
 
     public boolean checkExistingUser(User checkedUser) {
         return !isEmailExist(checkedUser.email) && !isNameExist(checkedUser.name);
