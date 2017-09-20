@@ -15,4 +15,8 @@ public interface UserService extends AbstractEntityService<User> {
     Page<User> findAllApprovedByAndRejected(User admin, Pageable pageable);
 
     Page<User> findAllBlocked(Pageable pageable);
+
+    void changePassword(User user, String newPassword);
+
+    boolean isEmailExist(String email);
 }

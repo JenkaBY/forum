@@ -7,17 +7,22 @@ import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.stream.IntStream;
 
+import static by.intexsoft.forum.security.SecurityHelper.checkPasswordLength;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private static final String INCORRECT_PASSWORD = "Incorrect Password";
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(UserController.class);
 
     private UserService userService;
@@ -61,11 +66,22 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<?> update(@RequestBody User user, @PathVariable Long id) {
+    public ResponseEntity<?> update(@RequestBody User user, @PathVariable(value = "id") Long id) {
         User updatedUser = userService.save(user);
         // TODO create case if error occurs while saving user
         LOGGER.info("User with id = {0} was updated.", user.getId());
         return new ResponseEntity<>(updatedUser, OK);
+    }
+
+    @PutMapping(path = "/{id}/change_password")
+    public ResponseEntity<?> changePassword(@PathVariable(value = "id") Long id, @RequestBody String newPassword) {
+        if (!checkPasswordLength(newPassword)) {
+            return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);
+        }
+//        TODO add currentUser;
+        User currentUser = new User();
+        userService.changePassword(currentUser, newPassword);
+        return new ResponseEntity<>(OK);
     }
 
     //    TODO Delete when all will be complete.
@@ -98,5 +114,10 @@ public class UserController {
             roleService.save(role);
         }
         return role;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

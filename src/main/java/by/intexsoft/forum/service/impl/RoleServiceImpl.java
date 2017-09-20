@@ -13,4 +13,9 @@ public class RoleServiceImpl extends AbstractEntityServiceImpl<Role> implements 
     public RoleServiceImpl(RoleRepository repository) {
         super(repository);
     }
+
+    @Override
+    public Role findByTitle(String title) {
+        return ((RoleRepository) repository).findByTitle(title);
+    }
 }

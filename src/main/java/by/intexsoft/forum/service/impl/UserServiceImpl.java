@@ -1,19 +1,28 @@
 package by.intexsoft.forum.service.impl;
 
+import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.repository.UserRepository;
+import by.intexsoft.forum.service.RoleService;
 import by.intexsoft.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements UserService {
+    private PasswordEncoder passwordEncoder;
+    private RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, RoleService roleService) {
         super(repository);
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -71,5 +80,36 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
     @Override
     public Page<User> findAllBlocked(Pageable pageable) {
         return ((UserRepository) repository).findByBlockedTrue(pageable);
+    }
+
+    @Override
+    public User save(User user) {
+        if (Objects.isNull(user.getId())) {
+            user.hashPassword = passwordEncoder.encode(user.hashPassword);
+        }
+        if (Objects.isNull(user.role)) {
+            user.role = roleService.findByTitle(RoleConst.USER);
+        }
+        user.email = user.email.toLowerCase();
+        return repository.save(user);
+    }
+
+    @Override
+    public void changePassword(User user, String newPassword) {
+        user.hashPassword = passwordEncoder.encode(newPassword);
+        save(user);
+    }
+
+    public boolean isEmailExist(String email) {
+        return Objects.nonNull(((UserRepository) repository).findByEmail(email.toLowerCase()));
+    }
+
+    public boolean isNameExist(String name) {
+        return Objects.nonNull(((UserRepository) repository).findByName(name));
+    }
+
+
+    public boolean checkExistingUser(User checkedUser) {
+        return !isEmailExist(checkedUser.email) && !isNameExist(checkedUser.name);
     }
 }

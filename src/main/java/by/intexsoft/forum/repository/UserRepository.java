@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //https://github.com/dzinot/spring-boot-jpa-soft-delete/blob/master/src/main/java/com/kristijangeorgiev/softdelete/repository/SoftDeletesRepositoryImpl.java
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
 
+    User findByName(String name);
     Page<User> findByApprovedByIsNull(Pageable pageable);
 
     Page<User> findByApprovedByAndRejectedFalse(User approvedBy, Pageable pageable);
