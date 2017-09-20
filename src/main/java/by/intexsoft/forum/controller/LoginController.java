@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping(path = "/")
@@ -23,8 +24,10 @@ public class LoginController {
 
     @PostMapping(path = "/new_account")
     public ResponseEntity<?> createNewAccount(@RequestBody User user) {
-
+        if (userService.isEmailExist(user.email) || userService.isNameExist(user.name)) {
+            return new ResponseEntity<>("Email or name exists in DB.", BAD_REQUEST);
+        }
         user.email = user.email.toLowerCase();
-        return new ResponseEntity<>(userService.save(user), OK);
+        return new ResponseEntity<>(userService.save(user), CREATED);
     }
 }

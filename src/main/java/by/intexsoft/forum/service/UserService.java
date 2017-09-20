@@ -19,4 +19,6 @@ public interface UserService extends AbstractEntityService<User> {
     void changePassword(User user, String newPassword);
 
     boolean isEmailExist(String email);
+
+    boolean isNameExist(String name);
 }
