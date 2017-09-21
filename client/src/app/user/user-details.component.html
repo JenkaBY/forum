@@ -1,45 +1,45 @@
-<legend>{{user.firstName}} {{user.lastName}}'s details</legend>
+<legend>{{user.name}}'s details</legend>
 <div class="well well-sm row">
 
     <div class="form-group row">
-        <label class="col-2 col-form-label">Id</label>
+        <label class="col-2 col-form-label">{{ 'USER.ID' | translate }}</label>
         <div class="col-10">
             <p class="form-control">{{user.id}}</p>
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-2 col-form-label">Name</label>
+        <label class="col-2 col-form-label">{{ 'USER.NAME' | translate }}</label>
         <div class="col-10">
             <input class="form-control" type="text" [(ngModel)]="user.name">
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-2 col-form-label">Password</label>
+        <label class="col-2 col-form-label">{{ 'USER.PASSWORD' | translate }}</label>
         <div class="col-10">
             <input class="form-control" type="text" [(ngModel)]="user.hashPassword">
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-2 col-form-label">Email</label>
+        <label class="col-2 col-form-label">{{ 'USER.EMAIL' | translate }}</label>
         <div class="col-10">
             <input class="form-control" type="text" [(ngModel)]="user.email">
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-2 col-form-label">Created At</label>
+        <label class="col-2 col-form-label">{{ 'USER.CREATED_AT' | translate }}</label>
         <div class="col-10">
             <input class="form-control" type="datetime" value="{{user.createdAt | date:dateFormat}}">
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-2 col-form-label">Blocked?</label>
-        <input class="form-check" type="checkbox" value="" [(ngModel)]="user.blocked" />
+        <label class="col-2 col-form-label">{{ 'USER.BLOCKED' | translate }}</label>
+        <input class="form-check" type="checkbox" value="" [(ngModel)]="user.blocked"/>
     </div>
     <div class="form-group row">
-        <label class="col-2 col-form-label">Deleted?</label>
-        <input class="form-check" type="checkbox" value="" [(ngModel)]="user.deleted" />
+        <label class="col-2 col-form-label">{{ 'USER.REJECTED' | translate }}</label>
+        <input class="form-check" type="checkbox" value="" [(ngModel)]="user.rejected"/>
     </div>
 </div>
-<button (click)="save()" class="btn btn-success btn-block">Save</button>
+<button (click)="save()" class="btn btn-success btn-block">{{ 'BUTTON.SAVE'| translate }}</button>

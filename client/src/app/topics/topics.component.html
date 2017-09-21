@@ -1,0 +1,7 @@
+<div>
+    <ul>
+        <li *ngFor="let topic of topics">
+            <a [routerLink]="['/topic', topic.id]"><p>{{ topic.title }}</p></a>
+        </li>
+    </ul>
+</div>

@@ -2,8 +2,11 @@
 <div class="well well-sm">
     <ul class="list-group">
         <li *ngFor="let user of users" class="list-group-item">
-            <p class="text-justify"><b>Name:</b> {{user.name}} {{user.email}}
-                <button type="button" class="btn btn-info" [routerLink]="['/user', user.id]">Detail</button>
+            <p class="text-justify"><b>{{ 'USER.NAME' | translate }}:</b> {{user.name}} <b>{{ 'USER.EMAIL' | translate
+                }}:</b> {{user.email}}
+                <button type="button" class="btn btn-info" [routerLink]="['/user', user.id]">{{ 'BUTTON.DETAIL' |
+                    translate }}
+                </button>
             </p>
         </li>
     </ul>

@@ -1,3 +1,29 @@
 {
-    "WELCOME_TO": " Welcome to {{title}}!"
+  "WELCOME_TO": " Welcome to {{title}}!",
+  "BUTTON": {
+    "SAVE": "Save",
+    "BACK": "Back",
+    "DELETE": "Delete",
+    "DETAIL": "Detail"
+  },
+  "USER": {
+    "ID": "Id",
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "LAST_LOGON_AT": "Last logon at",
+    "PASSWORD": "Password",
+    "BLOCKED": "Blocked?",
+    "REJECTED": "Rejected?",
+    "ROLE": "Role",
+    "DELETED": "Deleted",
+    "APPROVED_BY": "Approved by"
+  },
+  "ROLE": {
+    "TITLE": "Title"
+  },
+  "MESSAGE": {
+    "TEXT": "Text",
+    "CREATED_BY": "Created by",
+    "CREATED_AT": "Created at"
+  }
 }
