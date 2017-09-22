@@ -6,6 +6,11 @@
     "DELETE": "Delete",
     "DETAIL": "Detail"
   },
+  "NAV": {
+    "TOPICS": "All Topics",
+    "REQUEST": "Topic Request",
+    "MY_TOPICS": "My Topics"
+  },
   "USER": {
     "ID": "Id",
     "NAME": "Name",

@@ -15,6 +15,8 @@ import { TopicsComponent } from './topics/topics.component';
 import { TopicComponent } from './topic/topic.component';
 import { MessageService } from './service/message.service';
 import { MessageComponent } from './message/message.component';
+import { MaterialDesignModule } from './material/material-design.module';
+import { HeaderComponent } from './header/header.component';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -27,7 +29,8 @@ export function createTranslateLoader(http: Http) {
         UserDetailsComponent,
         TopicsComponent,
         TopicComponent,
-        MessageComponent
+        MessageComponent,
+        HeaderComponent
     ],
     imports: [
         BrowserModule,
@@ -35,6 +38,7 @@ export function createTranslateLoader(http: Http) {
         AppRoutingModule,
         FormsModule,
         CommonModule,
+        MaterialDesignModule,
         TranslateModule.forRoot({
             provide: TranslateLoader,
             useFactory: (createTranslateLoader),
