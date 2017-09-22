@@ -6,7 +6,7 @@ import { Message } from '../../model/message';
  */
 
 interface IMessageService {
-    getAllMessages(topic: Topic): Promise<Message[]>;
+    getAllMessages(topicId: number): Promise<Message[]>;
 
     createMessage(topic: Topic, message: Message): Promise<Message>;
 

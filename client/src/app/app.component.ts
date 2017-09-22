@@ -13,7 +13,7 @@ export class AppComponent {
 
     constructor(private router: Router, private translate: TranslateService) {
         translate.setDefaultLang('en');
-        translate.use('ru');
+        translate.use('en');
     }
 
     goBack(): void {

@@ -13,11 +13,10 @@ export class MessageService implements IMessageService {
     constructor(private  http: Http) {
     }
 
-    getAllMessages(topic: Topic): Promise<Message[]> {
-        return this.http.get(Routes.TOPIC + topic.id + '/' + 'ALL')
+    getAllMessages(topicId: number): Promise<Message[]> {
+        return this.http.get(Routes.TOPIC + topicId + '/all')
             .toPromise()
             .then(response => {
-                console.log(response);
                 return response.json()['content'];
             })
             .catch(error => this.errorHandle(error));

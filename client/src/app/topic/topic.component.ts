@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Topic } from '../model/topic';
 import { Message } from '../model/message';
 import IMessageService from '../service/interface/imessage.service';
-import * as _ from 'underscore';
 import { TopicService } from '../service/topic.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'forum-topic',
@@ -12,20 +12,33 @@ import { TopicService } from '../service/topic.service';
 })
 export class TopicComponent implements OnInit {
     topic: Topic;
+    topicId: number;
     messages: Message[];
 
     constructor(@Inject('messageService') private messageService: IMessageService,
-                @Inject('topicService') private topicService: TopicService) {
+                @Inject('topicService') private topicService: TopicService,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        // this.topicService;
-        this.getAll();
+        this.setTopicId();
+        this.getTopic();
+        this.getAllMessages();
     }
 
-    getAll(): void {
-        this.messageService.getAllMessages(this.topic)
-            .then((messages: Message[]) => this.messages = _.sortBy(messages, 'id'));
+    getAllMessages(): void {
+        this.messageService.getAllMessages(this.topicId)
+            .then(messages => this.messages = messages);
+        // .catch();
     }
 
+    getTopic(): void {
+        this.topicService.getById(this.topicId)
+            .then(topic => this.topic = topic);
+        // .catch();
+    }
+
+    setTopicId(): void {
+        this.route.params.subscribe(params => this.topicId = +params.id);
+    }
 }
