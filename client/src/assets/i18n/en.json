@@ -9,7 +9,12 @@
   "NAV": {
     "TOPICS": "All Topics",
     "REQUEST": "Topic Request",
-    "MY_TOPICS": "My Topics"
+    "MY_TOPICS": "My Topics",
+    "ADMIN_PANEL": "Admin dashboard",
+    "MANAGER_PANEL": "Manager dashboard",
+    "LOG_IN": "Log in",
+    "LOG_OUT": "Log out",
+    "SIGN_UP": "Sign up"
   },
   "USER": {
     "ID": "Id",

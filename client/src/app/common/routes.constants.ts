@@ -4,6 +4,10 @@ const USER = 'user';
 const ALL = 'all';
 const TOPIC = 'topic';
 const MESSAGE = 'message';
+const APPROVED = 'approved';
+const BLOCKED = 'blocked';
+const REJECTED = 'rejected';
+const PENDING = 'pending';
 
 export class Routes {
 
@@ -11,8 +15,24 @@ export class Routes {
         return 'forum';
     }
 
-    public static get ADMIN_USER_ALL(): string {
+    public static get ADMIN_ALL_USERS(): string {
         return Routes.routeFormat(ADMIN, USER, ALL);
+    }
+
+    public static get ADMIN_USERS_PENDING_TO_APPROVE(): string {
+        return Routes.routeFormat(ADMIN, USER, PENDING);
+    }
+
+    public static get ADMIN_APPROVED_USERS(): string {
+        return Routes.routeFormat(ADMIN, USER, APPROVED);
+    }
+
+    public static get ADMIN_REJECTED_USERS(): string {
+        return Routes.routeFormat(ADMIN, USER, REJECTED);
+    }
+
+    public static get ADMIN_BLOCKED_USERS(): string {
+        return Routes.routeFormat(ADMIN, USER, BLOCKED);
     }
 
     public static get USER(): string {

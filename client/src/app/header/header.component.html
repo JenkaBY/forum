@@ -2,14 +2,20 @@
 
     <button md-button routerLink="/">{{ 'NAV.TOPICS' | translate }}</button>
 
-    <button md-button>{{ 'NAV.REQUEST' | translate }}</button>
+    <button md-button routerLink="/">{{ 'NAV.REQUEST' | translate }}</button>
 
-    <button md-button>{{ 'NAV.MY_TOPICS' | translate }}</button>
+    <button md-button routerLink="/">{{ 'NAV.MY_TOPICS' | translate }}</button>
+    <button md-button routerLink="/">{{ 'NAV.MANAGER_PANEL' | translate }}</button>
+    <button md-button routerLink="/">{{ 'NAV.ADMIN_PANEL' | translate }}</button>
 
     <span>Application Title</span>
 
     <!-- This fills the remaining space of the current row -->
-    <span class="example-fill-remaining-space">213</span>
+    <span class="example-fill-remaining-space"></span>
 
-    <span>Right Aligned Text</span>
+    <!--<span>Right Aligned Text</span>-->
+    <!--TODO create dropdown menu-->
+    <button md-button routerLink="/">{{ 'NAV.LOG_IN' | translate }}</button>
+    <button md-button routerLink="/">{{ 'NAV.LOG_OUT' | translate }}</button>
+    <button md-button routerLink="/">{{ 'NAV.SIGN_UP' | translate }}</button>
 </md-toolbar>
