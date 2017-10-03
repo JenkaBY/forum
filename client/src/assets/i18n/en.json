@@ -14,7 +14,12 @@
     "MANAGER_PANEL": "Manager dashboard",
     "LOG_IN": "Log in",
     "LOG_OUT": "Log out",
-    "SIGN_UP": "Sign up"
+    "SIGN_UP": "Sign up",
+    "LANG": "Language"
+  },
+  "LANG": {
+    "EN": "En",
+    "RU": "Ru"
   },
   "USER": {
     "ID": "Id",

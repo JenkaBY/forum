@@ -19,7 +19,7 @@ export class UserService implements IUserService {
     }
 
     getAllUsers(): Promise<User[]> {
-        return this.http.get(Routes.ADMIN_USER_ALL)
+        return this.http.get(Routes.ADMIN_ALL_USERS)
             .toPromise()
             .then(response => {
                 console.log(response);

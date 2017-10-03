@@ -16,23 +16,23 @@ export class Routes {
     }
 
     public static get ADMIN_ALL_USERS(): string {
-        return Routes.routeFormat(ADMIN, USER, ALL);
+        return Routes.routeFormatAll(ADMIN, USER, ALL);
     }
 
     public static get ADMIN_USERS_PENDING_TO_APPROVE(): string {
-        return Routes.routeFormat(ADMIN, USER, PENDING);
+        return Routes.routeFormatAll(ADMIN, USER, PENDING);
     }
 
     public static get ADMIN_APPROVED_USERS(): string {
-        return Routes.routeFormat(ADMIN, USER, APPROVED);
+        return Routes.routeFormatAll(ADMIN, USER, APPROVED);
     }
 
     public static get ADMIN_REJECTED_USERS(): string {
-        return Routes.routeFormat(ADMIN, USER, REJECTED);
+        return Routes.routeFormatAll(ADMIN, USER, REJECTED);
     }
 
     public static get ADMIN_BLOCKED_USERS(): string {
-        return Routes.routeFormat(ADMIN, USER, BLOCKED);
+        return Routes.routeFormatAll(ADMIN, USER, BLOCKED);
     }
 
     public static get USER(): string {
@@ -40,7 +40,7 @@ export class Routes {
     }
 
     public static get ALL_TOPIC(): string {
-        return Routes.routeFormatAll(TOPIC, ALL);
+        return Routes.routeFormatTwo(TOPIC, ALL);
     }
 
     public static get TOPIC(): string {
@@ -51,7 +51,7 @@ export class Routes {
         return this.routeFormatOne(MESSAGE);
     }
 
-    private static routeFormat(path1: string, path2: string, path3: string) {
+    private static routeFormatAll(path1: string, path2: string, path3: string) {
         return API + '/' + path1 + '/' + path2 + '/' + path3;
     }
 
@@ -59,7 +59,7 @@ export class Routes {
         return API + '/' + path1 + '/';
     }
 
-    private static routeFormatAll(path1: string, path2: string) {
+    private static routeFormatTwo(path1: string, path2: string) {
         return API + '/' + path1 + '/' + path2;
     }
 }

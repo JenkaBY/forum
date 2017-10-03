@@ -14,8 +14,17 @@
     <span class="example-fill-remaining-space"></span>
 
     <!--<span>Right Aligned Text</span>-->
+    <button md-button [mdMenuTriggerFor]="lang">Language</button>
+    <md-menu #lang="mdMenu">
+        <button md-menu-item>{{ 'LANG.EN' | translate }}</button>
+        <button md-menu-item>{{ 'LANG.RU' | translate }}</button>
+    </md-menu>
     <!--TODO create dropdown menu-->
-    <button md-button routerLink="/">{{ 'NAV.LOG_IN' | translate }}</button>
-    <button md-button routerLink="/">{{ 'NAV.LOG_OUT' | translate }}</button>
-    <button md-button routerLink="/">{{ 'NAV.SIGN_UP' | translate }}</button>
+    <button md-button [mdMenuTriggerFor]="login">{{ 'NAV.LOG_IN' | translate }}</button>
+    <md-menu #login="mdMenu">
+        <button md-menu-item routerLink="/">{{ 'NAV.LANG' | translate }}</button>
+        <button md-menu-item routerLink="/">{{ 'NAV.LOG_IN' | translate }}</button>
+        <button md-menu-item routerLink="/">{{ 'NAV.LOG_OUT' | translate }}</button>
+        <button md-menu-item routerLink="/">{{ 'NAV.SIGN_UP' | translate }}</button>
+    </md-menu>
 </md-toolbar>

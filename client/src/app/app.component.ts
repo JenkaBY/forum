@@ -8,8 +8,7 @@ import { TranslateService } from 'ng2-translate';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = {title: 'UserFaces!'};
-
+    title = {title: 'Forum'};
 
     constructor(private router: Router, private translate: TranslateService) {
         translate.setDefaultLang('en');
