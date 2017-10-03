@@ -1,3 +1,44 @@
 {
-  "WELCOME_TO": "Добро пожаловать to {{title}}!"
+  "WELCOME_TO": "Добро пожаловать на {{title}}!",
+  "BUTTON": {
+    "SAVE": "Сохранить",
+    "BACK": "Назад",
+    "DELETE": "Удалить",
+    "DETAIL": "Подробности"
+  },
+  "NAV": {
+    "TOPICS": "Все разделы",
+    "REQUEST": "Topic Request",
+    "MY_TOPICS": "Мои разделы",
+    "ADMIN_PANEL": "Панель администратора",
+    "MANAGER_PANEL": "Панель менеджера",
+    "LOG_IN": "Войти",
+    "LOG_OUT": "Выйти",
+    "SIGN_UP": "Регистрация",
+    "LANG": "Язык"
+  },
+  "LANG": {
+    "EN": "En",
+    "RU": "Рус"
+  },
+  "USER": {
+    "ID": "Id",
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "LAST_LOGON_AT": "Last logon at",
+    "PASSWORD": "Password",
+    "BLOCKED": "Blocked?",
+    "REJECTED": "Rejected?",
+    "ROLE": "Role",
+    "DELETED": "Deleted",
+    "APPROVED_BY": "Approved by"
+  },
+  "ROLE": {
+    "TITLE": "Title"
+  },
+  "MESSAGE": {
+    "TEXT": "Text",
+    "CREATED_BY": "Created by",
+    "CREATED_AT": "Created at"
+  }
 }

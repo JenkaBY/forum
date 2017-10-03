@@ -15,6 +15,11 @@ export class AppComponent {
         translate.use('en');
     }
 
+    switchLanguage(lang: string): void {
+        if (this.translate.currentLang === lang) return;
+        this.translate.use(lang);
+    }
+
     goBack(): void {
         this.router.navigateByUrl('');
     }

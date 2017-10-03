@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'forum-header',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+    @Output() onSwitchLang = new EventEmitter<string>();
 
+    switchLang(lang: string) {
+        this.onSwitchLang.emit(lang);
+    }
 }
