@@ -1,10 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { User } from '../model/user';
 import IUserService from '../service/interface/iuser.service';
 import * as _ from 'underscore';
 
 @Component({
-    selector: 'app-users',
+    selector: 'forum-users',
     templateUrl: 'users.component.html'
 })
 

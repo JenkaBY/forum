@@ -18,6 +18,7 @@ import { MessageComponent } from './message/message.component';
 import { MaterialDesignModule } from './material/material-design.module';
 import { HeaderComponent } from './header/header.component';
 import { AdminService } from './service/admin.service';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 
 export function createTranslateLoader(http: Http) {
     return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -31,7 +32,8 @@ export function createTranslateLoader(http: Http) {
         TopicsComponent,
         TopicComponent,
         MessageComponent,
-        HeaderComponent
+        HeaderComponent,
+        AdminDashboardComponent
     ],
     imports: [
         BrowserModule,
