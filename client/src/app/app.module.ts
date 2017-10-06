@@ -16,43 +16,41 @@ import { TopicComponent } from './topic/topic.component';
 import { MessageService } from './service/message.service';
 import { MessageComponent } from './message/message.component';
 import { MaterialDesignModule } from './material/material-design.module';
-import { HeaderComponent } from './header/header.component';
-import { AdminService } from './service/admin.service';
-import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminModule } from "./admin/admin.module";
+import { HeaderComponent } from "./header/header.component";
 
 export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, './assets/i18n', '.json');
+  return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        UsersComponent,
-        UserDetailsComponent,
-        TopicsComponent,
-        TopicComponent,
-        MessageComponent,
-        HeaderComponent,
-        AdminDashboardComponent
-    ],
-    imports: [
-        BrowserModule,
-        HttpModule,
-        AppRoutingModule,
-        FormsModule,
-        CommonModule,
-        MaterialDesignModule,
-        TranslateModule.forRoot({
-            provide: TranslateLoader,
-            useFactory: (createTranslateLoader),
-            deps: [Http]
-        })
-    ],
-    providers: [{provide: 'userService', useClass: UserService},
-        {provide: 'topicService', useClass: TopicService},
-        {provide: 'messageService', useClass: MessageService},
-        {provide: 'adminService', useClass: AdminService}],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    UsersComponent,
+    UserDetailsComponent,
+    TopicsComponent,
+    TopicComponent,
+    MessageComponent,
+    HeaderComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpModule,
+    AppRoutingModule,
+    FormsModule,
+    CommonModule,
+    MaterialDesignModule,
+    AdminModule,
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    })
+  ],
+  providers: [{provide: 'userService', useClass: UserService},
+    {provide: 'topicService', useClass: TopicService},
+    {provide: 'messageService', useClass: MessageService}],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
