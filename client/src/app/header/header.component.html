@@ -1,29 +1,81 @@
-<md-toolbar color="primary">
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button
+            class="navbar-toggler navbar-toggler-right"
+            type="button"
+            (click)="isNavbarCollapsed = !isNavbarCollapsed"
+            aria-controls="exCollapsingNavbar2"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar1">
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.TOPICS' | translate }}</a>
+            <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.MY_TOPICS' |
+                translate }}</a>
+            <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.REQUEST' |
+                translate }}</a>
+            <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.MANAGER_PANEL' |
+                translate }}</a>
+            <a class="nav-item nav-link" (click)="openAdminDashboard(true)" role="button">{{ 'NAV.ADMIN_PANEL' |
+                translate }}</a>
+        </div>
+    </div>
 
-    <button md-button routerLink="/">{{ 'NAV.TOPICS' | translate }}</button>
+    <a class="navbar-brand d-flex mx-auto" href="#">Forum for Business</a>
 
-    <button md-button routerLink="/">{{ 'NAV.REQUEST' | translate }}</button>
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar2">
+        <div class="navbar-nav ml-auto">
+            <div class="col">
+                <div ngbDropdown class="d-inline-block">
+                    <a ngbDropdownToggle
+                       class="nav-item nav-link"
+                       id="dropdownLangLinks"
+                       role="button">
+                        {{ 'NAV.LANG' | translate }}
+                    </a>
+                    <div ngbDropdownMenu
+                         aria-labelledby="dropdownLangLinks">
+                        <a class="nav-item nav-link" (click)="switchLang('en')" role="button">{{ 'LANG.EN' | translate
+                            }}</a>
+                        <a class="nav-item nav-link" (click)="switchLang('ru')" role="button">{{ 'LANG.RU' | translate
+                            }}</a>
+                    </div>
+                </div>
+            </div>
 
-    <button md-button routerLink="/">{{ 'NAV.MY_TOPICS' | translate }}</button>
-    <button md-button routerLink="/">{{ 'NAV.MANAGER_PANEL' | translate }}</button>
-  <button md-button routerLink="admin/dashboard">{{ 'NAV.ADMIN_PANEL' | translate }}</button>
+            <a class="nav-item nav-link" routerLink="/">{{ 'NAV.SIGN_IN' | translate }}</a>
+            <div *ngIf="isNavbarCollapsed" class="navbar-text"> {{ 'NAV.OR' | translate }}</div>
+            <a class="nav-item nav-link" routerLink="/">{{ 'NAV.SIGN_UP' | translate }}</a>
+            <a *ngIf="false" class="nav-item nav-link" routerLink="/">{{ 'NAV.SIGN_OUT' | translate }}</a>
+        </div>
+    </div>
+</nav>
 
-    <span>Application Title</span>
+<!--<div color="primary">-->
 
-    <!-- This fills the remaining space of the current row -->
-    <span class="example-fill-remaining-space"></span>
+<!--<button routerLink="/">{{ 'NAV.REQUEST' | translate }}</button>-->
 
-    <!--<span>Right Aligned Text</span>-->
-    <button md-button [mdMenuTriggerFor]="lang">{{ 'NAV.LANG' | translate }}</button>
-    <md-menu #lang="mdMenu">
-        <button md-menu-item (click)="switchLang('en')">{{ 'LANG.EN' | translate }}</button>
-        <button md-menu-item (click)="switchLang('ru')">{{ 'LANG.RU' | translate }}</button>
-    </md-menu>
-    <!--TODO create dropdown menu-->
-    <button md-button [mdMenuTriggerFor]="login">{{ 'NAV.LOG_IN' | translate }}</button>
-    <md-menu #login="mdMenu">
-        <button md-menu-item routerLink="/">{{ 'NAV.LOG_IN' | translate }}</button>
-        <button md-menu-item routerLink="/">{{ 'NAV.LOG_OUT' | translate }}</button>
-        <button md-menu-item routerLink="/">{{ 'NAV.SIGN_UP' | translate }}</button>
-    </md-menu>
-</md-toolbar>
+<!--<button class="btn btn-primary" routerLink="/">{{ 'NAV.MY_TOPICS' | translate }}</button>-->
+<!--<button routerLink="/">{{ 'NAV.MANAGER_PANEL' | translate }}</button>-->
+<!--<button routerLink="admin/dashboard">{{ 'NAV.ADMIN_PANEL' | translate }}</button>-->
+
+<!--<span>Forum for business</span>-->
+
+<!--&lt;!&ndash; This fills the remaining space of the current row &ndash;&gt;-->
+<!--<span class="example-fill-remaining-space"></span>-->
+
+<!--&lt;!&ndash;<span>Right Aligned Text</span>&ndash;&gt;-->
+<!--<button>{{ 'NAV.LANG' | translate }}</button>-->
+<!--<div>-->
+<!--<button (click)="switchLang('en')">{{ 'LANG.EN' | translate }}</button>-->
+<!--<button (click)="switchLang('ru')">{{ 'LANG.RU' | translate }}</button>-->
+<!--</div>-->
+<!--&lt;!&ndash;TODO create dropdown menu&ndash;&gt;-->
+<!--<button>{{ 'NAV.LOG_IN' | translate }}</button>-->
+<!--<div>-->
+<!--<button routerLink="/">{{ 'NAV.LOG_IN' | translate }}</button>-->
+<!--<button routerLink="/">{{ 'NAV.LOG_OUT' | translate }}</button>-->
+<!--<button routerLink="/">{{ 'NAV.SIGN_UP' | translate }}</button>-->
+<!--</div>-->
+<!--</div>-->

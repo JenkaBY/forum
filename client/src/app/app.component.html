@@ -1,8 +1,14 @@
-<forum-header (onSwitchLang)="switchLanguage($event)"></forum-header>
-<div>
-    <h1 class="text-center">{{ 'WELCOME_TO' | translate:title }}</h1>
+<forum-header (onSwitchLang)="switchLanguage($event)"
+              (onOpenAdminDashboard)="openAdminDashBoard($event)"></forum-header>
+
+<div class="container">
+
     <div class="row">
-        <router-outlet></router-outlet>
+        <div class="col-md-4">
+            <forum-admin-dashboard *ngIf="isAdminDashboardOpened"></forum-admin-dashboard>
+        </div>
+        <div class="col-md-{{isAdminDashboardOpened ? 8: 12}}">
+            <router-outlet></router-outlet>
+        </div>
     </div>
-    <button (click)="goBack()" class="btn btn-primary btn-block">{{ 'BUTTON.BACK'| translate }}</button>
 </div>

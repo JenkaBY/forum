@@ -1,7 +1,6 @@
-<div>
-    <ul>
-        <li *ngFor="let topic of topics">
-            <a [routerLink]="['/topic', topic.id]"><p>{{ topic.title }}</p></a>
-        </li>
-    </ul>
+<div *ngFor="let topic of topics">
+    <div class="border border-primary" style="background-color: #eee;">
+        <a [routerLink]="['/topic', topic.id]"><p class="h4">{{ topic.title }}</p></a>
+    </div>
 </div>
+<ngb-pagination [collectionSize]="topics.length" [(page)]="currentPage" size="sm" pageSize="1"></ngb-pagination>

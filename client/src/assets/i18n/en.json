@@ -12,14 +12,20 @@
     "MY_TOPICS": "My Topics",
     "ADMIN_PANEL": "Admin dashboard",
     "MANAGER_PANEL": "Manager dashboard",
-    "LOG_IN": "Log in",
-    "LOG_OUT": "Log out",
+    "SIGN_IN": "Sign in",
+    "SIGN_OUT": "Sign out",
     "SIGN_UP": "Sign up",
-    "LANG": "Language"
+    "LANG": "Language",
+    "OR": "or"
   },
   "LANG": {
     "EN": "En",
     "RU": "Ru"
+  },
+  "ADMIN": {
+    "ALL_USERS": "All users",
+    "REJECTED_USERS": "Rejected users",
+    "APPROVED_USERS": "Approved users"
   },
   "USER": {
     "ID": "Id",

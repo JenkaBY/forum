@@ -8,7 +8,7 @@ import { TranslateService } from 'ng2-translate';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = {title: 'Forum'};
+    isAdminDashboardOpened = false;
 
     constructor(private router: Router, private translate: TranslateService) {
         translate.setDefaultLang('en');
@@ -20,7 +20,7 @@ export class AppComponent {
         this.translate.use(lang);
     }
 
-    goBack(): void {
-        this.router.navigateByUrl('');
+    openAdminDashBoard(open: boolean): void {
+        this.isAdminDashboardOpened = open;
     }
 }

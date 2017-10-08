@@ -13,6 +13,7 @@ export class TopicsComponent implements OnInit {
     topics: Topic[];
     topic: Topic;
     title: { value: 'Topics' };
+    currentPage = 1;
 
     constructor(@Inject('topicService') private topicService: ITopicService) {
     }

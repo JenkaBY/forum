@@ -1,8 +1,8 @@
 <div *ngIf="topic">
     <p>{{topic.title}}</p>
-    <ul *ngIf="messages">
-        <li *ngFor="let message of messages">
-            <forum-message [message]="message"></forum-message>
-        </li>
-    </ul>
+    <div *ngIf="messages">
+        <div *ngFor="let messageEl of messages">
+            <forum-message [message]="messageEl" [topicTitle]="topic.title"></forum-message>
+        </div>
+    </div>
 </div>

@@ -1,12 +1,14 @@
-<md-sidenav-container class="admin-panel-container">
-    <md-sidenav #sidenav class="admin-sidenav">
-        Jolly good!
-    </md-sidenav>
-
-    <div class="example-sidenav-content">
-        <button type="button" md-button (click)="sidenav.open()">
-            Open sidenav
-        </button>
-    </div>
-
-</md-sidenav-container>
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <ul class="list-group">
+        <a class="list-group-item"
+           routerLink="admin/users" routerLinkActive="active"
+           (click)="clicked()"
+           role="button">
+            {{ 'ADMIN.ALL_USERS' | translate }}
+        </a>
+        <a class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>{{ 'ADMIN.REJECTED_USERS' | translate }}</a>
+        <a class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>{{ 'ADMIN.APPROVED_USERS' | translate }}</a>
+    </ul>
+</nav>

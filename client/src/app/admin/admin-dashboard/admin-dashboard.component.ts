@@ -6,12 +6,25 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-    // sidenav: MatDrawer;
+
+    isActive = true;
+    showMenu = '';
+
+    addExpandClass(element: any) {
+        if (element === this.showMenu) {
+            this.showMenu = '0';
+        } else {
+            this.showMenu = element;
+        }
+    }
+
     constructor() {
     }
 
     ngOnInit() {
-        // this.sidenav.open();
     }
 
+    clicked() {
+        console.log('Clicked by All users');
+    }
 }
