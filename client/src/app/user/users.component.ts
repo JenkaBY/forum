@@ -11,7 +11,6 @@ import * as _ from 'underscore';
 export class UsersComponent implements OnInit {
     user: User;
     users: User[];
-    title = 'List of users';
 
     constructor(@Inject('userService') private userService: IUserService) {
     }

@@ -1,14 +1,11 @@
 <forum-header (onSwitchLang)="switchLanguage($event)"
               (onOpenAdminDashboard)="openAdminDashBoard($event)"></forum-header>
 
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-4">
-            <forum-admin-dashboard *ngIf="isAdminDashboardOpened"></forum-admin-dashboard>
-        </div>
-        <div class="col-md-{{isAdminDashboardOpened ? 8: 12}}">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
+<div class="container-fluid">
+    <router-outlet></router-outlet>
+    <!--<div class="row">-->
+    <!--<div class="col-md-{{isAdminDashboardOpened ? 8: 12}}">-->
+    <!---->
+    <!--</div>-->
+    <!--</div>-->
 </div>

@@ -1,13 +1,40 @@
-<h2>{{title}}</h2>
-<div class="well well-sm">
-    <ul class="list-group">
-        <li *ngFor="let user of users" class="list-group-item">
-            <p class="text-justify"><b>{{ 'USER.NAME' | translate }}:</b> {{user.name}} <b>{{ 'USER.EMAIL' | translate
-                }}:</b> {{user.email}}
-                <button type="button" class="btn btn-info" [routerLink]="['/user', user.id]">{{ 'BUTTON.DETAIL' |
-                    translate }}
+<div *ngIf="users" class="table-responsive">
+
+    <table class="table table-bordered table-striped table-hover table-sm">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{ 'USER.NAME' | translate }}</th>
+            <th>{{ 'USER.EMAIL' | translate }}</th>
+            <th>{{ 'USER.ROLE' | translate }}</th>
+            <th>{{ 'USER.BLOCKED' | translate }}</th>
+            <th>{{ 'USER.REJECTED' | translate }}</th>
+            <th>{{ 'USER.DELETED' | translate }}</th>
+            <th>{{ 'USER.APPROVED_BY' | translate }}</th>
+            <th>{{ 'USER.LAST_LOGON_AT' | translate }}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role.id }}</td>
+            <td><span class="badge badge-{{ user.blocked ? 'warning' : 'info' }}">{{ user.blocked }}</span></td>
+            <td><span class="badge badge-{{ user.rejected ? 'warning' : 'info' }}">{{ user.rejected }}</span></td>
+            <td><span class="badge badge-{{ user.deleted ? 'warning' : 'info' }}">{{ user.deleted }}</span></td>
+            <td>{{ user.approvedBy ? user.approvedBy.id : '*' }}</td>
+            <td>{{ user.lastLogonAt ? user.lastLogonAt : "2017" }}</td>
+            <td>
+                <button type="button"
+                        class="btn btn-link btn-sm pt-0 pb-0"
+                        [routerLink]="['/user', user.id]"
+                        role="button"
+                >{{ 'BUTTON.DETAIL' | translate }}
                 </button>
-            </p>
-        </li>
-    </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

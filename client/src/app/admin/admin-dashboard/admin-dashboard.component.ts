@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'forum-admin-dashboard',
     templateUrl: './admin-dashboard.component.html',
     styleUrls: ['./admin-dashboard.component.css']
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
 
     isActive = true;
     showMenu = '';
 
-    addExpandClass(element: any) {
-        if (element === this.showMenu) {
-            this.showMenu = '0';
-        } else {
-            this.showMenu = element;
-        }
-    }
-
-    constructor() {
+    constructor(private router: Router,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit() {
+        this.router.navigate(['users'], {relativeTo: this.route});
+        console.log('init admin dashboard');
+    }
+
+    ngOnDestroy() {
+        this.isActive = false;
     }
 
     clicked() {

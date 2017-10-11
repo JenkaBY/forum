@@ -17,12 +17,13 @@
                 translate }}</a>
             <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.MANAGER_PANEL' |
                 translate }}</a>
-            <a class="nav-item nav-link" (click)="openAdminDashboard(true)" role="button">{{ 'NAV.ADMIN_PANEL' |
+            <a class="nav-item nav-link" routerLink="admin" (click)="openAdminDashboard(true)" role="button">{{
+                'NAV.ADMIN_PANEL' |
                 translate }}</a>
         </div>
     </div>
 
-    <a class="navbar-brand d-flex mx-auto" href="#">Forum for Business</a>
+    <a class="navbar-brand d-flex mx-auto" routerLink="/">Forum for Business</a>
 
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar2">
         <div class="navbar-nav ml-auto">

@@ -3,4 +3,9 @@
         <a [routerLink]="['/topic', topic.id]"><p class="h4">{{ topic.title }}</p></a>
     </div>
 </div>
-<ngb-pagination [collectionSize]="topics.length" [(page)]="currentPage" size="sm" pageSize="1"></ngb-pagination>
+<ngb-pagination
+        *ngIf="topics"
+        [collectionSize]="topics.length"
+        [(page)]="currentPage"
+        size="sm" pageSize="1">
+</ngb-pagination>

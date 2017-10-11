@@ -36,10 +36,10 @@ export function createTranslateLoader(http: Http) {
     imports: [
         BrowserModule,
         HttpModule,
-        AppRoutingModule,
         FormsModule,
         CommonModule,
         AdminModule,
+        AppRoutingModule,
         NgbModule.forRoot(),
         TranslateModule.forRoot({
             provide: TranslateLoader,

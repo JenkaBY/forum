@@ -1,14 +1,30 @@
-<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
-    <ul class="list-group">
-        <a class="list-group-item"
-           routerLink="admin/users" routerLinkActive="active"
-           (click)="clicked()"
-           role="button">
-            {{ 'ADMIN.ALL_USERS' | translate }}
-        </a>
-        <a class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>{{ 'ADMIN.REJECTED_USERS' | translate }}</a>
-        <a class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>{{ 'ADMIN.APPROVED_USERS' | translate }}</a>
-    </ul>
-</nav>
+<div class="row">
+    <nav class="col-sm-4 col-md-3 hidden-xs-down bg-faded sidebar">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="list-group-item"
+                   [routerLink]='["users"]'
+                   routerLinkActive="active"
+                   (click)="clicked()"
+                   role="button">
+                    {{ 'ADMIN.ALL_USERS' | translate }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="list-group-item">
+                    <i class="fa fa-fw fa-bar-chart-o"></i>{{ 'ADMIN.REJECTED_USERS' | translate }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="list-group-item">
+                    <i class="fa fa-fw fa-bar-chart-o"></i>{{ 'ADMIN.APPROVED_USERS' | translate }}
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="col-sm-8 col-md-9 pt-2">
+        <h5>Administrator's Dashboard</h5>
+        <router-outlet></router-outlet>
+    </main>
+</div>
