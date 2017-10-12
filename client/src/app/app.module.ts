@@ -6,7 +6,7 @@ import { UserService } from './service/user.service';
 import { Http, HttpModule } from '@angular/http';
 import { AppRoutingModule } from './common/app-routing.module';
 import { UserDetailsComponent } from './user/user-details.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsersComponent } from './user/users.component';
 import { TranslateLoader, TranslateModule, TranslateStaticLoader } from 'ng2-translate';
@@ -39,6 +39,7 @@ export function createTranslateLoader(http: Http) {
         FormsModule,
         CommonModule,
         AdminModule,
+      ReactiveFormsModule,
         AppRoutingModule,
         NgbModule.forRoot(),
         TranslateModule.forRoot({

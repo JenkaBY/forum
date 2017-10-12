@@ -25,7 +25,8 @@
   "ADMIN": {
     "ALL_USERS": "All users",
     "REJECTED_USERS": "Rejected users",
-    "APPROVED_USERS": "Approved users"
+    "APPROVED_USERS": "Approved users",
+    "DELETE": "Delete"
   },
   "USER": {
     "ID": "Id",

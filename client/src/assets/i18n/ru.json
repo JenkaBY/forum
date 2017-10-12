@@ -4,7 +4,7 @@
     "SAVE": "Сохранить",
     "BACK": "Назад",
     "DELETE": "Удалить",
-    "DETAIL": "Подробности"
+    "DETAIL": "Подробно"
   },
   "NAV": {
     "TOPICS": "Все разделы",
@@ -23,18 +23,24 @@
   },
   "USER": {
     "ID": "Id",
-    "NAME": "Name",
+    "NAME": "Логин",
     "EMAIL": "Email",
-    "LAST_LOGON_AT": "Last logon at",
-    "PASSWORD": "Password",
-    "BLOCKED": "Blocked?",
-    "REJECTED": "Rejected?",
-    "ROLE": "Role",
-    "DELETED": "Deleted",
+    "LAST_LOGON_AT": "Был в сети",
+    "PASSWORD": "Пароль",
+    "BLOCKED": "Блокирован?",
+    "REJECTED": "Отклонен?",
+    "ROLE": "Роль",
+    "DELETED": "Удален?",
     "APPROVED_BY": "Approved by"
   },
   "ROLE": {
-    "TITLE": "Title"
+    "TITLE": "Название"
+  },
+  "ADMIN": {
+    "ALL_USERS": "Все пользователи",
+    "REJECTED_USERS": "Отклоненные пользователи",
+    "APPROVED_USERS": "Подтвержденные пользователи",
+    "DELETE": "Удалить"
   },
   "MESSAGE": {
     "TEXT": "Text",

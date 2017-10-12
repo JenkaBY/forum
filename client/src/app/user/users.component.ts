@@ -4,23 +4,27 @@ import IUserService from '../service/interface/iuser.service';
 import * as _ from 'underscore';
 
 @Component({
-    selector: 'forum-users',
-    templateUrl: 'users.component.html'
+  selector: 'forum-users',
+  templateUrl: 'users.component.html'
 })
 
 export class UsersComponent implements OnInit {
-    user: User;
-    users: User[];
+  user: User;
+  users: User[];
 
-    constructor(@Inject('userService') private userService: IUserService) {
-    }
+  constructor(@Inject('userService') private userService: IUserService) {
+  }
 
-    ngOnInit(): void {
-        this.getAll();
-    }
+  ngOnInit(): void {
+    this.getAll();
+  }
 
-    getAll(): void {
-        this.userService.getAllUsers()
-            .then((users: User[]) => this.users = _.sortBy(users, 'id'));
-    }
+  getAll(): void {
+    this.userService.getAllUsers()
+      .then((users: User[]) => this.users = _.sortBy(users, 'id'));
+  }
+
+  onDelete(id: number) {
+    console.log("Delete button was pressed. User id is " + id);
+  }
 }

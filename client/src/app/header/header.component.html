@@ -10,16 +10,26 @@
     </button>
     <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar1">
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.TOPICS' | translate }}</a>
-            <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.MY_TOPICS' |
-                translate }}</a>
-            <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.REQUEST' |
-                translate }}</a>
-            <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">{{ 'NAV.MANAGER_PANEL' |
-                translate }}</a>
-            <a class="nav-item nav-link" routerLink="admin" (click)="openAdminDashboard(true)" role="button">{{
-                'NAV.ADMIN_PANEL' |
-                translate }}</a>
+          <a class="nav-item nav-link"
+             routerLink="/"
+             routerLinkActive="active">
+            {{ 'NAV.TOPICS' | translate }}
+          </a>
+          <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+            {{ 'NAV.MY_TOPICS' | translate }}
+          </a>
+          <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+            {{ 'NAV.REQUEST' | translate }}
+          </a>
+          <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+            {{ 'NAV.MANAGER_PANEL' | translate }}
+          </a>
+          <a class="nav-item nav-link"
+             routerLink="admin"
+             (click)="openAdminDashboard(true)"
+             role="button">
+            {{ 'NAV.ADMIN_PANEL' | translate }}
+          </a>
         </div>
     </div>
 
@@ -37,10 +47,12 @@
                     </a>
                     <div ngbDropdownMenu
                          aria-labelledby="dropdownLangLinks">
-                        <a class="nav-item nav-link" (click)="switchLang('en')" role="button">{{ 'LANG.EN' | translate
-                            }}</a>
-                        <a class="nav-item nav-link" (click)="switchLang('ru')" role="button">{{ 'LANG.RU' | translate
-                            }}</a>
+                      <a class="nav-item nav-link" (click)="switchLang('en')" role="button">
+                        {{ 'LANG.EN' | translate }}
+                      </a>
+                      <a class="nav-item nav-link" (click)="switchLang('ru')" role="button">
+                        {{ 'LANG.RU' | translate }}
+                      </a>
                     </div>
                 </div>
             </div>
@@ -52,31 +64,3 @@
         </div>
     </div>
 </nav>
-
-<!--<div color="primary">-->
-
-<!--<button routerLink="/">{{ 'NAV.REQUEST' | translate }}</button>-->
-
-<!--<button class="btn btn-primary" routerLink="/">{{ 'NAV.MY_TOPICS' | translate }}</button>-->
-<!--<button routerLink="/">{{ 'NAV.MANAGER_PANEL' | translate }}</button>-->
-<!--<button routerLink="admin/dashboard">{{ 'NAV.ADMIN_PANEL' | translate }}</button>-->
-
-<!--<span>Forum for business</span>-->
-
-<!--&lt;!&ndash; This fills the remaining space of the current row &ndash;&gt;-->
-<!--<span class="example-fill-remaining-space"></span>-->
-
-<!--&lt;!&ndash;<span>Right Aligned Text</span>&ndash;&gt;-->
-<!--<button>{{ 'NAV.LANG' | translate }}</button>-->
-<!--<div>-->
-<!--<button (click)="switchLang('en')">{{ 'LANG.EN' | translate }}</button>-->
-<!--<button (click)="switchLang('ru')">{{ 'LANG.RU' | translate }}</button>-->
-<!--</div>-->
-<!--&lt;!&ndash;TODO create dropdown menu&ndash;&gt;-->
-<!--<button>{{ 'NAV.LOG_IN' | translate }}</button>-->
-<!--<div>-->
-<!--<button routerLink="/">{{ 'NAV.LOG_IN' | translate }}</button>-->
-<!--<button routerLink="/">{{ 'NAV.LOG_OUT' | translate }}</button>-->
-<!--<button routerLink="/">{{ 'NAV.SIGN_UP' | translate }}</button>-->
-<!--</div>-->
-<!--</div>-->
