@@ -50,6 +50,9 @@ export class UserDetailsComponent implements OnInit {
         'id': new FormControl(this.user.id),
         'name': new FormControl(this.user.name),
         'email': new FormControl(this.user.email)
+      }),
+      'userDataManagement': new FormGroup({
+        'role': new FormControl(this.user.role.id),
       })
     })
   }

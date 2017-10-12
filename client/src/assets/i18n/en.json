@@ -26,6 +26,7 @@
     "ALL_USERS": "All users",
     "REJECTED_USERS": "Rejected users",
     "APPROVED_USERS": "Approved users",
+    "PENDING_APPROVE": "Pending approve",
     "DELETE": "Delete"
   },
   "USER": {
