@@ -1,15 +1,11 @@
+import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
-import IUserService from './interface/iuser.service';
-import { User } from '../model/user';
-import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+
 import { Routes } from '../common/routes.constants';
-
-const PROJECT_NAME = '/forum/';
-const SUCCESS = 'User was successfully updated.';
-const CREATED = 'User was successfully created.';
-const ERROR = 'Something went wrong! Server isn\'t available now.';
-
+import { User } from '../model/user';
+import IUserService from './interface/iuser.service';
+import { Page } from '../common/Page';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -18,12 +14,14 @@ export class UserService implements IUserService {
     constructor(private  http: Http) {
     }
 
-    getAllUsers(): Promise<User[]> {
-        return this.http.get(Routes.ADMIN_ALL_USERS)
+    getAllUsers(urlParams?: URLSearchParams): Promise<Page<User>> {
+        let params = new RequestOptions({params: urlParams});
+        return this.http.get(Routes.ADMIN_ALL_USERS, params)
             .toPromise()
             .then(response => {
+                //TODO delete console log
                 console.log(response);
-                return response.json()['content'];
+                return response.json();
             })
             .catch(error => this.errorHandle(error));
     }
@@ -32,6 +30,7 @@ export class UserService implements IUserService {
         return this.http.get(Routes.USER + id)
             .toPromise()
             .then(response => {
+                //TODO delete console log
                 console.log(response);
                 return response.json();
             })
@@ -39,11 +38,16 @@ export class UserService implements IUserService {
     }
 
     deleteById(id: number): void {
+        let params = new RequestOptions({headers: this.headers});
+
+        this.http.delete(Routes.USER + id, params)
+            .subscribe(res => console.log(res.json()));
     }
 
 
     update(user: User): Promise<User> {
-        return this.http.put(Routes.USER + user.id, JSON.stringify(user), {headers: this.headers})
+        let params = new RequestOptions({headers: this.headers});
+        return this.http.put(Routes.USER + user.id, JSON.stringify(user), params)
             .toPromise()
             .then(response => {
                 return response.json();
@@ -56,6 +60,7 @@ export class UserService implements IUserService {
     }
 
     private errorHandle(error): Promise<User> {
+        //TODO delete console log
         console.log(error);
         return null;
     }

@@ -1,15 +1,18 @@
+import { URLSearchParams } from '@angular/http';
+
 import { User } from '../../model/user';
+import { Page } from '../../common/Page';
 
 /**
  * Service for User
  */
-interface IUserService {
+export interface IUserService {
     /**
      * Get all existing users
      * @returns {Promise<User[]>}
      * @see User
      */
-    getAllUsers(): Promise<User[]>;
+    getAllUsers(urlParams?: URLSearchParams): Promise<Page<User>>;
 
     /**
      * Get user by id
@@ -37,4 +40,5 @@ interface IUserService {
      */
     create(user: User): Promise<User>;
 }
-export default IUserService;
+
+// export interface IUserService;

@@ -7,16 +7,15 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-
     isActive = true;
-    showMenu = '';
 
     constructor(private router: Router,
                 private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.router.navigate(['users'], {relativeTo: this.route});
+        this.router.navigate(['users'], {relativeTo: this.route})
+            .then((value => console.log('val ' + value)), reason => console.log('reason ' + reason));
         console.log('init admin dashboard');
     }
 

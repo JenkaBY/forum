@@ -43,4 +43,12 @@
         </tr>
         </tbody>
     </table>
+    <ngb-pagination
+            *ngIf="users"
+            [collectionSize]="totalElements"
+            [(page)]="currentPage"
+            (pageChange)="onPageChange()"
+            [maxSize]="maxSize"
+            size="sm" [pageSize]="pageSize">
+    </ngb-pagination>
 </div>
