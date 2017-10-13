@@ -51,7 +51,7 @@ public class UserController {
         }
         userService.delete(id);
         LOGGER.info("User with Id={0} has been deleted.", id);
-        return new ResponseEntity<>(userService.find(id) == null ? OK : BAD_REQUEST);
+        return new ResponseEntity<>(userService.find(id).deleted ? OK : BAD_REQUEST);
     }
 
     @PostMapping(path = "/new")

@@ -6,7 +6,7 @@ import { Page } from '../../common/Page';
 /**
  * Service for User
  */
-export interface IUserService {
+interface IUserService {
     /**
      * Get all existing users
      * @returns {Promise<User[]>}
@@ -41,4 +41,4 @@ export interface IUserService {
     create(user: User): Promise<User>;
 }
 
-// export interface IUserService;
+export default IUserService;

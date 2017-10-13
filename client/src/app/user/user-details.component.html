@@ -1,12 +1,12 @@
-<div class="d-flex p-2 justify-content-center">
+<div class="d-flex p-2 justify-content-center" style="border: thin">
   <div *ngIf="user" class="row">
-    <div class="col-xs-12 col-md-12">
+    <div class="col">
       <legend>{{user.name}}'s details</legend>
       <form [formGroup]="userForm" (ngSubmit)="onSave()">
         <div formGroupName="userData">
           <!-- ID -->
           <div class="row">
-            <div class="col-xs-12 col-md-12">
+            <div class="col">
               <div class="form-group">
                 <label for="id" class="p-2">{{ 'USER.ID' | translate }}:</label>
                 <input
@@ -21,7 +21,7 @@
           </div>
           <!-- NAME -->
           <div class="row">
-            <div class="col-xs-12 col-md-12">
+            <div class="col">
               <div class="form-group">
                 <label for="name">{{ 'USER.NAME' | translate }}</label>
                 <input
@@ -34,7 +34,7 @@
           </div>
           <!-- EMAIL -->
           <div class="row">
-            <div class="col-xs-12 col-md-12">
+            <div class="col">
               <div class="form-group">
                 <label for="email">{{ 'USER.EMAIL' | translate }}</label>
                 <input
@@ -52,7 +52,7 @@
         <div formGroupName="userDataManagement">
           <!-- ROLE -->
           <div class="row">
-            <div class="col-xs-12 col-md-12">
+            <div class="col">
               <div class="form-group">
                 <label for="role">{{ 'USER.ROLE' | translate }}</label>
                 <select
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-12 col-md-12">
+          <div class="col">
             <button type="submit" class="btn btn-success">{{ 'BUTTON.SAVE'| translate }}</button>
           </div>
         </div>

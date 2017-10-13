@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 
-import { IAdminService } from './interface/iadmin.service';
+import IAdminService from './interface/iadmin.service';
 import { Routes } from '../common/routes.constants';
 import { User } from '../model/user';
 import { Page } from '../common/Page';

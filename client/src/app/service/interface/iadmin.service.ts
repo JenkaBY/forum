@@ -4,7 +4,7 @@ import { Page } from '../../common/Page';
 /**
  * Service for AdminDashboard
  */
-export interface IAdminService {
+interface IAdminService {
     /**
      * Get all existing users
      * @returns {Promise<Page<User>>}
@@ -40,4 +40,4 @@ export interface IAdminService {
     getAllBlockedUsers(urlParams?: URLSearchParams): Promise<Page<User>>;
 }
 
-// export default IAdminService;
+export default IAdminService;
