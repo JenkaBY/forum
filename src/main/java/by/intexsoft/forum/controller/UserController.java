@@ -64,6 +64,9 @@ public class UserController {
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<?> update(@RequestBody User user, @PathVariable(value = "id") Long id) {
+        if (user.getId() != id) {
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
         User updatedUser = userService.save(user);
         // TODO create case if error occurs while saving user
         LOGGER.info("User with id = {0} was updated.", user.getId());

@@ -17,15 +17,6 @@
     ],
     "types": [
       "underscore"
-    ],
-    // added later when trying to set up the idea.
-    "include": [
-      "./src/**/*"
-    ],
-    "exclude": [
-      "node_modules",
-      "bin",
-      "built"
     ]
   }
 }

@@ -1,29 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RoutesConstants } from "../../common/routes.constants";
 
 @Component({
-    selector: 'forum-admin-dashboard',
-    templateUrl: './admin-dashboard.component.html',
-    styleUrls: ['./admin-dashboard.component.css']
+  selector: 'app-admin-dashboard',
+  templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {
-    isActive = true;
+  isActive = true;
 
-    constructor(private router: Router,
-                private route: ActivatedRoute) {
-    }
+  constructor(private router: Router,
+              private route: ActivatedRoute) {
+  }
 
-    ngOnInit() {
-        this.router.navigate(['users'], {relativeTo: this.route})
-            .then((value => console.log('val ' + value)), reason => console.log('reason ' + reason));
-        console.log('init admin dashboard');
-    }
+  ngOnInit() {
+    this.router.navigate([RoutesConstants.pending], {relativeTo: this.route});
+  }
 
-    ngOnDestroy() {
-        this.isActive = false;
-    }
-
-    clicked() {
-        console.log('Clicked by All users');
-    }
+  ngOnDestroy() {
+    this.isActive = false;
+  }
 }

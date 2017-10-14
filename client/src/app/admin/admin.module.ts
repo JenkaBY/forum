@@ -6,17 +6,14 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { AdminRoutesModule } from './admin-routes.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        TranslateModule,
-        AdminRoutesModule
-    ],
-    exports: [
-        AdminDashboardComponent,
-    ],
-    declarations: [
-        AdminDashboardComponent
-    ],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    AdminRoutesModule
+  ],
+  declarations: [
+    AdminDashboardComponent
+  ],
 })
 export class AdminModule {
 }

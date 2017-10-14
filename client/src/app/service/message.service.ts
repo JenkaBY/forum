@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Topic } from '../model/topic';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { Routes } from '../common/routes.constants';
+
+import { RoutesConstants } from '../common/routes.constants';
 import IMessageService from './interface/imessage.service';
+import { Topic } from '../model/topic';
 import { Message } from '../model/message';
 
 @Injectable()
@@ -14,7 +15,7 @@ export class MessageService implements IMessageService {
     }
 
     getAllMessages(topicId: number): Promise<Message[]> {
-        return this.http.get(Routes.TOPIC + topicId + '/all')
+      return this.http.get(RoutesConstants.TOPIC + topicId + '/all')
             .toPromise()
             .then(response => {
                 return response.json()['content'];
@@ -28,7 +29,7 @@ export class MessageService implements IMessageService {
 
 
     updateMessage(message: Message): Promise<Message> {
-        return this.http.put(Routes.MESSAGE + message.id, JSON.stringify(message), {headers: this.headers})
+      return this.http.put(RoutesConstants.MESSAGE + message.id, JSON.stringify(message), {headers: this.headers})
             .toPromise()
             .then(response => {
                 return response.json();

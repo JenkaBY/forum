@@ -9,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { UserService } from './service/user.service';
-import { AppRoutingModule } from './common/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { UserDetailsComponent } from './user/user-details.component';
 import { UsersComponent } from './user/users.component';
 import { TopicService } from './service/topic.service';

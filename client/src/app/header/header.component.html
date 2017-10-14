@@ -1,14 +1,14 @@
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
     <button
-            class="navbar-toggler navbar-toggler-right"
-            type="button"
-            (click)="isNavbarCollapsed = !isNavbarCollapsed"
-            aria-controls="exCollapsingNavbar2"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
+      class="navbar-toggler navbar-toggler-right"
+      type="button"
+      (click)="isNavbarCollapsed = !isNavbarCollapsed"
+      aria-controls="exCollapsingNavbarRight"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar1">
+  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbarLeft">
         <div class="navbar-nav mr-auto">
           <a class="nav-item nav-link"
              routerLink="/"
@@ -26,7 +26,6 @@
           </a>
           <a class="nav-item nav-link"
              routerLink="admin"
-             (click)="openAdminDashboard(true)"
              role="button">
             {{ 'NAV.ADMIN_PANEL' | translate }}
           </a>
@@ -35,7 +34,7 @@
 
     <a class="navbar-brand d-flex mx-auto" routerLink="/">Forum for Business</a>
 
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar2">
+  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbarRight">
         <div class="navbar-nav ml-auto">
             <div class="col">
                 <div ngbDropdown class="d-inline-block">

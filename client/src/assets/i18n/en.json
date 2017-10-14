@@ -28,6 +28,11 @@
     "APPROVED_USERS": "Approved users",
     "PENDING_APPROVE": "Pending to approve",
     "BLOCKED": "Blocked users",
+    "UNBLOCK": "Unblock",
+    "BLOCK": "Block",
+    "BLOCK_UNBLOCK": "(Un)Block",
+    "APPROVE": "Approve",
+    "REJECT": "Reject",
     "DELETE": "Delete"
   },
   "USER": {

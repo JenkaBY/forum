@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
-import ITopicService from './interface/itopic.service';
-import { Topic } from '../model/topic';
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { Routes } from '../common/routes.constants';
 
-const SUCCESS = 'User was successfully updated.';
-const CREATED = 'User was successfully created.';
-const ERROR = 'Something went wrong! Server isn\'t available now.';
-
+import ITopicService from './interface/itopic.service';
+import { Topic } from '../model/topic';
+import { RoutesConstants } from '../common/routes.constants';
 
 @Injectable()
 export class TopicService implements ITopicService {
-
     private headers = new Headers({'Content-Type': 'application/json'});
 
     constructor(private  http: Http) {
     }
 
     getAllTopics(): Promise<Topic[]> {
-        return this.http.get(Routes.ALL_TOPIC)
+      return this.http.get(RoutesConstants.ALL_TOPIC)
             .toPromise()
             .then(response => {
                 console.log(response);
@@ -29,7 +24,7 @@ export class TopicService implements ITopicService {
     }
 
     getById(id: number): Promise<Topic> {
-        return this.http.get(Routes.TOPIC + id)
+      return this.http.get(RoutesConstants.TOPIC + id)
             .toPromise()
             .then(response => {
                 console.log(response);
@@ -44,7 +39,7 @@ export class TopicService implements ITopicService {
 
 
     update(topic: Topic): Promise<Topic> {
-        return this.http.put(Routes.TOPIC + topic.id, JSON.stringify(topic), {headers: this.headers})
+      return this.http.put(RoutesConstants.TOPIC + topic.id, JSON.stringify(topic), {headers: this.headers})
             .toPromise()
             .then(response => {
                 return response.json();

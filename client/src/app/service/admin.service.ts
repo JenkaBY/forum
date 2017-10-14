@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 
+import { RoutesConstants } from '../common/routes.constants';
 import IAdminService from './interface/iadmin.service';
-import { Routes } from '../common/routes.constants';
 import { User } from '../model/user';
 import { Page } from '../common/Page';
 
@@ -13,33 +13,32 @@ export class AdminService implements IAdminService {
     }
 
     getAllUsers(urlParams?: URLSearchParams): Promise<Page<User>> {
-        return this.getUsersByUrl(Routes.ADMIN_ALL_USERS, urlParams);
+      return this.getUsersByUrl(RoutesConstants.ADMIN_ALL_USERS, urlParams);
     }
 
     getAllUsersPendingToApprove(urlParams?: URLSearchParams): Promise<Page<User>> {
-        return this.getUsersByUrl(Routes.ADMIN_USERS_PENDING_TO_APPROVE, urlParams);
+      return this.getUsersByUrl(RoutesConstants.ADMIN_USERS_PENDING_TO_APPROVE, urlParams);
     }
 
     getUsersApprovedByMe(urlParams?: URLSearchParams): Promise<Page<User>> {
-        return this.getUsersByUrl(Routes.ADMIN_APPROVED_USERS, urlParams);
+      return this.getUsersByUrl(RoutesConstants.ADMIN_APPROVED_USERS, urlParams);
     }
 
     getUsersRejectedByMe(urlParams?: URLSearchParams): Promise<Page<User>> {
-        return this.getUsersByUrl(Routes.ADMIN_REJECTED_USERS, urlParams);
+      return this.getUsersByUrl(RoutesConstants.ADMIN_REJECTED_USERS, urlParams);
     }
 
     getAllBlockedUsers(urlParams?: URLSearchParams): Promise<Page<User>> {
-        return this.getUsersByUrl(Routes.ADMIN_BLOCKED_USERS, urlParams);
+      return this.getUsersByUrl(RoutesConstants.ADMIN_BLOCKED_USERS, urlParams);
     }
 
     private getUsersByUrl(urlRequest: string, urlParams?: URLSearchParams): Promise<Page<User>> {
-        let params = new RequestOptions({params: urlParams});
-        return this.http.get(Routes.ADMIN_ALL_USERS, params)
+      const params = new RequestOptions({params: urlParams});
+      return this.http.get(urlRequest, params)
             .toPromise()
             .then(response => {
-                //TODO delete console log
-                console.log(response);
-                return response.json();
+              console.log(response.json());
+              return response.json();
             })
             .catch(error => this.errorHandle(error));
     }

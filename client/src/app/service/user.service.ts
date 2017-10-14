@@ -2,7 +2,7 @@ import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 
-import { Routes } from '../common/routes.constants';
+import { RoutesConstants } from '../common/routes.constants';
 import { User } from '../model/user';
 import IUserService from './interface/iuser.service';
 import { Page } from '../common/Page';
@@ -15,11 +15,11 @@ export class UserService implements IUserService {
     }
 
     getAllUsers(urlParams?: URLSearchParams): Promise<Page<User>> {
-        let params = new RequestOptions({params: urlParams});
-        return this.http.get(Routes.ADMIN_ALL_USERS, params)
+      const params = new RequestOptions({params: urlParams});
+      return this.http.get(RoutesConstants.ADMIN_ALL_USERS, params)
             .toPromise()
             .then(response => {
-                //TODO delete console log
+              // TODO delete console log
                 console.log(response);
                 return response.json();
             })
@@ -27,30 +27,32 @@ export class UserService implements IUserService {
     }
 
     getById(id: number): Promise<User> {
-        return this.http.get(Routes.USER + id)
+      return this.http.get(RoutesConstants.USER + id)
             .toPromise()
             .then(response => {
-                //TODO delete console log
+              // TODO delete console log
                 console.log(response);
-                return response.json();
+              return response.json();
             })
             .catch(error => this.errorHandle(error));
     }
 
     deleteById(id: number): void {
-        let params = new RequestOptions({headers: this.headers});
+      const params = new RequestOptions({headers: this.headers});
 
-        this.http.delete(Routes.USER + id, params)
+      this.http.delete(RoutesConstants.USER + id, params)
             .subscribe(res => console.log(res.json()));
     }
 
 
     update(user: User): Promise<User> {
-        let params = new RequestOptions({headers: this.headers});
-        return this.http.put(Routes.USER + user.id, JSON.stringify(user), params)
+      const params = new RequestOptions({headers: this.headers});
+      console.log("JSON: " + JSON.stringify(user));
+      return this.http.put(RoutesConstants.USER + user.id, JSON.stringify(user), params)
             .toPromise()
             .then(response => {
-                return response.json();
+              console.log(response.json());
+              return response.json();
             })
             .catch(error => this.errorHandle(error));
     }
@@ -60,7 +62,7 @@ export class UserService implements IUserService {
     }
 
     private errorHandle(error): Promise<User> {
-        //TODO delete console log
+      // TODO delete console log
         console.log(error);
         return null;
     }

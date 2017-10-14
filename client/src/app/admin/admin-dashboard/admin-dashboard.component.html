@@ -1,40 +1,53 @@
-<div class="row">
+<div class="container-fluid">
+  <div class="row">
     <nav class="col-sm-4 col-md-3 hidden-xs-down bg-faded sidebar">
-        <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-                <a class="list-group-item"
-                   [routerLink]='["users"]'
-                   routerLinkActive="active"
-                   (click)="clicked()"
-                   role="button">
-                    {{ 'ADMIN.ALL_USERS' | translate }}
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="list-group-item">
-                  {{ 'ADMIN.PENDING_APPROVE' | translate }}
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="list-group-item">
-                  {{ 'ADMIN.REJECTED_USERS' | translate }}
-                </a>
-            </li>
-          <li class="nav-item">
-            <a class="list-group-item">
-              {{ 'ADMIN.APPROVED_USERS' | translate }}
-            </a>
-          </li>
-            <li class="nav-item">
-                <a class="list-group-item">
-                    {{ 'ADMIN.BLOCKED' | translate }}
-                </a>
-            </li>
-        </ul>
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="list-group-item"
+             [routerLink]='["pending"]'
+             routerLinkActive="active"
+             role="button">
+            {{ 'ADMIN.PENDING_APPROVE' | translate }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="list-group-item"
+             [routerLink]='["rejected"]'
+             routerLinkActive="active"
+             role="button">
+            {{ 'ADMIN.REJECTED_USERS' | translate }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="list-group-item"
+             [routerLink]='["approved"]'
+             routerLinkActive="active"
+             role="button">
+            {{ 'ADMIN.APPROVED_USERS' | translate }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="list-group-item"
+             [routerLink]='["blocked"]'
+             routerLinkActive="active"
+             role="button">
+            {{ 'ADMIN.BLOCKED' | translate }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="list-group-item"
+             [routerLink]='["users"]'
+             routerLinkActive="active"
+             role="button">
+            {{ 'ADMIN.ALL_USERS' | translate }}
+          </a>
+        </li>
+      </ul>
     </nav>
 
     <main class="col-sm-8 col-md-9 pt-2">
-        <h5>Administrator's Dashboard</h5>
-        <router-outlet></router-outlet>
+      <h5>Administrator's Dashboard</h5>
+      <router-outlet></router-outlet>
     </main>
+  </div>
 </div>

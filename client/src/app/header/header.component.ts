@@ -7,15 +7,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class HeaderComponent {
     isNavbarCollapsed = true;
-    @Output() onOpenAdminDashboard = new EventEmitter<boolean>();
     @Output() onSwitchLang = new EventEmitter<string>();
 
     switchLang(lang: string) {
         this.onSwitchLang.emit(lang);
-    }
-
-    openAdminDashboard() {
-        console.log('AdminDashboard Button was pressed!');
-        this.onOpenAdminDashboard.emit(true);
     }
 }

@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/switchMap';
 
 import { User } from '../model/user';
@@ -23,11 +22,10 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSave() {
-    console.log("Save button was pressed.");
-    console.log(this.userForm.get('userData').value);
-
-    // this.userService.update(this.user)
-    //   .then(user => this.user = user);
+    this.joinUserData();
+    this.userService.update(this.user)
+      .then(user => this.user = user)
+      .catch(error => console.log(error));
   }
 
   ngOnInit() {
@@ -38,10 +36,6 @@ export class UserDetailsComponent implements OnInit {
         this.user = user;
         this.initForm();
       })
-  }
-
-  dummy(control: FormControl): Promise<any> | Observable<any> {
-    return null;
   }
 
   private initForm() {
@@ -55,5 +49,11 @@ export class UserDetailsComponent implements OnInit {
         'role': new FormControl(this.user.role.id),
       })
     })
+  }
+
+  private joinUserData() {
+    this.user.name = this.userForm.get('userData').value['name'];
+    this.user.email = this.userForm.get('userData').value['email'];
+    this.user.role.id = this.userForm.get('userDataManagement').value['role'];
   }
 }
