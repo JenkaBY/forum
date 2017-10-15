@@ -1,18 +1,22 @@
+import { URLSearchParams } from '@angular/http';
+
 import { Topic } from '../../model/topic';
 import { Message } from '../../model/message';
+import { Page } from "../../model/page";
 
 /**
  * Service for Messages
  */
 
 interface IMessageService {
-    getAllMessages(topicId: number): Promise<Message[]>;
 
-    createMessage(topic: Topic, message: Message): Promise<Message>;
+  getAllMessagesBy(topicId: number, urlParams?: URLSearchParams): Promise<Page<Message>>;
 
-    updateMessage(message: Message): Promise<Message>;
+  createMessage(topic: Topic, message: Message): Promise<Message>;
 
-    deleteMessage(id: number): void;
+  updateMessage(message: Message): Promise<Message>;
+
+  deleteMessage(id: number): void;
 }
 
 export default IMessageService;

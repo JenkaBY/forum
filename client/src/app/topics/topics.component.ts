@@ -52,7 +52,7 @@ export class TopicsComponent implements OnInit {
   onPageChange() {
     const params = this.setUrlSearchParams();
     params.append(Constants.getPageParam(), String(this.currentPage - 1));
-    console.log("onChangePAge " + JSON.stringify(params.toString()));
+    console.log("onChangePage " + JSON.stringify(params.toString()));
     this.getAll(params);
   }
 

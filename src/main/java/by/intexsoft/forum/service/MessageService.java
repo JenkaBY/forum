@@ -6,4 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface MessageService extends AbstractEntityService<Message> {
     Page<Message> findAllByTopic(Long topicId, Pageable pageable);
+
+    @Override
+    Message save(Message message);
 }

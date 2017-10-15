@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 @Service
 public class MessageServiceImpl extends AbstractEntityServiceImpl<Message> implements MessageService {
 
@@ -25,5 +28,11 @@ public class MessageServiceImpl extends AbstractEntityServiceImpl<Message> imple
     public Page<Message> findAllByTopic(Long topicId, Pageable pageable) {
         Topic topic = topicService.find(topicId);
         return ((MessageRepository) repository).findByInTopicOrderByCreatedAt(topic, pageable);
+    }
+
+    @Override
+    public Message save(Message message) {
+        message.updatedAt = new Timestamp(new Date().getTime());
+        return this.repository.save(message);
     }
 }

@@ -1,23 +1,63 @@
-<div class="card">
-  <div class="card-header pt-1 pb-1">
-    <div class="row justify-content-between">
+<div *ngIf="authorMessage" class="card">
+  <div class="card-header pb-1 mb-1">
+    <div class="row justify-content-between pb-1">
       <div class="col-8">
-        <p>{{ message.createdAt | date }}</p>
+        <p><em><b>#{{ message.id }}</b></em> {{ message.createdAt | date:dateFormat }}</p>
       </div>
-      <div class="col-2">
-        <small class="text-muted">Last updated 3 mins ago</small>
+      <div class="col-1">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Manage message">
+          <button type="button"
+                  *ngIf="isEdit"
+                  class="btn btn-outline-success"
+                  placement="left"
+                  (click)="onSave()"
+                  [disabled]="saving"
+                  ngbTooltip="{{'TOOLTIP.SAVE_MESSAGE' | translate}}">
+            {{ 'BUTTON.SAVE' | translate }}
+          </button>
+          <button *ngIf="!isEdit"
+                  type="button"
+                  class="btn btn-outline-primary"
+                  placement="top"
+                  (click)="onEdit()"
+                  ngbTooltip="{{'TOOLTIP.EDIT_MESSAGE' | translate}}">
+            {{ 'BUTTON.EDIT' | translate }}
+          </button>
+          <button type="button"
+                  *ngIf="!isEdit"
+                  class="btn btn-outline-danger"
+                  placement="right"
+                  (click)="onDelete()"
+                  ngbTooltip="{{'TOOLTIP.DELETE_MESSAGE' | translate}}">X
+          </button>
+          <button type="button"
+                  *ngIf="isEdit"
+                  class="btn btn-outline-warning"
+                  placement="right"
+                  (click)="onCancel()"
+                  [disabled]="saving"
+                  ngbTooltip="{{'TOOLTIP.CANCEL_MESSAGE' | translate}}">X
+          </button>
+        </div>
       </div>
     </div>
   </div>
-  <div class="card-block pb-0">
-    <div class="row justify-content-between">
-      <div class="col-2">
-        <img src='{{ message.createdBy.imagePath ? message.createdBy.imagePath : "./assets/src-img/java.jpg" }}'
-             alt='{{ message.createdBy.name }}'
-             class="img-thumbnail">
+
+  <div class="card-block pt-1 pb-1">
+    <div class="row justify-content-start">
+      <div class="col-2 w-50">
+        <div class="p-2">{{authorMessage.name }}</div>
+        <img src='{{ authorMessage.imagePath ? authorMessage.imagePath : "./assets/src-img/smile.jpg" }}'
+             alt='{{ authorMessage.name }}'
+             class="img-thumbnail"
+             style="width:100px;">
+        <div class="p-2">counter</div>
       </div>
-      <div class="col-10">
-        <div class="message"><p>{{ message.text }}</p></div>
+      <div class="col-10 col-md-auto mt-1">
+        <div *ngIf="!isEdit; else editMessage">{{ message.text }}</div>
+        <ng-template #editMessage>
+          <textarea class="form-control" rows='{{calculateRows()}}' cols="150" [(ngModel)]="message.text"></textarea>
+        </ng-template>
       </div>
     </div>
   </div>

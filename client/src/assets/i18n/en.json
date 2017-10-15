@@ -4,7 +4,9 @@
     "SAVE": "Save",
     "BACK": "Back",
     "DELETE": "Delete",
-    "DETAIL": "Detail"
+    "DETAIL": "Detail",
+    "EDIT": "Edit",
+    "SEND": "Send message"
   },
   "NAV": {
     "TOPICS": "All Topics",
@@ -54,5 +56,14 @@
     "TEXT": "Text",
     "CREATED_BY": "Created by",
     "CREATED_AT": "Created at"
+  },
+  "TOOLTIP": {
+    "EDIT_MESSAGE": "Edit message",
+    "DELETE_MESSAGE": "Delete message",
+    "SAVE_MESSAGE": "Save message",
+    "CANCEL_MESSAGE": "Cancel editing message"
+  },
+  "PLACEHOLDER": {
+    "TYPE_TEXT": "Please type your message here"
   }
 }

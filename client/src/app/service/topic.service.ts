@@ -20,7 +20,7 @@ export class TopicService implements ITopicService {
     return this.http.get(RoutesConstants.ALL_TOPIC, params)
       .toPromise()
       .then(response => {
-        console.log(response);
+        console.log("topic service " + response.json());
         return response.json();
       })
       .catch(error => this.errorHandle(error));

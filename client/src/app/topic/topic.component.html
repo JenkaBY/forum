@@ -1,16 +1,38 @@
 <div class="container mt-2">
   <div class="row" *ngIf="topic">
-    <div class="col-12 mb-0" *ngFor="let messageEl of messages">
-      <forum-message [message]="messageEl" [topicTitle]="topic.title"></forum-message>
-
+    <div class="col-12 mb-0" *ngFor="let messageEl of messages;">
+      <app-message [message]="messageEl" [topicTitle]="topic.title"></app-message>
     </div>
   </div>
-  <ngb-pagination
-    *ngIf="messages"
-    [collectionSize]="totalElements"
-    [(page)]="currentPage"
-    (pageChange)="onPageChange()"
-    [maxSize]="maxSize"
-    size="sm" [pageSize]="pageSize">
-  </ngb-pagination>
+  <div class="row">
+    <div class="col-12">
+      <ngb-pagination
+        *ngIf="messages"
+        [collectionSize]="totalElements"
+        [(page)]="currentPage"
+        (pageChange)="onPageChange()"
+        [maxSize]="maxSize"
+        size="sm" [pageSize]="pageSize">
+      </ngb-pagination>
+    </div>
+  </div>
+
+  <form *ngIf="messages"
+        [formGroup]="msgForm"
+        (ngSubmit)="onSendMsg()">
+    <div class="form-group" formGroupName="msgData">
+      <textarea class="form-control"
+                id="newMessage"
+                rows="7"
+                cols="150"
+                formControlName="text"
+                placeholder="{{ 'PLACEHOLDER.TYPE_TEXT'| translate }}">
+      </textarea>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-success">{{ 'BUTTON.SEND'| translate }}</button>
+      </div>
+    </div>
+  </form>
 </div>
