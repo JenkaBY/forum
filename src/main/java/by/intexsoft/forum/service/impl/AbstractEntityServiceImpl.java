@@ -3,6 +3,8 @@ package by.intexsoft.forum.service.impl;
 import by.intexsoft.forum.entity.AbstractEntity;
 import by.intexsoft.forum.service.AbstractEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -36,6 +38,11 @@ public class AbstractEntityServiceImpl<T extends AbstractEntity> implements Abst
 	@Override
 	public List<T> findAll() {
 		return repository.findAll();
+	}
+
+	@Override
+	public Page<T> findAll(Pageable page) {
+		return repository.findAll(page);
 	}
 
 }

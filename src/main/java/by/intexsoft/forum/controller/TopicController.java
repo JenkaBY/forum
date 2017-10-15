@@ -5,6 +5,7 @@ import by.intexsoft.forum.service.TopicService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,14 +44,14 @@ public class TopicController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteTopic(@PathVariable(name = "id") Long id) {
-        LOGGER.info("User wit id = {0} was deleted topic with id = {1}", "USER_ID", id);
+        LOGGER.info("User with id = {0} was deleted topic with id = {1}", "USER_ID", id);
         topicService.delete(id);
         return new ResponseEntity<>(OK);
     }
 
     @GetMapping(path = "/all")
-    public ResponseEntity<?> getAllTopic() {
+    public ResponseEntity<?> getAllTopic(Pageable pageable) {
         LOGGER.info("Request all topics");
-        return ok(topicService.findAll());
+        return ok(topicService.findAll(pageable));
     }
 }

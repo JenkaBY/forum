@@ -12,7 +12,7 @@
       <th>{{ 'USER.APPROVED_BY' | translate }}</th>
       <th>{{ 'USER.LAST_LOGON_AT' | translate }}</th>
       <th *ngIf="['blocked'].indexOf(currentRoute) > -1">{{ 'ADMIN.UNBLOCK' | translate }}</th>
-      <th *ngIf="['users'].indexOf(currentRoute) > -1">{{ 'ADMIN.BLOCK' | translate }}</th>
+      <th *ngIf="['users'].indexOf(currentRoute) > -1">{{ 'ADMIN.BLOCK_UNBLOCK' | translate }}</th>
       <th *ngIf="currentRoute === 'users'">{{ 'ADMIN.DELETE' | translate }}</th>
       <th *ngIf="['pending','rejected'].indexOf(currentRoute) > -1">{{ 'ADMIN.APPROVE' | translate }}</th>
       <th *ngIf="['pending','rejected'].indexOf(currentRoute) > -1">{{ 'ADMIN.REJECT' | translate }}</th>

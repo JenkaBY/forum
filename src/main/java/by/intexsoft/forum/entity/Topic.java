@@ -24,4 +24,10 @@ public class Topic extends AbstractEntity{
             joinColumns = @JoinColumn(name = "topic_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     public Set<User> allowedUsers;
+
+    @Column(name = "image_path", length = 200)
+    public String imagePath;
+
+    @Column(length = 500)
+    public String description;
 }

@@ -4,5 +4,7 @@ import { User } from './user';
 export class Topic extends AbstractEntity {
     title: string;
     createdBy: User;
-    allowed_user: Set<User>;
+  description: string;
+  imagePath: string;
+  allowedUser: Set<User>;
 }

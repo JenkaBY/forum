@@ -3,6 +3,7 @@ package by.intexsoft.forum.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 /**
@@ -42,7 +43,7 @@ public class User extends AbstractEntity {
 //    @Transient
 //    public Set<User> approvers;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     public Role role;
 }

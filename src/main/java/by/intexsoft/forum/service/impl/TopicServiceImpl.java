@@ -6,6 +6,7 @@ import by.intexsoft.forum.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implements TopicService {
 
@@ -13,4 +14,5 @@ public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implement
     public TopicServiceImpl(TopicRepository repository) {
         super(repository);
     }
+
 }
