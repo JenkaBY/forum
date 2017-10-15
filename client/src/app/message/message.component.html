@@ -1,6 +1,24 @@
-<div class="message" style="border: solid; border-width: thin">
-    <p class="h6">{{topicTitle}}</p>
-    <small style="margin: 0px; padding: 0px">{{message.createdAt | date: dateFormat}}</small>
-    <hr>
-    <p>{{ message.text }} id: ({{message.id}})</p>
+<div class="card">
+  <div class="card-header pt-1 pb-1">
+    <div class="row justify-content-between">
+      <div class="col-8">
+        <p>{{ message.createdAt | date }}</p>
+      </div>
+      <div class="col-2">
+        <small class="text-muted">Last updated 3 mins ago</small>
+      </div>
+    </div>
+  </div>
+  <div class="card-block pb-0">
+    <div class="row justify-content-between">
+      <div class="col-2">
+        <img src='{{ message.createdBy.imagePath ? message.createdBy.imagePath : "./assets/src-img/java.jpg" }}'
+             alt='{{ message.createdBy.name }}'
+             class="img-thumbnail">
+      </div>
+      <div class="col-10">
+        <div class="message"><p>{{ message.text }}</p></div>
+      </div>
+    </div>
+  </div>
 </div>
