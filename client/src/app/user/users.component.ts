@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit {
   pageSize: number;
   maxSize: number;
   currentRoute: string;
+  dateFormat = Constants.getDateTimeFormat();
 
   constructor(@Inject('adminService') private adminService: IAdminService,
               @Inject('userService') private userService: IUserService,
@@ -30,6 +31,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentPage = 1;
     this.defineCurrentRouteStr();
     this.maxSize = Constants.getMaxSize();
     this.fetchingData();
