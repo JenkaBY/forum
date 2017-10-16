@@ -1,6 +1,7 @@
 const API = 'api';
 const ADMIN = 'admin';
 const USER = 'user';
+const NEW = 'new';
 const USERS = 'users';
 const ALL = 'all';
 const TOPIC = 'topic';
@@ -39,6 +40,10 @@ export class RoutesConstants {
 
   public static get USER(): string {
     return RoutesConstants.routeFormatOne(USER);
+  }
+
+  public static get CREATE_NEW_USER(): string {
+    return RoutesConstants.routeFormatTwo(USER, NEW);
   }
 
   public static get ALL_TOPIC(): string {

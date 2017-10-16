@@ -6,7 +6,8 @@
     "DELETE": "Delete",
     "DETAIL": "Detail",
     "EDIT": "Edit",
-    "SEND": "Send message"
+    "SEND": "Send message",
+    "CREATE_ACCOUNT": "Create account"
   },
   "NAV": {
     "TOPICS": "All Topics",
@@ -65,5 +66,14 @@
   },
   "PLACEHOLDER": {
     "TYPE_TEXT": "Please type your message here"
+  },
+  "VALIDATION": {
+    "REQUIRED": "This field is required.",
+    "VALID_EMAIL": "Please enter a valid email.",
+    "MIN_MAX": "This field is too short or to long.",
+    "DO_NOT_MATCH": "Password and Password Confirmation don't match."
+  },
+  "FORM": {
+    "PASSWORD_CONFIRMATION": "Password confirmation"
   }
 }

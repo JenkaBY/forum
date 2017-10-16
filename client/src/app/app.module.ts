@@ -19,41 +19,43 @@ import { MessageService } from './service/message.service';
 import { MessageComponent } from './message/message.component';
 import { AdminModule } from './admin/admin.module';
 import { AdminService } from './service/admin.service';
+import { RegistrationFormComponent } from './registration/registration-form/registration-form.component';
 
 export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, './assets/i18n', '.json');
+  return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        UsersComponent,
-        UserDetailsComponent,
-        TopicsComponent,
-        TopicComponent,
-        MessageComponent,
-        HeaderComponent
-    ],
-    imports: [
-        BrowserModule,
-        HttpModule,
-        FormsModule,
-        CommonModule,
-        AdminModule,
-      ReactiveFormsModule,
-        AppRoutingModule,
-        NgbModule.forRoot(),
-        TranslateModule.forRoot({
-            provide: TranslateLoader,
-            useFactory: (createTranslateLoader),
-            deps: [Http]
-        })
-    ],
-    providers: [{provide: 'userService', useClass: UserService},
-        {provide: 'topicService', useClass: TopicService},
-        {provide: 'adminService', useClass: AdminService},
-        {provide: 'messageService', useClass: MessageService}],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    UsersComponent,
+    UserDetailsComponent,
+    TopicsComponent,
+    TopicComponent,
+    MessageComponent,
+    HeaderComponent,
+    RegistrationFormComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpModule,
+    FormsModule,
+    CommonModule,
+    AdminModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    NgbModule.forRoot(),
+    TranslateModule.forRoot({
+      provide: TranslateLoader,
+      useFactory: (createTranslateLoader),
+      deps: [Http]
+    })
+  ],
+  providers: [{provide: 'userService', useClass: UserService},
+    {provide: 'topicService', useClass: TopicService},
+    {provide: 'adminService', useClass: AdminService},
+    {provide: 'messageService', useClass: MessageService}],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
