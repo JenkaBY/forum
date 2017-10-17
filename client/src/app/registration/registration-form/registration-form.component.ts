@@ -43,22 +43,18 @@ export class RegistrationFormComponent implements OnInit {
 
   private initForm(): void {
     this.accountForm = new FormGroup({
-      'name': new FormControl(null,
+      'name': new FormControl('',
         [Validators.required,
           Validators.minLength(this.minNameLength),
           Validators.maxLength(this.maxNameLength)]),
-      'email': new FormControl(null,
+      'email': new FormControl('',
         [Validators.required,
           Validators.email]),
-      'password': new FormControl(null,
+      'password': new FormControl('',
         [Validators.required,
           Validators.minLength(this.minPasswordLength),
           Validators.maxLength(this.maxPasswordLength)]),
-      'passwordConfirm': new FormControl(null,
-        [Validators.required
-          // ,
-          // PasswordValidation.matchPassword
-        ])
+      'passwordConfirm': new FormControl('', Validators.required)
     })
   }
 

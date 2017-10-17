@@ -2,10 +2,10 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="form-group">
-        <form [formGroup]="accountForm" (ngSubmit)="onCreateAccount()">
+        <form [formGroup]="accountForm" (ngSubmit)="onCreateAccount()" novalidate>
           <!-- NAME -->
           <div class="row">
-            <div class="col">
+            <div class="col mb-3">
               <div class="form-group">
                 <label for="name">{{ 'USER.NAME' | translate }}</label>
                 <input
@@ -13,20 +13,26 @@
                   id="name"
                   formControlName="name"
                   class="form-control">
-              </div>
-              <div
-                *ngIf="!accountForm.get('name').valid && accountForm.get('name').touched"
-                class="invalid-feedback">
-                <div *ngIf="accountForm.get('name').errors['minLength'] && accountForm.get('name').errors['maxLength']">
-                  {{ "VALIDATION.MIN_MAX"| translate }}
+                <div *ngIf="!accountForm.get('name').valid && accountForm.get('name').touched"
+                     class="invalid-feedback">
+                  <!--{{ "VALIDATION.MIN_MAX"| translate }}-->
+
+                  <div
+                    *ngIf="accountForm.get('name').errors['minLength'] || accountForm.get('name').errors['maxLength']"
+                    class="invalid-feedback">
+                    {{ "VALIDATION.MIN_MAX"| translate }}
+                  </div>
+                  <div *ngIf="accountForm.get('name').errors['required']"
+                       class="invalid-feedback">
+                    {{ "VALIDATION.REQUIRED" | translate }}
+                  </div>
                 </div>
-                <div *ngIf="accountForm.get('name').errors['required']">{{ "VALIDATION.REQUIRED" | translate }}</div>
               </div>
             </div>
           </div>
           <!-- EMAIL -->
           <div class="row">
-            <div class="col">
+            <div class="col mb-3">
               <div class="form-group">
                 <label for="email">{{ 'USER.EMAIL' | translate }}</label>
                 <input
@@ -34,16 +40,16 @@
                   id="email"
                   formControlName="email"
                   class="form-control">
-                <div
-                  *ngIf="!accountForm.get('email').valid && accountForm.get('email').touched"
-                  class="invalid-feedback">{{ "VALIDATION.VALID_EMAIL" | translate }}
+                <div *ngIf="!accountForm.get('email').valid && accountForm.get('email').touched"
+                     class="invalid-feedback">
+                  {{ "VALIDATION.VALID_EMAIL" | translate }}
                 </div>
               </div>
             </div>
           </div>
           <!-- PASSWORD -->
           <div class="row">
-            <div class="col">
+            <div class="col mb-3">
               <div class="form-group">
                 <label for="password">{{ 'USER.PASSWORD' | translate }}</label>
                 <input
@@ -56,7 +62,7 @@
                   {{ "VALIDATION.REQUIRED" | translate }}
                 </div>
                 <div
-                  *ngIf="accountForm.get('password').errors['minLength'] && accountForm.get('password').errors['maxLength']"
+                  *ngIf="accountForm.get('password').errors['minLength'] || accountForm.get('password').errors['maxLength']"
                   class="invalid-feedback">
                   {{ "VALIDATION.MIN_MAX" | translate }}
                 </div>
@@ -65,7 +71,7 @@
           </div>
           <!-- PASSWORD CONFIRMATION -->
           <div class="row">
-            <div class="col">
+            <div class="col mb-3">
               <div class="form-group">
                 <label for="passwordConfirm">{{ 'FORM.PASSWORD_CONFIRMATION' | translate }}</label>
                 <input
@@ -73,16 +79,23 @@
                   id="passwordConfirm"
                   formControlName="passwordConfirm"
                   class="form-control">
+                <div
+                  *ngIf="(accountForm.get('passwordConfirm') !== accountForm.get('password') && accountForm.get('password').touched)"
+                  class="invalid-feedback" style="color: red">
+                  {{ "VALIDATION.DO_NOT_MATCH" | translate }}
+                </div>
               </div>
-              <!--<span *ngIf="accountForm.get('passwordConfirm').errors['matchPassword']">{{ "VALIDATION.DO_NOT_MATCH" | translate }}</span>-->
             </div>
           </div>
           <div class="row">
-            <div class="col-4">
-              <button type="submit" class="btn btn-success">{{ 'BUTTON.CREATE_ACCOUNT'| translate }}</button>
+            <div class="col-3">
+              <button type="submit" class="btn btn-success pull-left" [disabled]="!accountForm.valid">
+                {{ 'BUTTON.CREATE_ACCOUNT'| translate }}
+              </button>
             </div>
-            <div class="col-4">
-              <button type="button" class="btn btn-warning" (click)="onCancel()">{{ 'BUTTON.CANCEL'| translate }}
+            <div class="col-2">
+              <button type="button" class="btn btn-warning pull-right" (click)="onCancel()">
+                {{ 'BUTTON.CANCEL'| translate }}
               </button>
             </div>
           </div>

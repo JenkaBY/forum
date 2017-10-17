@@ -5,3 +5,8 @@
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+
+.invalid-feedback {
+  color: red;
+  font-size: smaller;
+}
