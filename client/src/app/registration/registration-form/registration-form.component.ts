@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 
 import IUserService from "../../service/interface/iuser.service";
 import { Account } from "../account";
@@ -23,18 +25,23 @@ export class RegistrationFormComponent implements OnInit {
     this.initForm();
   }
 
-  constructor(@Inject('userService') private userService: IUserService) {
+  constructor(@Inject('userService') private userService: IUserService,
+              private router: Router,
+              private location: Location) {
   }
 
-  onCreateAccount() {
+  onCreateAccount(): void {
     console.log(JSON.stringify(this.accountForm.value));
     this.convertFormToData();
     this.userService.create(this.convertAccountToUser())
-      .then((user: User) => console.log(JSON.stringify(user)))
+      .then((user: User) => {
+        console.log(JSON.stringify(user));
+        this.redirectToInfoPage();
+      })
       .catch(error => console.log(error));
   }
 
-  private initForm() {
+  private initForm(): void {
     this.accountForm = new FormGroup({
       'name': new FormControl(null,
         [Validators.required,
@@ -55,7 +62,7 @@ export class RegistrationFormComponent implements OnInit {
     })
   }
 
-  private convertFormToData() {
+  private convertFormToData(): void {
     this.account.name = this.accountForm.get('name').value;
     this.account.email = this.accountForm.get('email').value;
     this.account.password = this.accountForm.get('password').value;
@@ -67,5 +74,13 @@ export class RegistrationFormComponent implements OnInit {
     user.email = this.account.email;
     user.hashPassword = this.account.password;
     return user;
+  }
+
+  private redirectToInfoPage(): void {
+    this.router.navigate(['congratulation']);
+  }
+
+  onCancel(): void {
+    this.location.back();
   }
 }

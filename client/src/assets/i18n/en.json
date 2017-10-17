@@ -7,7 +7,9 @@
     "DETAIL": "Detail",
     "EDIT": "Edit",
     "SEND": "Send message",
-    "CREATE_ACCOUNT": "Create account"
+    "CREATE_ACCOUNT": "Create account",
+    "READ": "Read",
+    "CANCEL": "Cancel"
   },
   "NAV": {
     "TOPICS": "All Topics",
@@ -75,5 +77,11 @@
   },
   "FORM": {
     "PASSWORD_CONFIRMATION": "Password confirmation"
+  },
+  "MESSAGE": {
+    "CONGRATULATION": "Congratulation!",
+    "SUCCESSFULLY_CREATED_ACCOUNT": "Your account was successfully created. Please wait while an administrator will approve your registration.",
+    "READ_FORUM": "Read are our forum for now!",
+    "TRY_LOGIN": "Try to log in a little bit later."
   }
 }

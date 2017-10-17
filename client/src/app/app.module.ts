@@ -19,7 +19,7 @@ import { MessageService } from './service/message.service';
 import { MessageComponent } from './message/message.component';
 import { AdminModule } from './admin/admin.module';
 import { AdminService } from './service/admin.service';
-import { RegistrationFormComponent } from './registration/registration-form/registration-form.component';
+import { RegistrationModule } from "./registration/registration.module";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -33,16 +33,16 @@ export function createTranslateLoader(http: Http) {
     TopicsComponent,
     TopicComponent,
     MessageComponent,
-    HeaderComponent,
-    RegistrationFormComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
     CommonModule,
-    AdminModule,
     ReactiveFormsModule,
+    AdminModule,
+    RegistrationModule,
     AppRoutingModule,
     NgbModule.forRoot(),
     TranslateModule.forRoot({

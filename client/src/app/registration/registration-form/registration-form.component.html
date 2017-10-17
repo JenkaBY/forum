@@ -78,8 +78,12 @@
             </div>
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col-4">
               <button type="submit" class="btn btn-success">{{ 'BUTTON.CREATE_ACCOUNT'| translate }}</button>
+            </div>
+            <div class="col-4">
+              <button type="button" class="btn btn-warning" (click)="onCancel()">{{ 'BUTTON.CANCEL'| translate }}
+              </button>
             </div>
           </div>
         </form>
