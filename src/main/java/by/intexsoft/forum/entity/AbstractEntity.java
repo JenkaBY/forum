@@ -20,4 +20,8 @@ public class AbstractEntity extends AbstractPersistable<Long> {
 	@Column(name = "created_at", updatable = false)
 	@CreationTimestamp
 	public Timestamp createdAt;
+
+	public void setId(long id) {
+		super.setId(id);
+	}
 }
