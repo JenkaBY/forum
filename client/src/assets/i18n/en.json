@@ -72,7 +72,8 @@
   "VALIDATION": {
     "REQUIRED": "This field is required.",
     "VALID_EMAIL": "Please enter a valid email.",
-    "MIN_MAX": "This field is too short or to long.",
+    "MIN": "This field to be at least {{value}} characters.",
+    "MAX": "This field to be not more than {{value}} characters.",
     "DO_NOT_MATCH": "Password and Password Confirmation don't match."
   },
   "FORM": {
