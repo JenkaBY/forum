@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -23,8 +24,8 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+    public void globalUserDetails(AuthenticationManagerBuilder auth, PasswordEncoder bCryptPasswordEncoder) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * Закоментировано из на время использования InMemoryTokenStore
+     * Закоментировано на время использования InMemoryTokenStore
      */
 //    @Bean
 //    public TokenStore tokenStore() {
