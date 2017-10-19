@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { Http, HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,7 @@ import { RegistrationModule } from "./registration/registration.module";
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { AuthenticationService } from "./authorization/authentication.service";
+import { AuthInterceptor } from "./shared/AuthInterceptor";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -42,6 +44,7 @@ export function createTranslateLoader(http: Http) {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     HttpModule,
     FormsModule,
     CommonModule,
@@ -57,10 +60,16 @@ export function createTranslateLoader(http: Http) {
     })
   ],
   providers: [{provide: 'authenticationService', useClass: AuthenticationService},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     {provide: 'userService', useClass: UserService},
     {provide: 'topicService', useClass: TopicService},
     {provide: 'adminService', useClass: AdminService},
-    {provide: 'messageService', useClass: MessageService}],
+    {provide: 'messageService', useClass: MessageService}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

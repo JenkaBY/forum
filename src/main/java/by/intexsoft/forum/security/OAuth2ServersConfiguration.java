@@ -1,5 +1,6 @@
 package by.intexsoft.forum.security;
 
+import by.intexsoft.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,7 @@ import org.springframework.security.oauth2.provider.approval.TokenStoreUserAppro
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
@@ -103,6 +105,13 @@ public class OAuth2ServersConfiguration {
         @Qualifier("authenticationManagerBean")
         private AuthenticationManager authenticationManager;
 
+        private UserService userService;
+
+        @Autowired
+        public AuthorizationServerConfiguration(UserService userService) {
+            this.userService = userService;
+        }
+
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             clients
@@ -121,12 +130,27 @@ public class OAuth2ServersConfiguration {
             endpoints.tokenStore(tokenStore)
                     .prefix("/api")
                     .userApprovalHandler(userApprovalHandler)
-                    .authenticationManager(authenticationManager);
+                    .authenticationManager(authenticationManager)
+                    .tokenEnhancer(tokenEnhancer());
         }
 
         @Override
         public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
             security.realm(REALM + "/client");
+        }
+
+//        See the link
+// https://stackoverflow.com/questions/28492116/can-i-include-user-information-while-issuing-an-access-token
+//        @Bean
+//        @Primary
+//        public AuthorizationServerTokenServices tokenServices() {
+//            DefaultTokenServices tokenServices = new DefaultTokenServices();
+//            tokenServices.setTokenEnhancer(tokenEnhancer());
+//            return tokenServices;
+//        }
+
+        private TokenEnhancer tokenEnhancer() {
+            return new CustomTokenEnhancer(userService);
         }
     }
 }
