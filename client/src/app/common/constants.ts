@@ -9,50 +9,116 @@ const minNameLength = {value: 4};
 const maxNameLength = {value: 20};
 const minPasswordLength = {value: 6};
 const maxPasswordLength = {value: 16};
+const grantTypePsw = 'grant_type';
+const grantTypeValuePsw = 'password';
+const refreshToken = 'refresh_token';
+const grantTypeValueToken = 'refresh_token';
+const password = 'password';
+const username = 'username';
+const managerStr = 'MANAGER';
+const adminStr = 'ADMIN';
+const userStr = 'USER';
+const contentType = 'Content-Type';
+const accept = 'Accept';
+const jsonType = 'application/json';
+
+export class RoleConstant {
+  static get manager(): string {
+    return managerStr;
+  }
+
+  static get admin(): string {
+    return adminStr;
+  }
+
+  static get user(): string {
+    return userStr;
+  }
+}
+
+export class OAuthConst {
+  static get getGrantType(): string {
+    return grantTypePsw;
+  }
+
+  static get getGrantTypeValuePsw(): string {
+    return grantTypeValuePsw;
+  }
+
+  static get getGrantTypeValueToken(): string {
+    return grantTypeValueToken;
+  }
+
+  static get getPasswordStr(): string {
+    return password;
+  }
+
+  static get getUsernameStr(): string {
+    return username;
+  }
+
+  static get getRefreshTokenStr(): string {
+    return refreshToken;
+  }
+
+
+}
 
 export class Constants {
-  public static get getMinNameLength(): { value: number } {
+  static get contentApplicationType(): string {
+    return contentType;
+  }
+
+  static get accept(): string {
+    return accept;
+  }
+
+  static get jsonType(): string {
+    return jsonType;
+  }
+
+  static get getMinNameLength(): { value: number } {
     return minNameLength;
   }
 
-  public static get getMaxNameLength(): { value: number } {
+  static get getMaxNameLength(): { value: number } {
     return maxNameLength;
   }
 
-  public static get getMinPasswordLength(): { value: number } {
+  static get getMinPasswordLength(): { value: number } {
     return minPasswordLength;
   }
 
-  public static get getMaxPasswordLength(): { value: number } {
+  static get getMaxPasswordLength(): { value: number } {
     return maxPasswordLength;
   }
 
 
-  public static get getDateTimeFormat(): string {
+  static get getDateTimeFormat(): string {
         return dateTimeFormat;
     }
 
-  public static get getDateFormat(): string {
+  static get getDateFormat(): string {
         return dateFormat;
     }
 
-  public static get getPageSize(): number {
+  static get getPageSize(): number {
         return pageSize;
     }
 
-  public static get getPageParam(): string {
+  static get getPageParam(): string {
         return pageParam;
     }
 
-  public static get getSortParam(): string {
+  static get getSortParam(): string {
         return sortParam;
     }
 
-  public static get getSizeParam(): string {
+  static get getSizeParam(): string {
         return sizeParam;
     }
 
-  public static get getMaxSize(): number {
+  static get getMaxSize(): number {
         return maxSize;
     }
 }

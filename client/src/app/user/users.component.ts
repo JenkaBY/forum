@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
+import { Router } from '@angular/router';
 import * as _ from 'underscore';
 
 import IAdminService from '../service/interface/iadmin.service';
@@ -7,7 +8,6 @@ import IUserService from '../service/interface/iuser.service';
 import { Page } from '../common/Page';
 import { User } from '../model/user';
 import { Constants } from '../common/constants';
-import { Router } from '@angular/router';
 import { RoutesConstants } from "../common/routes.constants";
 
 @Component({

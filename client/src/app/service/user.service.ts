@@ -32,7 +32,7 @@ export class UserService implements IUserService {
             .then(response => {
               // TODO delete console log
                 console.log(response);
-              return response.json();
+              response.json();
             })
             .catch(error => this.errorHandle(error));
     }
@@ -52,12 +52,12 @@ export class UserService implements IUserService {
             .toPromise()
             .then(response => {
               console.log(response.json());
-              return response.json();
+              response.json();
             })
             .catch(error => this.errorHandle(error));
     }
 
-  create(user: User): Promise<User> | any {
+  create(user: User): Promise<User> {
       const params = new RequestOptions({headers: this.headers});
       return this.http.post(RoutesConstants.CREATE_NEW_USER, JSON.stringify(user), params)
         .toPromise()

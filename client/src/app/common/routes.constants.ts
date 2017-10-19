@@ -10,12 +10,18 @@ const APPROVED = 'approved';
 const BLOCKED = 'blocked';
 const REJECTED = 'rejected';
 const PENDING = 'pending';
+const TOKEN = 'token';
+const OAUTH = 'oauth';
 const PROJECT_NAME = '';
 
 export class RoutesConstants {
 
   public static get PROJECT_NAME(): string {
     return PROJECT_NAME;
+  }
+
+  public static get OAUTH_TOKEN(): string {
+    return RoutesConstants.routeFormatTwo(OAUTH, TOKEN);
   }
 
   public static get ADMIN_ALL_USERS(): string {

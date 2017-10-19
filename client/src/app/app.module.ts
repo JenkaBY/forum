@@ -21,6 +21,8 @@ import { AdminModule } from './admin/admin.module';
 import { AdminService } from './service/admin.service';
 import { RegistrationModule } from "./registration/registration.module";
 import { TestComponent } from './test/test.component';
+import { LoginComponent } from './authorization/login/login.component';
+import { AuthenticationService } from "./authorization/authentication.service";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -35,7 +37,8 @@ export function createTranslateLoader(http: Http) {
     TopicComponent,
     MessageComponent,
     HeaderComponent,
-    TestComponent
+    TestComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ export function createTranslateLoader(http: Http) {
       deps: [Http]
     })
   ],
-  providers: [{provide: 'userService', useClass: UserService},
+  providers: [{provide: 'authenticationService', useClass: AuthenticationService},
+    {provide: 'userService', useClass: UserService},
     {provide: 'topicService', useClass: TopicService},
     {provide: 'adminService', useClass: AdminService},
     {provide: 'messageService', useClass: MessageService}],

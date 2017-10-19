@@ -9,7 +9,8 @@
     "SEND": "Send message",
     "CREATE_ACCOUNT": "Create account",
     "READ": "Read",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "LOGIN": "Login"
   },
   "NAV": {
     "TOPICS": "All Topics",

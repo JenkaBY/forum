@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="form-group">
+        <form [formGroup]="userCredentialForm" (ngSubmit)="onLogin()" novalidate>
+          <!-- EMAIL -->
+          <div class="row">
+            <div class="col mb-3">
+              <div class="form-group">
+                <label for="email">{{ 'USER.EMAIL' | translate }}</label>
+                <input
+                  type="text"
+                  id="email"
+                  formControlName="email"
+                  class="form-control">
+                <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+                  <div *ngIf="email.errors['required']" class="invalid-feedback">
+                    {{ "VALIDATION.REQUIRED" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- PASSWORD -->
+          <div class="row">
+            <div class="col mb-3">
+              <div class="form-group">
+                <label for="password">{{ 'USER.PASSWORD' | translate }}</label>
+                <input
+                  type="password"
+                  id="password"
+                  formControlName="password"
+                  class="form-control">
+                <div *ngIf="password.invalid && password.touched">
+                  <div *ngIf="password.errors['required']" class="invalid-feedback">
+                    {{ "VALIDATION.REQUIRED" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <button type="submit" class="btn btn-success pull-left"
+                      [disabled]="userCredentialForm.invalid || logging">
+                {{ 'BUTTON.LOGIN'| translate }}
+              </button>
+            </div>
+            <div class="col-2">
+              <button type="button" class="btn btn-warning pull-right" (click)="onBack()">
+                {{ 'BUTTON.BACK'| translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

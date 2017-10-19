@@ -22,15 +22,15 @@ export class RegistrationFormComponent implements OnInit {
   maxPasswordLength = {value: 16};
   creating: boolean;
 
+  constructor(@Inject('userService') private userService: IUserService,
+              private router: Router,
+              private location: Location) {
+  }
+
   ngOnInit() {
     this.creating = false;
     this.account = new User();
     this.initForm();
-  }
-
-  constructor(@Inject('userService') private userService: IUserService,
-              private router: Router,
-              private location: Location) {
   }
 
   onCreateAccount(): void {
