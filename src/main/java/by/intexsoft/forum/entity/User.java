@@ -7,8 +7,7 @@ import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 /**
- * TODO: rename table name
- * User class describes the 'users' table in DB.
+ * User class describes the users table in DB.
  */
 @Entity
 @Table(name = "\"users\"")
@@ -16,7 +15,7 @@ public class User extends AbstractEntity {
 
     private static final long serialVersionUID = 2114056750097110098L;
 
-    @Column(name = "name", nullable = false, length = 127, unique = true)
+    @Column(nullable = false, length = 127, unique = true)
     public String name;
 
     @Column(unique = true, nullable = false)
@@ -38,12 +37,10 @@ public class User extends AbstractEntity {
     @JoinColumn(name = "approved_by", insertable = false)
     public User approvedBy;
 
-//    TODO Need to check how it works.
-//    @OneToMany(mappedBy="approvedBy",fetch = LAZY)
-//    @Transient
-//    public Set<User> approvers;
-
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     public Role role;
+
+    @Column(name = "image_path", insertable = false)
+    public String imagePath;
 }

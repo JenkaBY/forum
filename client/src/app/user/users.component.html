@@ -27,7 +27,7 @@
       <td>{{ user.role.id }}</td>
       <td><span class="badge badge-{{ user.blocked ? 'warning' : 'info' }}">{{ user.blocked }}</span></td>
       <td><span class="badge badge-{{ user.rejected ? 'warning' : 'info' }}">{{ user.rejected }}</span></td>
-      <td>{{ user.approvedBy ? getUserName(user.approvedBy.id) : '' }}</td>
+      <td>{{ user.approver_id ? getUserName(user.approver_id) : '' }}</td>
       <td>{{ user.lastLogonAt ? (user.lastLogonAt| date:dateFormat) : "" }}</td>
       <td *ngIf="['blocked', 'users'].indexOf(currentRoute) > -1">
         <button type="button"

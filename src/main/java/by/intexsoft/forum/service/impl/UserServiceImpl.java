@@ -84,13 +84,16 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
 
     @Override
     public User save(User user) {
-        if (Objects.isNull(user.getId())) {
+        if (isNewUser(user)) {
             user.hashPassword = bCryptPasswordEncoder.encode(user.hashPassword);
+            user.email = user.email.toLowerCase();
+        }
+        if (needToFetchHashPassword(user)) {
+            user.hashPassword = this.find(user.getId()).hashPassword;
         }
         if (Objects.isNull(user.role)) {
             user.role = roleService.findByTitle(RoleConst.USER);
         }
-        user.email = user.email.toLowerCase();
         return repository.save(user);
     }
 
@@ -115,7 +118,12 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
         return ((UserRepository) repository).findByEmail(email);
     }
 
-    public boolean checkExistingUser(User checkedUser) {
-        return !isEmailExist(checkedUser.email) && !isNameExist(checkedUser.name);
+    private boolean isNewUser(User user) {
+        return Objects.isNull(user.getId()) || user.getId() == 0;
+    }
+
+    private boolean needToFetchHashPassword(User user) {
+        return !isNewUser(user)
+                && (Objects.isNull(user.hashPassword) || user.hashPassword.equalsIgnoreCase(""));
     }
 }

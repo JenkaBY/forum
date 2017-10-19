@@ -24,7 +24,7 @@ export class TopicsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.maxSize = Constants.getMaxSize();
+    this.maxSize = Constants.getMaxSize;
     this.getAll(this.setUrlSearchParams());
     console.log("onInit " + JSON.stringify(this.setUrlSearchParams().toString()));
   }
@@ -43,15 +43,15 @@ export class TopicsComponent implements OnInit {
     if (!urlParams) {
       urlParams = new URLSearchParams();
     }
-    urlParams.append(Constants.getSortParam(), 'id');
-    urlParams.append(Constants.getSizeParam(), String(Constants.getPageSize()));
+    urlParams.append(Constants.getSortParam, 'id');
+    urlParams.append(Constants.getSizeParam, String(Constants.getPageSize));
     console.log("setURLsearchParams " + JSON.stringify(urlParams.toString()));
     return urlParams;
   }
 
   onPageChange() {
     const params = this.setUrlSearchParams();
-    params.append(Constants.getPageParam(), String(this.currentPage - 1));
+    params.append(Constants.getPageParam, String(this.currentPage - 1));
     console.log("onChangePage " + JSON.stringify(params.toString()));
     this.getAll(params);
   }

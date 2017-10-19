@@ -57,7 +57,7 @@ export class UserService implements IUserService {
             .catch(error => this.errorHandle(error));
     }
 
-    create(user: User): Promise<User> {
+  create(user: User): Promise<User> | any {
       const params = new RequestOptions({headers: this.headers});
       return this.http.post(RoutesConstants.CREATE_NEW_USER, JSON.stringify(user), params)
         .toPromise()
@@ -65,7 +65,10 @@ export class UserService implements IUserService {
           console.log(response.json());
           return response.json();
         })
-        .catch(error => this.errorHandle(error));
+        .catch(error => {
+          // this.errorHandle(error);
+          return new Error(error);
+        });
     }
 
     private errorHandle(error): Promise<User> {

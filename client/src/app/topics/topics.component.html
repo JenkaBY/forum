@@ -16,7 +16,7 @@
           <div class="row justify-content-between">
             <div class="col-10">
               <h6 class="card-subtitle mb-2 text-muted">
-                <b>Author:</b> {{ topic.createdBy.name ? topic.createdBy.name : '' }}
+                <b>Author:</b> {{ topic.createdBy?.name }}
                 <del *ngIf="!topic.createdBy.name">deleted</del>
               </h6>
               <p>

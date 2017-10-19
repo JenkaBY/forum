@@ -15,7 +15,7 @@ import { Constants } from "../common/constants";
 export class UserDetailsComponent implements OnInit {
   user: User;
   userForm: FormGroup;
-  dateFormat = Constants.getDateTimeFormat();
+  dateFormat = Constants.getDateTimeFormat;
 
   constructor(@Inject('userService') private userService: IUserService,
               private route: ActivatedRoute) {
