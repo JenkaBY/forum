@@ -17,13 +17,13 @@ import { RoutesConstants } from "../common/routes.constants";
 export class UsersComponent implements OnInit {
   user: User;
   users: User[];
-  approvedBy: User[] = [];
+  approvers: User[];
   currentPage: number;
   totalElements: number;
   pageSize: number;
   maxSize: number;
   currentRoute: string;
-  dateFormat = Constants.getDateTimeFormat();
+  dateFormat: string;
 
   constructor(@Inject('adminService') private adminService: IAdminService,
               @Inject('userService') private userService: IUserService,
@@ -32,8 +32,10 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentPage = 1;
+    this.dateFormat = Constants.getDateTimeFormat;
+    this.approvers = [];
     this.defineCurrentRouteStr();
-    this.maxSize = Constants.getMaxSize();
+    this.maxSize = Constants.getMaxSize;
     this.fetchingData();
   }
 
@@ -93,7 +95,7 @@ export class UsersComponent implements OnInit {
 
   onPageChange() {
     const params = new URLSearchParams();
-    params.append(Constants.getPageParam(), String(this.currentPage - 1));
+    params.append(Constants.getPageParam, String(this.currentPage - 1));
     this.fetchingData(params);
   }
 
@@ -106,14 +108,14 @@ export class UsersComponent implements OnInit {
   }
 
   private setAdminsForUsers() {
-    let adminIds = _.uniq(_.compact(_.pluck(_.pluck(this.users, 'approvedBy'), 'id')));
+    let adminIds = _.uniq(_.compact(_.pluck(_.pluck(this.users, 'approvers'), 'id')));
     for (let id of adminIds) {
-      if (!_.find(this.approvedBy, (admin) => {
+      if (!_.find(this.approvers, (admin) => {
           return id === admin.id
         })) {
         this.userService.getById(id)
-          .then((user: User) => this.approvedBy.push(user))
-          .catch((error: any) => console.log("error from setPage" + error))
+          .then((user: User) => this.approvers.push(user))
+          .catch((error: any) => console.log("error from setPage " + error))
       }
     }
   }
@@ -122,8 +124,8 @@ export class UsersComponent implements OnInit {
     if (!urlParams) {
       urlParams = new URLSearchParams();
     }
-    urlParams.append(Constants.getSortParam(), 'id');
-    urlParams.append(Constants.getSizeParam(), String(Constants.getPageSize()));
+    urlParams.append(Constants.getSortParam, 'id');
+    urlParams.append(Constants.getSizeParam, String(Constants.getPageSize));
     return urlParams;
   }
 
@@ -153,7 +155,7 @@ export class UsersComponent implements OnInit {
   }
 
   getUserName(id: number): string {
-    let fetchedUser = _.find(this.approvedBy, (admin) => {
+    let fetchedUser = _.find(this.approvers, (admin) => {
       return admin.id === id;
     });
     return fetchedUser ? fetchedUser.name : null;
@@ -172,7 +174,7 @@ export class UsersComponent implements OnInit {
   onApprove(user: User) {
     console.log("onApprove user.")
     user.rejected = false;
-    // user.approvedBy = this.authService.currentUser();
+    // user.approvers = this.authService.currentUser();
     this.userService.update(user)
       .then((updatedUser: User) => {
           this.onPageChange();

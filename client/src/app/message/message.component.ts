@@ -13,7 +13,7 @@ import { User } from "../model/user";
 export class MessageComponent implements OnInit {
   @Input() topicTitle: string;
   @Input() message: Message;
-  dateFormat = Constants.getDateTimeFormat();
+  dateFormat = Constants.getDateTimeFormat;
   isEdit: boolean;
   saving: boolean;
   previousMsgText: string;

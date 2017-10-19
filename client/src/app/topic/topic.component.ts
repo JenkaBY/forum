@@ -35,7 +35,7 @@ export class TopicComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.maxSize = Constants.getMaxSize();
+    this.maxSize = Constants.getMaxSize;
     this.authorsMessages = new Array();
     this.initForm();
     this.setTopicId();
@@ -67,15 +67,15 @@ export class TopicComponent implements OnInit {
       urlParams = new URLSearchParams();
     }
 
-    urlParams.append(Constants.getSortParam(), 'id');
-    urlParams.append(Constants.getSizeParam(), String(Constants.getPageSize()));
+    urlParams.append(Constants.getSortParam, 'id');
+    urlParams.append(Constants.getSizeParam, String(Constants.getPageSize));
     console.log("setURLSearchParams " + JSON.stringify(urlParams.toString()));
     return urlParams;
   }
 
   onPageChange() {
     const params = this.setUrlSearchParams();
-    params.append(Constants.getPageParam(), String(this.currentPage - 1));
+    params.append(Constants.getPageParam, String(this.currentPage - 1));
     console.log("onChangePage " + JSON.stringify(params.toString()));
     this.getAllMessages(params);
   }

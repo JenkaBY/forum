@@ -1,5 +1,6 @@
 package by.intexsoft.forum.controller;
 
+import by.intexsoft.forum.dto.UserDTO;
 import by.intexsoft.forum.entity.Role;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.service.RoleService;
@@ -36,10 +37,10 @@ public class UserController {
         User user = userService.find(id);
         if (user == null) {
             LOGGER.warn("User with id = {0} is not found.", id);
-            return new ResponseEntity<>("User not found", BAD_REQUEST);
+            return new ResponseEntity<>("User not found.", BAD_REQUEST);
         }
         LOGGER.info("Get user by id = {0}", id);
-        return new ResponseEntity<>(user, OK);
+        return new ResponseEntity<>(new UserDTO(user), OK);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -55,22 +56,23 @@ public class UserController {
     }
 
     @PostMapping(path = "/new")
-    public ResponseEntity<?> create(@RequestBody User user) {
-        User createdUser = userService.save(user);
+    public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
+        User createdUser = userService.save(userDTO.transformToUser());
         // TODO create case if error occurs while saving user
-        LOGGER.info("New user {0} was created.", user);
-        return new ResponseEntity<>(createdUser, CREATED);
+        LOGGER.info("New user {0} was created.", userDTO);
+        return new ResponseEntity<>(new UserDTO(createdUser), CREATED);
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<?> update(@RequestBody User user, @PathVariable(value = "id") Long id) {
-        if (user.getId() != id) {
+    public ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable(value = "id") Long id) {
+//        TODO checking the authorities
+        if (userDTO.id != id) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        User updatedUser = userService.save(user);
+        User updatedUser = userService.save(userDTO.transformToUser());
         // TODO create case if error occurs while saving user
-        LOGGER.info("User with id = {0} was updated.", user.getId());
-        return new ResponseEntity<>(updatedUser, OK);
+        LOGGER.info("User with id = {0} was updated.", updatedUser.getId());
+        return new ResponseEntity<>(new UserDTO(updatedUser), OK);
     }
 
     @PutMapping(path = "/{id}/change_password")
@@ -78,7 +80,7 @@ public class UserController {
         if (!checkPasswordLength(newPassword)) {
             return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);
         }
-//        TODO add currentUser;
+//        TODO add currentUser or Admin;
         User currentUser = new User();
         userService.changePassword(currentUser, newPassword);
         return new ResponseEntity<>(OK);
@@ -106,6 +108,7 @@ public class UserController {
         return ResponseEntity.ok("20 users has been created.");
     }
 
+    //    TODO Remove the method. It's only for test.
     private Role getRole() {
         Role role = roleService.find(1);
         if (role == null) {

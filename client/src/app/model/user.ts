@@ -5,10 +5,10 @@ export class User extends AbstractEntity {
   name: string;
   email: string;
   imagePath: string;
-  hashPassword: string;
+  password: string;
   lastLogonAt: Date;
   blocked: boolean;
   rejected: boolean;
-  approvedBy: User;
+  approver_id: number;
   role: Role;
 }

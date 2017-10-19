@@ -38,7 +38,7 @@ interface IUserService {
      * @returns {Promise<User>}
      * @see User
      */
-    create(user: User): Promise<User>;
+    create(user: User): Promise<User> | any;
 }
 
 export default IUserService;

@@ -5,10 +5,9 @@ export class Pageable<T> {
     totalElements: number;
     pageSize: number;
 
-    onPageChange() {
+  onPageChange(): void {
         let params = new URLSearchParams();
-        params.append(Constants.getPageParam(), String(this.currentPage - 1));
-        params.append(Constants.getSizeParam(), String(Constants.getPageSize()));
-        // this.getAll(params);
+    params.append(Constants.getPageParam, String(this.currentPage - 1));
+    params.append(Constants.getSizeParam, String(Constants.getPageSize));
     }
 }
