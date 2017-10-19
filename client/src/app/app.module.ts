@@ -20,6 +20,7 @@ import { MessageComponent } from './message/message.component';
 import { AdminModule } from './admin/admin.module';
 import { AdminService } from './service/admin.service';
 import { RegistrationModule } from "./registration/registration.module";
+import { TestComponent } from './test/test.component';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -33,7 +34,8 @@ export function createTranslateLoader(http: Http) {
     TopicsComponent,
     TopicComponent,
     MessageComponent,
-    HeaderComponent
+    HeaderComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

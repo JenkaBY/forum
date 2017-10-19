@@ -6,12 +6,14 @@ import { TopicsComponent } from './topics/topics.component';
 import { TopicComponent } from './topic/topic.component';
 import { AdminRoutesModule } from './admin/admin-routes.module';
 import { RegistrationRoutesModule } from "./registration/registration-routes.module";
+import { TestComponent } from "./test/test.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'topics', pathMatch: 'full'},
   {path: 'user/:id', component: UserDetailsComponent},
   {path: 'topics', component: TopicsComponent},
-  {path: 'topic/:id', component: TopicComponent}
+  {path: 'topic/:id', component: TopicComponent},
+  {path: 'private', component: TestComponent}
 ];
 
 @NgModule({

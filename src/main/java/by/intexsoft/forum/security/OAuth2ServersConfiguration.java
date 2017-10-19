@@ -27,12 +27,12 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 /**
  * Этот класс служит для объединения двух классов конфигурации...из за того что TokenStore должен
- * быть расшарен между этими классами либо стоит сипользовать другую реалищацию TokenStore (JdbcTokenStore)
+ * быть расшарен между этими классами либо стоит использовать другую реалищацию TokenStore (JdbcTokenStore)
  */
 @Configuration
 public class OAuth2ServersConfiguration {
 
-    private static final String RESOURCE_ID = "oauth2_api";
+//    private static final String RESOURCE_ID = "oauth2_api";
 
     private static InMemoryTokenStore tokenStore = new InMemoryTokenStore();
 
@@ -78,9 +78,8 @@ public class OAuth2ServersConfiguration {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http
-
                     .authorizeRequests()
-//                    .antMatchers("/common").authenticated()
+                    .antMatchers("/api/private").authenticated()
 //                    .antMatchers("/user/**").access("hasRole('ROLE_ADMIN')")
 //                    .antMatchers("/allowed-for-user/**").access("hasRole('ROLE_USER')")
                     .antMatchers("/**").permitAll()
@@ -95,7 +94,7 @@ public class OAuth2ServersConfiguration {
     @EnableAuthorizationServer
     public static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-        private static String REALM = "MY_OAUTH_REALM";
+        private static String REALM = "FORUM_REALM";
 
         @Autowired
         private UserApprovalHandler userApprovalHandler;
@@ -106,9 +105,9 @@ public class OAuth2ServersConfiguration {
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
-            clients.inMemory()
-                    .withClient("my-trusted-client")
+            clients
+                    .inMemory()
+                    .withClient("forum-web")
                     .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                     .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                     .scopes("read", "write", "trust")
@@ -119,7 +118,9 @@ public class OAuth2ServersConfiguration {
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-            endpoints.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler)
+            endpoints.tokenStore(tokenStore)
+                    .prefix("/api")
+                    .userApprovalHandler(userApprovalHandler)
                     .authenticationManager(authenticationManager);
         }
 
