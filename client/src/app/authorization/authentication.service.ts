@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import IUserService from "../service/interface/iuser.service";
 import { UserCredential } from "./user-credential.model";
 import { RoutesConstants } from "../common/routes.constants";
-import { OAuthTokensResponse } from "./oauth-token.model";
+import { OAuthTokensData } from "./oauth-token.model";
 import { AppConstant } from "../common/app-constant";
 import { User } from "../model/user";
 import { Constants, OAuthConst, RoleConstant } from "../common/constants";
@@ -13,7 +13,7 @@ import { Constants, OAuthConst, RoleConstant } from "../common/constants";
 @Injectable()
 export class AuthenticationService {
   currentUser: User;
-  private oauthToken: OAuthTokensResponse;
+  private oauthToken: OAuthTokensData;
   private expireTokenDate: Date;
 
   constructor(@Inject('userService') private userService: IUserService,
@@ -21,7 +21,6 @@ export class AuthenticationService {
   }
 
   login(userCredential: UserCredential) {
-
     this.requestOAuthToken(userCredential);
   }
 
@@ -35,19 +34,13 @@ export class AuthenticationService {
     this.http.post(RoutesConstants.OAUTH_TOKEN,
       null,
       this.getAuthorizationParams(userCredential))
-    // .toPromise()
-      .subscribe((resInfo: OAuthTokensResponse) => {
-        console.log('login then ' + JSON.stringify(resInfo));
-        // this.oauthToken = res;
-        // this.currentUser = this.oauthToken.user;
-        // this.setExpireTokenDate();
+      .subscribe((resInfo: OAuthTokensData) => {
+        this.oauthToken = resInfo;
+        console.log('tokens', this.oauthToken);
+        this.currentUser = this.oauthToken.user;
+        this.setExpireTokenDate();
+        console.log('user', this.currentUser)
       })
-    // .catch(err => {
-    //   this.oauthToken = null;
-    //   this.currentUser = null;
-    //   console.log('catch ' + err);
-    //   return err;
-    // });
   }
 
   public getAuthorizationHeaders(): HttpHeaders {
@@ -55,13 +48,12 @@ export class AuthenticationService {
     headerObj[Constants.accept] = Constants.jsonType;
     headerObj['Authorization'] = 'Basic ' + btoa(AppConstant.getClientId + ':' + AppConstant.getSecret);
     const headers = new HttpHeaders(headerObj);
-    console.log("Authorize Headers " + headers.get('Authorization'));
-    console.log("Authorize Headers " + headers.get(Constants.accept));
     return headers;
   }
 
   public getAuthorizationHeader(): string {
-    console.log('Bearer ' + this.oauthToken.access_token ? this.oauthToken.access_token : '******************');
+    console.log(!!this.oauthToken);
+    console.log('Bearer', this.oauthToken ? this.oauthToken.access_token : '********');
     return this.oauthToken && !this.isAccessTokenExpired() ? 'Bearer ' + this.oauthToken.access_token : null;
   }
 
@@ -70,16 +62,13 @@ export class AuthenticationService {
       .set(OAuthConst.getGrantType, OAuthConst.getGrantTypeValuePsw)
       .set(OAuthConst.getUsernameStr, userCredential.email)
       .set(OAuthConst.getPasswordStr, userCredential.password);
-    console.log("HttpParams: " + params.get(OAuthConst.getGrantType));
-    console.log("HttpParams: " + params.get(OAuthConst.getUsernameStr));
-    console.log("HttpParams: " + params.get(OAuthConst.getPasswordStr));
     return params;
   }
 
   private getRefreshTokenURLParams(): HttpParams {
-    const params = new HttpParams();
-    params.append(OAuthConst.getGrantType, OAuthConst.getGrantTypeValueToken);
-    params.append(OAuthConst.getRefreshTokenStr, this.oauthToken.refresh_token);
+    const params = new HttpParams()
+      .set(OAuthConst.getGrantType, OAuthConst.getGrantTypeValueToken)
+      .set(OAuthConst.getRefreshTokenStr, this.oauthToken.refresh_token);
     return params;
   }
 
@@ -91,11 +80,12 @@ export class AuthenticationService {
   }
 
   private isAccessTokenExpired(): boolean {
+    console.log('time', this.expireTokenDate.getTime());
     return new Date().getTime() >= this.expireTokenDate.getTime();
   }
 
   private setExpireTokenDate(): void {
-    let date = new Date();
+    const date = new Date();
     date.setMinutes(date.getMinutes() + this.oauthToken.expires_in);
     this.expireTokenDate = date;
   }

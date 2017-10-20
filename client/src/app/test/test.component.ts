@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Response } from "@angular/http";
-import { Observable } from "rxjs/Observable";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import 'rxjs/add/operator/catch';
 
 @Component({
@@ -13,40 +12,40 @@ export class TestComponent implements OnInit {
   publicStatus: any;
   privateMsg: any;
   privateStatus: any;
-  private headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
-    this.http.get('api/hello', this.headers)
-      .map(res => {
-        this.publicMsg = res.text();
-        this.publicStatus = res.status;
-      }).catch(err => {
-      if (err === 'Unauthorized') {
-        console.log(err);
-      }
-      console.log(err);
-      return Observable.throw(err)
-    }).subscribe();
+    this.http.get('api/hello', {observe: 'response', responseType: 'text'})
+      .subscribe(res => {
+          console.log('next from public request', res);
+          this.publicMsg = res.body;
+          this.publicStatus = res.status;
+        },
+        err => {
+          console.log('error from public request', err);
+        });
 
-    this.http.get('api/private', this.headers)
-      .map((res: Response) => {
-        console.log(res.statusText);
-        this.privateMsg = res.text();
-        this.privateStatus = res.status;
-      }).catch(err => {
-      if (err.status == 401) {
-        console.log("catch 401");
-        this.privateMsg = JSON.stringify(err).slice(0, 121);
-        console.log(JSON.stringify(err));
+    this.http.get('api/private',
+      {headers: this.getHeaders(), observe: 'response', responseType: 'text'}
+    )
+      .subscribe(
+        res => {
+          console.log('next from private request', res);
+          this.privateMsg = res.body;
+          this.privateStatus = res.status;
+        },
+        err => {
+          console.log('error from private request', err);
+          this.privateMsg = JSON.stringify(err.error);
+          this.privateStatus = err.status;
+        })
+  }
 
-        this.privateStatus = err.status;
-      }
-      console.log(err);
-      return Observable.throw(err)
-    })
-      .subscribe();
+  public getHeaders(): HttpHeaders {
+    const headers = new HttpHeaders().set('Accept', 'application/json');
+    console.log("Authorize Headers " + headers.get('Accept'));
+    return headers;
   }
 }

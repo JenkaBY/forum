@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Location } from '@angular/common';
 import { Router } from "@angular/router";
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   logging: boolean;
 
-  constructor(@Inject('authenticationService') private authService: AuthenticationService,
+  constructor(/*@Inject('authenticationService') */private authService: AuthenticationService,
               private location: Location,
               private router: Router) {
   }
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     // this.logging = true;
     this.userCredential = {email: this.email.value, password: this.password.value};
     this.authService.login(this.userCredential);
-    // .then((token: OAuthTokensResponse) => {
+    // .then((token: OAuthTokensData) => {
     //   console.log(token);
     //   this.logging = false;
     // })
