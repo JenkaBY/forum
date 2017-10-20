@@ -20,6 +20,7 @@ const adminStr = 'ADMIN';
 const userStr = 'USER';
 const contentType = 'Content-Type';
 const accept = 'Accept';
+const authorization = 'Authorization';
 const jsonType = 'application/json';
 
 export class RoleConstant {
@@ -33,6 +34,12 @@ export class RoleConstant {
 
   static get user(): string {
     return userStr;
+  }
+}
+
+export class HeaderConst {
+  static get getAuthorization(): string {
+    return authorization;
   }
 }
 
@@ -60,8 +67,6 @@ export class OAuthConst {
   static get getRefreshTokenStr(): string {
     return refreshToken;
   }
-
-
 }
 
 export class Constants {
@@ -95,30 +100,30 @@ export class Constants {
 
 
   static get getDateTimeFormat(): string {
-        return dateTimeFormat;
-    }
+    return dateTimeFormat;
+  }
 
   static get getDateFormat(): string {
-        return dateFormat;
-    }
+    return dateFormat;
+  }
 
   static get getPageSize(): number {
-        return pageSize;
-    }
+    return pageSize;
+  }
 
   static get getPageParam(): string {
-        return pageParam;
-    }
+    return pageParam;
+  }
 
   static get getSortParam(): string {
-        return sortParam;
-    }
+    return sortParam;
+  }
 
   static get getSizeParam(): string {
-        return sizeParam;
-    }
+    return sizeParam;
+  }
 
   static get getMaxSize(): number {
-        return maxSize;
-    }
+    return maxSize;
+  }
 }

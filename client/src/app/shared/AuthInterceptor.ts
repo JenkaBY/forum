@@ -3,6 +3,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable } from "rxjs/Observable";
 
 import { AuthenticationService } from "../authorization/authentication.service";
+import { HeaderConst } from "../common/constants";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -15,8 +16,9 @@ export class AuthInterceptor implements HttpInterceptor {
     let request;
     if (authService.currentUser) {
       const authHeader = authService.getAuthorizationHeader();
-      request = req.clone({headers: req.headers.set('Authorization', authHeader)});
-      console.log('Authorization', request.headers.get('Authorization'));
+      request = req.clone({headers: req.headers.set(HeaderConst.getAuthorization, authHeader)});
+      //TODO remove next line
+      console.log(HeaderConst.getAuthorization, request.headers.get(HeaderConst.getAuthorization));
     } else {
       request = req;
     }
