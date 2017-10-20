@@ -59,12 +59,13 @@ export function createTranslateLoader(http: Http) {
       deps: [Http]
     })
   ],
-  providers: [{provide: 'authenticationService', useClass: AuthenticationService},
+  providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
     },
+    AuthenticationService,
     {provide: 'userService', useClass: UserService},
     {provide: 'topicService', useClass: TopicService},
     {provide: 'adminService', useClass: AdminService},

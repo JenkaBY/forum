@@ -31,8 +31,8 @@ export class UserService implements IUserService {
             .toPromise()
             .then(response => {
               // TODO delete console log
-                console.log(response);
-              response.json();
+              console.log("Response from getById", response);
+              return response.json();
             })
             .catch(error => this.errorHandle(error));
     }
@@ -52,7 +52,7 @@ export class UserService implements IUserService {
             .toPromise()
             .then(response => {
               console.log(response.json());
-              response.json();
+              return response.json();
             })
             .catch(error => this.errorHandle(error));
     }
