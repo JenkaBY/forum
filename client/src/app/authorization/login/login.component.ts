@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 
 import { AuthenticationService } from "../authentication.service";
 import { UserCredential } from "../user-credential.model";
-import { OAuthToken } from "../oauth-token.model";
 
 @Component({
   selector: 'app-login',
@@ -29,14 +28,14 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    this.logging = true;
+    // this.logging = true;
     this.userCredential = {email: this.email.value, password: this.password.value};
-    this.authService.login(this.userCredential)
-      .then((token: OAuthToken) => {
-        console.log(token);
-        this.logging = false;
-      })
-      .catch(err => console.log('Error in login: ' + err));
+    this.authService.login(this.userCredential);
+    // .then((token: OAuthTokensResponse) => {
+    //   console.log(token);
+    //   this.logging = false;
+    // })
+    // .catch(err => console.log('Error in login: ' + err));
   }
 
   private initForm(): void {

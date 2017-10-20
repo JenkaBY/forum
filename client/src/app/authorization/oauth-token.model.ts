@@ -1,6 +1,6 @@
 import { User } from "../model/user";
 
-export class OAuthToken {
+export class OAuthTokensResponse {
   "access_token": string;
   "token_type": string;
   "refresh_token": string;
