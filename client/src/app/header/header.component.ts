@@ -1,15 +1,30 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { AuthenticationService } from "../authorization/authentication.service";
+import { User } from "../model/user";
 
 @Component({
-    selector: 'forum-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css']
+  selector: 'forum-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-    isNavbarCollapsed = true;
-    @Output() onSwitchLang = new EventEmitter<string>();
+  isNavbarCollapsed = true;
+  isLangNavbarCollapsed = false;
+  @Output() onSwitchLang = new EventEmitter<string>();
 
-    switchLang(lang: string) {
-        this.onSwitchLang.emit(lang);
-    }
+
+  constructor(private authService: AuthenticationService) {
+  }
+
+  switchLang(lang: string) {
+    this.onSwitchLang.emit(lang);
+  }
+
+  get currentUser(): User {
+    return this.authService.currentUser;
+  }
+
+  onSignOut() {
+    this.authService.logout();
+  }
 }

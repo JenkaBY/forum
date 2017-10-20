@@ -1,69 +1,84 @@
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-    <button
-      class="navbar-toggler navbar-toggler-right"
-      type="button"
-      (click)="isNavbarCollapsed = !isNavbarCollapsed"
-      aria-controls="exCollapsingNavbarRight"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+  <button
+    class="navbar-toggler navbar-toggler-right"
+    type="button"
+    (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    aria-controls="exCollapsingNavbarRight"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
   <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbarLeft">
-        <div class="navbar-nav mr-auto">
-          <a class="nav-item nav-link"
-             routerLink="/"
-             routerLinkActive="active">
-            {{ 'NAV.TOPICS' | translate }}
-          </a>
-          <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
-            {{ 'NAV.MY_TOPICS' | translate }}
-          </a>
-          <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
-            {{ 'NAV.REQUEST' | translate }}
-          </a>
-          <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
-            {{ 'NAV.MANAGER_PANEL' | translate }}
-          </a>
-          <a class="nav-item nav-link" routerLink="/private" routerLinkActive="active">
-            Security
-          </a>
-          <a class="nav-item nav-link"
-             routerLink="admin"
-             routerLinkActive="active"
-          >
-            {{ 'NAV.ADMIN_PANEL' | translate }}
-          </a>
-        </div>
+    <div class="navbar-nav mr-auto">
+      <a class="nav-item nav-link"
+         routerLink="/"
+         routerLinkActive="active">
+        {{ 'NAV.TOPICS' | translate }}
+      </a>
+      <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+        {{ 'NAV.MY_TOPICS' | translate }}
+      </a>
+      <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+        {{ 'NAV.REQUEST' | translate }}
+      </a>
+      <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+        {{ 'NAV.MANAGER_PANEL' | translate }}
+      </a>
+      <a class="nav-item nav-link" routerLink="/private" routerLinkActive="active">
+        Security
+      </a>
+      <a class="nav-item nav-link"
+         routerLink="admin"
+         routerLinkActive="active"
+      >
+        {{ 'NAV.ADMIN_PANEL' | translate }}
+      </a>
     </div>
+  </div>
 
-    <a class="navbar-brand d-flex mx-auto" routerLink="/">Forum for Business</a>
+  <a class="navbar-brand d-flex mx-auto" routerLink="/">Forum for Business</a>
 
   <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbarRight">
-        <div class="navbar-nav ml-auto">
-            <div class="col">
-                <div ngbDropdown class="d-inline-block">
-                    <a ngbDropdownToggle
-                       class="nav-item nav-link"
-                       id="dropdownLangLinks"
-                       role="button">
-                        {{ 'NAV.LANG' | translate }}
-                    </a>
-                    <div ngbDropdownMenu
-                         aria-labelledby="dropdownLangLinks">
-                      <a class="nav-item nav-link" (click)="switchLang('en')" role="button">
-                        {{ 'LANG.EN' | translate }}
-                      </a>
-                      <a class="nav-item nav-link" (click)="switchLang('ru')" role="button">
-                        {{ 'LANG.RU' | translate }}
-                      </a>
-                    </div>
-                </div>
-            </div>
-
-          <a class="nav-item nav-link" routerLink="/login">{{ 'NAV.SIGN_IN' | translate }}</a>
-            <div *ngIf="isNavbarCollapsed" class="navbar-text"> {{ 'NAV.OR' | translate }}</div>
-          <a class="nav-item nav-link" routerLink="/signup">{{ 'NAV.SIGN_UP' | translate }}</a>
-            <a *ngIf="false" class="nav-item nav-link" routerLink="/">{{ 'NAV.SIGN_OUT' | translate }}</a>
+    <div class="navbar-nav ml-auto">
+      <div class="col">
+        <div ngbDropdown class="d-inline-block">
+          <a ngbDropdownToggle
+             class="nav-item nav-link"
+             id="dropdownLangLinks"
+             role="button">
+            {{ 'NAV.LANG' | translate }}
+          </a>
+          <div ngbDropdownMenu
+               aria-labelledby="dropdownLangLinks">
+            <a class="nav-item nav-link" (click)="switchLang('en')" role="button">
+              {{ 'LANG.EN' | translate }}
+            </a>
+            <a class="nav-item nav-link" (click)="switchLang('ru')" role="button">
+              {{ 'LANG.RU' | translate }}
+            </a>
+          </div>
         </div>
+      </div>
+
+      <div *ngIf="!currentUser; else currentUserTemplate" class="nav">
+        <a class="nav-item nav-link" routerLink="/login">{{ 'NAV.SIGN_IN' | translate }}</a>
+        <div *ngIf="isNavbarCollapsed" class="navbar-text"> {{ 'NAV.OR' | translate }}</div>
+        <a class="nav-item nav-link" routerLink="/signup">{{ 'NAV.SIGN_UP' | translate }}</a>
+      </div>
+
+      <ng-template #currentUserTemplate>
+        <div class="col-6">
+          <div ngbDropdown class="d-inline-block">
+            <a class="nav-item nav-link" id="dropdownProfile" ngbDropdownToggle role="button">{{ currentUser.name }}</a>
+            <div ngbDropdownMenu aria-labelledby="dropdownProfile">
+              <a class="nav-item nav-link" role="button">{{ 'NAV.PROFILE' | translate }}</a>
+              <a class="nav-item nav-link" (click)="onSignOut()" role="button">{{ 'NAV.SIGN_OUT' | translate }}</a>
+            </div>
+          </div>
+        </div>
+        <!--<a class="nav-item nav-link" (click)="onSignOut()" role="button"></a>-->
+      </ng-template>
+
     </div>
+  </div>
 </nav>

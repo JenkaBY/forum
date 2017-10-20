@@ -14,7 +14,7 @@ import { UserCredential } from "../user-credential.model";
 export class LoginComponent implements OnInit {
   userCredentialForm: FormGroup;
   userCredential: UserCredential;
-
+  invalidCredential: boolean;
   logging: boolean;
 
   constructor(/*@Inject('authenticationService') */private authService: AuthenticationService,
@@ -23,19 +23,27 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.invalidCredential = false;
     this.logging = false;
     this.initForm();
   }
 
   onLogin(): void {
-    // this.logging = true;
+    this.logging = true;
+    this.invalidCredential = false;
     this.userCredential = {email: this.email.value, password: this.password.value};
-    this.authService.login(this.userCredential);
-    // .then((token: OAuthTokensData) => {
-    //   console.log(token);
-    //   this.logging = false;
-    // })
-    // .catch(err => console.log('Error in login: ' + err));
+    this.authService.login(this.userCredential).subscribe(
+      (result: boolean) => {
+        console.log('next in login', result);
+        this.logging = false;
+        this.onBack();
+      },
+      (err) => {
+        this.invalidCredential = true;
+        this.logging = false;
+        console.log('error in login', err);
+      }
+    );
   }
 
   private initForm(): void {
@@ -59,5 +67,9 @@ export class LoginComponent implements OnInit {
 
   get password(): AbstractControl {
     return this.userCredentialForm.get('password');
+  }
+
+  onShowAlert() {
+    this.invalidCredential = !this.invalidCredential;
   }
 }

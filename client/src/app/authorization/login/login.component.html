@@ -1,4 +1,14 @@
 <div class="container">
+  <div class="row" *ngIf="invalidCredential">
+    <div class="col-12">
+      <p>
+        <ngb-alert [dismissible]="false">
+          {{ 'MESSAGE.INVALID_CREDENTIAL'| translate }}
+        </ngb-alert>
+      </p>
+    </div>
+  </div>
+
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="form-group">
@@ -47,8 +57,14 @@
               </button>
             </div>
             <div class="col-2">
-              <button type="button" class="btn btn-warning pull-right" (click)="onBack()">
+              <button type="button" class="btn btn-warning pull-2" (click)="onBack()">
                 {{ 'BUTTON.BACK'| translate }}
+              </button>
+            </div>
+            <!--TODO remove -->
+            <div class="col-2">
+              <button type="button" class="btn btn-info pull-right" (click)="onShowAlert()">
+                Show/hide alert
               </button>
             </div>
           </div>

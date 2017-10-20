@@ -22,7 +22,8 @@
     "SIGN_OUT": "Sign out",
     "SIGN_UP": "Sign up",
     "LANG": "Language",
-    "OR": "or"
+    "OR": "or",
+    "PROFILE": "Profile"
   },
   "LANG": {
     "EN": "En",
@@ -84,6 +85,7 @@
     "CONGRATULATION": "Congratulation!",
     "SUCCESSFULLY_CREATED_ACCOUNT": "Your account was successfully created. Please wait while an administrator will approve your registration.",
     "READ_FORUM": "Read are our forum for now!",
-    "TRY_LOGIN": "Try to log in a little bit later."
+    "TRY_LOGIN": "Try to log in a little bit later.",
+    "INVALID_CREDENTIAL": "Invalid email or password!"
   }
 }

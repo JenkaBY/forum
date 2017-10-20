@@ -20,8 +20,12 @@ const adminStr = 'ADMIN';
 const userStr = 'USER';
 const contentType = 'Content-Type';
 const accept = 'Accept';
+const bearer = 'Bearer ';
+const basic = 'Basic ';
 const authorization = 'Authorization';
 const jsonType = 'application/json';
+const en = 'en';
+const ru = 'ru';
 
 export class RoleConstant {
   static get manager(): string {
@@ -38,8 +42,24 @@ export class RoleConstant {
 }
 
 export class HeaderConst {
-  static get getAuthorization(): string {
+  static get authorization(): string {
     return authorization;
+  }
+
+  static get accept(): string {
+    return accept;
+  }
+
+  static get jsonType(): string {
+    return jsonType;
+  }
+
+  static get bearer(): string {
+    return bearer;
+  }
+
+  static get basic(): string {
+    return basic;
   }
 }
 
@@ -66,6 +86,16 @@ export class OAuthConst {
 
   static get getRefreshTokenStr(): string {
     return refreshToken;
+  }
+}
+
+export class LanguageConst {
+  static get en() {
+    return en;
+  }
+
+  static get ru() {
+    return ru;
   }
 }
 
