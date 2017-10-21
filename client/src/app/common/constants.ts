@@ -5,6 +5,7 @@ const maxSize = 5;
 const pageParam = 'page';
 const sortParam = 'sort';
 const sizeParam = 'size';
+const id = 'id';
 const minNameLength = {value: 4};
 const maxNameLength = {value: 20};
 const minPasswordLength = {value: 6};
@@ -100,16 +101,8 @@ export class LanguageConst {
 }
 
 export class Constants {
-  static get contentApplicationType(): string {
-    return contentType;
-  }
-
-  static get accept(): string {
-    return accept;
-  }
-
-  static get jsonType(): string {
-    return jsonType;
+  static get id(): string {
+    return id;
   }
 
   static get getMinNameLength(): { value: number } {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
 
 import { RoutesConstants } from '../common/routes.constants';
 import IAdminService from './interface/iadmin.service';
@@ -9,42 +10,30 @@ import { Page } from '../common/Page';
 @Injectable()
 export class AdminService implements IAdminService {
 
-    constructor(private  http: Http) {
+  constructor(private  http: HttpClient) {
     }
 
-    getAllUsers(urlParams?: URLSearchParams): Promise<Page<User>> {
-      return this.getUsersByUrl(RoutesConstants.ADMIN_ALL_USERS, urlParams);
+  getAllUsers(httpParams?: HttpParams): Observable<Page<User>> {
+    return this.getUsersByUrl(RoutesConstants.ADMIN_ALL_USERS, httpParams);
     }
 
-    getAllUsersPendingToApprove(urlParams?: URLSearchParams): Promise<Page<User>> {
-      return this.getUsersByUrl(RoutesConstants.ADMIN_USERS_PENDING_TO_APPROVE, urlParams);
+  getAllUsersPendingToApprove(httpParams?: HttpParams): Observable<Page<User>> {
+    return this.getUsersByUrl(RoutesConstants.ADMIN_USERS_PENDING_TO_APPROVE, httpParams);
     }
 
-    getUsersApprovedByMe(urlParams?: URLSearchParams): Promise<Page<User>> {
-      return this.getUsersByUrl(RoutesConstants.ADMIN_APPROVED_USERS, urlParams);
+  getUsersApprovedByMe(httpParams?: HttpParams): Observable<Page<User>> {
+    return this.getUsersByUrl(RoutesConstants.ADMIN_APPROVED_USERS, httpParams);
     }
 
-    getUsersRejectedByMe(urlParams?: URLSearchParams): Promise<Page<User>> {
-      return this.getUsersByUrl(RoutesConstants.ADMIN_REJECTED_USERS, urlParams);
+  getUsersRejectedByMe(httpParams?: HttpParams): Observable<Page<User>> {
+    return this.getUsersByUrl(RoutesConstants.ADMIN_REJECTED_USERS, httpParams);
     }
 
-    getAllBlockedUsers(urlParams?: URLSearchParams): Promise<Page<User>> {
-      return this.getUsersByUrl(RoutesConstants.ADMIN_BLOCKED_USERS, urlParams);
+  getAllBlockedUsers(httpParams?: HttpParams): Observable<Page<User>> {
+    return this.getUsersByUrl(RoutesConstants.ADMIN_BLOCKED_USERS + 'f', httpParams);
     }
 
-    private getUsersByUrl(urlRequest: string, urlParams?: URLSearchParams): Promise<Page<User>> {
-      const params = new RequestOptions({params: urlParams});
-      return this.http.get(urlRequest, params)
-            .toPromise()
-            .then(response => {
-              console.log(response.json());
-              return response.json();
-            })
-            .catch(error => this.errorHandle(error));
-    }
-
-    private errorHandle(error): Promise<Page<User>> {
-        console.log(error);
-        return null;
+  private getUsersByUrl(urlRequest: string, httpParams?: HttpParams): Observable<Page<User>> {
+    return this.http.get<Page<User>>(urlRequest, {params: httpParams});
     }
 }

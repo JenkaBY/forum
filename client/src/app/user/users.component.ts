@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { URLSearchParams } from '@angular/http';
+import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
 
@@ -36,56 +36,66 @@ export class UsersComponent implements OnInit {
     this.approvers = [];
     this.defineCurrentRouteStr();
     this.maxSize = Constants.getMaxSize;
-    this.fetchingData();
+    this.fetchData();
   }
 
-  private defineCurrentRouteStr() {
+  private defineCurrentRouteStr(): void {
     this.currentRoute = this.router.url.split('/').slice(-1)[0];
   }
 
-  getAll(urlParams?: URLSearchParams) {
-    this.adminService.getAllUsers(this.setUrlSearchParams(urlParams))
-      .then((page: Page<User>) => {
-        this.setPageData(page);
-      })
-      // TODO create flash message if something went wrong
-      .catch(err => console.log(err));
+  getAll(httpParams?: HttpParams): void {
+    this.adminService.getAllUsers(this.setHttpParams(httpParams))
+      .subscribe((page: Page<User>) => {
+          this.setPageData(page);
+        },
+        (err) => {
+          this.handleError(err);
+        });
+    // .then((page: Page<User>) => {
+    //   this.setPageData(page);
+    // })
+    // // TODO create flash message if something went wrong
+    // .catch(err => console.log(err));
   }
 
-  getPendingToApprove(urlParams?: URLSearchParams) {
-    this.adminService.getAllUsersPendingToApprove(this.setUrlSearchParams(urlParams))
-      .then((page: Page<User>) => {
-        this.setPageData(page);
-      })
-      // TODO create flash message if something went wrong
-      .catch(err => console.log(err));
+  getPendingToApprove(httpParams?: HttpParams) {
+    this.adminService.getAllUsersPendingToApprove(this.setHttpParams(httpParams))
+      .subscribe((page: Page<User>) => {
+          this.setPageData(page);
+        },
+        (err) => {
+          this.handleError(err);
+        });
   }
 
-  getRejectedUsers(urlParams?: URLSearchParams) {
-    this.adminService.getUsersRejectedByMe(this.setUrlSearchParams(urlParams))
-      .then((page: Page<User>) => {
-        this.setPageData(page);
-      })
-      // TODO create flash message if something went wrong
-      .catch(err => console.log(err));
+  getRejectedUsers(httpParams?: HttpParams) {
+    this.adminService.getUsersRejectedByMe(this.setHttpParams(httpParams))
+      .subscribe((page: Page<User>) => {
+          this.setPageData(page);
+        },
+        (err) => {
+          this.handleError(err);
+        });
   }
 
-  getUsersApprovedByMe(urlParams?: URLSearchParams) {
-    this.adminService.getUsersApprovedByMe(this.setUrlSearchParams(urlParams))
-      .then((page: Page<User>) => {
-        this.setPageData(page);
-      })
-      // TODO create flash message if something went wrong
-      .catch(err => console.log(err));
+  getUsersApprovedByMe(httpParams?: HttpParams) {
+    this.adminService.getUsersApprovedByMe(this.setHttpParams(httpParams))
+      .subscribe((page: Page<User>) => {
+          this.setPageData(page);
+        },
+        (err) => {
+          this.handleError(err);
+        });
   }
 
-  getBlockedUsers(urlParams?: URLSearchParams) {
-    this.adminService.getAllBlockedUsers(this.setUrlSearchParams(urlParams))
-      .then((page: Page<User>) => {
-        this.setPageData(page);
-      })
-      // TODO create flash message if something went wrong
-      .catch(err => console.log(err));
+  getBlockedUsers(httpParams?: HttpParams) {
+    this.adminService.getAllBlockedUsers(this.setHttpParams(httpParams))
+      .subscribe((page: Page<User>) => {
+          this.setPageData(page);
+        },
+        (err) => {
+          this.handleError(err);
+        });
   }
 
   onDelete(id: number) {
@@ -94,9 +104,8 @@ export class UsersComponent implements OnInit {
   }
 
   onPageChange() {
-    const params = new URLSearchParams();
-    params.append(Constants.getPageParam, String(this.currentPage - 1));
-    this.fetchingData(params);
+    const params = new HttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
+    this.fetchData(params);
   }
 
   private setPageData(page: Page<User>) {
@@ -120,35 +129,35 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  private setUrlSearchParams(urlParams?: URLSearchParams): URLSearchParams {
-    if (!urlParams) {
-      urlParams = new URLSearchParams();
+  private setHttpParams(httpParams?: HttpParams): HttpParams {
+    if (!httpParams) {
+      httpParams = new HttpParams();
     }
-    urlParams.append(Constants.getSortParam, 'id');
-    urlParams.append(Constants.getSizeParam, String(Constants.getPageSize));
-    return urlParams;
+    httpParams = httpParams.set(Constants.getSortParam, Constants.id)
+      .set(Constants.getSizeParam, String(Constants.getPageSize));
+    return httpParams;
   }
 
-  private fetchingData(urlParams?: URLSearchParams) {
+  private fetchData(httpParams?: HttpParams) {
     switch (this.currentRoute) {
       case RoutesConstants.users: {
-        this.getAll(urlParams);
+        this.getAll(httpParams);
         break;
       }
       case RoutesConstants.pending: {
-        this.getPendingToApprove(urlParams);
+        this.getPendingToApprove(httpParams);
         break;
       }
       case RoutesConstants.rejected: {
-        this.getRejectedUsers(urlParams);
+        this.getRejectedUsers(httpParams);
         break;
       }
       case RoutesConstants.approved: {
-        this.getUsersApprovedByMe(urlParams);
+        this.getUsersApprovedByMe(httpParams);
         break;
       }
       case RoutesConstants.blocked: {
-        this.getBlockedUsers(urlParams);
+        this.getBlockedUsers(httpParams);
         break;
       }
     }
@@ -191,5 +200,9 @@ export class UsersComponent implements OnInit {
           console.log("rejected user " + JSON.stringify(updatedUser))
         }
       ).catch(error => console.log(error))
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.log(error);
   }
 }
