@@ -1,61 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
 
 import ITopicService from './interface/itopic.service';
 import { Topic } from '../model/topic';
 import { RoutesConst } from '../common/routes.constants';
 import { Page } from "../model/page";
+import { HeaderConst } from "../common/constants";
 
 @Injectable()
 export class TopicService implements ITopicService {
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
 
-  constructor(private  http: Http) {
+  constructor(private  http: HttpClient) {
   }
 
-  getAllTopics(urlParams?: URLSearchParams): Promise<Page<Topic>> {
-    const params = new RequestOptions({params: urlParams});
-    console.log("service " + urlParams.toString());
-    return this.http.get(RoutesConst.ALL_TOPIC, params)
-      .toPromise()
-      .then(response => {
-        console.log("topic service " + response.json());
-        return response.json();
-      })
-      .catch(error => this.errorHandle(error));
+  getAllTopics(httpParams?: HttpParams): Observable<Page<Topic>> {
+    console.log("service", httpParams.toString());
+    return this.http.get(RoutesConst.ALL_TOPIC, {params: httpParams});
   }
 
-  getById(id: number): Promise<Topic> {
-    return this.http.get(RoutesConst.TOPIC + id)
-      .toPromise()
-      .then(response => {
-        console.log(response);
-        return response.json();
-      })
-      .catch((error: any) => this.errorHandle(error));
+  getById(id: number): Observable<Topic> {
+    return this.http.get(RoutesConst.TOPIC + id);
   }
 
-  deleteById(id: number): void {
-    throw new Error('Method not implemented.');
+  deleteById(id: number): any {
+    return this.http.delete(RoutesConst.TOPIC + id);
   }
 
 
-  update(topic: Topic): Promise<Topic> {
-    return this.http.put(RoutesConst.TOPIC + topic.id, JSON.stringify(topic), {headers: this.headers})
-      .toPromise()
-      .then(response => {
-        return response.json();
-      })
-      .catch(error => this.errorHandle(error));
+  update(topic: Topic): Observable<Topic> {
+    return this.http.put(RoutesConst.TOPIC + topic.id, JSON.stringify(topic), {headers: this.headers});
   }
 
-  create(topic: Topic): Promise<Topic> {
-    return null;
-  }
-
-  private errorHandle(error: any): Promise<Topic> {
-    console.log(error);
-    return null;
+  create(topic: Topic): Observable<Topic> {
+    return this.http.post<Topic>(RoutesConst.TOPIC, topic, {headers: this.headers});
   }
 }

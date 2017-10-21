@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { URLSearchParams } from '@angular/http';
+import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 
 import ITopicService from '../service/interface/itopic.service';
 import { Topic } from '../model/topic';
@@ -25,34 +25,32 @@ export class TopicsComponent implements OnInit {
 
   ngOnInit() {
     this.maxSize = Constants.getMaxSize;
-    this.getAll(this.setUrlSearchParams());
-    console.log("onInit " + JSON.stringify(this.setUrlSearchParams().toString()));
+    this.getAll(this.setHttpParams());
+    console.log("onInit " + JSON.stringify(this.setHttpParams().toString()));
   }
 
-  getAll(urlParams?: URLSearchParams): void {
-    console.log("getAll " + JSON.stringify(urlParams));
-    this.topicService.getAllTopics(urlParams)
-      .then((page: Page<Topic>) => {
-        this.setPageData(page);
-        // console.log(JSON.stringify(page))
-      })
-      .catch(error => console.log(error));
+  getAll(httpParams?: HttpParams): void {
+    console.log("getAll " + JSON.stringify(httpParams));
+    this.topicService.getAllTopics(httpParams)
+      .subscribe(
+        (page: Page<Topic>) => this.setPageData(page),
+        (error: HttpErrorResponse) => this.handleError(error)
+      );
   }
 
-  private setUrlSearchParams(urlParams?: URLSearchParams): URLSearchParams {
-    if (!urlParams) {
-      urlParams = new URLSearchParams();
+  private setHttpParams(httpParams?: HttpParams): HttpParams {
+    if (!httpParams) {
+      httpParams = new HttpParams();
     }
-    urlParams.append(Constants.getSortParam, 'id');
-    urlParams.append(Constants.getSizeParam, String(Constants.getPageSize));
-    console.log("setURLsearchParams " + JSON.stringify(urlParams.toString()));
-    return urlParams;
+    httpParams = httpParams.set(Constants.getSortParam, Constants.id)
+      .set(Constants.getSizeParam, String(Constants.getPageSize));
+    console.log("setHttpParams Topics", JSON.stringify(httpParams.toString()));
+    return httpParams;
   }
 
   onPageChange() {
-    const params = this.setUrlSearchParams();
-    params.append(Constants.getPageParam, String(this.currentPage - 1));
-    console.log("onChangePage " + JSON.stringify(params.toString()));
+    let params = this.setHttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
+    console.log("onChangePage ", JSON.stringify(params.toString()));
     this.getAll(params);
   }
 
@@ -61,5 +59,9 @@ export class TopicsComponent implements OnInit {
     this.currentPage = page.number + 1;
     this.totalElements = page.totalElements;
     this.pageSize = page.size;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.log(error);
   }
 }

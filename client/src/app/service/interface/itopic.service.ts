@@ -1,4 +1,5 @@
-import { URLSearchParams } from '@angular/http';
+import { HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
 
 import { Topic } from '../../model/topic';
 import { Page } from "../../model/page";
@@ -8,15 +9,15 @@ import { Page } from "../../model/page";
  */
 interface ITopicService {
 
-  getAllTopics(urlParams?: URLSearchParams): Promise<Page<Topic>>;
+  getAllTopics(urlParams?: HttpParams): Observable<Page<Topic>>;
 
-  getById(id: number): Promise<Topic>;
+  getById(id: number): Observable<Topic>;
 
-  deleteById(id: number): void;
+  deleteById(id: number): any;
 
-  // update(topic: Topic): Promise<Topic>;
+  update(topic: Topic): Observable<Topic>;
 
-  create(topic: Topic): Promise<Topic>;
+  create(topic: Topic): Observable<Topic>;
 }
 
 export default ITopicService;

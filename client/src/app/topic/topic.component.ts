@@ -39,7 +39,7 @@ export class TopicComponent implements OnInit {
     this.authorsMessages = new Array();
     this.initForm();
     this.setTopicId();
-    this.getTopic();
+    this.fetchTopic();
     this.getAllMessages(this.setHttpParams());
     console.log("onInit " + JSON.stringify(this.setHttpParams().toString()));
   }
@@ -51,10 +51,12 @@ export class TopicComponent implements OnInit {
         (error: HttpErrorResponse) => this.handleError(error));
   }
 
-  getTopic(): void {
+  fetchTopic(): void {
     this.topicService.getById(this.topicId)
-      .then(topic => this.topic = topic)
-      .catch(error => console.log(JSON.stringify(error)));
+      .subscribe(
+        (topic: Topic) => this.topic = topic,
+        (error: HttpErrorResponse) => this.handleError(error)
+      );
   }
 
   setTopicId(): void {
@@ -71,8 +73,7 @@ export class TopicComponent implements OnInit {
   }
 
   onPageChange() {
-    const params = this.setHttpParams();
-    params.append(Constants.getPageParam, String(this.currentPage - 1));
+    let params = this.setHttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
     console.log("onChangePage " + JSON.stringify(params.toString()));
     this.getAllMessages(params);
   }
