@@ -1,4 +1,4 @@
-export interface Page<T> {
+export class Page<T> {
     content: T[];
     first: boolean;
     last: boolean;

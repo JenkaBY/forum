@@ -1,5 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { Subscription } from "rxjs/Subscription";
 import { ActivatedRoute } from '@angular/router';
 
 import { Constants } from "../../shared/constants/constants";
@@ -16,7 +17,7 @@ import IUserService from "../../user/interface/iuser.service";
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.css']
 })
-export class TopicComponent implements OnInit {
+export class TopicComponent implements OnInit, OnDestroy {
   topic: Topic;
   topicId: number;
   messages: Message[];
@@ -25,6 +26,7 @@ export class TopicComponent implements OnInit {
   pageSize: number;
   maxSize: number;
   authorsMessages: User[];
+  subscription: Subscription;
 
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('topicService') private topicService: TopicService,
@@ -37,15 +39,30 @@ export class TopicComponent implements OnInit {
     this.authorsMessages = new Array();
     this.setTopicId();
     this.fetchTopic();
+    this.subscribeOnMessages();
     this.getAllMessages(this.setHttpParams());
-    console.log("onInit " + JSON.stringify(this.setHttpParams().toString()));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  subscribeOnMessages() {
+    this.subscription = this.messageService.messagesChanged
+      .subscribe((page: Page<Message>) => {
+          this.setPageData(page);
+          console.log(page);
+        },
+        (error) => {
+          this.handleError(error, 'susbcr')
+        })
   }
 
   getAllMessages(httpParams?: HttpParams): void {
-    this.messageService.getAllMessagesBy(this.topicId, httpParams)
-      .subscribe(
-        (page: Page<Message>) => this.setPageData(page),
-        (error: HttpErrorResponse) => this.handleError(error));
+    this.setPageData(this.messageService.getAllMessagesBy(this.topicId, httpParams))
+    // .subscribe(
+    //   (page: Page<Message>) => {},//this.setPageData(page),
+    //   (error: HttpErrorResponse) => this.handleError(error));
   }
 
   fetchTopic(): void {
@@ -103,7 +120,7 @@ export class TopicComponent implements OnInit {
     return this.authorsMessages.find((user: User) => user.id === id);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    console.error(error);
+  private handleError(error: HttpErrorResponse, msg?: string) {
+    console.error(error, msg);
   }
 }
