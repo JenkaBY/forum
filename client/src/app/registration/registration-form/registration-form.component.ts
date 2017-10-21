@@ -7,6 +7,8 @@ import IUserService from "../../service/interface/iuser.service";
 import { User } from "../../model/user";
 import { passwordsMatchValidator } from "../../shared/matched-passwords";
 import { Constants } from "../../common/constants";
+import { HttpErrorResponse } from "@angular/common/http";
+import { RoutesConst } from "../../common/routes.constants";
 
 @Component({
   selector: 'app-registration-form',
@@ -21,6 +23,7 @@ export class RegistrationFormComponent implements OnInit {
   minPasswordLength = {value: 6};
   maxPasswordLength = {value: 16};
   creating: boolean;
+  private mismatchStr = 'mismatch';
 
   constructor(@Inject('userService') private userService: IUserService,
               private router: Router,
@@ -38,15 +41,17 @@ export class RegistrationFormComponent implements OnInit {
     console.log(JSON.stringify(this.accountForm.value));
     this.convertFormToData();
     this.userService.create(this.account)
-      .then((user: User) => {
-        console.log(JSON.stringify(user));
-        this.creating = false;
-        this.redirectToInfoPage();
-      })
-      .catch(error => {
-        console.log(error);
-        this.creating = false;
-      });
+      .subscribe(
+        (user: User) => {
+          console.log(JSON.stringify(user));
+          this.creating = false;
+          this.redirectToInfoPage();
+        },
+        (error: HttpErrorResponse) => {
+          this.handleError(error);
+          this.creating = false;
+        }
+      );
   }
 
   private initForm(): void {
@@ -74,7 +79,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   private redirectToInfoPage(): void {
-    this.router.navigate(['congratulation']);
+    this.router.navigate([RoutesConst.congratulation]);
   }
 
   onCancel(): void {
@@ -98,7 +103,11 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   get passwordMismatch() {
-    return this.accountForm.errors && this.accountForm.errors['mismatch'] ?
-      this.accountForm.errors['mismatch'] : false;
+    return this.accountForm.errors && this.accountForm.errors[this.mismatchStr] ?
+      this.accountForm.errors[this.mismatchStr] : false;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.log(error);
   }
 }

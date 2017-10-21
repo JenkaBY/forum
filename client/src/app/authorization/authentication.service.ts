@@ -5,7 +5,7 @@ import 'rxjs/add/operator/do';
 
 import IUserService from "../service/interface/iuser.service";
 import { UserCredential } from "./user-credential.model";
-import { RoutesConstants } from "../common/routes.constants";
+import { RoutesConst } from "../common/routes.constants";
 import { OAuthTokensData } from "./oauth-token.model";
 import { AppConstant } from "../common/app-constant";
 import { User } from "../model/user";
@@ -32,7 +32,7 @@ export class AuthenticationService {
 
   // oauth/token?grant_type=refresh_token&refresh_token=094b7d23-973f-4cc1-83ad-8ffd43de184
   private requestOAuthToken(userCredential?: UserCredential): Observable<boolean> {
-    return this.http.post(RoutesConstants.OAUTH_TOKEN,
+    return this.http.post(RoutesConst.OAUTH_TOKEN,
       null,
       this.getAuthorizationParams(userCredential))
       .do((resInfo: OAuthTokensData) => {

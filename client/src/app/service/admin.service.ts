@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { RoutesConstants } from '../common/routes.constants';
+import { RoutesConst } from '../common/routes.constants';
 import IAdminService from './interface/iadmin.service';
 import { User } from '../model/user';
 import { Page } from '../common/Page';
@@ -14,23 +14,23 @@ export class AdminService implements IAdminService {
     }
 
   getAllUsers(httpParams?: HttpParams): Observable<Page<User>> {
-    return this.getUsersByUrl(RoutesConstants.ADMIN_ALL_USERS, httpParams);
+    return this.getUsersByUrl(RoutesConst.ADMIN_ALL_USERS, httpParams);
     }
 
   getAllUsersPendingToApprove(httpParams?: HttpParams): Observable<Page<User>> {
-    return this.getUsersByUrl(RoutesConstants.ADMIN_USERS_PENDING_TO_APPROVE, httpParams);
+    return this.getUsersByUrl(RoutesConst.ADMIN_USERS_PENDING_TO_APPROVE, httpParams);
     }
 
   getUsersApprovedByMe(httpParams?: HttpParams): Observable<Page<User>> {
-    return this.getUsersByUrl(RoutesConstants.ADMIN_APPROVED_USERS, httpParams);
+    return this.getUsersByUrl(RoutesConst.ADMIN_APPROVED_USERS, httpParams);
     }
 
   getUsersRejectedByMe(httpParams?: HttpParams): Observable<Page<User>> {
-    return this.getUsersByUrl(RoutesConstants.ADMIN_REJECTED_USERS, httpParams);
+    return this.getUsersByUrl(RoutesConst.ADMIN_REJECTED_USERS, httpParams);
     }
 
   getAllBlockedUsers(httpParams?: HttpParams): Observable<Page<User>> {
-    return this.getUsersByUrl(RoutesConstants.ADMIN_BLOCKED_USERS + 'f', httpParams);
+    return this.getUsersByUrl(RoutesConst.ADMIN_BLOCKED_USERS, httpParams);
     }
 
   private getUsersByUrl(urlRequest: string, httpParams?: HttpParams): Observable<Page<User>> {

@@ -4,6 +4,7 @@ import { Constants } from '../common/constants';
 import IMessageService from "../service/interface/imessage.service";
 import IUserService from "../service/interface/iuser.service";
 import { User } from "../model/user";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-message',
@@ -69,10 +70,11 @@ export class MessageComponent implements OnInit {
 
   private fetchAuthorData() {
     this.userService.getById(this.message.createdBy.id)
-      .then((user: User) => {
-        console.log(JSON.stringify(user));
-        this.authorMessage = user;
-      })
-      .catch(error => console.log(error))
+      .subscribe((user: User) => this.authorMessage = user,
+        (error: HttpErrorResponse) => this.handleError(error))
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.log(error);
   }
 }

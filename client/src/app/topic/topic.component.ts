@@ -11,6 +11,7 @@ import { TopicService } from '../service/topic.service';
 import { Page } from "../model/page";
 import { User } from "../model/user";
 import IUserService from "../service/interface/iuser.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-topic',
@@ -104,8 +105,8 @@ export class TopicComponent implements OnInit {
     this.messages.forEach((message: Message) => {
       if (!this.authorsMessages.map((author: User) => author.id).includes(message.createdBy.id)) {
         this.userService.getById(message.createdBy.id)
-          .then((user: User) => this.authorsMessages.push(user))
-          .catch(error => console.log("Can't retrieve author."))
+          .subscribe((user: User) => this.authorsMessages.push(user),
+            (error: HttpErrorResponse) => this.handleError(error));
       }
     })
   }
@@ -123,5 +124,9 @@ export class TopicComponent implements OnInit {
 
   onSendMsg() {
     console.log("onSendMessage")
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error(error);
   }
 }

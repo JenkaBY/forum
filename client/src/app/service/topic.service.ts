@@ -4,7 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 import ITopicService from './interface/itopic.service';
 import { Topic } from '../model/topic';
-import { RoutesConstants } from '../common/routes.constants';
+import { RoutesConst } from '../common/routes.constants';
 import { Page } from "../model/page";
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TopicService implements ITopicService {
   getAllTopics(urlParams?: URLSearchParams): Promise<Page<Topic>> {
     const params = new RequestOptions({params: urlParams});
     console.log("service " + urlParams.toString());
-    return this.http.get(RoutesConstants.ALL_TOPIC, params)
+    return this.http.get(RoutesConst.ALL_TOPIC, params)
       .toPromise()
       .then(response => {
         console.log("topic service " + response.json());
@@ -27,7 +27,7 @@ export class TopicService implements ITopicService {
   }
 
   getById(id: number): Promise<Topic> {
-    return this.http.get(RoutesConstants.TOPIC + id)
+    return this.http.get(RoutesConst.TOPIC + id)
       .toPromise()
       .then(response => {
         console.log(response);
@@ -42,7 +42,7 @@ export class TopicService implements ITopicService {
 
 
   update(topic: Topic): Promise<Topic> {
-    return this.http.put(RoutesConstants.TOPIC + topic.id, JSON.stringify(topic), {headers: this.headers})
+    return this.http.put(RoutesConst.TOPIC + topic.id, JSON.stringify(topic), {headers: this.headers})
       .toPromise()
       .then(response => {
         return response.json();

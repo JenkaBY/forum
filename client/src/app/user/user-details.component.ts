@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { HttpErrorResponse } from "@angular/common/http";
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
@@ -24,8 +25,13 @@ export class UserDetailsComponent implements OnInit {
   onSave() {
     this.joinUserData();
     this.userService.update(this.user)
-      .then(user => this.user = user)
-      .catch(error => console.log(error));
+      .subscribe((user: User) => {
+          this.user = user;
+        },
+        (error: HttpErrorResponse) => {
+          this.handleError(error);
+        }
+      )
   }
 
   ngOnInit() {
@@ -55,5 +61,9 @@ export class UserDetailsComponent implements OnInit {
     this.user.name = this.userForm.get('userData').value['name'];
     this.user.email = this.userForm.get('userData').value['email'];
     this.user.role.id = this.userForm.get('userDataManagement').value['role'];
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.log(error);
   }
 }

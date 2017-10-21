@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoutesConstants } from "../../common/routes.constants";
+import { RoutesConst } from "../../common/routes.constants";
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -15,7 +15,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.router.navigate([RoutesConstants.pending], {relativeTo: this.route});
+    this.router.navigate([RoutesConst.pending], {relativeTo: this.route});
   }
 
   ngOnDestroy() {

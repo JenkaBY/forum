@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { RoutesConstants } from '../common/routes.constants';
+import { RoutesConst } from '../common/routes.constants';
 import IMessageService from './interface/imessage.service';
 import { Topic } from '../model/topic';
 import { Message } from '../model/message';
@@ -18,7 +18,7 @@ export class MessageService implements IMessageService {
   getAllMessagesBy(topicId: number, urlParams?: URLSearchParams): Promise<Page<Message>> {
     const params = new RequestOptions({params: urlParams});
     console.log("service " + urlParams.toString());
-    return this.http.get(RoutesConstants.TOPIC + topicId + '/all', params)
+    return this.http.get(RoutesConst.TOPIC + topicId + '/all', params)
             .toPromise()
             .then(response => {
               console.log("from service " + response.json());
@@ -32,7 +32,7 @@ export class MessageService implements IMessageService {
     }
 
     updateMessage(message: Message): Promise<Message> {
-      return this.http.put(RoutesConstants.MESSAGE + message.id, JSON.stringify(message), {headers: this.headers})
+      return this.http.put(RoutesConst.MESSAGE + message.id, JSON.stringify(message), {headers: this.headers})
             .toPromise()
             .then(response => {
                 return response.json();

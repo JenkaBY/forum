@@ -1,79 +1,38 @@
-import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
 
-import { RoutesConstants } from '../common/routes.constants';
+import { RoutesConst } from '../common/routes.constants';
+import { HeaderConst } from "../common/constants";
 import { User } from '../model/user';
 import IUserService from './interface/iuser.service';
 import { Page } from '../common/Page';
 
 @Injectable()
 export class UserService implements IUserService {
-    private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
 
-    constructor(private  http: Http) {
+  constructor(private  http: HttpClient) {
     }
 
-    getAllUsers(urlParams?: URLSearchParams): Promise<Page<User>> {
-      const params = new RequestOptions({params: urlParams});
-      return this.http.get(RoutesConstants.ADMIN_ALL_USERS, params)
-            .toPromise()
-            .then(response => {
-              // TODO delete console log
-                console.log(response);
-                return response.json();
-            })
-            .catch(error => this.errorHandle(error));
+  getAllUsers(httpParams?: HttpParams): Observable<Page<User>> {
+    return this.http.get<Page<User>>(RoutesConst.ADMIN_ALL_USERS, {params: httpParams});
     }
 
-    getById(id: number): Promise<User> {
-      return this.http.get(RoutesConstants.USER + id)
-            .toPromise()
-            .then(response => {
-              // TODO delete console log
-              console.log("Response from getById", response);
-              return response.json();
-            })
-            .catch(error => this.errorHandle(error));
+  getById(id: number): Observable<User> {
+    return this.http.get<User>(RoutesConst.USER + id);
     }
 
-    deleteById(id: number): void {
-      const params = new RequestOptions({headers: this.headers});
-
-      this.http.delete(RoutesConstants.USER + id, params)
-            .subscribe(res => console.log(res.json()));
+  deleteById(id: number): any {
+    this.http.delete(RoutesConst.USER + id, {headers: this.headers});
     }
 
-
-    update(user: User): Promise<User> {
-      const params = new RequestOptions({headers: this.headers});
-      console.log("JSON: " + JSON.stringify(user));
-      return this.http.put(RoutesConstants.USER + user.id, JSON.stringify(user), params)
-            .toPromise()
-            .then(response => {
-              console.log(response.json());
-              return response.json();
-            })
-            .catch(error => this.errorHandle(error));
+  update(user: User): Observable<User> {
+    console.log("JSON: ", JSON.stringify(user));
+    return this.http.put<User>(RoutesConst.USER + user.id, JSON.stringify(user), {headers: this.headers});
     }
 
-  create(user: User): Promise<User> {
-      const params = new RequestOptions({headers: this.headers});
-      return this.http.post(RoutesConstants.CREATE_NEW_USER, JSON.stringify(user), params)
-        .toPromise()
-        .then(response => {
-          console.log(response.json());
-          return response.json();
-        })
-        .catch(error => {
-          // this.errorHandle(error);
-          return new Error(error);
-        });
-    }
-
-    private errorHandle(error): Promise<User> {
-      // TODO delete console log
-        console.log(error);
-        return null;
+  create(user: User): Observable<User> {
+    return this.http.post<User>(RoutesConst.CREATE_NEW_USER, JSON.stringify(user), {headers: this.headers});
     }
 }

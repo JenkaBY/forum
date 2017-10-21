@@ -55,6 +55,10 @@ export class HeaderConst {
     return jsonType;
   }
 
+  static get contentType(): string {
+    return contentType;
+  }
+
   static get bearer(): string {
     return bearer;
   }

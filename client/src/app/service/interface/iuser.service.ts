@@ -1,4 +1,5 @@
-import { URLSearchParams } from '@angular/http';
+import { Observable } from "rxjs/Observable";
+import { HttpParams } from "@angular/common/http";
 
 import { User } from '../../model/user';
 import { Page } from '../../common/Page';
@@ -9,36 +10,36 @@ import { Page } from '../../common/Page';
 interface IUserService {
     /**
      * Get all existing users
-     * @returns {Promise<User[]>}
+     * @returns {Observable<User[]>}
      * @see User
      */
-    getAllUsers(urlParams?: URLSearchParams): Promise<Page<User>>;
+    getAllUsers(httpParams?: HttpParams): Observable<Page<User>>;
 
     /**
      * Get user by id
-     * @returns {Promise<User>}
+     * @returns {Observable<User>}
      * @see User
      */
-    getById(id: number): Promise<User>;
+    getById(id: number): Observable<User>;
 
     /**
      * Delete user by id
      */
-    deleteById(id: number): void;
+    deleteById(id: number): any;
 
     /**
      * Update user by id. Uses PUT http verb
-     * @returns {Promise<User>}
+     * @returns {Observable<User>}
      * @see User
      */
-    update(user: User): Promise<User>;
+    update(user: User): Observable<User>;
 
     /**
      * Update user by id. Uses POST http verb
-     * @returns {Promise<User>}
+     * @returns {Observable<User>}
      * @see User
      */
-    create(user: User): Promise<User> | any;
+    create(user: User): Observable<User>;
 }
 
 export default IUserService;

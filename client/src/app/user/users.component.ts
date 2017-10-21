@@ -8,7 +8,7 @@ import IUserService from '../service/interface/iuser.service';
 import { Page } from '../common/Page';
 import { User } from '../model/user';
 import { Constants } from '../common/constants';
-import { RoutesConstants } from "../common/routes.constants";
+import { RoutesConst } from "../common/routes.constants";
 
 @Component({
   selector: 'app-users',
@@ -123,8 +123,14 @@ export class UsersComponent implements OnInit {
           return id === admin.id
         })) {
         this.userService.getById(id)
-          .then((user: User) => this.approvers.push(user))
-          .catch((error: any) => console.log("error from setPage " + error))
+          .subscribe(
+            (user: User) => {
+              this.approvers.push(user);
+            },
+            (error => {
+              this.handleError(error);
+            })
+          )
       }
     }
   }
@@ -140,23 +146,23 @@ export class UsersComponent implements OnInit {
 
   private fetchData(httpParams?: HttpParams) {
     switch (this.currentRoute) {
-      case RoutesConstants.users: {
+      case RoutesConst.users: {
         this.getAll(httpParams);
         break;
       }
-      case RoutesConstants.pending: {
+      case RoutesConst.pending: {
         this.getPendingToApprove(httpParams);
         break;
       }
-      case RoutesConstants.rejected: {
+      case RoutesConst.rejected: {
         this.getRejectedUsers(httpParams);
         break;
       }
-      case RoutesConstants.approved: {
+      case RoutesConst.approved: {
         this.getUsersApprovedByMe(httpParams);
         break;
       }
-      case RoutesConstants.blocked: {
+      case RoutesConst.blocked: {
         this.getBlockedUsers(httpParams);
         break;
       }
@@ -173,33 +179,44 @@ export class UsersComponent implements OnInit {
   onBlock(user: User) {
     user.blocked = !user.blocked;
     this.userService.update(user)
-      .then((updatedUser: User) => {
+      .subscribe(
+        (_: User) => {
           this.onPageChange();
-          console.log("updated user " + updatedUser)
-        }
-      ).catch(error => console.log(error))
+          console.log("rejected user " + JSON.stringify(_))
+        },
+        (error => {
+          this.handleError(error);
+        })
+      );
   }
 
   onApprove(user: User) {
     console.log("onApprove user.")
     user.rejected = false;
-    // user.approvers = this.authService.currentUser();
     this.userService.update(user)
-      .then((updatedUser: User) => {
+      .subscribe(
+        (_: User) => {
           this.onPageChange();
-          console.log("updated user " + updatedUser)
-        }
-      ).catch(error => console.log(error))
+          console.log("rejected user " + JSON.stringify(_))
+        },
+        (error => {
+          this.handleError(error);
+        })
+      );
   }
 
   onReject(user: User) {
     user.rejected = !user.rejected;
     this.userService.update(user)
-      .then((updatedUser: User) => {
+      .subscribe(
+        (_: User) => {
           this.onPageChange();
-          console.log("rejected user " + JSON.stringify(updatedUser))
-        }
-      ).catch(error => console.log(error))
+          console.log("rejected user " + JSON.stringify(_))
+        },
+        (error => {
+          this.handleError(error);
+        })
+      );
   }
 
   private handleError(error: HttpErrorResponse) {
