@@ -14,13 +14,18 @@ const TOKEN = 'token';
 const OAUTH = 'oauth';
 const CONGRATULATION = 'congratulation'
 const PROJECT_NAME = '';
+const LOGOUT = 'logout';
 
 export class RoutesConst {
+  static LOGOUT: string;
 
   static get PROJECT_NAME(): string {
     return PROJECT_NAME;
   }
 
+  static get logout() {
+    return RoutesConst.routeFormatOne(LOGOUT);
+  }
 
   static get congratulation(): string {
     return CONGRATULATION;

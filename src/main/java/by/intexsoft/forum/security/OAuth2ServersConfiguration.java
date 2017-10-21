@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
  * Этот класс служит для объединения двух классов конфигурации...из за того что TokenStore должен
@@ -72,6 +73,13 @@ public class OAuth2ServersConfiguration {
 
         private static final String RESOURCE_ID = "oauth2_api";
 
+        private LogoutSuccessHandler logoutSuccessHandler;
+
+        @Autowired
+        public ResourceServerConfiguration(@Qualifier("restLogoutSuccessHandler") LogoutSuccessHandler logoutSuccessHandler) {
+            this.logoutSuccessHandler = logoutSuccessHandler;
+        }
+
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
             resources.resourceId(RESOURCE_ID).stateless(false);
@@ -82,10 +90,16 @@ public class OAuth2ServersConfiguration {
             http
                     .authorizeRequests()
                     .antMatchers("/api/private").authenticated()
-//                    .antMatchers("/user/**").access("hasRole('ROLE_ADMIN')")
-//                    .antMatchers("/allowed-for-user/**").access("hasRole('ROLE_USER')")
+                    //                            .antMatchers("/user/**").access("hasRole('ROLE_ADMIN')")
+                    //                            .antMatchers("/allowed-for-user/**").access("hasRole('ROLE_USER')")
                     .antMatchers("/**").permitAll()
                     .antMatchers("/asset/**").permitAll()
+                    .and()
+                    .logout()
+                    .logoutUrl("/api/logout")
+                    .logoutSuccessUrl("/")
+                    .logoutSuccessHandler(this.logoutSuccessHandler)
+                    .permitAll()
                     .and()
                     .exceptionHandling()
                     .accessDeniedHandler(new OAuth2AccessDeniedHandler());
