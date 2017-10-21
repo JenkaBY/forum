@@ -22,7 +22,7 @@ import { TestComponent } from './test/test.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { AuthenticationService } from "./authorization/authentication.service";
 import { AuthInterceptor } from "./shared/AuthInterceptor";
-import { MessageFormComponent } from './message/message-form/message-form.component';
+import { NewMessageFormComponent } from './message/new-message-form/new-message-form.component';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -36,7 +36,7 @@ export function createTranslateLoader(http: Http) {
     HeaderComponent,
     TestComponent,
     LoginComponent,
-    MessageFormComponent
+    NewMessageFormComponent
   ],
   imports: [
     BrowserModule,

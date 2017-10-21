@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import ITopicService from '../service/interface/itopic.service';
+import ITopicService from './interface/itopic.service';
 import { Topic } from '../model/topic';
 import { RoutesConst } from '../common/routes.constants';
 import { Page } from "../model/page";

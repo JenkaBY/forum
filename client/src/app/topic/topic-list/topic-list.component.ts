@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 
-import ITopicService from '../../service/interface/itopic.service';
+import ITopicService from '../interface/itopic.service';
 import { Topic } from '../../model/topic';
 import { Constants } from "../../common/constants";
 import { Page } from "../../model/page";
