@@ -1,18 +1,18 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 
-import ITopicService from '../service/interface/itopic.service';
-import { Topic } from '../model/topic';
-import { Constants } from "../common/constants";
-import { Page } from "../model/page";
+import ITopicService from '../../service/interface/itopic.service';
+import { Topic } from '../../model/topic';
+import { Constants } from "../../common/constants";
+import { Page } from "../../model/page";
 
 @Component({
   selector: 'forum-topics',
-  templateUrl: './topics.component.html',
-  styleUrls: ['./topics.component.css']
+  templateUrl: './topic-list.component.html',
+  styleUrls: ['./topic-list.component.css']
 })
 
-export class TopicsComponent implements OnInit {
+export class TopicListComponent implements OnInit {
   topics: Topic[];
   topic: Topic;
   currentPage: number;

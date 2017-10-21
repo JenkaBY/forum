@@ -32,18 +32,19 @@ export class LoginComponent implements OnInit {
     this.logging = true;
     this.invalidCredential = false;
     this.userCredential = {email: this.email.value, password: this.password.value};
-    this.authService.login(this.userCredential).subscribe(
-      (result: boolean) => {
-        console.log('next in login', result);
-        this.logging = false;
-        this.onBack();
-      },
-      (err) => {
-        this.invalidCredential = true;
-        this.logging = false;
-        console.log('error in login', err);
-      }
-    );
+    this.authService.login(this.userCredential)
+      .subscribe(
+        (result: boolean) => {
+          console.log('next in login', result);
+          this.logging = false;
+          this.onBack();
+        },
+        (err) => {
+          this.invalidCredential = true;
+          this.logging = false;
+          console.log('error in login', err);
+        }
+      );
   }
 
   private initForm(): void {
@@ -57,6 +58,7 @@ export class LoginComponent implements OnInit {
     this.location.back();
   }
 
+  //TODO remove
   private redirectToSecretPage(): void {
     this.router.navigate(['private']);
   }

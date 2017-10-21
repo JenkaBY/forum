@@ -4,27 +4,25 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { Http, HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { TranslateLoader, TranslateModule, TranslateStaticLoader } from 'ng2-translate';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { UserService } from './service/user.service';
-import { AppRoutingModule } from './app-routing.module';
 import { UserDetailsComponent } from './user/user-details.component';
 import { UsersComponent } from './user/users.component';
-import { TopicService } from './service/topic.service';
-import { TopicsComponent } from './topics/topics.component';
-import { TopicComponent } from './topic/topic.component';
 import { MessageService } from './service/message.service';
-import { MessageComponent } from './message/message.component';
 import { AdminModule } from './admin/admin.module';
+import { TopicModule } from "./topic/topic.module";
 import { AdminService } from './service/admin.service';
 import { RegistrationModule } from "./registration/registration.module";
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { AuthenticationService } from "./authorization/authentication.service";
 import { AuthInterceptor } from "./shared/AuthInterceptor";
+import { MessageFormComponent } from './message/message-form/message-form.component';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -35,12 +33,10 @@ export function createTranslateLoader(http: Http) {
     AppComponent,
     UsersComponent,
     UserDetailsComponent,
-    TopicsComponent,
-    TopicComponent,
-    MessageComponent,
     HeaderComponent,
     TestComponent,
-    LoginComponent
+    LoginComponent,
+    MessageFormComponent
   ],
   imports: [
     BrowserModule,
@@ -51,9 +47,11 @@ export function createTranslateLoader(http: Http) {
     ReactiveFormsModule,
     AdminModule,
     RegistrationModule,
+    TopicModule,
     AppRoutingModule,
     NgbModule.forRoot(),
-    TranslateModule.forRoot({
+    TranslateModule.forRoot(
+      {
       provide: TranslateLoader,
       useFactory: (createTranslateLoader),
       deps: [Http]
@@ -67,7 +65,6 @@ export function createTranslateLoader(http: Http) {
     },
     AuthenticationService,
     {provide: 'userService', useClass: UserService},
-    {provide: 'topicService', useClass: TopicService},
     {provide: 'adminService', useClass: AdminService},
     {provide: 'messageService', useClass: MessageService}
   ],
