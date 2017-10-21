@@ -44,6 +44,7 @@ export class NewMessageFormComponent implements OnInit {
         (data) => {
           console.log(data);
           this.creating = false;
+          this.msgForm.get('text').patchValue(null);
         },
         (error) => {
           this.handleError(error);
