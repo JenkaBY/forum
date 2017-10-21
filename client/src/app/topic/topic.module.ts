@@ -7,15 +7,18 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { TopicComponent } from "./topic/topic.component";
 import { TopicListComponent } from "./topic-list/topic-list.component";
-import { MessageComponent } from "../message/message.component";
 import { TopicService } from "./topic.service";
+import { MessageModule } from "../message/message.module";
+import { MessageService } from "../message/message.service";
+import { MessageComponent } from "../message/message-in-topic/message.component";
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    FormsModule,
     ReactiveFormsModule,
+    FormsModule,
+    RouterModule,
+    MessageModule,
     TranslateModule,
     NgbModule
   ],
@@ -25,7 +28,8 @@ import { TopicService } from "./topic.service";
     MessageComponent
   ],
   providers: [
-    {provide: 'topicService', useClass: TopicService}
+    {provide: 'topicService', useClass: TopicService},
+    {provide: 'messageService', useClass: MessageService}
   ]
 })
 export class TopicModule {

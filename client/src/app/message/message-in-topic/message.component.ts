@@ -1,11 +1,11 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { HttpErrorResponse } from "@angular/common/http";
 
-import IMessageService from "../service/interface/imessage.service";
-import IUserService from "../service/interface/iuser.service";
-import { Message } from '../model/message';
-import { Constants } from '../common/constants';
-import { User } from "../model/user";
+import IMessageService from "../interface/imessage.service";
+import IUserService from "../../service/interface/iuser.service";
+import { Message } from '../../model/message';
+import { Constants } from '../../common/constants';
+import { User } from "../../model/user";
 
 @Component({
   selector: 'app-message',

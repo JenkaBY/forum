@@ -13,7 +13,6 @@ import { HeaderComponent } from './header/header.component';
 import { UserService } from './service/user.service';
 import { UserDetailsComponent } from './user/user-details.component';
 import { UsersComponent } from './user/users.component';
-import { MessageService } from './service/message.service';
 import { AdminModule } from './admin/admin.module';
 import { TopicModule } from "./topic/topic.module";
 import { AdminService } from './service/admin.service';
@@ -22,7 +21,6 @@ import { TestComponent } from './test/test.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { AuthenticationService } from "./authorization/authentication.service";
 import { AuthInterceptor } from "./shared/AuthInterceptor";
-import { NewMessageFormComponent } from './message/new-message-form/new-message-form.component';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -35,8 +33,7 @@ export function createTranslateLoader(http: Http) {
     UserDetailsComponent,
     HeaderComponent,
     TestComponent,
-    LoginComponent,
-    NewMessageFormComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -65,8 +62,7 @@ export function createTranslateLoader(http: Http) {
     },
     AuthenticationService,
     {provide: 'userService', useClass: UserService},
-    {provide: 'adminService', useClass: AdminService},
-    {provide: 'messageService', useClass: MessageService}
+    {provide: 'adminService', useClass: AdminService}
   ],
   bootstrap: [AppComponent]
 })

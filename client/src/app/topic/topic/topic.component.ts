@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Constants } from "../../common/constants";
 import { Topic } from '../../model/topic';
 import { Message } from '../../model/message';
-import IMessageService from '../../service/interface/imessage.service';
+import IMessageService from '../../message/interface/imessage.service';
 import { TopicService } from '../topic.service';
 import { Page } from "../../model/page";
 import { User } from "../../model/user";
