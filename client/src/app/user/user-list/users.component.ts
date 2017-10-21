@@ -3,12 +3,12 @@ import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
 
-import IAdminService from '../service/interface/iadmin.service';
-import IUserService from '../service/interface/iuser.service';
-import { Page } from '../common/Page';
-import { User } from '../model/user';
-import { Constants } from '../common/constants';
-import { RoutesConst } from "../common/routes.constants";
+import IAdminService from '../../admin/interface/iadmin.service';
+import IUserService from '../interface/iuser.service';
+import { Page } from '../../shared/entity/page';
+import { User } from '../../shared/entity/user';
+import { Constants } from '../../shared/constants/constants';
+import { RoutesConst } from "../../shared/constants/routes.constants";
 
 @Component({
   selector: 'app-users',

@@ -4,9 +4,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
 
-import { User } from '../model/user';
-import IUserService from '../service/interface/iuser.service';
-import { Constants } from "../common/constants";
+import { User } from '../../shared/entity/user';
+import IUserService from '../interface/iuser.service';
+import { Constants } from "../../shared/constants/constants";
 
 @Component({
   selector: 'forum-user-details',

@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 
 import ITopicService from '../interface/itopic.service';
-import { Topic } from '../../model/topic';
-import { Constants } from "../../common/constants";
-import { Page } from "../../model/page";
+import { Topic } from '../../shared/entity/topic';
+import { Constants } from "../../shared/constants/constants";
+import { Page } from "../../shared/entity/page";
 
 @Component({
   selector: 'forum-topics',

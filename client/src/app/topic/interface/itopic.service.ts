@@ -1,8 +1,8 @@
 import { HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { Topic } from '../../model/topic';
-import { Page } from "../../model/page";
+import { Topic } from '../../shared/entity/topic';
+import { Page } from "../../shared/entity/page";
 
 /**
  * Service for Topic

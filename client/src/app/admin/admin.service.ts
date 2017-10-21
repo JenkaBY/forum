@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { RoutesConst } from '../common/routes.constants';
+import { RoutesConst } from '../shared/constants/routes.constants';
 import IAdminService from './interface/iadmin.service';
-import { User } from '../model/user';
-import { Page } from '../common/Page';
+import { User } from '../shared/entity/user';
+import { Page } from '../shared/entity/page';
 
 @Injectable()
 export class AdminService implements IAdminService {

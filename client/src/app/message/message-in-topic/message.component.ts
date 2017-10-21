@@ -2,10 +2,10 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { HttpErrorResponse } from "@angular/common/http";
 
 import IMessageService from "../interface/imessage.service";
-import IUserService from "../../service/interface/iuser.service";
-import { Message } from '../../model/message';
-import { Constants } from '../../common/constants';
-import { User } from "../../model/user";
+import IUserService from "../../user/interface/iuser.service";
+import { Message } from '../../shared/entity/message';
+import { Constants } from '../../shared/constants/constants';
+import { User } from "../../shared/entity/user";
 
 @Component({
   selector: 'app-message',

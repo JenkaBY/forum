@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { RoutesConst } from '../common/routes.constants';
+import { RoutesConst } from '../shared/constants/routes.constants';
 import IMessageService from './interface/imessage.service';
-import { Topic } from '../model/topic';
-import { Message } from '../model/message';
-import { Page } from "../model/page";
-import { HeaderConst } from "../common/constants";
+import { Topic } from '../shared/entity/topic';
+import { Message } from '../shared/entity/message';
+import { Page } from "../shared/entity/page";
+import { HeaderConst } from "../shared/constants/constants";
 
 @Injectable()
 export class MessageService implements IMessageService {

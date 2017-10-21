@@ -3,14 +3,14 @@ import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from '@angular/router';
 
-import { Constants } from "../../common/constants";
-import { Topic } from '../../model/topic';
-import { Message } from '../../model/message';
+import { Constants } from "../../shared/constants/constants";
+import { Topic } from '../../shared/entity/topic';
+import { Message } from '../../shared/entity/message';
 import IMessageService from '../../message/interface/imessage.service';
 import { TopicService } from '../topic.service';
-import { Page } from "../../model/page";
-import { User } from "../../model/user";
-import IUserService from "../../service/interface/iuser.service";
+import { Page } from "../../shared/entity/page";
+import { User } from "../../shared/entity/user";
+import IUserService from "../../user/interface/iuser.service";
 
 @Component({
   selector: 'app-topic',

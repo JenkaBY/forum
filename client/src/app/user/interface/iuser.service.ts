@@ -1,8 +1,8 @@
 import { Observable } from "rxjs/Observable";
 import { HttpParams } from "@angular/common/http";
 
-import { User } from '../../model/user';
-import { Page } from '../../common/Page';
+import { User } from '../../shared/entity/user';
+import { Page } from '../../shared/entity/page';
 
 /**
  * Service for User

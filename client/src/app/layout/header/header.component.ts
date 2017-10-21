@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AuthenticationService } from "../authorization/authentication.service";
-import { User } from "../model/user";
+import { AuthenticationService } from "../../authorization/authentication.service";
+import { User } from "../../shared/entity/user";
 
 @Component({
   selector: 'forum-header',

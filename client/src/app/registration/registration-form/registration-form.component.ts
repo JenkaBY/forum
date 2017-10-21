@@ -3,12 +3,12 @@ import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 
-import IUserService from "../../service/interface/iuser.service";
-import { User } from "../../model/user";
+import IUserService from "../../user/interface/iuser.service";
+import { User } from "../../shared/entity/user";
 import { passwordsMatchValidator } from "../../shared/matched-passwords";
-import { Constants } from "../../common/constants";
+import { Constants } from "../../shared/constants/constants";
 import { HttpErrorResponse } from "@angular/common/http";
-import { RoutesConst } from "../../common/routes.constants";
+import { RoutesConst } from "../../shared/constants/routes.constants";
 
 @Component({
   selector: 'app-registration-form',

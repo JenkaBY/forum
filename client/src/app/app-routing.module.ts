@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
-import { UserDetailsComponent } from './user/user-details.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { AdminRoutesModule } from './admin/admin-routes.module';
 import { RegistrationRoutesModule } from "./registration/registration-routes.module";
 import { TestComponent } from "./test/test.component";

@@ -5,13 +5,13 @@ import { Observable } from "rxjs/Observable";
 import 'rxjs/observable/of';
 import 'rxjs/add/operator/do';
 
-import IUserService from "../service/interface/iuser.service";
+import IUserService from "../user/interface/iuser.service";
 import { UserCredential } from "./user-credential.model";
-import { RoutesConst } from "../common/routes.constants";
+import { RoutesConst } from "../shared/constants/routes.constants";
 import { OAuthTokensData } from "./oauth-token.model";
-import { AppConstant } from "../common/app-constant";
-import { User } from "../model/user";
-import { HeaderConst, OAuthConst, RoleConstant } from "../common/constants";
+import { AppConstant } from "../shared/constants/app-constant";
+import { User } from "../shared/entity/user";
+import { HeaderConst, OAuthConst, RoleConstant } from "../shared/constants/constants";
 
 @Injectable()
 export class AuthenticationService {

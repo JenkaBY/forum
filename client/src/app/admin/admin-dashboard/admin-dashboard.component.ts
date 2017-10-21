@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoutesConst } from "../../common/routes.constants";
+import { RoutesConst } from "../../shared/constants/routes.constants";
 
 @Component({
   selector: 'app-admin-dashboard',

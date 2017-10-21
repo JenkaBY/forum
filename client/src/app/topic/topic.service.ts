@@ -3,10 +3,10 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
 import ITopicService from './interface/itopic.service';
-import { Topic } from '../model/topic';
-import { RoutesConst } from '../common/routes.constants';
-import { Page } from "../model/page";
-import { HeaderConst } from "../common/constants";
+import { Topic } from '../shared/entity/topic';
+import { RoutesConst } from '../shared/constants/routes.constants';
+import { Page } from "../shared/entity/page";
+import { HeaderConst } from "../shared/constants/constants";
 
 @Injectable()
 export class TopicService implements ITopicService {

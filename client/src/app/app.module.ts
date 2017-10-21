@@ -9,13 +9,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HeaderComponent } from './header/header.component';
-import { UserService } from './service/user.service';
-import { UserDetailsComponent } from './user/user-details.component';
-import { UsersComponent } from './user/users.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { UserService } from './user/user.service';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UsersComponent } from './user/user-list/users.component';
 import { AdminModule } from './admin/admin.module';
 import { TopicModule } from "./topic/topic.module";
-import { AdminService } from './service/admin.service';
+import { AdminService } from './admin/admin.service';
 import { RegistrationModule } from "./registration/registration.module";
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './authorization/login/login.component';

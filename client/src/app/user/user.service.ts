@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { RoutesConst } from '../common/routes.constants';
-import { HeaderConst } from "../common/constants";
-import { User } from '../model/user';
+import { RoutesConst } from '../shared/constants/routes.constants';
+import { HeaderConst } from "../shared/constants/constants";
+import { User } from '../shared/entity/user';
 import IUserService from './interface/iuser.service';
-import { Page } from '../common/Page';
+import { Page } from '../shared/entity/page';
 
 @Injectable()
 export class UserService implements IUserService {
