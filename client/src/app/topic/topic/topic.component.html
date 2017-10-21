@@ -1,10 +1,10 @@
 <div class="container mt-2">
-  <div class="row" *ngIf="topic">
+  <div class="row" *ngIf="messages && messages.length > 0">
     <div class="col-12 mb-0" *ngFor="let messageEl of messages;">
       <app-message [message]="messageEl" [topicTitle]="topic.title"></app-message>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="messages && messages.length > 0">
     <div class="col-12 d-flex justify-content-left mt-3">
       <ngb-pagination
         *ngIf="messages"
@@ -17,22 +17,9 @@
     </div>
   </div>
 
-  <form *ngIf="messages"
-        [formGroup]="msgForm"
-        (ngSubmit)="onSendMsg()">
-    <div class="form-group" formGroupName="msgData">
-      <textarea class="form-control"
-                id="newMessage"
-                rows="7"
-                cols="150"
-                formControlName="text"
-                placeholder="{{ 'PLACEHOLDER.TYPE_TEXT'| translate }}">
-      </textarea>
+  <div class="h4" *ngIf="messages && messages.length == 0">
+    <p>{{ "MESSAGE.NO_MESSAGES"| translate }}</p>
     </div>
-    <div class="row">
-      <div class="col">
-        <button type="submit" class="btn btn-success">{{ 'BUTTON.SEND'| translate }}</button>
-      </div>
-    </div>
-  </form>
+
+  <app-new-message-form *ngIf="messages" [topic]="topic"></app-new-message-form>
 </div>

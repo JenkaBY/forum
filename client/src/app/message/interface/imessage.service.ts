@@ -1,7 +1,5 @@
 import { HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
-
-import { Topic } from '../../shared/entity/topic';
 import { Message } from '../../shared/entity/message';
 import { Page } from "../../shared/entity/page";
 
@@ -13,7 +11,7 @@ interface IMessageService {
 
   getAllMessagesBy(topicId: number, httpParams?: HttpParams): Observable<Page<Message>>;
 
-  createMessage(topic: Topic, message: Message): Observable<Message>;
+  createMessage(message: Message): Observable<Message>;
 
   updateMessage(message: Message): Observable<Message>;
 

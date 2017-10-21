@@ -4,7 +4,6 @@ import { Observable } from "rxjs/Observable";
 
 import { RoutesConst } from '../shared/constants/routes.constants';
 import IMessageService from './interface/imessage.service';
-import { Topic } from '../shared/entity/topic';
 import { Message } from '../shared/entity/message';
 import { Page } from "../shared/entity/page";
 import { HeaderConst } from "../shared/constants/constants";
@@ -31,7 +30,7 @@ export class MessageService implements IMessageService {
       {headers: this.headers});
   }
 
-  createMessage(topic: Topic, message: Message): Observable<Message> {
-    return this.http.post(RoutesConst.MESSAGE, topic);
+  createMessage(message: Message): Observable<Message> {
+    return this.http.post<Message>(RoutesConst.CREATE_NEW_MESSAGE, message);
   }
 }

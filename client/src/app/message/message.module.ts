@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from "ng2-translate";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { NewMessageFormComponent } from "./new-message-form/new-message-form.component";
-
 @NgModule({
   imports: [
     CommonModule,
@@ -14,7 +12,6 @@ import { NewMessageFormComponent } from "./new-message-form/new-message-form.com
     TranslateModule
   ],
   declarations: [
-    NewMessageFormComponent
   ]
 })
 export class MessageModule {

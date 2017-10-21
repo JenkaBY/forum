@@ -75,6 +75,10 @@ export class RoutesConst {
     return this.routeFormatOne(MESSAGE);
   }
 
+  static get CREATE_NEW_MESSAGE(): string {
+    return this.routeFormatTwo(MESSAGE, NEW);
+  }
+
   static get users(): string {
     return USERS;
   }

@@ -7,8 +7,11 @@ import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.ResponseEntity.ok;
@@ -42,5 +45,15 @@ public class MessageController {
         Message updatedMessage = messageService.save(message);
 
         return ok(updatedMessage);
+    }
+
+    @PostMapping(path = "/message/new")
+    public ResponseEntity<?> createMessage(@RequestBody Message message) {
+        if (Objects.isNull(message) || message.createdBy.getId() <= 0 || Objects.isNull(message.createdBy)) {
+            LOGGER.warn("Attempt to create message message = {1}", message);
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
+        Message updatedMessage = messageService.save(message);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

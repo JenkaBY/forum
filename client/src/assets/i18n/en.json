@@ -86,6 +86,7 @@
     "SUCCESSFULLY_CREATED_ACCOUNT": "Your account was successfully created. Please wait while an administrator will approve your registration.",
     "READ_FORUM": "Read are our forum for now!",
     "TRY_LOGIN": "Try to log in a little bit later.",
-    "INVALID_CREDENTIAL": "Invalid email or password!"
+    "INVALID_CREDENTIAL": "Invalid email or password!",
+    "NO_MESSAGES": "There is no messages yet. You can write it the first."
   }
 }

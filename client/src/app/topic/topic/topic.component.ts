@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute } from '@angular/router';
 
 import { Constants } from "../../shared/constants/constants";
@@ -25,7 +24,6 @@ export class TopicComponent implements OnInit {
   totalElements: number;
   pageSize: number;
   maxSize: number;
-  msgForm: FormGroup;
   authorsMessages: User[];
 
   constructor(@Inject('messageService') private messageService: IMessageService,
@@ -37,7 +35,6 @@ export class TopicComponent implements OnInit {
   ngOnInit() {
     this.maxSize = Constants.getMaxSize;
     this.authorsMessages = new Array();
-    this.initForm();
     this.setTopicId();
     this.fetchTopic();
     this.getAllMessages(this.setHttpParams());
@@ -85,19 +82,6 @@ export class TopicComponent implements OnInit {
     this.pageSize = page.size;
   }
 
-  private initForm() {
-    this.msgForm = new FormGroup({
-      'msgData': new FormGroup({
-        'text': new FormControl(null),
-        'createdBy': new FormControl(null),
-        'inTopic': new FormControl(this.topic),
-        'createdAt': new FormControl(new Date()),
-        'updatedAt': new FormControl(null),
-        'updatedBy': new FormControl(null)
-      })
-    })
-  }
-
   private fetchAuthors() {
     this.messages.forEach((message: Message) => {
       if (!this.authorsMessages.map((author: User) => author.id).includes(message.createdBy.id)) {
@@ -117,11 +101,6 @@ export class TopicComponent implements OnInit {
 
   getAuthorBy(id: number) {
     return this.authorsMessages.find((user: User) => user.id === id);
-  }
-
-  onSendMsg() {
-    // this.messageService.createMessage()
-    console.log("onSendMessage")
   }
 
   private handleError(error: HttpErrorResponse) {
