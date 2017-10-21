@@ -31,7 +31,7 @@ export class NewMessageFormComponent implements OnInit {
       'text': new FormControl(null, Validators.required),
       'createdBy': new FormControl(this.user),
       'inTopic': new FormControl(this.topic),
-      'createdAt': new FormControl(new Date()),
+      'createdAt': new FormControl(null),
       'updatedAt': new FormControl(null),
       'updatedBy': new FormControl(null)
     })
@@ -39,6 +39,7 @@ export class NewMessageFormComponent implements OnInit {
 
   onSendMsg() {
     this.creating = true;
+    this.msgForm.get('createdAt').patchValue(new Date());
     this.messageService.createMessage(this.msgForm.value)
       .subscribe(
         (data) => {
