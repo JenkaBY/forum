@@ -56,7 +56,8 @@
       <div class="col-10 col-md-auto mt-1">
         <div *ngIf="!isEdit; else editMessage">{{ message.text }}</div>
         <ng-template #editMessage>
-          <textarea class="form-control" rows='{{calculateRows()}}' cols="150" [(ngModel)]="message.text"></textarea>
+          <textarea class="form-control" rows="{{calculateRowsForEditMsg()}}" cols="150"
+                    [(ngModel)]="message.text"></textarea>
         </ng-template>
       </div>
     </div>

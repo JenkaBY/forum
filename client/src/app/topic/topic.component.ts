@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { URLSearchParams } from '@angular/http';
-import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { FormControl, FormGroup } from "@angular/forms";
+import { ActivatedRoute } from '@angular/router';
 
 import { Constants } from "../common/constants";
 import { Topic } from '../model/topic';
@@ -11,7 +11,6 @@ import { TopicService } from '../service/topic.service';
 import { Page } from "../model/page";
 import { User } from "../model/user";
 import IUserService from "../service/interface/iuser.service";
-import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-topic',
@@ -41,16 +40,15 @@ export class TopicComponent implements OnInit {
     this.initForm();
     this.setTopicId();
     this.getTopic();
-    this.getAllMessages(this.setUrlSearchParams());
-    console.log("onInit " + JSON.stringify(this.setUrlSearchParams().toString()));
+    this.getAllMessages(this.setHttpParams());
+    console.log("onInit " + JSON.stringify(this.setHttpParams().toString()));
   }
 
-  getAllMessages(urlParams?: URLSearchParams): void {
-    this.messageService.getAllMessagesBy(this.topicId, urlParams)
-      .then((page: Page<Message>) => this.setPageData(page))
-      // .then(() => this.fetchAuthors())
-      // .then(() => this.setCreatedByForMessages())
-      .catch(error => console.log(JSON.stringify(error)));
+  getAllMessages(httpParams?: HttpParams): void {
+    this.messageService.getAllMessagesBy(this.topicId, httpParams)
+      .subscribe(
+        (page: Page<Message>) => this.setPageData(page),
+        (error: HttpErrorResponse) => this.handleError(error));
   }
 
   getTopic(): void {
@@ -63,19 +61,17 @@ export class TopicComponent implements OnInit {
     this.route.params.subscribe(params => this.topicId = +params.id);
   }
 
-  private setUrlSearchParams(urlParams?: URLSearchParams): URLSearchParams {
-    if (!urlParams) {
-      urlParams = new URLSearchParams();
+  private setHttpParams(httpParams?: HttpParams): HttpParams {
+    if (!httpParams) {
+      httpParams = new HttpParams();
     }
-
-    urlParams.append(Constants.getSortParam, 'id');
-    urlParams.append(Constants.getSizeParam, String(Constants.getPageSize));
-    console.log("setURLSearchParams " + JSON.stringify(urlParams.toString()));
-    return urlParams;
+    httpParams = httpParams.set(Constants.getSortParam, 'id')
+      .set(Constants.getSizeParam, String(Constants.getPageSize));
+    return httpParams;
   }
 
   onPageChange() {
-    const params = this.setUrlSearchParams();
+    const params = this.setHttpParams();
     params.append(Constants.getPageParam, String(this.currentPage - 1));
     console.log("onChangePage " + JSON.stringify(params.toString()));
     this.getAllMessages(params);
@@ -123,6 +119,7 @@ export class TopicComponent implements OnInit {
   }
 
   onSendMsg() {
+    // this.messageService.createMessage()
     console.log("onSendMessage")
   }
 

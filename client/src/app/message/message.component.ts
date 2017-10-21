@@ -1,10 +1,11 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Message } from '../model/message';
-import { Constants } from '../common/constants';
+import { HttpErrorResponse } from "@angular/common/http";
+
 import IMessageService from "../service/interface/imessage.service";
 import IUserService from "../service/interface/iuser.service";
+import { Message } from '../model/message';
+import { Constants } from '../common/constants';
 import { User } from "../model/user";
-import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-message',
@@ -14,6 +15,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 export class MessageComponent implements OnInit {
   @Input() topicTitle: string;
   @Input() message: Message;
+  // @Output() needToUpdate: boolean;
   dateFormat = Constants.getDateTimeFormat;
   isEdit: boolean;
   saving: boolean;
@@ -24,7 +26,7 @@ export class MessageComponent implements OnInit {
               @Inject('userService') private userService: IUserService) {
   }
 
-  calculateRows(): number {
+  calculateRowsForEditMsg(): number {
     const oneRowLength = 100;
     let rows = this.message.text.length / oneRowLength;
     return rows < 10 ? 10 : Math.round(rows) + 1;
@@ -47,25 +49,31 @@ export class MessageComponent implements OnInit {
   }
 
   onDelete(): void {
-    // this.messageService.deleteMessage(this.message.id);
+    this.messageService.deleteMessage(this.message.id)
+      .subscribe((_) => {
+        },
+        (error: HttpErrorResponse) => this.handleError(error));
   }
 
   onSave(): void {
     this.saving = true;
     this.messageService.updateMessage(this.message)
-      .then((message: Message) => {
-        this.message = message;
-        console.log("Successfully updated: " + JSON.stringify(this.message));
-        this.saving = false;
-        this.isEdit = false;
-        this.previousMsgText = null;
-      })
-      .catch((error) => {
-        console.log("Error after update " + error);
-        this.saving = false;
-        this.isEdit = false;
-        this.message.text = this.previousMsgText;
-      });
+      .subscribe(
+        (message: Message) => {
+          this.message = message;
+          console.log("Successfully updated: " + JSON.stringify(this.message));
+          this.saving = false;
+          this.isEdit = false;
+          this.previousMsgText = null;
+        },
+        (error) => {
+          console.log("Error after update " + error);
+          this.saving = false;
+          this.isEdit = false;
+          this.message.text = this.previousMsgText;
+          this.handleError(error);
+        }
+      );
   }
 
   private fetchAuthorData() {

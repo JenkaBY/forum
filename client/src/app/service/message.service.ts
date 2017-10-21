@@ -1,51 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
 
 import { RoutesConst } from '../common/routes.constants';
 import IMessageService from './interface/imessage.service';
 import { Topic } from '../model/topic';
 import { Message } from '../model/message';
 import { Page } from "../model/page";
+import { HeaderConst } from "../common/constants";
 
 @Injectable()
 export class MessageService implements IMessageService {
-    private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
 
-  constructor(private  http: Http) {
+  constructor(private  http: HttpClient) {
   }
 
-  getAllMessagesBy(topicId: number, urlParams?: URLSearchParams): Promise<Page<Message>> {
-    const params = new RequestOptions({params: urlParams});
-    console.log("service " + urlParams.toString());
-    return this.http.get(RoutesConst.TOPIC + topicId + '/all', params)
-            .toPromise()
-            .then(response => {
-              console.log("from service " + response.json());
-              return response.json();
-            })
-            .catch(error => this.errorHandle(error));
-    }
+  getAllMessagesBy(topicId: number, httpParams?: HttpParams): Observable<Page<Message>> {
+    return this.http.get<Page<Message>>(RoutesConst.TOPIC + topicId + '/all',
+      {params: httpParams});
+  }
 
-    deleteMessage(id: number): void {
-        throw new Error('Method not implemented.');
-    }
+  deleteMessage(id: number): any {
+    return this.http.delete(RoutesConst.MESSAGE + id);
+  }
 
-    updateMessage(message: Message): Promise<Message> {
-      return this.http.put(RoutesConst.MESSAGE + message.id, JSON.stringify(message), {headers: this.headers})
-            .toPromise()
-            .then(response => {
-                return response.json();
-            })
-            .catch(error => this.errorHandle(error));
-    }
+  updateMessage(message: Message): Observable<Message> {
+    return this.http.put<Message>(RoutesConst.MESSAGE + message.id,
+      message,
+      {headers: this.headers});
+  }
 
-    createMessage(topic: Topic, message: Message): Promise<Message> {
-        return null;
-    }
-
-    private errorHandle(error): Promise<Topic> {
-        console.log(error);
-        return null;
-    }
+  createMessage(topic: Topic, message: Message): Observable<Message> {
+    return this.http.post(RoutesConst.MESSAGE, topic);
+  }
 }
