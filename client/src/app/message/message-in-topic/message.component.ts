@@ -3,6 +3,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import IMessageService from "../interface/imessage.service";
 import IUserService from "../../user/interface/iuser.service";
+import { AuthenticationService } from "../../authorization/authentication.service";
 import { Message } from '../../shared/entity/message';
 import { Constants } from '../../shared/constants/constants';
 import { User } from "../../shared/entity/user";
@@ -15,7 +16,6 @@ import { User } from "../../shared/entity/user";
 export class MessageComponent implements OnInit {
   @Input() topicTitle: string;
   @Input() message: Message;
-  // @Output() needToUpdate: boolean;
   dateFormat = Constants.getDateTimeFormat;
   isEdit: boolean;
   saving: boolean;
@@ -24,7 +24,8 @@ export class MessageComponent implements OnInit {
   authorMessage: User;
 
   constructor(@Inject('messageService') private messageService: IMessageService,
-              @Inject('userService') private userService: IUserService) {
+              @Inject('userService') private userService: IUserService,
+              private authService: AuthenticationService) {
   }
 
   calculateRowsForEditMsg(): number {
@@ -80,6 +81,16 @@ export class MessageComponent implements OnInit {
           this.handleError(error);
         }
       );
+  }
+
+  canEdit(): boolean {
+    const user = this.authService.currentUser;
+    if (!user)
+      return false;
+    if (user.id == this.authorMessage.id || this.authService.isManager) {
+      return true;
+    }
+    return false;
   }
 
   private fetchAuthorData() {

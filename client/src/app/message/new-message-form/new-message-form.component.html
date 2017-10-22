@@ -1,24 +1,32 @@
 <form [formGroup]="msgForm"
       (ngSubmit)="onSendMsg()"
-      *ngIf="user; else signInOrSignOn">
+      *ngIf="loggedUser; else signInOrSignOn">
+
   <div class="form-group">
       <textarea class="form-control"
                 id="newMessage"
                 rows="7"
                 cols="150"
                 formControlName="text"
+                [disabled]="loggedUser.blocked"
                 placeholder="{{ 'PLACEHOLDER.TYPE_TEXT'| translate }}">
       </textarea>
+    <h5 *ngIf="loggedUser.blocked || !canCreateMsg()" class="invalid-feedback">
+      {{ "MESSAGE.BLOCKED_USER" | translate }}
+    </h5>
   </div>
 
   <div class="row">
     <div class="col">
-      <button type="submit" class="btn btn-success" [disabled]="msgForm.invalid || creating">{{ 'BUTTON.SEND'| translate
-        }}
+      <button type="submit"
+              class="btn btn-success"
+              [disabled]="msgForm.invalid || creating || loggedUser.blocked || !canCreateMsg()">
+        {{ 'BUTTON.SEND'| translate }}
       </button>
     </div>
   </div>
 </form>
+
 <ng-template #signInOrSignOn>
   <app-need-to-be-logged></app-need-to-be-logged>
 </ng-template>

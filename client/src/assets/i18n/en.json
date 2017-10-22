@@ -87,6 +87,7 @@
     "READ_FORUM": "Read are our forum for now!",
     "TRY_LOGIN": "Try to log in a little bit later.",
     "INVALID_CREDENTIAL": "Invalid email or password!",
-    "NO_MESSAGES": "There is no messages yet. You can write it the first."
+    "NO_MESSAGES": "There is no messages yet. You can write it the first.",
+    "BLOCKED_USER": "You are blocked. You can't create new message!"
   }
 }

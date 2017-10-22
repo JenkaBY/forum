@@ -96,7 +96,7 @@ public class OAuth2ServersConfiguration {
                     .antMatchers("/asset/**").permitAll()
                     .and()
                     .logout()
-                    .logoutUrl("/api/logout")
+                    .logoutUrl("/api/logout/")
                     .logoutSuccessUrl("/")
                     .logoutSuccessHandler(this.logoutSuccessHandler)
                     .permitAll()

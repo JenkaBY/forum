@@ -28,16 +28,16 @@ const jsonType = 'application/json';
 const en = 'en';
 const ru = 'ru';
 
-export class RoleConstant {
-  static get manager(): string {
+export class RoleConst {
+  static get MANAGER(): string {
     return managerStr;
   }
 
-  static get admin(): string {
+  static get ADMIN(): string {
     return adminStr;
   }
 
-  static get user(): string {
+  static get USER(): string {
     return userStr;
   }
 }

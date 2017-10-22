@@ -11,6 +11,7 @@ import { TopicService } from '../topic.service';
 import { Page } from "../../shared/entity/page";
 import { User } from "../../shared/entity/user";
 import IUserService from "../../user/interface/iuser.service";
+import { AuthenticationService } from "../../authorization/authentication.service";
 
 @Component({
   selector: 'app-topic',
@@ -31,6 +32,7 @@ export class TopicComponent implements OnInit, OnDestroy {
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('topicService') private topicService: TopicService,
               @Inject('userService') private userService: IUserService,
+              private authService: AuthenticationService,
               private route: ActivatedRoute) {
   }
 
@@ -52,18 +54,15 @@ export class TopicComponent implements OnInit, OnDestroy {
     this.subscription = this.messageService.messagesChanged
       .subscribe((page: Page<Message>) => {
           this.setPageData(page);
-          console.log(page);
         },
         (error) => {
-          this.handleError(error, 'susbcr')
+          this.handleError(error)
         })
   }
 
   getAllMessages(httpParams?: HttpParams): void {
     this.messageService.getAllMessagesBy(this.topicId, httpParams)
       .subscribe()
-    // (page: Page<Message>) => this.setPageData(page),
-    // (error: HttpErrorResponse) => this.handleError(error));
   }
 
   fetchTopic(): void {
@@ -89,7 +88,6 @@ export class TopicComponent implements OnInit, OnDestroy {
 
   onPageChange() {
     let params = this.setHttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
-    console.log("onChangePage " + JSON.stringify(params.toString()));
     this.getAllMessages(params);
   }
 
@@ -121,7 +119,7 @@ export class TopicComponent implements OnInit, OnDestroy {
     return this.authorsMessages.find((user: User) => user.id === id);
   }
 
-  private handleError(error: HttpErrorResponse, msg?: string) {
-    console.error(error, msg);
+  private handleError(error: HttpErrorResponse) {
+    console.error(error);
   }
 }

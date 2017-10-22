@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 
 import { AuthenticationService } from "../authentication.service";
 import { UserCredential } from "../user-credential.model";
+import { User } from "../../shared/entity/user";
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,7 @@ export class LoginComponent implements OnInit {
     this.userCredential = {email: this.email.value, password: this.password.value};
     this.authService.login(this.userCredential)
       .subscribe(
-        (result: boolean) => {
+        (result: User) => {
           console.log('next in login', result);
           this.logging = false;
           this.onBack();

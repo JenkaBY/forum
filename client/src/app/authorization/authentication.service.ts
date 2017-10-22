@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
 import 'rxjs/observable/of';
 import 'rxjs/add/operator/do';
 
@@ -11,11 +12,12 @@ import { RoutesConst } from "../shared/constants/routes.constants";
 import { OAuthTokensData } from "./oauth-token.model";
 import { AppConstant } from "../shared/constants/app-constant";
 import { User } from "../shared/entity/user";
-import { HeaderConst, OAuthConst, RoleConstant } from "../shared/constants/constants";
+import { HeaderConst, OAuthConst, RoleConst } from "../shared/constants/constants";
 
 @Injectable()
 export class AuthenticationService {
   currentUser: User;
+  changedCurrentUser = new Subject<User>();
   private oauthToken: OAuthTokensData;
   private expireTokenDate: Date;
 
@@ -29,38 +31,48 @@ export class AuthenticationService {
   }
 
   logout() {
-    this.http.post(RoutesConst.logout, {}, {observe: 'response'})
+    this.http.post(RoutesConst.logout, null, {observe: 'response'})
       .subscribe((response) => {
           if (response.status == 200) {
             this.eraseUserData();
+            console.log("logout success 200", this.currentUser);
           }
           //TODO flash !!!
+          this.eraseUserData();
+          console.log("logout Other", this.currentUser);
         },
-        () => {
+        (err) => {
+          if (err.status == 200) {
+            this.eraseUserData();
+            console.log("logout error 200", this.currentUser);
+          }
+          console.log("logout error", err, this.currentUser);
           //TODO flash !!!
         })
   }
 
   // oauth/token?grant_type=refresh_token&refresh_token=094b7d23-973f-4cc1-83ad-8ffd43de184
-  private requestOAuthToken(userCredential?: UserCredential): Observable<boolean> {
+  private requestOAuthToken(userCredential?: UserCredential): Observable<User> {
     return this.http.post(RoutesConst.OAUTH_TOKEN,
       null,
       this.getAuthorizationParams(userCredential))
       .do((resInfo: OAuthTokensData) => {
           this.oauthToken = resInfo;
           this.currentUser = this.oauthToken.user;
+          this.changedCurrentUser.next(this.oauthToken.user);
           this.setExpireTokenDate();
-          return Observable.of(true);
+          return Observable.of(this.currentUser);
         },
         (err: HttpErrorResponse) => {
           console.log('Invalid credential!', err);
-          return Observable.of(false);
+          return Observable.of(this.currentUser);
         });
   }
 
   private eraseUserData(): void {
     this.currentUser = null;
     this.oauthToken = null;
+    this.changedCurrentUser.next();
   }
 
   public getAuthorizationHeaders(): HttpHeaders {
@@ -108,6 +120,13 @@ export class AuthenticationService {
   }
 
   get getCurrentUser(): User {
+    if (!this.currentUser) {
+      console.log("getCurrent user in AuthServ if !this.currentUser", this.currentUser)
+      this.changedCurrentUser.next();
+    } else {
+      this.changedCurrentUser.next(this.currentUser);
+    }
+    console.log("getCurrent user in AuthServ after if", this.currentUser);
     return this.currentUser;
   }
 
@@ -115,17 +134,24 @@ export class AuthenticationService {
     if (!this.currentUser) {
       return false;
     }
-    return this.currentUser.role.title === RoleConstant.manager;
+    return this.currentUser.role.title === RoleConst.MANAGER;
   }
 
   get isAdmin(): boolean {
     if (!this.currentUser) {
       return false;
     }
-    return this.currentUser.role.title === RoleConstant.admin;
+    return this.currentUser.role.title === RoleConst.ADMIN;
   }
 
   get isUser(): boolean {
-    return this.currentUser.role.title === RoleConstant.user;
+    if (!this.currentUser) {
+      return false;
+    }
+    return this.currentUser.role.title === RoleConst.USER;
+  }
+
+  get isUserOrManager(): boolean {
+    return this.isManager || this.isUser;
   }
 }

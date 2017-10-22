@@ -16,7 +16,6 @@ export class TopicService implements ITopicService {
   }
 
   getAllTopics(httpParams?: HttpParams): Observable<Page<Topic>> {
-    console.log("service", httpParams.toString());
     return this.http.get(RoutesConst.ALL_TOPIC, {params: httpParams});
   }
 

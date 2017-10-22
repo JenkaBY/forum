@@ -26,11 +26,9 @@ export class TopicListComponent implements OnInit {
   ngOnInit() {
     this.maxSize = Constants.getMaxSize;
     this.getAll(this.setHttpParams());
-    console.log("onInit " + JSON.stringify(this.setHttpParams().toString()));
   }
 
   getAll(httpParams?: HttpParams): void {
-    console.log("getAll " + JSON.stringify(httpParams));
     this.topicService.getAllTopics(httpParams)
       .subscribe(
         (page: Page<Topic>) => this.setPageData(page),
@@ -44,13 +42,11 @@ export class TopicListComponent implements OnInit {
     }
     httpParams = httpParams.set(Constants.getSortParam, Constants.id)
       .set(Constants.getSizeParam, String(Constants.getPageSize));
-    console.log("setHttpParams Topics", JSON.stringify(httpParams.toString()));
     return httpParams;
   }
 
   onPageChange() {
     let params = this.setHttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
-    console.log("onChangePage ", JSON.stringify(params.toString()));
     this.getAll(params);
   }
 

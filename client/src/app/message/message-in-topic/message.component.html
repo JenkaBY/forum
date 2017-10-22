@@ -5,7 +5,11 @@
         <p><em><b>#{{ message.id }}</b></em> {{ message.createdAt | date:dateFormat }}</p>
       </div>
       <div class="col-1">
-        <div class="btn-group btn-group-sm" role="group" aria-label="Manage message">
+        <div *ngIf="canEdit()"
+             class="btn-group btn-group-sm"
+             role="group"
+             aria-label="Manage message">
+
           <button type="button"
                   *ngIf="isEdit"
                   class="btn btn-outline-success"
@@ -53,11 +57,13 @@
              class="img-thumbnail"
              style="width:100px;">
       </div>
+      <!--Text message-->
       <div class="col-10 col-md-auto mt-1">
         <div *ngIf="!isEdit; else editMessage">{{ message.text }}</div>
         <ng-template #editMessage>
           <textarea class="form-control" rows="{{calculateRowsForEditMsg()}}" cols="150"
-                    [(ngModel)]="message.text"></textarea>
+                    [(ngModel)]="message.text">
+          </textarea>
         </ng-template>
       </div>
     </div>
