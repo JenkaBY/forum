@@ -20,9 +20,11 @@ public class AbstractEntityServiceImpl<T extends AbstractEntity> implements Abst
 
 	@Override
 	public void delete(long id) {
-        T entity = repository.findOne(id);
-        entity.deleted = true;
-        repository.save(entity);
+//		TODO commented to the best time
+//        T entity = repository.findOne(id);
+//        entity.deleted = true;
+//        repository.save(entity);
+        repository.delete(id);
     }
 
 	@Override

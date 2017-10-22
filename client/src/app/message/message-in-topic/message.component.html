@@ -28,6 +28,7 @@
                   class="btn btn-outline-danger"
                   placement="right"
                   (click)="onDelete()"
+                  [disabled]="deleting"
                   ngbTooltip="{{'TOOLTIP.DELETE_MESSAGE' | translate}}">X
           </button>
           <button type="button"

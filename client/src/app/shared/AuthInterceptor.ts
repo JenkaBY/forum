@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const authHeader = authService.getAuthorizationHeader();
       request = req.clone({headers: req.headers.set(HeaderConst.authorization, authHeader)});
       //TODO remove next line
-      console.log(HeaderConst.authorization, request.headers.get(HeaderConst.authorization));
+      // console.log(HeaderConst.authorization, request.headers.get(HeaderConst.authorization));
     } else {
       request = req;
     }

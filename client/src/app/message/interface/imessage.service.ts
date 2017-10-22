@@ -14,11 +14,11 @@ interface IMessageService {
 
   getAllMessagesBy(topicId: number, httpParams?: HttpParams);
 
-  createMessage(message: Message): Observable<Message>;
+  createMessage(message: Message): any;
 
   updateMessage(message: Message): Observable<Message>;
 
-  deleteMessage(id: number): any;
+  deleteMessage(message: Message): any;
 }
 
 export default IMessageService;

@@ -48,10 +48,8 @@ export class AuthenticationService {
       this.getAuthorizationParams(userCredential))
       .do((resInfo: OAuthTokensData) => {
           this.oauthToken = resInfo;
-          console.log('tokens', this.oauthToken);
           this.currentUser = this.oauthToken.user;
           this.setExpireTokenDate();
-          console.log('user', this.currentUser);
           return Observable.of(true);
         },
         (err: HttpErrorResponse) => {
@@ -74,8 +72,6 @@ export class AuthenticationService {
   }
 
   public getAuthorizationHeader(): string {
-    console.log(!!this.oauthToken);
-    console.log(HeaderConst.bearer, this.oauthToken ? this.oauthToken.access_token : '********');
     return this.oauthToken && !this.isAccessTokenExpired() ? HeaderConst.bearer + this.oauthToken.access_token : null;
   }
 
@@ -102,7 +98,6 @@ export class AuthenticationService {
   }
 
   private isAccessTokenExpired(): boolean {
-    console.log('time', this.expireTokenDate.getTime());
     return new Date().getTime() >= this.expireTokenDate.getTime();
   }
 

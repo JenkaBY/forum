@@ -48,6 +48,7 @@ export class TopicComponent implements OnInit, OnDestroy {
   }
 
   subscribeOnMessages() {
+    console.log('subscribe on messages');
     this.subscription = this.messageService.messagesChanged
       .subscribe((page: Page<Message>) => {
           this.setPageData(page);
@@ -59,10 +60,10 @@ export class TopicComponent implements OnInit, OnDestroy {
   }
 
   getAllMessages(httpParams?: HttpParams): void {
-    this.setPageData(this.messageService.getAllMessagesBy(this.topicId, httpParams))
-    // .subscribe(
-    //   (page: Page<Message>) => {},//this.setPageData(page),
-    //   (error: HttpErrorResponse) => this.handleError(error));
+    this.messageService.getAllMessagesBy(this.topicId, httpParams)
+      .subscribe()
+    // (page: Page<Message>) => this.setPageData(page),
+    // (error: HttpErrorResponse) => this.handleError(error));
   }
 
   fetchTopic(): void {

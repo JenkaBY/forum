@@ -19,6 +19,7 @@ export class MessageComponent implements OnInit {
   dateFormat = Constants.getDateTimeFormat;
   isEdit: boolean;
   saving: boolean;
+  deleting: boolean;
   previousMsgText: string;
   authorMessage: User;
 
@@ -49,10 +50,15 @@ export class MessageComponent implements OnInit {
   }
 
   onDelete(): void {
-    this.messageService.deleteMessage(this.message.id)
+    this.deleting = true;
+    this.messageService.deleteMessage(this.message)
       .subscribe((_) => {
+          this.deleting = false
         },
-        (error: HttpErrorResponse) => this.handleError(error));
+        (error: HttpErrorResponse) => {
+          this.handleError(error);
+          this.deleting = false;
+        });
   }
 
   onSave(): void {
