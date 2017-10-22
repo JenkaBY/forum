@@ -22,16 +22,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.currentUser$ = this.authService.changedCurrentUser
       .subscribe((user: User) => {
           this.loggedUser = user;
-          console.log("subscribe on currentUser in Header", user);
         },
         (err) => {
           console.log("Error in onInit in Header", err)
         });
     this.authService.getCurrentUser;
+    console.log('loggedUser in onInit header', this.loggedUser);
+    // this.authService.autoLogin();
   }
 
   ngOnDestroy(): void {
-    console.error("Ondestroy in HEADER");
     this.currentUser$.unsubscribe();
   }
 

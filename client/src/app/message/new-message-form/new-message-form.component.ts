@@ -27,15 +27,12 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
     this.currentUserSubscr = this.authService.changedCurrentUser
       .subscribe((user: User) => {
         this.loggedUser = user;
-        console.error("subscribe on currentUser in NewMsg", user);
       });
     this.authService.getCurrentUser;
-    console.error("Oninit on newMsg");
     this.initForm();
   }
 
   ngOnDestroy(): void {
-    console.error("OnDestroy new Form");
     this.currentUserSubscr.unsubscribe();
   }
 
@@ -71,16 +68,6 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
   }
 
   canCreateMsg(): boolean {
-    const user = this.authService.getCurrentUser;
-    console.log("this.authService.isUserOrManager before if", this.authService.isUserOrManager);
-    console.log("user before if ", user);
-    // console.log("!user.blocked brfore if", !user.blocked);
-    if (this.authService.isUserOrManager) {
-      console.log("this.authService.isUserOrManager in if", this.authService.isUserOrManager);
-      console.log("user before if ", user);
-      console.log("!user.blocked brfore if", !user.blocked);
-      return true
-    }
-    return false;
+    return this.authService.isUserOrManager
   }
 }

@@ -60,6 +60,7 @@ export class AuthenticationService {
           this.oauthToken = resInfo;
           this.currentUser = this.oauthToken.user;
           this.changedCurrentUser.next(this.oauthToken.user);
+          this.saveTokenInLocalStorage();
           this.setExpireTokenDate();
           return Observable.of(this.currentUser);
         },
@@ -72,6 +73,7 @@ export class AuthenticationService {
   private eraseUserData(): void {
     this.currentUser = null;
     this.oauthToken = null;
+    this.eraseLocalStorage();
     this.changedCurrentUser.next();
   }
 
@@ -120,12 +122,7 @@ export class AuthenticationService {
   }
 
   get getCurrentUser(): User {
-    if (!this.currentUser) {
-      console.log("getCurrent user in AuthServ if !this.currentUser", this.currentUser)
-      this.changedCurrentUser.next();
-    } else {
-      this.changedCurrentUser.next(this.currentUser);
-    }
+    this.changedCurrentUser.next(this.currentUser);
     console.log("getCurrent user in AuthServ after if", this.currentUser);
     return this.currentUser;
   }
@@ -153,5 +150,25 @@ export class AuthenticationService {
 
   get isUserOrManager(): boolean {
     return this.isManager || this.isUser;
+  }
+
+  private authDataStr = 'authData';
+
+  private saveTokenInLocalStorage(): void {
+    localStorage.setItem(this.authDataStr, JSON.stringify({tokenObj: this.oauthToken}));
+  }
+
+  private eraseLocalStorage() {
+    localStorage.removeItem(this.authDataStr);
+  }
+
+  autoLogin(): boolean {
+    const authData = JSON.parse(localStorage.getItem(this.authDataStr));
+    if (authData) {
+      this.oauthToken = authData.tokenObj;
+      this.changedCurrentUser.next(this.oauthToken.user);
+      console.log('autologin in if', authData);
+    }
+    return !!authData;
   }
 }

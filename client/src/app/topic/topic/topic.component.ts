@@ -50,7 +50,6 @@ export class TopicComponent implements OnInit, OnDestroy {
   }
 
   subscribeOnMessages() {
-    console.log('subscribe on messages');
     this.subscription = this.messageService.messagesChanged
       .subscribe((page: Page<Message>) => {
           this.setPageData(page);

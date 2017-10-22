@@ -8,7 +8,6 @@
                 rows="7"
                 cols="150"
                 formControlName="text"
-                [disabled]="loggedUser.blocked"
                 placeholder="{{ 'PLACEHOLDER.TYPE_TEXT'| translate }}">
       </textarea>
     <h5 *ngIf="loggedUser.blocked || !canCreateMsg()" class="invalid-feedback">

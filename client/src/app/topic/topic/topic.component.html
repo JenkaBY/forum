@@ -1,9 +1,15 @@
-<div class="container mt-2">
+<div class="container mt-2" *ngIf="topic">
+
+  <app-topic-info *ngIf="topic" [topic]="topic"></app-topic-info>
+
+  <div class="clearfix hidden-sm-up"></div>
+
   <div class="row" *ngIf="messages && messages.length > 0">
     <div class="col-12 mb-0" *ngFor="let messageEl of messages;">
       <app-message [message]="messageEl" [topicTitle]="topic.title"></app-message>
     </div>
   </div>
+
   <div class="row" *ngIf="messages && messages.length > 0">
     <div class="col-12 d-flex justify-content-left mt-3">
       <ngb-pagination
@@ -19,7 +25,7 @@
 
   <div class="h4" *ngIf="messages && messages.length == 0">
     <p>{{ "MESSAGE.NO_MESSAGES"| translate }}</p>
-    </div>
+  </div>
 
   <app-new-message-form *ngIf="messages" [topic]="topic"></app-new-message-form>
 </div>

@@ -1,0 +1,65 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
+
+-- Started on 2017-10-22 22:56:24
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 2152 (class 0 OID 18810)
+-- Dependencies: 191
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO users VALUES (18, '2017-10-14 13:10:30.682', false, false, '1507975830562@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975830562', false, NULL, 1, NULL);
+INSERT INTO users VALUES (14, '2017-10-14 13:10:29.992', false, false, '1507975829878@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975829878', false, NULL, 1, NULL);
+INSERT INTO users VALUES (5, '2017-10-14 13:10:28.887', false, true, '1507975828773@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1111', false, NULL, 1, NULL);
+INSERT INTO users VALUES (15, '2017-10-14 13:10:30.305', false, false, '1507975830195@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975830195', false, NULL, 1, NULL);
+INSERT INTO users VALUES (7, '2017-10-14 13:10:29.138', false, false, '1507975829014@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975829014', false, 2, 1, NULL);
+INSERT INTO users VALUES (8, '2017-10-14 13:10:29.271', false, false, '1507975829141@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975829141', false, 2, 1, NULL);
+INSERT INTO users VALUES (30, '2017-10-21 17:56:49.907', false, false, 'dsffds@fsdf', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'sdfsdf', false, NULL, 1, NULL);
+INSERT INTO users VALUES (20, '2017-10-14 13:10:30.941', false, false, '1507975830814@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975830814', false, NULL, 1, NULL);
+INSERT INTO users VALUES (13, '2017-10-14 13:10:29.876', false, false, 'user13@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User13', false, NULL, 1, NULL);
+INSERT INTO users VALUES (28, '2017-10-19 20:29:55.506', false, false, 'testtest@test', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'test uptdate', false, NULL, 1, NULL);
+INSERT INTO users VALUES (2, '2017-10-14 13:10:28.509', false, false, 'user1@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1', false, 13, 1, NULL);
+INSERT INTO users VALUES (10, '2017-10-14 13:10:29.518', false, false, '1507975829399@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975829399', false, NULL, 1, NULL);
+INSERT INTO users VALUES (27, '2017-10-19 10:33:15.987', false, false, 'admin@admin', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'admin', false, NULL, 2, NULL);
+INSERT INTO users VALUES (21, '2017-10-14 13:10:31.06', false, false, '1507975830943@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975830943', true, 2, 1, NULL);
+INSERT INTO users VALUES (23, '2017-10-17 01:25:41.664', false, true, 'test1@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'test1', false, NULL, 2, NULL);
+INSERT INTO users VALUES (12, '2017-10-14 13:10:29.761', false, false, '1507975829648@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975829648', false, 2, 1, NULL);
+INSERT INTO users VALUES (17, '2017-10-14 13:10:30.56', false, false, '1507975830447@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975830447', true, 2, 1, NULL);
+INSERT INTO users VALUES (22, '2017-10-17 01:25:01.858', false, false, 'test@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'test', false, NULL, 1, NULL);
+INSERT INTO users VALUES (16, '2017-10-14 13:10:30.44', false, false, '1507975830327@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975830327', false, 2, 1, NULL);
+INSERT INTO users VALUES (24, '2017-10-18 22:10:32.226', false, true, 'dfsf@fsdf', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'sfdsdf', false, NULL, 1, NULL);
+INSERT INTO users VALUES (19, '2017-10-14 13:10:30.812', true, false, '1507975830684@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975830684', false, 2, 1, NULL);
+INSERT INTO users VALUES (87, '2017-10-22 14:10:49.049', false, true, 'user@user', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'user', false, NULL, 1, NULL);
+INSERT INTO users VALUES (26, '2017-10-18 23:38:01.162', true, false, '1321@mail.ru', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'hate', false, NULL, 1, NULL);
+INSERT INTO users VALUES (88, '2017-10-22 14:12:37.326', false, false, 'm@m', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'manager', false, NULL, 3, NULL);
+INSERT INTO users VALUES (11, '2017-10-14 13:10:29.646', false, true, '1507975829526@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975829526', false, NULL, 1, NULL);
+INSERT INTO users VALUES (9, '2017-10-14 13:10:29.397', false, true, '1507975829274@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975829274', false, NULL, 1, NULL);
+INSERT INTO users VALUES (6, '2017-10-14 13:10:29.01', false, false, '1507975828889@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'Mr. Nice', true, NULL, 1, NULL);
+INSERT INTO users VALUES (25, '2017-10-18 22:13:55.272', false, false, 'fsdfsd@dfsfds', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'dsfsf', false, NULL, 2, NULL);
+INSERT INTO users VALUES (29, '2017-10-21 10:47:58.455', false, false, 'httpclient@httpclient', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'HttpClient test', false, NULL, 1, NULL);
+INSERT INTO users VALUES (4, '2017-10-14 13:10:28.77', false, true, '1507975828655@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975828655', false, NULL, 1, NULL);
+INSERT INTO users VALUES (3, '2017-10-14 13:10:28.653', false, true, '1507975828536@email.com', '$2a$10$cOLI/J1jRMDZfnp4pWwaTepQuKoUK2DexI.hirSzkV/KgwlFKmfIS', NULL, 'User1507975828536', false, NULL, 1, NULL);
+
+
+-- Completed on 2017-10-22 22:56:24
+
+--
+-- PostgreSQL database dump complete
+--
+

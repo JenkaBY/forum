@@ -1,5 +1,7 @@
 package by.intexsoft.forum.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -10,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
  * User class describes the users table in DB.
  */
 @Entity
-@Table(name = "\"users\"")
+@Table(name = "users")
 public class User extends AbstractEntity {
 
     private static final long serialVersionUID = 2114056750097110098L;
@@ -22,6 +24,7 @@ public class User extends AbstractEntity {
     public String email;
 
     @Column(name = "hash_password", nullable = false, length = 60)
+    @JsonIgnore
     public String hashPassword;
 
     @Column(name = "last_logon_at", insertable = false)

@@ -1,0 +1,68 @@
+<div class="card mb-2 p-2">
+  <div class="card-header pb-1 mb-1">
+    <div class="row justify-content-between pb-0 mb-0">
+      <div class="col-9">
+        <h3>{{ topic?.title }}</h3>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-2">
+        <div class="btn-group btn-group-sm mr-2"
+             role="group"
+             aria-label="Manage topic">
+          <button type="checkbox"
+                  placement="bottom"
+                  type="button"
+                  class="btn-outline-success"
+                  (click)="onSave()"
+                  *ngIf="true"
+                  ngbTooltip="{{'TOOLTIP.SAVE_TOPIC' | translate}}">
+            {{ "BUTTON.SAVE" | translate }}
+          </button>
+          <button type="checkbox"
+                  placement="bottom"
+                  type="button"
+                  class="btn-outline-primary"
+                  (click)="onEdit()"
+                  *ngIf="true"
+                  ngbTooltip="{{'TOOLTIP.EDIT_TOPIC' | translate}}">
+            {{ "BUTTON.EDIT" | translate }}
+          </button>
+          <button type="checkbox"
+                  placement="left"
+                  type="button"
+                  class="btn-outline-warning"
+                  (click)="onCancel()"
+                  ngbTooltip="{{'TOOLTIP.CANCEL_TOPIC' | translate}}">
+            {{ "BUTTON.CANCEL" | translate }}
+          </button>
+          <button type="checkbox"
+                  placement="bottom"
+                  type="button"
+                  class="btn-outline-primary"
+                  (click)="onCreateRequest()"
+                  ngbTooltip="{{'TOOLTIP.REQUEST_TO_TOPIC_DISCUSS' | translate}}">
+            {{ "BUTTON.REQUEST_DISCUSS" | translate }}
+          </button>
+          <button type="checkbox"
+                  placement="bottom"
+                  type="button"
+                  class="btn-outline-info"
+                  (click)="onRefuse()"
+                  ngbTooltip="{{'TOOLTIP.REFUSE' | translate}}">
+            {{ "BUTTON.REFUSE" | translate }}
+          </button>
+          <button type="checkbox"
+                  placement="right"
+                  type="button"
+                  class="btn-outline-danger"
+                  (click)="onDelete()"
+                  ngbTooltip="{{'TOOLTIP.DELETE_TOPIC' | translate}}">X
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-block">
+    <p class="card-text">{{topic?.description}}.</p>
+  </div>
+</div>
