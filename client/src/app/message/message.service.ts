@@ -14,7 +14,6 @@ import { Constants, HeaderConst } from "../shared/constants/constants";
 export class MessageService implements IMessageService {
   private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
   messagesChanged = new Subject<Page<Message>>();
-  // private messages = new Page<Message>();
   private currentPageInfo = new Page<Message>();
 
   constructor(private  http: HttpClient) {
@@ -26,9 +25,7 @@ export class MessageService implements IMessageService {
       .do(
         (page: Page<Message>) => {
           this.setCurrentPageInfo(page);
-          console.log('PageInfo from MsgSrv GetAll', this.currentPageInfo);
           this.messagesChanged.next(page);
-          console.log('From MsgService FullData', page);
         },
         (err) => {
           console.log('Error from DO', err)
@@ -43,7 +40,7 @@ export class MessageService implements IMessageService {
         this.getAllMessagesBy(message.inTopic.id, this.getHttpParams()).subscribe();
         return mes;
       }, (err) => {
-        console.log('Error from do create', err);
+        console.log('Error from do delete', err);
         return err;
       });
   }
@@ -83,9 +80,10 @@ export class MessageService implements IMessageService {
   }
 
   private setPageParamsForDelete() {
-    (this.currentPageInfo.last == true && this.currentPageInfo.numberOfElements == 1) ?
-      this.currentPageInfo.number = this.currentPageInfo.totalPages - 2 :
-      this.currentPageInfo.number = this.currentPageInfo.number;
+    if (this.currentPageInfo.last == true
+      && this.currentPageInfo.numberOfElements == 1) {
+      this.currentPageInfo.number = this.currentPageInfo.totalPages - 2
+    }
   }
 
   private getHttpParams(): HttpParams {
