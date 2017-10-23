@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <h6 class="modal-title">{{ "MESSAGE.EDIT_TOPIC" | translate }}</h6>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit()"
+        [formGroup]="topicForm">
+    <div class="form-group">
+      <label class="col-sm-2 control-label text-nowrap"
+             for="title">{{ "FORM.TITLE" | translate }}</label>
+      <div class="col-sm-12">
+        <input type="text"
+               class="form-control"
+               id="title"
+               formControlName="title"/>
+
+        <div *ngIf="title.invalid">
+          <div *ngIf="title.errors['maxlength']" class="invalid-feedback">
+            {{ "VALIDATION.MAX"| translate:maxTitleLength }}
+          </div>
+          <div *ngIf="title.errors['required']" class="invalid-feedback">
+            {{ "VALIDATION.REQUIRED" | translate }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label text-nowrap"
+             for="title">{{ "FORM.DESCRIPTION" | translate }}</label>
+      <div class="col-sm-12">
+        <textarea class="form-control"
+                  id="description"
+                  rows="7"
+                  cols="150"
+                  formControlName="description">
+      </textarea>
+
+        <div *ngIf="description.invalid">
+          <div *ngIf="description.errors['maxlength']" class="invalid-feedback">
+            {{ "VALIDATION.MAX"| translate:maxDescriptionLength }}
+          </div>
+          <div *ngIf="description.errors['required']" class="invalid-feedback">
+            {{ "VALIDATION.REQUIRED" | translate }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit"
+              class="btn btn-outline-success"
+              role="button"
+              [disabled]="topicForm.invalid">{{ "BUTTON.SAVE" | translate }}
+      </button>
+      <button type="button"
+              class="btn btn-outline-warning"
+              (click)="activeModal.close('Close click')"
+              role="button">
+        {{ "BUTTON.CANCEL" | translate }}
+      </button>
+    </div>
+  </form>
+</div>
+

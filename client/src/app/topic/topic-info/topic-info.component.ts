@@ -1,5 +1,6 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { Topic } from "../../shared/entity/topic";
 import { AuthenticationService } from "../../authorization/authentication.service";
@@ -9,6 +10,7 @@ import { UserRole } from "../../shared/entity/role";
 import { Status, TopicDiscussRequest } from "../../shared/entity/topic-discuss-request";
 import { isInArray } from "../../shared/utilities";
 import { Constants } from "../../shared/constants/constants";
+import { ModalTopicContentComponent } from "../edit-topic/modal-content/modal-topic-content.component";
 
 @Component({
   selector: 'app-topic-info',
@@ -18,9 +20,9 @@ import { Constants } from "../../shared/constants/constants";
 export class TopicInfoComponent implements OnInit, OnDestroy {
   @Input() topic: Topic;
   saving = false;
-  caneling = false;
+  canceling = false;
   editing = false;
-  deleteng = false;
+  deleting = false;
   loggedUser: User;
   currentUserSubscr: Subscription;
   requesting: boolean;
@@ -28,7 +30,8 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   topicDiscussRequest: TopicDiscussRequest;
 
   constructor(private authService: AuthenticationService,
-              @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService) {
+              @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -65,6 +68,8 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   onEdit(): void {
+    const modalRef = this.modalService.open(ModalTopicContentComponent, {size: "lg"});
+    modalRef.componentInstance.topic = this.topic;
   }
 
   onCreateRequest(): void {

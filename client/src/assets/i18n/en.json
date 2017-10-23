@@ -59,11 +59,6 @@
   "ROLE": {
     "TITLE": "Title"
   },
-  "MESSAGE": {
-    "TEXT": "Text",
-    "CREATED_BY": "Created by",
-    "CREATED_AT": "Created at"
-  },
   "TOOLTIP": {
     "EDIT_MESSAGE": "Edit message",
     "DELETE_MESSAGE": "Delete message",
@@ -85,7 +80,9 @@
     "DO_NOT_MATCH": "Password and Password Confirmation don't match."
   },
   "FORM": {
-    "PASSWORD_CONFIRMATION": "Password confirmation"
+    "PASSWORD_CONFIRMATION": "Password confirmation",
+    "TITLE": "Title",
+    "DESCRIPTION": "Description"
   },
   "MESSAGE": {
     "CONGRATULATION": "Congratulation!",
@@ -95,6 +92,10 @@
     "INVALID_CREDENTIAL": "Invalid email or password!",
     "NO_MESSAGES": "There is no messages yet. You can write it the first.",
     "BLOCKED_USER": "You are blocked. You can't create new message!",
-    "CANT_CREATE_MESSAGES": "You can't create message in this topic. If you would like to discuss, please make request to manager by pressing the button 'Request' in the top of the topic."
+    "CANT_CREATE_MESSAGES": "You can't create message in this topic. If you would like to discuss, please make request to manager by pressing the button 'Request' in the top of the topic.",
+    "EDIT_TOPIC": "Edit topic",
+    "TEXT": "Text",
+    "CREATED_BY": "Created by",
+    "CREATED_AT": "Created at"
   }
 }

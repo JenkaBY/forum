@@ -6,12 +6,19 @@
       </div>
       <div class="col-1"></div>
       <div class="col-2">
+        <!--<button placement="bottom"-->
+        <!--type="button"-->
+        <!--class="btn btn-outline-primary"-->
+        <!--(click)="onEdit()"-->
+        <!--[disabled]="editing">-->
+        <!--test-->
+        <!--</button>-->
         <div *ngIf="loggedUser"
              class="btn-group btn-group-sm mr-2 col-2"
              role="group"
              aria-label="Manage topic">
 
-          <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-toolbar" role="toolbar" aria-label="Manage topic button">
             <div *ngIf="canEdit()"
                  class="btn-group btn-group-sm mr-2"
                  role="group"

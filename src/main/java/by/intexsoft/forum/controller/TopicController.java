@@ -42,6 +42,17 @@ public class TopicController {
         return ok(topicService.find(id));
     }
 
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> updateTopic(@PathVariable(name = "id") Long id, @RequestBody Topic topic) {
+        if (topic == null || topic.getId() != id || topic.getId() <= 0) {
+            //        TODO topic can create only administrator!!!
+            LOGGER.warn("User {0} was tried to update topic with null parameters.", "MANAGER_SHOULD_BE_HERE");
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
+        Topic savedTopic = topicService.save(topic);
+        return ok(savedTopic);
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteTopic(@PathVariable(name = "id") Long id) {
         LOGGER.info("User with id = {0} was deleted topic with id = {1}", "USER_ID", id);
