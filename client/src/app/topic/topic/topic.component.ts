@@ -25,9 +25,11 @@ export class TopicComponent implements OnInit, OnDestroy {
   currentPage: number;
   totalElements: number;
   pageSize: number;
-  maxSize: number;
-  authorsMessages: User[];
-  subscription: Subscription;
+  maxSize: number = Constants.getMaxSize;
+  authorsMessages: User[] = new Array();
+  subscriptionOnMsg: Subscription;
+  loggedUser: User;
+  subscrOnCurrentUser: Subscription;
 
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('topicService') private topicService: TopicService,
@@ -37,20 +39,19 @@ export class TopicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.maxSize = Constants.getMaxSize;
-    this.authorsMessages = new Array();
     this.setTopicId();
-    this.fetchTopic();
+    this.subscribeOnCurrentUser();
+    this.loadTopic();
     this.subscribeOnMessages();
     this.getAllMessages(this.setHttpParams());
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptionOnMsg.unsubscribe();
   }
 
   subscribeOnMessages() {
-    this.subscription = this.messageService.messagesChanged
+    this.subscriptionOnMsg = this.messageService.messagesChanged
       .subscribe((page: Page<Message>) => {
           this.setPageData(page);
         },
@@ -59,12 +60,20 @@ export class TopicComponent implements OnInit, OnDestroy {
         })
   }
 
+  subscribeOnCurrentUser() {
+    this.subscrOnCurrentUser = this.authService.changedCurrentUser
+      .subscribe((user: User) => {
+        this.loggedUser = user;
+      });
+    this.loggedUser = this.authService.getCurrentUser;
+  }
+
   getAllMessages(httpParams?: HttpParams): void {
     this.messageService.getAllMessagesBy(this.topicId, httpParams)
       .subscribe()
   }
 
-  fetchTopic(): void {
+  loadTopic(): void {
     this.topicService.getById(this.topicId)
       .subscribe(
         (topic: Topic) => this.topic = topic,
@@ -101,26 +110,26 @@ export class TopicComponent implements OnInit, OnDestroy {
     this.pageSize = page.size;
   }
 
-  private fetchAuthors() {
-    this.messages.forEach((message: Message) => {
-      if (!this.authorsMessages.map((author: User) => author.id).includes(message.createdBy.id)) {
-        this.userService.getById(message.createdBy.id)
-          .subscribe((user: User) => this.authorsMessages.push(user),
-            (error: HttpErrorResponse) => this.handleError(error));
-      }
-    })
-  }
-
-  private setCreatedByForMessages() {
-    this.messages.forEach((message: Message) => {
-      message.createdBy = this.authorsMessages
-        .find((user: User) => user.id === message.createdBy.id);
-    })
-  }
-
-  getAuthorBy(id: number) {
-    return this.authorsMessages.find((user: User) => user.id === id);
-  }
+  // private fetchAuthors() {
+  //   this.messages.forEach((message: Message) => {
+  //     if (!this.authorsMessages.map((author: User) => author.id).includes(message.createdBy.id)) {
+  //       this.userService.getById(message.createdBy.id)
+  //         .subscribe((user: User) => this.authorsMessages.push(user),
+  //           (error: HttpErrorResponse) => this.handleError(error));
+  //     }
+  //   })
+  // }
+  //
+  // private setCreatedByForMessages() {
+  //   this.messages.forEach((message: Message) => {
+  //     message.createdBy = this.authorsMessages
+  //       .find((user: User) => user.id === message.createdBy.id);
+  //   })
+  // }
+  //
+  // getAuthorBy(id: number) {
+  //   return this.authorsMessages.find((user: User) => user.id === id);
+  // }
 
   private handleError(error: HttpErrorResponse) {
     console.error(error);

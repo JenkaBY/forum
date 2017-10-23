@@ -94,6 +94,7 @@
     "TRY_LOGIN": "Try to log in a little bit later.",
     "INVALID_CREDENTIAL": "Invalid email or password!",
     "NO_MESSAGES": "There is no messages yet. You can write it the first.",
-    "BLOCKED_USER": "You are blocked. You can't create new message!"
+    "BLOCKED_USER": "You are blocked. You can't create new message!",
+    "CANT_CREATE_MESSAGES": "You can't create message in this topic. If you would like to discuss, please make request to manager by pressing the button 'Request' in the top of the topic."
   }
 }

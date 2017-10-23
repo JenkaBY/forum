@@ -1,6 +1,6 @@
 <form [formGroup]="msgForm"
       (ngSubmit)="onSendMsg()"
-      *ngIf="loggedUser; else signInOrSignOn">
+      *ngIf="canCreateMsg(); else makeDiscussTopicRequest">
 
   <div class="form-group">
       <textarea class="form-control"
@@ -10,7 +10,7 @@
                 formControlName="text"
                 placeholder="{{ 'PLACEHOLDER.TYPE_TEXT'| translate }}">
       </textarea>
-    <h5 *ngIf="loggedUser.blocked || !canCreateMsg()" class="invalid-feedback">
+    <h5 *ngIf="loggedUser.blocked" class="invalid-feedback">
       {{ "MESSAGE.BLOCKED_USER" | translate }}
     </h5>
   </div>
@@ -19,13 +19,13 @@
     <div class="col">
       <button type="submit"
               class="btn btn-success"
-              [disabled]="msgForm.invalid || creating || loggedUser.blocked || !canCreateMsg()">
+              [disabled]="isDisabledSendButton">
         {{ 'BUTTON.SEND'| translate }}
       </button>
     </div>
   </div>
 </form>
 
-<ng-template #signInOrSignOn>
-  <app-need-to-be-logged></app-need-to-be-logged>
+<ng-template #makeDiscussTopicRequest>
+  <h5>{{ "MESSAGE.CANT_CREATE_MESSAGES" | translate }}</h5>
 </ng-template>

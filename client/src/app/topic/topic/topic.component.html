@@ -11,7 +11,7 @@
   </div>
 
   <div class="row" *ngIf="messages && messages.length > 0">
-    <div class="col-12 d-flex justify-content-left mt-3">
+    <div class="col-12 d-flex justify-content-center mt-3">
       <ngb-pagination
         *ngIf="messages"
         [collectionSize]="totalElements"
@@ -27,5 +27,8 @@
     <p>{{ "MESSAGE.NO_MESSAGES"| translate }}</p>
   </div>
 
-  <app-new-message-form *ngIf="messages" [topic]="topic"></app-new-message-form>
+  <app-new-message-form *ngIf="loggedUser; else signInOrSignOn" [topic]="topic"></app-new-message-form>
+  <ng-template #signInOrSignOn>
+    <app-need-to-be-logged></app-need-to-be-logged>
+  </ng-template>
 </div>

@@ -47,7 +47,7 @@
                  class="btn-group btn-group-sm mr-2"
                  role="group"
                  aria-label="Requesting">
-              <button *ngIf="canCreateRequest()"
+              <button *ngIf="canCreateRequest() && !topicDiscussRequest"
                       type="button"
                       placement="bottom"
                       class="btn btn-outline-primary"

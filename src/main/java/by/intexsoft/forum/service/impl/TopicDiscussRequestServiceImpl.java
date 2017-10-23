@@ -27,6 +27,7 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
                                           UserService userService) {
         super(repository);
         this.topicService = topicService;
+        this.userService = userService;
     }
 
     /**
@@ -43,7 +44,7 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
     @Override
     public TopicDiscussRequest getByTopicIdAndUserId(long topicId, long userId) {
         Topic topicFromDb = topicService.find(topicId);
-        User userFromDb = userService.find(topicId);
+        User userFromDb = userService.find(userId);
         return ((TopicDiscussRequestRepository) repository).findFirstByInTopicAndRequestedBy(topicFromDb, userFromDb);
     }
     /**

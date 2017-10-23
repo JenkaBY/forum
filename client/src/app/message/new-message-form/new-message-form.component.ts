@@ -6,6 +6,8 @@ import { Topic } from "../../shared/entity/topic";
 import IMessageService from "../interface/imessage.service";
 import { AuthenticationService } from "../../authorization/authentication.service";
 import { User } from "../../shared/entity/user";
+import { isInArray } from "../../shared/utilities";
+import { Constants } from "../../shared/constants/constants";
 
 @Component({
   selector: 'app-new-message-form',
@@ -68,6 +70,20 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
   }
 
   canCreateMsg(): boolean {
-    return this.authService.isUserOrManager
+    return this.authService.isManager || (this.authService.isUser && this.isAllowedInTopic());
+  }
+
+  private isAllowedInTopic(): boolean {
+    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length == 0) {
+      console.log("isAllowed Not Logined");
+      return false;
+    }
+    // console.log("canCreaterequest _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0", _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0);
+    // return _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0;
+    return isInArray(this.topic.allowedUsers, Constants.id, this.loggedUser.id);
+  }
+
+  get isDisabledSendButton(): boolean {
+    return this.msgForm.invalid || this.creating || this.loggedUser.blocked || !this.canCreateMsg();
   }
 }

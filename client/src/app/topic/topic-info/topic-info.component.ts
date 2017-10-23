@@ -1,6 +1,5 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
-import * as _ from 'underscore';
 
 import { Topic } from "../../shared/entity/topic";
 import { AuthenticationService } from "../../authorization/authentication.service";
@@ -8,6 +7,8 @@ import ITopicDiscussRequestService from "../topic-disscuss-request/interface/ito
 import { User } from "../../shared/entity/user";
 import { UserRole } from "../../shared/entity/role";
 import { Status, TopicDiscussRequest } from "../../shared/entity/topic-discuss-request";
+import { isInArray } from "../../shared/utilities";
+import { Constants } from "../../shared/constants/constants";
 
 @Component({
   selector: 'app-topic-info',
@@ -35,7 +36,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
       .subscribe((user: User) => {
         this.loggedUser = user;
       });
-    this.authService.getCurrentUser;
+    this.loggedUser = this.authService.getCurrentUser;
     this.loadTopicDiscussRequest();
   }
 
@@ -69,7 +70,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   onCreateRequest(): void {
     // console.log('topic in createRequest', this.topic);
     // console.log('!this.loggedUser || this.topic.allowedUsers || this.topic.allowedUsers.size == 0', !this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.size == 0);
-    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.size == 0) {
+    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length == 0) {
       // console.log('this.loggedUser', this.loggedUser);
       // console.log('this.topic.allowedUsers', !this.topic.allowedUsers);
       // console.log('this.topic.allowedUsers.size == 0', this.topic.allowedUsers.size == 0);
@@ -97,12 +98,13 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   isAllowedInTopic(): boolean {
-    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.size == 0) {
+    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length == 0) {
       console.log("isAllowed Not Logined");
       return false;
     }
     // console.log("canCreaterequest _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0", _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0);
-    return _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0;
+    // return _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0;
+    return isInArray(this.topic.allowedUsers, Constants.id, this.loggedUser.id);
   }
 
   canDelete(): boolean {
@@ -128,7 +130,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
     }
     // console.log("canCreaterequest !this.isAllowedInTopic()=", !this.isAllowedInTopic());
     // console.log("canCreaterequest this.loggedUser.role.title !== UserRole.MANAGER", this.loggedUser.role.title !== UserRole.MANAGER);
-    return !this.isAllowedInTopic() && this.loggedUser.role.title !== UserRole.MANAGER;
+    return !this.isAllowedInTopic() && this.authService.isUser;
   }
 
   private createTopicDiscussRequest(): TopicDiscussRequest {

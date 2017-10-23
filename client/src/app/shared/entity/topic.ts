@@ -6,5 +6,5 @@ export class Topic extends AbstractEntity {
   createdBy: User;
   description: string;
   imagePath: string;
-  allowedUsers: Set<User>;
+  allowedUsers: User[];
 }
