@@ -12,18 +12,30 @@ const REJECTED = 'rejected';
 const PENDING = 'pending';
 const TOKEN = 'token';
 const OAUTH = 'oauth';
-const CONGRATULATION = 'congratulation'
+const CONGRATULATION = 'congratulation';
 const PROJECT_NAME = '';
 const LOGOUT = 'logout';
+const DISCUSS_REQUEST = 'discuss_request';
 
 export class RoutesConst {
-  static LOGOUT: string;
 
   static get PROJECT_NAME(): string {
     return PROJECT_NAME;
   }
 
-  static get logout() {
+  static get GET_ALL_TOPIC_DISCUSS_REQUESTS(): string {
+    return RoutesConst.routeFormatAll(TOPIC, DISCUSS_REQUEST, ALL);
+  }
+
+  static NEW_TOPIC_DISCUSS_REQUESTS(topicId: number): string {
+    return RoutesConst.routeFormatAll(TOPIC, String(topicId), `${DISCUSS_REQUEST}/${NEW}`);
+  }
+
+  static GET_TOPIC_DISCUSS_REQUEST(topicId: number) {
+    return RoutesConst.routeFormatAll(TOPIC, String(topicId), DISCUSS_REQUEST)
+  }
+
+  static get logout(): string {
     return RoutesConst.routeFormatOne(LOGOUT);
   }
 
@@ -110,4 +122,5 @@ export class RoutesConst {
   private static routeFormatTwo(path1: string, path2: string) {
     return PROJECT_NAME + API + '/' + path1 + '/' + path2;
   }
+
 }

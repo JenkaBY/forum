@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
               private authService: AuthenticationService) {
     translate.setDefaultLang('en');
 
-    console.log('loggedUser in const', this.loggedUser);
+    console.log('00 loggedUser in const', this.loggedUser);
   }
 
   ngOnInit(): void {
@@ -32,8 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log('1 loggedUser in onInit afterSubscribe', this.loggedUser);
     this.authService.getCurrentUser;
     console.log('2 loggedUser in onInit beforeSubscribe', this.loggedUser);
-    this.authService.autoLogin();
-    console.log('3 loggedUser in onInit afterLogin', this.loggedUser);
   }
 
   ngOnDestroy(): void {

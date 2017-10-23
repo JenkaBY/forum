@@ -14,6 +14,7 @@ import { MessageComponent } from "../message/message-in-topic/message.component"
 import { NewMessageFormComponent } from "../message/new-message-form/new-message-form.component";
 import { NeedToBeLoggedComponent } from "../layout/need-to-be-logged/need-to-be-logged.component";
 import { TopicInfoComponent } from "./topic-info/topic-info.component";
+import { TopicDiscussRequestService } from "./topic-disscuss-request/topic-discuss-request.service";
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { TopicInfoComponent } from "./topic-info/topic-info.component";
   ],
   providers: [
     {provide: 'topicService', useClass: TopicService},
-    {provide: 'messageService', useClass: MessageService}
+    {provide: 'messageService', useClass: MessageService},
+    {provide: 'topicDiscussRequestService', useClass: TopicDiscussRequestService}
   ]
 })
 export class TopicModule {

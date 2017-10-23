@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface TopicDiscussRequestService extends AbstractEntityService<TopicDiscussRequest> {
 
-    Page<TopicDiscussRequest> findAllPending(long topicId, Pageable pageable);
+    Page<TopicDiscussRequest> findAllPending(Pageable pageable);
 
+    TopicDiscussRequest getByTopicIdAndUserId(long topicId, long userId);
 }

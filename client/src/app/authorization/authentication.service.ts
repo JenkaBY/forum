@@ -122,6 +122,9 @@ export class AuthenticationService {
   }
 
   get getCurrentUser(): User {
+    if (!this.currentUser) {
+      this.autoLogin();
+    }
     this.changedCurrentUser.next(this.currentUser);
     console.log("getCurrent user in AuthServ after if", this.currentUser);
     return this.currentUser;

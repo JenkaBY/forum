@@ -14,8 +14,8 @@ public class TopicDiscussRequest extends AbstractEntity {
     private static final long serialVersionUID = 2114056750097120018L;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id", updatable = false, nullable = false)
-    public User user;
+    @JoinColumn(name = "requested_by", updatable = false, nullable = false)
+    public User requestedBy;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "approved_by", insertable = false)
@@ -26,7 +26,7 @@ public class TopicDiscussRequest extends AbstractEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "topic_id", updatable = false)
-    public Topic topic;
+    public Topic inTopic;
 
     @Enumerated(STRING)
     @Column(length = 10)
