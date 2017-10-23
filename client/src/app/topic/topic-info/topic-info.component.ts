@@ -5,6 +5,7 @@ import * as _ from 'underscore';
 import { Topic } from "../../shared/entity/topic";
 import { AuthenticationService } from "../../authorization/authentication.service";
 import { User } from "../../shared/entity/user";
+import { UserRole } from "../../shared/entity/role";
 
 @Component({
   selector: 'app-topic-info',
@@ -19,6 +20,8 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   deleteng = false;
   loggedUser: User;
   currentUserSubscr: Subscription;
+  requesting: boolean;
+  refusing: boolean;
 
   constructor(private authService: AuthenticationService) {
   }
@@ -55,7 +58,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
       console.log('this.topic.allowedUsers.size == 0', this.topic.allowedUsers.size == 0);
       return;
     }
-    alert(_.isMatch(this.topic.allowedUsers, {'id': this.loggedUser.id}));
+    alert(_.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id));
   }
 
   onCancel(): void {
@@ -65,13 +68,38 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
 
   }
 
-  allowedInTopic(): boolean {
-    // _.any()
-    if (!this.loggedUser) {
+  isAllowedInTopic(): boolean {
+    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.size == 0) {
+      console.log("isAllowed Not Logined");
       return false;
     }
-    alert(this.topic.allowedUsers.has(this.loggedUser));
-    return this.topic.allowedUsers.has(this.loggedUser);
+    console.log("canCreaterequest _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0", _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0);
+    return _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0;
   }
 
+  canDelete(): boolean {
+    if (!this.loggedUser) {
+      console.log("canDelte Not Logined");
+      return false;
+    }
+    console.log("canDelete this.loggedUser.id == this.topic.createdBy.id", this.loggedUser.id == this.topic.createdBy.id);
+    console.log("canDelete this.loggedUser.role.title === UserRole.MANAGER", this.loggedUser.role.title === UserRole.MANAGER);
+    console.log("canDelete this.loggedUser.role.title", this.loggedUser.role.title);
+    console.log("canDelete UserRole.MANAGER", UserRole.MANAGER);
+    return this.loggedUser.id == this.topic.createdBy.id || this.loggedUser.role.title === UserRole.MANAGER;
+  }
+
+  canEdit(): boolean {
+    return this.canDelete();
+  }
+
+  canCreateRequest(): boolean {
+    if (!this.loggedUser) {
+      console.log("canCreaterequest Not Logined");
+      return false;
+    }
+    console.log("canCreaterequest !this.isAllowedInTopic()=", !this.isAllowedInTopic());
+    console.log("canCreaterequest this.loggedUser.role.title !== UserRole.MANAGER", this.loggedUser.role.title !== UserRole.MANAGER);
+    return !this.isAllowedInTopic() && this.loggedUser.role.title !== UserRole.MANAGER;
+  }
 }

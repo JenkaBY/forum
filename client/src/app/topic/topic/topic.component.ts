@@ -90,6 +90,10 @@ export class TopicComponent implements OnInit, OnDestroy {
     this.getAllMessages(params);
   }
 
+  /**
+   *
+   * @param {Page<Message>} page
+   */
   private setPageData(page: Page<Message>) {
     this.messages = page.content;
     this.currentPage = page.number + 1;
