@@ -3,7 +3,6 @@ package by.intexsoft.forum.controller;
 import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
-import by.intexsoft.forum.service.RoleService;
 import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,9 @@ import java.util.Objects;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 
+/**
+ * Controller for admin dashboard.
+ */
 @RestController
 @RequestMapping(path = "/admin")
 public class AdminController {
@@ -28,12 +30,23 @@ public class AdminController {
     private UserService userService;
     private SecurityHelper securityHelper;
 
+    /**
+     * @param userService    service for getting user data
+     * @param securityHelper service for getting logged user
+     */
     @Autowired
-    public AdminController(UserService userService, SecurityHelper securityHelper, RoleService roleService) {
+    public AdminController(UserService userService, SecurityHelper securityHelper) {
         this.userService = userService;
         this.securityHelper = securityHelper;
     }
 
+
+    /**
+     * Getting all users per page
+     *
+     * @param pageable parameter for getting data per page
+     * @return page of content with page parameters
+     */
     @GetMapping(path = "/user/all")
     public ResponseEntity<?> getAllUser(Pageable pageable) {
         LOGGER.info("Get all users.");
@@ -41,6 +54,12 @@ public class AdminController {
         return new ResponseEntity<>(users, OK);
     }
 
+    /**
+     * Getting all users pending to approve per page
+     *
+     * @param pageable parameter for getting data per page
+     * @return page of content with page parameters
+     */
     @GetMapping(path = "/user/pending")
     public ResponseEntity<?> getAllPendingUsersToApprove(Pageable pageable) {
         LOGGER.info("Get all pending users to approve.");
@@ -48,6 +67,11 @@ public class AdminController {
         return new ResponseEntity<>(users, OK);
     }
 
+    /**
+     * Gets all users a[[roved by current admin per page. Current admin data is taken from security context
+     * @param pageable parameter for getting data per page
+     * @return page of content with page parameters
+     */
     @GetMapping(path = "/user/approved")
     public ResponseEntity<?> getApprovedUsers(Pageable pageable) {
 //        TODO add getCurrentUser == admin
@@ -59,9 +83,13 @@ public class AdminController {
         return ResponseEntity.ok(userService.findAllApprovedByAndNotRejected(admin, pageable));
     }
 
+    /**
+     * Gets all users rejected by current admin per page. Current admin data is taken from security context
+     * @param pageable parameter for getting data per page
+     * @return page of content with page parameters
+     */
     @GetMapping(path = "/user/rejected")
     public ResponseEntity<?> getRejectedUsers(Pageable pageable) {
-//        TODO add getCurrentUser == admin
         User admin = securityHelper.getCurrentUser();
         if (Objects.isNull(admin) || !admin.role.title.equals(RoleConst.ADMIN)) {
             return new ResponseEntity<>(BAD_REQUEST);
@@ -70,6 +98,11 @@ public class AdminController {
         return ResponseEntity.ok(userService.findAllApprovedByAndRejected(admin, pageable));
     }
 
+    /**
+     * Gets all blocked users per page.
+     * @param pageable parameter for getting data per page
+     * @return page of content with page parameters
+     */
     @GetMapping(path = "/user/blocked")
     public ResponseEntity<?> getBlockedUsers(Pageable pageable) {
         return ResponseEntity.ok(userService.findAllBlocked(pageable));

@@ -17,7 +17,6 @@ import { AdminModule } from './admin/admin.module';
 import { TopicModule } from "./topic/topic.module";
 import { AdminService } from './admin/admin.service';
 import { RegistrationModule } from "./registration/registration.module";
-import { TestComponent } from './test/test.component';
 import { LoginComponent } from './authorization/login/login.component';
 import { AuthenticationService } from "./authorization/authentication.service";
 import { AuthInterceptor } from "./shared/AuthInterceptor";
@@ -33,7 +32,6 @@ export function createTranslateLoader(http: Http) {
     UsersComponent,
     UserDetailsComponent,
     HeaderComponent,
-    TestComponent,
     LoginComponent
   ],
   imports: [

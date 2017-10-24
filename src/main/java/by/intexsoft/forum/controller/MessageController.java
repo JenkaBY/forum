@@ -15,6 +15,9 @@ import java.util.Objects;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.ok;
 
+/**
+ * Controller for manage the messages in the topic
+ */
 @RestController
 @RequestMapping
 public class MessageController {
@@ -27,28 +30,44 @@ public class MessageController {
         this.messageService = messageService;
     }
 
+    /**
+     * Get all message in the topic
+     *
+     * @param topicId  number of topic for which need to get all messages per page
+     * @param pageable parameter for getting data per page
+     * @return
+     */
     @GetMapping(path = "/topic/{topicId}/all")
     public ResponseEntity<?> getAllMessagesByTopic(@PathVariable(value = "topicId") Long topicId, Pageable pageable) {
 
         return ok(messageService.findAllByTopic(topicId, pageable));
     }
 
+    /**
+     * Updates message.
+     *
+     * @param id      id number of message for updating.
+     * @param message message data.
+     * @return BAD_REQUEST if message doesn't exist or OK with updated message
+     */
     @PutMapping(path = "/message/{id}")
     public ResponseEntity<?> updateMessage(@PathVariable(value = "id") Long id, @RequestBody Message message) {
-//        TODO Create authorized request
         if (message.getId() != id) {
             LOGGER.warn("Attempt to update message with id={0} with message = {1}", id, message);
             return new ResponseEntity<>(BAD_REQUEST);
         }
-//        message.updatedBy = userService.find(2);//        TODO Need to change to currentUser
         Message updatedMessage = messageService.save(message);
-
         return ok(updatedMessage);
     }
 
+    /**
+     * Delete message
+     *
+     * @param id id number of message for deleting.
+     * @return BAD_REQUEST if message doesn't exist or OK with empty object in the body. Empty body needed for angular
+     */
     @DeleteMapping(path = "/message/{id}")
     public ResponseEntity<?> deleteMessage(@PathVariable(value = "id") Long id) {
-//        TODO Create authorized request
         if (Objects.isNull(id)) {
             LOGGER.warn("Attempt to delete message with id={0}", id);
             return new ResponseEntity<>(BAD_REQUEST);
@@ -57,9 +76,16 @@ public class MessageController {
         return new ResponseEntity<>("{}", OK);
     }
 
+    /**
+     * Create new message
+     *
+     * @param message Message needed to save in DB.
+     * @return BAD_REQUEST if message null or has or createdBy parameter is null.
+     * OK is if with empty object in the body. Empty body needed for angular
+     */
     @PostMapping(path = "/message/new")
     public ResponseEntity<?> createMessage(@RequestBody Message message) {
-        if (Objects.isNull(message) || message.createdBy.getId() <= 0 || Objects.isNull(message.createdBy)) {
+        if (Objects.isNull(message) || Objects.isNull(message.createdBy)) {
             LOGGER.warn("Attempt to create message message = {1}", message);
             return new ResponseEntity<>(BAD_REQUEST);
         }

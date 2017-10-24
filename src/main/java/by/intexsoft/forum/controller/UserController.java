@@ -1,8 +1,8 @@
 package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.dto.UserDTO;
-import by.intexsoft.forum.entity.Role;
 import by.intexsoft.forum.entity.User;
+import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.RoleService;
 import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 import static by.intexsoft.forum.security.SecurityHelper.checkPasswordLength;
 import static org.springframework.http.HttpStatus.*;
 
+/**
+ * Controller for managing the users
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -26,13 +27,21 @@ public class UserController {
 
     private UserService userService;
     private RoleService roleService;
+    private SecurityHelper securityHelper;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService) {
+    public UserController(UserService userService, RoleService roleService, SecurityHelper securityHelper) {
         this.userService = userService;
         this.roleService = roleService;
+        this.securityHelper = securityHelper;
     }
 
+    /**
+     * gets user data by id given in request
+     *
+     * @param id id number of user
+     * @return BAD_REQUEST if user not found or OK with userData in Body.
+     */
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getUserBy(@PathVariable(value = "id") Long id) {
         User user = userService.find(id);
@@ -44,6 +53,14 @@ public class UserController {
         return new ResponseEntity<>(new UserDTO(user), OK);
     }
 
+
+    /**
+     * Delete user by id
+     *
+     * @param id id number of user
+     * @return BAD_REQUEST if user not found or user is not deleted.
+     * OK if user has been deleted.
+     */
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteUserBy(@PathVariable(value = "id") Long id) {
         if (userService.find(id) == null) {
@@ -56,6 +73,12 @@ public class UserController {
         return new ResponseEntity<>(Objects.isNull(userService.find(id)) ? OK : BAD_REQUEST);
     }
 
+    /**
+     * Creates new user.
+     *
+     * @param userDTO user data(password email and name) to be created
+     * @return created user data with OK status.
+     */
     @PostMapping(path = "/new")
     public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
         User createdUser = userService.save(userDTO.transformToUser());
@@ -64,9 +87,14 @@ public class UserController {
         return new ResponseEntity<>(new UserDTO(createdUser), CREATED);
     }
 
+    /**
+     * updates the user
+     * @param userDTO user data that to be updated.
+     * @param id id of updated user
+     * @return BAD REQUEST if ids doesn't match
+     */
     @PutMapping(path = "/{id}")
     public ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable(value = "id") Long id) {
-//        TODO checking the authorities
         if (userDTO.id != id) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
@@ -76,47 +104,20 @@ public class UserController {
         return new ResponseEntity<>(new UserDTO(updatedUser), OK);
     }
 
+    /**
+     * Changes password for user with id given in request parameters. UserData is taken from Security context.
+     * @param id id number of user for which password to be updated
+     * @param newPassword raw password string
+     * @return BAD REQUEST if password is incorrect. Or OK if password has been updated.
+     */
     @PutMapping(path = "/{id}/change_password")
     public ResponseEntity<?> changePassword(@PathVariable(value = "id") Long id, @RequestBody String newPassword) {
         if (!checkPasswordLength(newPassword)) {
             return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);
         }
 //        TODO add currentUser or Admin;
-        User currentUser = new User();
+        User currentUser = securityHelper.getCurrentUser();
         userService.changePassword(currentUser, newPassword);
         return new ResponseEntity<>(OK);
-    }
-
-    //    TODO Delete when all will be complete.
-    @GetMapping(path = "/create")
-    public ResponseEntity<?> createNewUser() {
-        long date = new Date().getTime();
-        User user = new User();
-        user.email = date + "@email.com";
-        user.hashPassword = "password";
-        user.name = "User" + date;
-        user.role = getRole();
-        user = userService.save(user);
-
-        LOGGER.warn("Create new user: {0}", user);
-        return new ResponseEntity<>(user, CREATED);
-    }
-
-    //    TODO Remove the method. It's only for test.
-    @GetMapping(path = "/create20")
-    public ResponseEntity<?> create20Users() {
-        IntStream.range(0, 20).forEach(number -> createNewUser());
-        return ResponseEntity.ok("20 users has been created.");
-    }
-
-    //    TODO Remove the method. It's only for test.
-    private Role getRole() {
-        Role role = roleService.find(1);
-        if (role == null) {
-            role = new Role();
-            role.title = "USER";
-            roleService.save(role);
-        }
-        return role;
     }
 }

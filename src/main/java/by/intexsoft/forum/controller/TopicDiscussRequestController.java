@@ -14,6 +14,9 @@ import java.util.Objects;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.ok;
 
+/**
+ * Controller for manage the topic discuss requests
+ */
 @RestController
 @RequestMapping(path = "/topic")
 public class TopicDiscussRequestController {
@@ -25,12 +28,25 @@ public class TopicDiscussRequestController {
         this.topicDiscussRequestService = topicRequestService;
     }
 
+    /**
+     * Get all pending topics discuss request per page
+     *
+     * @param pageable parameters of page
+     * @return Page with content
+     */
     @GetMapping(path = "/discuss_request/all")
     public ResponseEntity<?> getAllPending(Pageable pageable) {
         LOGGER.info("{0} requests all pending inTopic discuss requests", "MANAGER");
         return new ResponseEntity<>(topicDiscussRequestService.findAllPending(pageable), OK);
     }
 
+    /**
+     * Creates topic discuss request in parameters provided in request
+     *
+     * @param topicId id of topic in which user wants to disscuss
+     * @param request data of topic discuss request
+     * @return
+     */
     @PostMapping(path = "/{topicId}/discuss_request/new")
     public ResponseEntity<?> createRequest(@PathVariable("topicId") Long topicId, @RequestBody TopicDiscussRequest request) {
         LOGGER.info("Creating the topicDiscussRequest in the topic {0} was requested by {1}",
@@ -40,11 +56,18 @@ public class TopicDiscussRequestController {
         }
         TopicDiscussRequest created = this.topicDiscussRequestService.save(request);
         if (Objects.isNull(created)) {
-            return new ResponseEntity<>(INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(BAD_REQUEST);
         }
         return new ResponseEntity<>(created, CREATED);
     }
 
+    /**
+     * Gets topics discuss request by parameters given in the request params
+     *
+     * @param userId  id of user
+     * @param topicId id of topic
+     * @return OK with content in a body
+     */
     @GetMapping(path = "/{topicId}/discuss_request")
     public ResponseEntity<?> getTopicDiscussRequestByUserId(@RequestParam("userId") Long userId,
                                                             @PathVariable("topicId") Long topicId) {

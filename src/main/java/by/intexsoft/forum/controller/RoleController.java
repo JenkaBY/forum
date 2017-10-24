@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+/**
+ * Contoller for manage roles.
+ */
 @RestController
 @RequestMapping(path = "/role")
 public class RoleController {
@@ -22,6 +25,11 @@ public class RoleController {
         this.roleService = roleService;
     }
 
+    /**
+     * Get all roles from DB
+     *
+     * @return response with list of existing roles.
+     */
     @GetMapping(path = "/all")
     public ResponseEntity<?> getRoles() {
         return ok(roleService.findAll());

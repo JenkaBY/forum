@@ -19,8 +19,6 @@ export class AppComponent implements OnInit, OnDestroy {
               private translate: TranslateService,
               private authService: AuthenticationService) {
     translate.setDefaultLang('en');
-
-    console.log('00 App Constructor');
   }
 
   ngOnInit(): void {
@@ -29,12 +27,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.loggedUser = user;
       });
     this.authService.getCurrentUser;
-    console.log('01 App OnInit');
   }
 
   ngOnDestroy(): void {
     this.currentUserSubscr.unsubscribe();
-    console.log('02 App OnDestroy');
   }
 
   switchLanguage(lang: string): void {
@@ -45,5 +41,4 @@ export class AppComponent implements OnInit, OnDestroy {
   openAdminDashBoard(open: boolean): void {
     this.isAdminDashboardOpened = open;
   }
-
 }
