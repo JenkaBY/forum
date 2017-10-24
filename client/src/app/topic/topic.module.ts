@@ -16,6 +16,7 @@ import { NeedToBeLoggedComponent } from "../layout/need-to-be-logged/need-to-be-
 import { TopicInfoComponent } from "./topic-info/topic-info.component";
 import { TopicDiscussRequestService } from "./topic-disscuss-request/topic-discuss-request.service";
 import { ModalTopicContentComponent } from "./edit-topic/modal-content/modal-topic-content.component";
+import { TopicRequestComponent } from "./topic-request/topic-request.component";
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { ModalTopicContentComponent } from "./edit-topic/modal-content/modal-top
     NewMessageFormComponent,
     NeedToBeLoggedComponent,
     TopicInfoComponent,
-    ModalTopicContentComponent
+    ModalTopicContentComponent,
+    TopicRequestComponent
   ],
   entryComponents: [
     ModalTopicContentComponent

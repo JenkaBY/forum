@@ -7,18 +7,18 @@
             <div class="col-8">
               <a [routerLink]="['/topic', topic.id]">{{ topic.title }}</a>
             </div>
-            <div class="col-2">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
+            <!--<div class="col-2">-->
+            <!--<small class="text-muted">Last updated 3 mins ago</small>-->
+            <!--</div>-->
           </div>
         </div>
         <div class="card-block pb-3">
           <div class="row justify-content-between">
             <div class="col-10">
-              <h6 class="card-subtitle mb-2 text-muted">
-                <b>Author:</b> {{ topic.createdBy?.name }}
-                <del *ngIf="!topic.createdBy.name">deleted</del>
-              </h6>
+              <!--<h6 class="card-subtitle mb-2 text-muted">-->
+              <!--<b>Author:</b> {{ topic.createdBy.name }}-->
+              <!--&lt;!&ndash;<del *ngIf="!topic.createdBy.name">deleted</del>&ndash;&gt;-->
+              <!--</h6>-->
               <p>
                 <small class="card-text mb-0">{{ topic.description }}</small>
               </p>

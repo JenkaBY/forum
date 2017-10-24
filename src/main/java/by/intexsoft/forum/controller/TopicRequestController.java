@@ -25,7 +25,7 @@ public class TopicRequestController {
 
     @GetMapping(path = "/pending")
     public ResponseEntity<?> getAllPending(Pageable pageable) {
-//        TODO add checking isAdmin?
+//        TODO add checking isManager?
         LOGGER.info("{0} requests all pending topic requests", "ADMIN");
         return new ResponseEntity<>(topicRequestService.findAllPending(pageable), OK);
     }

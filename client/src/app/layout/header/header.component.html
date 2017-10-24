@@ -12,24 +12,23 @@
     <div class="navbar-nav mr-auto">
       <a class="nav-item nav-link"
          routerLink="/"
-         routerLinkActive="active">
+         routerLinkActive="active"
+         *ngIf="!isAdmin">
         {{ 'NAV.TOPICS' | translate }}
       </a>
-      <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+      <a *ngIf="isUser" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
         {{ 'NAV.MY_TOPICS' | translate }}
       </a>
-      <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+      <a *ngIf="isUser" class="nav-item nav-link" routerLink="topic/request" routerLinkActive="active">
         {{ 'NAV.REQUEST' | translate }}
       </a>
-      <a *ngIf="false" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+      <a *ngIf="isManager" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
         {{ 'NAV.MANAGER_PANEL' | translate }}
-      </a>
-      <a class="nav-item nav-link" routerLink="/private" routerLinkActive="active">
-        Security
       </a>
       <a class="nav-item nav-link"
          routerLink="admin"
-         routerLinkActive="active">
+         routerLinkActive="active"
+         *ngIf="isAdmin">
         {{ 'NAV.ADMIN_PANEL' | translate }}
       </a>
     </div>

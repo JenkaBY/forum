@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { AuthenticationService } from "../../authorization/authentication.service";
 import { User } from "../../shared/entity/user";
 import { Subscription } from "rxjs/Subscription";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'forum-header',
@@ -15,7 +16,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   loggedUser: User;
   currentUser$: Subscription;
 
-  constructor(private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -45,5 +47,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onSignOut() {
     this.authService.logout();
+    this.router.navigate(['/']);
+  }
+
+  get isUser() {
+    return this.authService.isUser;
+  }
+
+  get isManager() {
+    return this.authService.isManager;
+  }
+
+  get isAdmin() {
+    return this.authService.isAdmin;
   }
 }

@@ -5,6 +5,7 @@ const NEW = 'new';
 const USERS = 'users';
 const ALL = 'all';
 const TOPIC = 'topic';
+const REQUEST = 'request';
 const MESSAGE = 'message';
 const APPROVED = 'approved';
 const BLOCKED = 'blocked';
@@ -21,6 +22,10 @@ export class RoutesConst {
 
   static get PROJECT_NAME(): string {
     return PROJECT_NAME;
+  }
+
+  static get NEW_TOPIC_REQUEST(): string {
+    return RoutesConst.routeFormatAll(TOPIC, REQUEST, NEW);
   }
 
   static get GET_ALL_TOPIC_DISCUSS_REQUESTS(): string {

@@ -5,7 +5,8 @@ import { Router } from "@angular/router";
 
 import { AuthenticationService } from "../authentication.service";
 import { UserCredential } from "../user-credential.model";
-import { User } from "../../shared/entity/user";
+import { RoleConst } from "../../shared/constants/constants";
+import { OAuthTokensData } from "../oauth-token.model";
 
 @Component({
   selector: 'app-login',
@@ -35,8 +36,13 @@ export class LoginComponent implements OnInit {
     this.userCredential = {email: this.email.value, password: this.password.value};
     this.authService.login(this.userCredential)
       .subscribe(
-        (result: User) => {
+        (result: OAuthTokensData) => {
           this.logging = false;
+          console.log(result);
+          if (result.user.role.title === RoleConst.ADMIN) {
+            this.router.navigate(['/admin', 'pending']);
+            return;
+          }
           this.onBack();
         },
         (err) => {

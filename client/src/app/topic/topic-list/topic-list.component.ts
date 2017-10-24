@@ -51,7 +51,6 @@ export class TopicListComponent implements OnInit {
   }
 
   private setPageData(page: Page<Topic>) {
-    console.log(page.content);
     this.topics = page.content;
     this.currentPage = page.number + 1;
     this.totalElements = page.totalElements;

@@ -53,7 +53,7 @@ export class AuthenticationService {
   }
 
   // oauth/token?grant_type=refresh_token&refresh_token=094b7d23-973f-4cc1-83ad-8ffd43de184
-  private requestOAuthToken(userCredential?: UserCredential): Observable<User> {
+  private requestOAuthToken(userCredential?: UserCredential): Observable<OAuthTokensData> {
     return this.http.post(RoutesConst.OAUTH_TOKEN,
       null,
       this.getAuthorizationParams(userCredential))

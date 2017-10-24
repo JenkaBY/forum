@@ -3,9 +3,10 @@ import { User } from './user';
 import { Topic } from './topic';
 
 export class TopicRequest extends AbstractEntity {
-    requestedTopicTitle: string;
-    requestedBy: User;
-    createdTopic: Topic;
-    status: string;
-    reason: string;
+  requestedTopicTitle: string;
+  requestedTopicDescription: string;
+  requestedBy: User;
+  createdTopic: Topic;
+  status: string;
+  reason: string;
 }

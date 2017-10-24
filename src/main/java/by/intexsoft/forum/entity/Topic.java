@@ -25,7 +25,7 @@ public class Topic extends AbstractEntity{
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     public Set<User> allowedUsers;
 
-    @Column(name = "image_path", length = 200)
+    @Column(name = "image_path")
     public String imagePath;
 
     @Column(length = 500)

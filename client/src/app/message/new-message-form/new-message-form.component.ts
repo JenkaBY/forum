@@ -55,7 +55,6 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
     this.messageService.createMessage(this.msgForm.value)
       .subscribe(
         (data) => {
-          console.log(data);
           this.creating = false;
           this.msgForm.get('text').patchValue(null);
         },
@@ -75,11 +74,8 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
 
   private isAllowedInTopic(): boolean {
     if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length == 0) {
-      console.log("isAllowed Not Logined");
       return false;
     }
-    // console.log("canCreaterequest _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0", _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0);
-    // return _.indexOf(_.pluck(this.topic.allowedUsers, 'id'), this.loggedUser.id) >= 0;
     return isInArray(this.topic.allowedUsers, Constants.id, this.loggedUser.id);
   }
 

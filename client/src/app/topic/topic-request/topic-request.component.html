@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="form-group">
+        <form [formGroup]="requestForm" (ngSubmit)="onCreateRequest()" novalidate>
+          <!-- TITLE -->
+          <div class="row">
+            <div class="col mb-3">
+              <div class="form-group">
+                <label for="title">{{ 'FORM.TITLE' | translate }}</label>
+                <input
+                  type="text"
+                  id="title"
+                  formControlName="requestedTopicTitle"
+                  class="form-control">
+                <div *ngIf="title.invalid && title.touched">
+                  <div *ngIf="title.errors['maxlength']" class="invalid-feedback">
+                    {{ "VALIDATION.MAX"| translate:maxTitleLength }}
+                  </div>
+                  <div *ngIf="title.errors['required']" class="invalid-feedback">
+                    {{ "VALIDATION.REQUIRED" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- DESCRIPTION -->
+          <div class="row">
+            <div class="col mb-3">
+              <div class="form-group">
+                <label for="description">{{ 'FORM.DESCRIPTION' | translate }}</label>
+                <textarea class="form-control"
+                          id="description"
+                          rows="5"
+                          cols="150"
+                          formControlName="requestedTopicDescription"
+                          placeholder="{{ 'FORM.DESCRIPTION'| translate }}">
+                </textarea>
+                <div *ngIf="description.invalid && description.touched">
+                  <div *ngIf="description.errors['maxlength']" class="invalid-feedback">
+                    {{ "VALIDATION.MAX"| translate:maxDescriptionLength }}
+                  </div>
+                  <div *ngIf="description.errors['required']" class="invalid-feedback">
+                    {{ "VALIDATION.REQUIRED" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-3">
+              <button type="submit" class="btn btn-success pull-left" [disabled]="requestForm.invalid || sending">
+                {{ 'BUTTON.SEND'| translate }}
+              </button>
+            </div>
+            <div class="col-2">
+              <button type="button" class="btn btn-warning pull-right" (click)="onCancel()">
+                {{ 'BUTTON.CANCEL'| translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

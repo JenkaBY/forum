@@ -10,6 +10,8 @@ const minNameLength = {value: 4};
 const maxNameLength = {value: 20};
 const minPasswordLength = {value: 6};
 const maxPasswordLength = {value: 16};
+const maxLengthTopicTitle = {value: 255};
+const maxLengthTopicDescription = {value: 500};
 const grantTypePsw = 'grant_type';
 const grantTypeValuePsw = 'password';
 const refreshToken = 'refresh_token';
@@ -107,6 +109,14 @@ export class LanguageConst {
 export class Constants {
   static get id(): string {
     return id;
+  }
+
+  static get getMaxLengthTopicTitle(): { value: number } {
+    return maxLengthTopicTitle;
+  }
+
+  static get getMaxLengthTopicDescription(): { value: number } {
+    return maxLengthTopicDescription;
   }
 
   static get getMinNameLength(): { value: number } {
