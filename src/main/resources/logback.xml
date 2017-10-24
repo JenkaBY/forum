@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<configuration debug="true">
+<configuration debug="false">
 
-	<property name="LOG_DIR" value="c:/Users/JenkaBY/tomcat/logs/forum/" />
+	<!--<property name="LOG_DIR" value="c:/Users/JenkaBY/tomcat/logs/forum/" />-->
+	<property name="LOG_DIR" value="../../logs/forum/"/>
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
@@ -36,7 +37,7 @@
 	</logger>
 
 	<!-- By default, the level of the root level is set to DEBUG -->
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ERROR-FILE-LOG" />
 	</root>
