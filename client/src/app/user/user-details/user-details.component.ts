@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { HttpErrorResponse } from "@angular/common/http";
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { User } from '../../shared/entity/user';
@@ -19,7 +20,8 @@ export class UserDetailsComponent implements OnInit {
   dateFormat = Constants.getDateTimeFormat;
 
   constructor(@Inject('userService') private userService: IUserService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private location: Location) {
   }
 
   onSave() {
@@ -55,6 +57,10 @@ export class UserDetailsComponent implements OnInit {
         'role': new FormControl(this.user.role.id),
       })
     })
+  }
+
+  onBack(): void {
+    this.location.back();
   }
 
   private joinUserData() {

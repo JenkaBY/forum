@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static by.intexsoft.forum.security.SecurityHelper.checkPasswordLength;
@@ -52,7 +53,7 @@ public class UserController {
         }
         userService.delete(id);
         LOGGER.info("User with Id={0} has been deleted.", id);
-        return new ResponseEntity<>(userService.find(id).deleted ? OK : BAD_REQUEST);
+        return new ResponseEntity<>(Objects.isNull(userService.find(id)) ? OK : BAD_REQUEST);
     }
 
     @PostMapping(path = "/new")

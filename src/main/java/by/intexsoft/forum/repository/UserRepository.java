@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByName(String name);
 
-    Page<User> findByApprovedByIsNull(Pageable pageable);
+    Page<User> findByApprovedByIsNullAndRejectedIsFalse(Pageable pageable);
 
     Page<User> findByApprovedByAndRejectedFalse(User approvedBy, Pageable pageable);
 

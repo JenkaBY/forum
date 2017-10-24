@@ -26,8 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         (err) => {
           console.log("Error in onInit in Header", err)
         });
-    this.authService.getCurrentUser;
-    console.log('loggedUser in onInit header', this.loggedUser);
+    this.loggedUser = this.authService.getCurrentUser;
+    // console.log('loggedUser in onInit header', this.loggedUser);
     // this.authService.autoLogin();
   }
 

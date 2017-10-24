@@ -20,6 +20,7 @@ export class AuthenticationService {
   changedCurrentUser = new Subject<User>();
   private oauthToken: OAuthTokensData;
   private expireTokenDate: Date;
+  private authDataStr = 'authData';
 
   constructor(@Inject('userService') private userService: IUserService,
               private http: HttpClient,
@@ -123,10 +124,9 @@ export class AuthenticationService {
 
   get getCurrentUser(): User {
     if (!this.currentUser) {
-      this.autoLogin();
+      // this.autoLogin();
     }
     this.changedCurrentUser.next(this.currentUser);
-    console.log("getCurrent user in AuthServ after if", this.currentUser);
     return this.currentUser;
   }
 
@@ -155,8 +155,6 @@ export class AuthenticationService {
     return this.isManager || this.isUser;
   }
 
-  private authDataStr = 'authData';
-
   private saveTokenInLocalStorage(): void {
     localStorage.setItem(this.authDataStr, JSON.stringify({tokenObj: this.oauthToken}));
   }
@@ -170,7 +168,6 @@ export class AuthenticationService {
     if (authData) {
       this.oauthToken = authData.tokenObj;
       this.changedCurrentUser.next(this.oauthToken.user);
-      console.log('autologin in if', authData);
     }
     return !!authData;
   }

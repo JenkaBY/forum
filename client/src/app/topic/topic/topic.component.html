@@ -6,7 +6,7 @@
 
   <div class="row" *ngIf="messages && messages.length > 0">
     <div class="col-12 mb-0" *ngFor="let messageEl of messages;">
-      <app-message [message]="messageEl" [topicTitle]="topic.title"></app-message>
+      <app-message [message]="messageEl"></app-message>
     </div>
   </div>
 

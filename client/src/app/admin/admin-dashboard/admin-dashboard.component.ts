@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { RoutesConst } from "../../shared/constants/routes.constants";
 
 @Component({
@@ -7,18 +8,18 @@ import { RoutesConst } from "../../shared/constants/routes.constants";
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
-export class AdminDashboardComponent implements OnInit, OnDestroy {
-  isActive = true;
+export class AdminDashboardComponent implements OnInit {
+  // isActive = true;
+
 
   constructor(private router: Router,
               private route: ActivatedRoute) {
   }
 
+  /**
+   * The start page should be "Pending to approve users". Also 'current user' should be initialized.
+   */
   ngOnInit() {
     this.router.navigate([RoutesConst.pending], {relativeTo: this.route});
-  }
-
-  ngOnDestroy() {
-    this.isActive = false;
   }
 }

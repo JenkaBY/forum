@@ -20,22 +20,21 @@ export class AppComponent implements OnInit, OnDestroy {
               private authService: AuthenticationService) {
     translate.setDefaultLang('en');
 
-    console.log('00 loggedUser in const', this.loggedUser);
+    console.log('00 App Constructor');
   }
 
   ngOnInit(): void {
     this.currentUserSubscr = this.authService.changedCurrentUser
       .subscribe((user: User) => {
         this.loggedUser = user;
-        console.log('0 loggedUser in onInit afterSubscribe', this.loggedUser);
       });
-    console.log('1 loggedUser in onInit afterSubscribe', this.loggedUser);
     this.authService.getCurrentUser;
-    console.log('2 loggedUser in onInit beforeSubscribe', this.loggedUser);
+    console.log('01 App OnInit');
   }
 
   ngOnDestroy(): void {
     this.currentUserSubscr.unsubscribe();
+    console.log('02 App OnDestroy');
   }
 
   switchLanguage(lang: string): void {

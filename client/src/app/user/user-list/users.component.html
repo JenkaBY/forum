@@ -9,30 +9,36 @@
       <th>{{ 'USER.ROLE' | translate }}</th>
       <th>{{ 'USER.BLOCKED' | translate }}</th>
       <th>{{ 'USER.REJECTED' | translate }}</th>
-      <th>{{ 'USER.APPROVED_BY' | translate }}</th>
-      <th>{{ 'USER.LAST_LOGON_AT' | translate }}</th>
+      <!--<th>{{ 'USER.APPROVED_BY' | translate }}</th>-->
+      <!--<th>{{ 'USER.LAST_LOGON_AT' | translate }}</th>-->
       <th *ngIf="['blocked'].indexOf(currentRoute) > -1">{{ 'ADMIN.UNBLOCK' | translate }}</th>
       <th *ngIf="['users'].indexOf(currentRoute) > -1">{{ 'ADMIN.BLOCK_UNBLOCK' | translate }}</th>
       <th *ngIf="currentRoute === 'users'">{{ 'ADMIN.DELETE' | translate }}</th>
       <th *ngIf="['pending','rejected'].indexOf(currentRoute) > -1">{{ 'ADMIN.APPROVE' | translate }}</th>
-      <th *ngIf="['pending','rejected'].indexOf(currentRoute) > -1">{{ 'ADMIN.REJECT' | translate }}</th>
-      <th></th>
+      <th *ngIf="['pending','approved'].indexOf(currentRoute) > -1">{{ 'ADMIN.REJECT' | translate }}</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let user of users">
       <td>{{ user.id }}</td>
-      <td>{{ user.name }}</td>
+      <td>
+        <button type="button"
+                class="btn btn-link btn-sm pt-0 pb-0"
+                [routerLink]="['/user', user.id]"
+                role="button">{{ user.name }}
+        </button>
+      </td>
       <td>{{ user.email }}</td>
-      <td>{{ user.role.id }}</td>
+      <td>{{ user.role.title }}</td>
       <td><span class="badge badge-{{ user.blocked ? 'warning' : 'info' }}">{{ user.blocked }}</span></td>
       <td><span class="badge badge-{{ user.rejected ? 'warning' : 'info' }}">{{ user.rejected }}</span></td>
-      <td>{{ user.approver_id ? getUserName(user.approver_id) : '' }}</td>
-      <td>{{ user.lastLogonAt ? (user.lastLogonAt| date:dateFormat) : "" }}</td>
+      <!--<td>{{ user.approver_id ? getUserName(user.approver_id) : '' }}</td>-->
+      <!--<td>{{ user.lastLogonAt ? (user.lastLogonAt| date:dateFormat) : '' }}</td>-->
       <td *ngIf="['blocked', 'users'].indexOf(currentRoute) > -1">
         <button type="button"
                 class="btn btn-warning btn-sm pt-0 pb-0"
                 (click)="onBlock(user)"
+                [disabled]="blocking"
                 role="button">X
         </button>
       </td>
@@ -40,6 +46,7 @@
         <button type="button"
                 class="btn btn-danger btn-sm pt-0 pb-0"
                 (click)="onDelete(user.id)"
+                [disabled]="deleting"
                 role="button">X
         </button>
       </td>
@@ -47,21 +54,16 @@
         <button type="button"
                 class="btn btn-primary btn-sm pt-0 pb-0"
                 (click)="onApprove(user)"
+                [disabled]="approving"
                 role="button">V
         </button>
       </td>
-      <td *ngIf="['pending'].indexOf(currentRoute) > -1">
+      <td *ngIf="['pending','approved'].indexOf(currentRoute) > -1">
         <button type="button"
                 class="btn btn-danger btn-sm pt-0 pb-0"
                 (click)="onReject(user)"
+                [disabled]="rejecting"
                 role="button">X
-        </button>
-      </td>
-      <td>
-        <button type="button"
-                class="btn btn-link btn-sm pt-0 pb-0"
-                [routerLink]="['/user', user.id]"
-                role="button">{{ 'BUTTON.DETAIL' | translate }}
         </button>
       </td>
     </tr>

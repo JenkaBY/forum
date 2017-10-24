@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   invalidCredential: boolean;
   logging: boolean;
 
-  constructor(/*@Inject('authenticationService') */private authService: AuthenticationService,
+  constructor(private authService: AuthenticationService,
               private location: Location,
               private router: Router) {
   }
@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.userCredential)
       .subscribe(
         (result: User) => {
-          console.log('next in login', result);
           this.logging = false;
           this.onBack();
         },
@@ -57,11 +56,6 @@ export class LoginComponent implements OnInit {
 
   onBack(): void {
     this.location.back();
-  }
-
-  //TODO remove
-  private redirectToSecretPage(): void {
-    this.router.navigate(['private']);
   }
 
   get email(): AbstractControl {

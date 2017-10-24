@@ -44,7 +44,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
      */
     @Override
     public Page<User> findAllPendingToApprove(Pageable pageable) {
-        return ((UserRepository) repository).findByApprovedByIsNull(pageable);
+        return ((UserRepository) repository).findByApprovedByIsNullAndRejectedIsFalse(pageable);
     }
 
     /**
@@ -87,12 +87,10 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
         if (isNewUser(user)) {
             user.hashPassword = bCryptPasswordEncoder.encode(user.hashPassword);
             user.email = user.email.toLowerCase();
+            user.role = roleService.findByTitle(RoleConst.USER);
         }
         if (needToFetchHashPassword(user)) {
             user.hashPassword = this.find(user.getId()).hashPassword;
-        }
-        if (Objects.isNull(user.role)) {
-            user.role = roleService.findByTitle(RoleConst.USER);
         }
         return repository.save(user);
     }
@@ -115,7 +113,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
 
     @Override
     public User getUserByEmail(String email) {
-        return ((UserRepository) repository).findByEmail(email);
+        return ((UserRepository) repository).findByEmail(email.toLowerCase());
     }
 
     private boolean isNewUser(User user) {

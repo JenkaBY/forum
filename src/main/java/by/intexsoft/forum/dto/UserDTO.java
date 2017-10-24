@@ -38,7 +38,7 @@ public class UserDTO {
         User user = new User();
         user.setId(id);
         user.name = name;
-        user.email = email;
+        user.email = email.toLowerCase();
         user.imagePath = imagePath;
         user.hashPassword = password;
         user.lastLogonAt = lastLogonAt;
