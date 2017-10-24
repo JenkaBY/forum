@@ -21,6 +21,7 @@ import { LoginComponent } from './authorization/login/login.component';
 import { AuthenticationService } from "./authorization/authentication.service";
 import { AuthInterceptor } from "./shared/AuthInterceptor";
 import { TopicRequestService } from "./topic/topic-request/create-topic-request.service";
+import { RoleService } from "./shared/role/role.service";
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -62,7 +63,8 @@ export function createTranslateLoader(http: Http) {
     AuthenticationService,
     {provide: 'userService', useClass: UserService},
     {provide: 'adminService', useClass: AdminService},
-    {provide: 'topicRequestService', useClass: TopicRequestService}
+    {provide: 'topicRequestService', useClass: TopicRequestService},
+    {provide: 'roleService', useClass: RoleService}
   ],
   bootstrap: [AppComponent]
 })

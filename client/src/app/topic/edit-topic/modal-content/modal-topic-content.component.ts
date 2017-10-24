@@ -65,7 +65,6 @@ export class ModalTopicContentComponent implements OnInit {
             this.handleError(error);
             this.saving = false;
           });
-      console.log("save topic", this.topic);
     }
   }
 

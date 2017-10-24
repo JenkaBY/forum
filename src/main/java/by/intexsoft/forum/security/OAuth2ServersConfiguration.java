@@ -90,6 +90,7 @@ public class OAuth2ServersConfiguration {
             http
                     .authorizeRequests()
                     .antMatchers("/api/private").authenticated()
+                    .antMatchers("/api/admin/**").access("hasRole('ROLE_ADMIN')")
                     //                            .antMatchers("/user/**").access("hasRole('ROLE_ADMIN')")
                     //                            .antMatchers("/allowed-for-user/**").access("hasRole('ROLE_USER')")
                     .antMatchers("/**").permitAll()
@@ -135,8 +136,8 @@ public class OAuth2ServersConfiguration {
                     .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                     .scopes("read", "write", "trust")
                     .secret("secret")
-                    .accessTokenValiditySeconds(1200)
-                    .refreshTokenValiditySeconds(6000);
+                    .accessTokenValiditySeconds(60000)
+                    .refreshTokenValiditySeconds(60000);
         }
 
         @Override

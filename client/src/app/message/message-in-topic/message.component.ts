@@ -68,13 +68,11 @@ export class MessageComponent implements OnInit {
       .subscribe(
         (message: Message) => {
           this.message = message;
-          console.log("Successfully updated: " + JSON.stringify(this.message));
           this.saving = false;
           this.isEdit = false;
           this.previousMsgText = null;
         },
         (error) => {
-          console.log("Error after update " + error);
           this.saving = false;
           this.isEdit = false;
           this.message.text = this.previousMsgText;

@@ -146,7 +146,6 @@ export class UsersComponent implements OnInit, OnDestroy {
    */
   onPageChange() {
     const params = new HttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
-    console.log(params);
     this.fetchData(params);
   }
 
@@ -202,7 +201,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       .subscribe(
         (_: User) => {
           this.onPageChange();
-          console.log("rejected user " + JSON.stringify(_))
           this.blocking = false;
         },
         (error => {
@@ -244,7 +242,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.userService.update(user)
       .subscribe(
         (_: User) => {
-          console.log('rejectedUser', _);
           this.onPageChange();
           this.rejecting = false;
         },
@@ -263,7 +260,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.deleting = true;
     this.userService.deleteById(id)
       .subscribe((result) => {
-          console.log(result);
           this.onPageChange();
           this.deleting = false;
         },
@@ -272,7 +268,6 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.onPageChange();
           this.deleting = false;
         });
-    console.log('Delete button was pressed. User id is ' + id);
   }
 
   private handleError(error: HttpErrorResponse) {

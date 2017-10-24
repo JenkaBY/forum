@@ -38,12 +38,10 @@ export class RegistrationFormComponent implements OnInit {
 
   onCreateAccount(): void {
     this.creating = true;
-    console.log(JSON.stringify(this.accountForm.value));
     this.convertFormToData();
     this.userService.create(this.account)
       .subscribe(
         (user: User) => {
-          console.log(JSON.stringify(user));
           this.creating = false;
           this.redirectToInfoPage();
         },

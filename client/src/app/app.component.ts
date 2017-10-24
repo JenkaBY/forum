@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { AuthenticationService } from "./authorization/authentication.service";
 import { Subscription } from "rxjs/Subscription";
 import { User } from "./shared/entity/user";
+import { RoleService } from "./shared/role/role.service";
+import { Role } from "./shared/entity/role";
 
 @Component({
   selector: 'app-root',
@@ -14,11 +16,14 @@ export class AppComponent implements OnInit, OnDestroy {
   isAdminDashboardOpened = false;
   loggedUser: User;
   currentUserSubscr: Subscription;
+  roles: Role[];
 
   constructor(private router: Router,
               private translate: TranslateService,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              @Inject('roleService') roleService: RoleService) {
     translate.setDefaultLang('en');
+    this.roles = roleService.getRoles();
   }
 
   ngOnInit(): void {

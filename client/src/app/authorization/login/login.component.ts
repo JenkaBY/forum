@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (result: OAuthTokensData) => {
           this.logging = false;
-          console.log(result);
           if (result.user.role.title === RoleConst.ADMIN) {
             this.router.navigate(['/admin', 'pending']);
             return;

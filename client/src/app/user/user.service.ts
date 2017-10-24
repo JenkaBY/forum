@@ -28,7 +28,6 @@ export class UserService implements IUserService {
   }
 
   update(user: User): Observable<User> {
-    console.log("JSON: ", JSON.stringify(user));
     return this.http.put<User>(RoutesConst.USER + user.id, JSON.stringify(user), {headers: this.headers});
   }
 

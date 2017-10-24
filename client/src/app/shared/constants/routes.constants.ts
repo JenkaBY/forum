@@ -17,6 +17,7 @@ const CONGRATULATION = 'congratulation';
 const PROJECT_NAME = '';
 const LOGOUT = 'logout';
 const DISCUSS_REQUEST = 'discuss_request';
+const ROLE = 'role';
 
 export class RoutesConst {
 
@@ -28,6 +29,9 @@ export class RoutesConst {
     return RoutesConst.routeFormatAll(TOPIC, REQUEST, NEW);
   }
 
+  static get ALL_ROLES(): string {
+    return RoutesConst.routeFormatTwo(ROLE, ALL);
+  }
   static get GET_ALL_TOPIC_DISCUSS_REQUESTS(): string {
     return RoutesConst.routeFormatAll(TOPIC, DISCUSS_REQUEST, ALL);
   }

@@ -8,6 +8,8 @@ import 'rxjs/add/operator/switchMap';
 import { User } from '../../shared/entity/user';
 import IUserService from '../interface/iuser.service';
 import { Constants } from "../../shared/constants/constants";
+import { Role } from "../../shared/entity/role";
+import IRoleService from "../../shared/role/irole.service";
 
 @Component({
   selector: 'forum-user-details',
@@ -18,8 +20,10 @@ export class UserDetailsComponent implements OnInit {
   user: User;
   userForm: FormGroup;
   dateFormat = Constants.getDateTimeFormat;
+  roles: Role[];
 
   constructor(@Inject('userService') private userService: IUserService,
+              @Inject('roleService') private roleService: IRoleService,
               private route: ActivatedRoute,
               private location: Location) {
   }
@@ -29,6 +33,7 @@ export class UserDetailsComponent implements OnInit {
     this.userService.update(this.user)
       .subscribe((user: User) => {
           this.user = user;
+          this.onBack();
         },
         (error: HttpErrorResponse) => {
           this.handleError(error);
@@ -37,6 +42,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.roles = this.roleService.getRoles();
     this.route
       .paramMap
       .switchMap((params: ParamMap) => this.userService.getById(+params.get('id')))

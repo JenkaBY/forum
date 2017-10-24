@@ -98,7 +98,6 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
     this.topicRequest.requestedBy = this.loggedUser;
     this.topicRequest.requestedTopicTitle = this.title.value;
     this.topicRequest.requestedTopicDescription = this.description.value;
-    console.log(this.topicRequest);
   }
 
   /**
