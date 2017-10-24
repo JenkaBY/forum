@@ -17,5 +17,5 @@ repositories {
 task buildClient(type: NpmTask, dependsOn: 'npmInstall') {
     group = 'build'
     description = 'Compile client side'
-    args = ['run', 'build']
+    args = ['run', 'prod-build']
 }

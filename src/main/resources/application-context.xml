@@ -52,22 +52,4 @@
 
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-
-	<!-- This is only for MySQL. Allows to create the DB tables with InnoDB 
-		engine. -->
-	<bean id="setSystemPropertyStorageEngine"
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetClass">
-			<value>java.lang.System</value>
-		</property>
-		<property name="targetMethod">
-			<value>setProperty</value>
-		</property>
-		<property name="arguments">
-			<list>
-				<value>hibernate.dialect.storage_engine</value>
-				<value>${hibernate.dialect.storage_engine}</value>
-			</list>
-		</property>
-	</bean>
 </beans>
