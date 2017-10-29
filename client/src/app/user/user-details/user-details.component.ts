@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -7,9 +7,9 @@ import 'rxjs/add/operator/switchMap';
 
 import { User } from '../../shared/entity/user';
 import IUserService from '../interface/iuser.service';
-import { Constants } from "../../shared/constants/constants";
-import { Role } from "../../shared/entity/role";
-import IRoleService from "../../shared/role/irole.service";
+import { Constants } from '../../shared/constants/constants';
+import { Role } from '../../shared/entity/role';
+import IRoleService from '../../shared/role/irole.service';
 
 @Component({
   selector: 'forum-user-details',
@@ -42,7 +42,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roles = this.roleService.getRoles();
+      // this.roles = this.roleService.getRoles();
     this.route
       .paramMap
       .switchMap((params: ParamMap) => this.userService.getById(+params.get('id')))

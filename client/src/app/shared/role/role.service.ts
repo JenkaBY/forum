@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { Role } from "../entity/role";
-import { RoutesConst } from "../constants/routes.constants";
-import IRoleService from "./irole.service";
+import { Role } from '../entity/role';
+import { RoutesConst } from '../constants/routes.constants';
+import IRoleService from './irole.service';
 
 
 @Injectable()
@@ -12,7 +12,6 @@ export class RoleService implements IRoleService {
   private roles: Role[];
 
   constructor(private  http: HttpClient) {
-    this.initializeRoles();
   }
 
   getAllRoles(): Observable<Role[]> {
@@ -31,6 +30,6 @@ export class RoleService implements IRoleService {
   }
 
   getRoles(): Role[] {
-    return this.roles;
+      return null;
   }
 }

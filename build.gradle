@@ -67,3 +67,10 @@ war {
     from 'client/dist'
     destinationDir = file("$rootDir/build/war")
 }
+
+task buildWarWithoutDeps(type: War) {
+    group = 'build'
+    description = 'Builds war when client has been compiled'
+    from 'client/dist'
+    destinationDir = file("$rootDir/build/war2")
+}
