@@ -1,10 +1,12 @@
 const API = 'api';
 const ADMIN = 'admin';
+const MANAGER = 'manager';
 const USER = 'user';
 const NEW = 'new';
 const USERS = 'users';
 const ALL = 'all';
 const TOPIC = 'topic';
+const TOPICS = 'topics';
 const REQUEST = 'request';
 const MESSAGE = 'message';
 const APPROVED = 'approved';
@@ -17,6 +19,8 @@ const CONGRATULATION = 'congratulation';
 const PROJECT_NAME = '';
 const LOGOUT = 'logout';
 const DISCUSS_REQUEST = 'discuss_request';
+const CREATE = 'create';
+const DISCUSS = 'discuss';
 const ROLE = 'role';
 
 export class RoutesConst {
@@ -29,9 +33,18 @@ export class RoutesConst {
     return RoutesConst.routeFormatAll(TOPIC, REQUEST, NEW);
   }
 
+  static get MANAGER_DASHBOARD_CREATE_TOPIC_REQUESTS(): string {
+    return CREATE;
+  }
+
+  static get GET_ALL_PENDING_TOPIC_REQUESTS() {
+    return RoutesConst.routeFormatAll(TOPIC, REQUEST, PENDING);
+  }
+
   static get ALL_ROLES(): string {
     return RoutesConst.routeFormatTwo(ROLE, ALL);
   }
+
   static get GET_ALL_TOPIC_DISCUSS_REQUESTS(): string {
     return RoutesConst.routeFormatAll(TOPIC, DISCUSS_REQUEST, ALL);
   }
@@ -41,7 +54,7 @@ export class RoutesConst {
   }
 
   static GET_TOPIC_DISCUSS_REQUEST(topicId: number) {
-    return RoutesConst.routeFormatAll(TOPIC, String(topicId), DISCUSS_REQUEST)
+    return RoutesConst.routeFormatAll(TOPIC, String(topicId), DISCUSS_REQUEST);
   }
 
   static get logout(): string {

@@ -44,6 +44,12 @@
     "REJECT": "Reject",
     "DELETE": "Delete"
   },
+  "MANAGER": {
+    "DASHBOARD": "Manager's Dashboard",
+    "ALL_TOPICS": "All topics",
+    "CREATE_REQUESTS": "Create topic requests",
+    "DISCUSS_REQUESTS": "Requests for discuss"
+  },
   "USER": {
     "ID": "Id",
     "NAME": "Name",
@@ -97,5 +103,14 @@
     "TEXT": "Text",
     "CREATED_BY": "Created by",
     "CREATED_AT": "Created at"
+  },
+  "CREATE_TOPIC_REQUEST": {
+    "ID": "ID",
+    "TITLE": "Topic title",
+    "DESCRIPTION": "Topic description",
+    "STATUS": "Status",
+    "REJECT_REASON": "Reject reason",
+    "CREATED_TOPIC": "Created topic",
+    "REQUESTED_BY": "Requested by"
   }
 }

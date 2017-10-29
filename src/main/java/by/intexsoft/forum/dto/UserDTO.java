@@ -14,7 +14,7 @@ public class UserDTO {
     public Timestamp lastLogonAt;
     public boolean blocked;
     public boolean rejected;
-    public Long approver_id;
+    public Long approverId;
     public Role role;
     public Timestamp createdAt;
 
@@ -29,7 +29,7 @@ public class UserDTO {
         lastLogonAt = user.lastLogonAt;
         blocked = user.blocked;
         rejected = user.rejected;
-        approver_id = user.approvedBy != null ? user.approvedBy.getId() : null;
+        approverId = user.approvedBy != null ? user.approvedBy.getId() : null;
         role = user.role;
         createdAt = user.createdAt;
     }
@@ -45,9 +45,9 @@ public class UserDTO {
         user.blocked = blocked;
         user.rejected = rejected;
         user.createdAt = createdAt;
-        if (approver_id != null) {
+        if (approverId != null) {
             user.approvedBy = new User();
-            user.approvedBy.setId(approver_id);
+            user.approvedBy.setId(approverId);
         }
         if (role != null) {
             user.role = role;
@@ -59,13 +59,6 @@ public class UserDTO {
     public String toString() {
         return "UserDTO{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", blocked=" + blocked +
-                ", rejected=" + rejected +
-                ", approver_id=" + approver_id +
-                ", role_id=" + (role != null ? role.getId() : "null") +
-                ", createdAt=" + createdAt +
-                '}';
+                ", name='" + name;
     }
 }

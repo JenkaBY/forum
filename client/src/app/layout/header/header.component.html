@@ -22,7 +22,7 @@
       <a *ngIf="isUser" class="nav-item nav-link" routerLink="topic/request" routerLinkActive="active">
         {{ 'NAV.REQUEST' | translate }}
       </a>
-      <a *ngIf="isManager" class="nav-item nav-link" routerLink="/" routerLinkActive="active">
+        <a *ngIf="isManager || true" class="nav-item nav-link" routerLink="manager" routerLinkActive="active">
         {{ 'NAV.MANAGER_PANEL' | translate }}
       </a>
       <a class="nav-item nav-link"

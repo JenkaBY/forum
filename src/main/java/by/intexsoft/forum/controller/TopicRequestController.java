@@ -1,5 +1,7 @@
 package by.intexsoft.forum.controller;
 
+import by.intexsoft.forum.constant.RoleConst;
+import by.intexsoft.forum.dto.TopicRequestDTO;
 import by.intexsoft.forum.entity.TopicRequest;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -37,9 +41,13 @@ public class TopicRequestController {
      */
     @GetMapping(path = "/pending")
     public ResponseEntity<?> getAllPending(Pageable pageable) {
-//        TODO add checking isManager?
-        LOGGER.info("{0} requests all pending topic requests", "ADMIN");
-        return new ResponseEntity<>(topicRequestService.findAllPending(pageable), OK);
+        User currentUser = securityHelper.getCurrentUser();
+        if (Objects.isNull(currentUser) || !currentUser.role.title.equals(RoleConst.MANAGER)) {
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
+        LOGGER.info("{0} requests all pending topic requests", currentUser);
+        return new ResponseEntity<>(topicRequestService.findAllPending(pageable)
+                .map((topicRequest) -> new TopicRequestDTO(topicRequest)), OK);
     }
 
     /**
@@ -66,7 +74,7 @@ public class TopicRequestController {
     @PostMapping(path = "/new")
     public ResponseEntity<?> createRequest(@RequestBody TopicRequest topicRequest) {
         if (topicRequest == null) {
-            LOGGER.warn("Trying to create topic request with null parameter.");
+            LOGGER.warn("Trying to create topic request with null parameters.");
             return new ResponseEntity<>(BAD_REQUEST);
         }
         //TODO add CURRENT_USER
