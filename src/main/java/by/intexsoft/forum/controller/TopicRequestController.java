@@ -1,6 +1,5 @@
 package by.intexsoft.forum.controller;
 
-import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.dto.TopicRequestDTO;
 import by.intexsoft.forum.entity.TopicRequest;
 import by.intexsoft.forum.entity.User;
@@ -13,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -42,12 +41,20 @@ public class TopicRequestController {
     @GetMapping(path = "/pending")
     public ResponseEntity<?> getAllPending(Pageable pageable) {
         User currentUser = securityHelper.getCurrentUser();
-        if (Objects.isNull(currentUser) || !currentUser.role.title.equals(RoleConst.MANAGER)) {
-            return new ResponseEntity<>(BAD_REQUEST);
-        }
         LOGGER.info("{0} requests all pending topic requests", currentUser);
         return new ResponseEntity<>(topicRequestService.findAllPending(pageable)
                 .map((topicRequest) -> new TopicRequestDTO(topicRequest)), OK);
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<?> getAll() {
+        User currentUser = securityHelper.getCurrentUser();
+        LOGGER.info("{0} requests all pending topic requests", currentUser);
+        return new ResponseEntity<>(topicRequestService.findAll()
+                .stream()
+                .map(topicRequest -> new TopicRequestDTO(topicRequest))
+                .collect(Collectors.toList()),
+                OK);
     }
 
     /**

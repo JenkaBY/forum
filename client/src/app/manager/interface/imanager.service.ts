@@ -9,7 +9,6 @@ import { Page } from '../../shared/entity/page';
 interface IManagerService {
 
   getAllPendingCreateTopicRequests(): Observable<Page<TopicRequest>>;
-
 }
 
 export default IManagerService;

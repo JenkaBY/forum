@@ -1,17 +1,17 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { Subscription } from "rxjs/Subscription";
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 
-import { Constants } from "../../shared/constants/constants";
+import { Constants } from '../../shared/constants/constants';
 import { Topic } from '../../shared/entity/topic';
 import { Message } from '../../shared/entity/message';
 import IMessageService from '../../message/interface/imessage.service';
 import { TopicService } from '../topic.service';
-import { Page } from "../../shared/entity/page";
-import { User } from "../../shared/entity/user";
-import IUserService from "../../user/interface/iuser.service";
-import { AuthenticationService } from "../../authorization/authentication.service";
+import { Page } from '../../shared/entity/page';
+import { User } from '../../shared/entity/user';
+import IUserService from '../../user/interface/iuser.service';
+import { AuthenticationService } from '../../authorization/authentication.service';
 
 @Component({
   selector: 'app-topic',
@@ -56,8 +56,8 @@ export class TopicComponent implements OnInit, OnDestroy {
           this.setPageData(page);
         },
         (error) => {
-          this.handleError(error)
-        })
+          this.handleError(error);
+        });
   }
 
   subscribeOnCurrentUser() {
@@ -70,7 +70,7 @@ export class TopicComponent implements OnInit, OnDestroy {
 
   getAllMessages(httpParams?: HttpParams): void {
     this.messageService.getAllMessagesBy(this.topicId, httpParams)
-      .subscribe()
+      .subscribe();
   }
 
   loadTopic(): void {

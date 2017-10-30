@@ -36,7 +36,7 @@ export class CreateTopicRequestsComponent implements OnInit {
           this.currentPage = page.number + 1;
           this.totalElements = page.totalElements;
           this.pageSize = page.size;
-          console.log(page);
+          // console.log(page);
         },
         (error) => {
           this.handleError(error);
