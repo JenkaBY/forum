@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h6 class="modal-title">{{ "CREATE_TOPIC_REQUEST.REJECT_REASON" | translate }}</h6>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form (ngSubmit)="onSubmit()"
+          [formGroup]="reasonForm">
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-nowrap"
+                   for="reason">{{ "FORM.REASON" | translate }}</label>
+            <div class="col-sm-12">
+        <textarea class="form-control"
+                  id="reason"
+                  rows="7"
+                  cols="150"
+                  formControlName="reason"
+                  [placeholder]="'PLACEHOLDER.REJECT_REASON'| translate">
+      </textarea>
+
+                <div *ngIf="reasonAC.invalid && reasonAC.touched">
+                    <div *ngIf="reasonAC.errors['maxlength']" class="invalid-feedback">
+                        {{ "VALIDATION.MAX"| translate:maxReasonLength }}
+                    </div>
+                    <div *ngIf="reasonAC.errors['required']" class="invalid-feedback">
+                        {{ "VALIDATION.REQUIRED" | translate }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit"
+                    class="btn btn-outline-primary"
+                    role="button"
+                    [disabled]="reasonForm.invalid">{{ "BUTTON.REJECT" | translate }}
+            </button>
+            <button type="button"
+                    class="btn btn-outline-warning"
+                    (click)="activeModal.dismiss()"
+                    role="button">
+                {{ "BUTTON.CANCEL" | translate }}
+            </button>
+        </div>
+    </form>
+</div>
+

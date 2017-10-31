@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.ok;
 
 /**
  * Controller for Request of creating a topic
@@ -104,7 +105,7 @@ public class TopicRequestController {
             return new ResponseEntity<>(BAD_REQUEST);
         }
         LOGGER.info("The Topic Request with id = {0} was successfully updated.", topicRequest.getId());
-        return ResponseEntity.ok(topicRequestService.save(topicRequest));
+        return ok(topicRequestService.save(topicRequest));
     }
 
     /**

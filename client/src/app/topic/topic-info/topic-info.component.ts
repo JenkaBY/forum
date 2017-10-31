@@ -1,16 +1,16 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Topic } from "../../shared/entity/topic";
-import { AuthenticationService } from "../../authorization/authentication.service";
-import ITopicDiscussRequestService from "../topic-disscuss-request/interface/itopic-discuss-request.service";
-import { User } from "../../shared/entity/user";
-import { UserRole } from "../../shared/entity/role";
-import { Status, TopicDiscussRequest } from "../../shared/entity/topic-discuss-request";
-import { isInArray } from "../../shared/utilities";
-import { Constants } from "../../shared/constants/constants";
-import { ModalTopicContentComponent } from "../edit-topic/modal-content/modal-topic-content.component";
+import { Topic } from '../../shared/entity/topic';
+import { AuthenticationService } from '../../authorization/authentication.service';
+import ITopicDiscussRequestService from '../topic-disscuss-request/interface/itopic-discuss-request.service';
+import { User } from '../../shared/entity/user';
+import { UserRole } from '../../shared/entity/role';
+import { Status, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
+import { isInArray } from '../../shared/utilities';
+import { Constants } from '../../shared/constants/constants';
+import { ModalTopicContentComponent } from '../edit-topic/modal-content/modal-topic-content.component';
 
 @Component({
   selector: 'app-topic-info',
@@ -57,7 +57,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
           this.topicDiscussRequest = discussRequest;
         }),
         (error => this.handleError(error))
-      )
+      );
   }
 
   onSave(): void {
@@ -72,7 +72,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   onCreateRequest(): void {
-    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length == 0) {
+    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length === 0) {
       return;
     }
     let request = this.createTopicDiscussRequest();
@@ -84,7 +84,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
         error => {
           this.handleError(error);
         }
-      )
+      );
   }
 
   onCancel(): void {

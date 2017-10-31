@@ -29,6 +29,10 @@ export class RoutesConst {
     return PROJECT_NAME;
   }
 
+  static get UPDATE_TOPIC_REQUEST(): string {
+    return RoutesConst.routeFormatTwo(TOPIC, REQUEST);
+  }
+
   static get NEW_TOPIC_REQUEST(): string {
     return RoutesConst.routeFormatAll(TOPIC, REQUEST, NEW);
   }

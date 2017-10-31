@@ -7,6 +7,8 @@
             <th>{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</th>
             <th>{{ 'CREATE_TOPIC_REQUEST.STATUS' | translate }}</th>
             <th>{{ 'CREATE_TOPIC_REQUEST.REQUESTED_BY' | translate }}</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody *ngIf="requests.length > 0; else noRequests">
@@ -16,12 +18,24 @@
             <td>{{ request.requestedTopicDescription }}</td>
             <td>{{ request.status }}</td>
             <td>{{ request.requestedBy?.name }}</td>
+            <td>
+                <button class="btn btn-outline-success btn-sm"
+                        (click)="onApprove(request)"
+                        [disabled]='approving'>{{ 'BUTTON.APPROVE'| translate}}
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-outline-danger btn-sm"
+                        (click)="onReject(request)"
+                        [disabled]='rejecting'>{{ 'BUTTON.REJECT'| translate}}
+                </button>
+            </td>
         </tr>
         </tbody>
         <ng-template #noRequests>
             <tbody>
             <tr>
-                <td>
+                <td colspan="7">
                     There is no new create topic requests.
                 </td>
             </tr>
@@ -37,28 +51,5 @@
             [maxSize]="maxSize"
             size="sm" [pageSize]="pageSize">
     </ngb-pagination>
-
-    <!--<div *ngFor="let request of fromArr"><p>-->
-    <!--requested by {{ request.requestedBy }}-->
-    <!--</p></div>-->
-    <table class="table table-bordered table-hover table-sm" *ngIf="fromArr">
-        <thead>
-        <tr>
-            <th>{{ 'CREATE_TOPIC_REQUEST.ID' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.TITLE' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.REQUESTED_BY' | translate }}</th>
-        </tr>
-        </thead>
-        <tbody *ngIf="fromArr.length > 0">
-        <tr *ngFor="let request of fromArr">
-            <td>{{ (request).id }}</td>
-            <td>{{ (request).requestedTopicTitle }}</td>
-            <td>{{ (request).requestedTopicDescription }}</td>
-
-            <td>{{ (request).requestedBy.name }}</td>
-        </tr>
-        </tbody>
-    </table>
 
 </div>

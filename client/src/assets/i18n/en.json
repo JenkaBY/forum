@@ -7,12 +7,15 @@
     "DETAIL": "Detail",
     "EDIT": "Edit",
     "SEND": "Send message",
+    "SEND_REQUEST": "Send request",
     "CREATE_ACCOUNT": "Create account",
     "READ": "Read",
     "CANCEL": "Cancel",
     "LOGIN": "Login",
     "REQUEST_DISCUSS": "Request",
-    "REFUSE": "Refuse"
+    "REFUSE": "Refuse",
+    "REJECT": "Reject",
+    "APPROVE": "Approve"
   },
   "NAV": {
     "TOPICS": "All Topics",
@@ -76,7 +79,8 @@
     "REFUSE": "Refuse to discus in the topic"
   },
   "PLACEHOLDER": {
-    "TYPE_TEXT": "Please type your message here"
+    "TYPE_TEXT": "Please type your message here",
+    "REJECT_REASON": "Type the reject reason here..."
   },
   "VALIDATION": {
     "REQUIRED": "This field is required.",
@@ -88,7 +92,8 @@
   "FORM": {
     "PASSWORD_CONFIRMATION": "Password confirmation",
     "TITLE": "Title",
-    "DESCRIPTION": "Description"
+    "DESCRIPTION": "Description",
+    "REASON": "Reason"
   },
   "MESSAGE": {
     "CONGRATULATION": "Congratulation!",

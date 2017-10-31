@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
@@ -11,6 +11,7 @@ import IManagerService from './interface/imanager.service';
 import { TopicRequest } from '../shared/entity/topic-request';
 import IUserService from '../user/interface/iuser.service';
 import { User } from '../shared/entity/user';
+import { HeaderConst } from '../shared/constants/constants';
 
 /**
  * Interface for TopicRequests service
@@ -19,6 +20,7 @@ import { User } from '../shared/entity/user';
  */
 @Injectable()
 export class ManagerService implements IManagerService {
+  private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
 
   constructor(private  http: HttpClient,
               @Inject('userService') private userService: IUserService) {
@@ -55,4 +57,9 @@ export class ManagerService implements IManagerService {
       });
     return result;
   }
+
+  updateCreateTopicRequest(topicRequest: TopicRequest) {
+    return this.http.put<TopicRequest>(`${RoutesConst.UPDATE_TOPIC_REQUEST}/${topicRequest.id}`, topicRequest, {headers: this.headers});
+  }
+
 }

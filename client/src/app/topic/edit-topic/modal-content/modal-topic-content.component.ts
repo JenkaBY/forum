@@ -1,9 +1,9 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Topic } from "../../../shared/entity/topic";
-import ITopicService from "../../interface/itopic.service";
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Topic } from '../../../shared/entity/topic';
+import ITopicService from '../../interface/itopic.service';
 
 @Component({
   selector: 'app-modal-topic-content',
@@ -44,13 +44,13 @@ export class ModalTopicContentComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(this.maxDescriptionLength.value)
-        ]),
-    })
+        ])
+    });
   }
 
   private patchTopic(): void {
-    this.topic.description = this.topicForm.get('description').value;
-    this.topic.title = this.topicForm.get('title').value;
+    this.topic.description = this.description.value;
+    this.topic.title = this.title.value;
   }
 
   private saveTopicIfChanged() {

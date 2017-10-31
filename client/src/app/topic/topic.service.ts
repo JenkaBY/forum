@@ -47,7 +47,6 @@ export class TopicService implements ITopicService {
         return oldPage;
       });
     return result;
-    ;
   }
 
   getById(id: number): Observable<Topic> {
