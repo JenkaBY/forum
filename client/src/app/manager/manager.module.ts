@@ -9,6 +9,8 @@ import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard
 import { CreateTopicRequestsComponent } from './create-topic-requests/create-topic-requests.component';
 import { ModalRejectReasonComponent } from './create-topic-requests/modal-reject-reason/modal-reject-reason.component';
 import { ManagerService } from './manager.service';
+import { TruncatePipe } from '../shared/pipes/truncate';
+import { DiscussRequestsComponent } from './discuss-requests/discuss-requests.component';
 
 @NgModule({
   imports: [
@@ -21,7 +23,9 @@ import { ManagerService } from './manager.service';
   declarations: [
     ManagerDashboardComponent,
     CreateTopicRequestsComponent,
-    ModalRejectReasonComponent
+    ModalRejectReasonComponent,
+    DiscussRequestsComponent,
+    TruncatePipe
   ],
   entryComponents: [
     ModalRejectReasonComponent

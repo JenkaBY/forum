@@ -1,6 +1,8 @@
 package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.entity.TopicDiscussRequest;
+import by.intexsoft.forum.entity.User;
+import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.TopicDiscussRequestService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +24,12 @@ import static org.springframework.http.ResponseEntity.ok;
 public class TopicDiscussRequestController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicDiscussRequestController.class);
     private TopicDiscussRequestService topicDiscussRequestService;
+    private SecurityHelper securityHelper;
 
     @Autowired
-    public TopicDiscussRequestController(TopicDiscussRequestService topicRequestService) {
+    public TopicDiscussRequestController(TopicDiscussRequestService topicRequestService, SecurityHelper securityHelper) {
         this.topicDiscussRequestService = topicRequestService;
+        this.securityHelper = securityHelper;
     }
 
     /**
@@ -54,11 +58,34 @@ public class TopicDiscussRequestController {
         if (Objects.isNull(request) || topicId != request.inTopic.getId()) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        TopicDiscussRequest created = this.topicDiscussRequestService.save(request);
+        TopicDiscussRequest created = topicDiscussRequestService.save(request);
         if (Objects.isNull(created)) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
         return new ResponseEntity<>(created, CREATED);
+    }
+
+    /**
+     * Updates the given topic discuss request
+     *
+     * @param requestId id request needed to update
+     * @param request   request data
+     * @return
+     */
+    @PutMapping("/discuss_request/{requestId}")
+    public ResponseEntity<?> updateRequest(@PathVariable("requestId") Long requestId,
+                                           @RequestBody TopicDiscussRequest request) {
+        User currentUser = securityHelper.getCurrentUser();
+
+        LOGGER.info("Updating the topicDiscussRequest was requested by {0}", currentUser);
+        if (Objects.isNull(request)) {
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
+        TopicDiscussRequest updated = topicDiscussRequestService.save(request);
+        if (Objects.isNull(updated)) {
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
+        return new ResponseEntity<>(OK);
     }
 
     /**

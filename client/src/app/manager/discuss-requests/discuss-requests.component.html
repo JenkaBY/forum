@@ -1,23 +1,21 @@
-<div *ngIf="requests" class="table-responsive">
+<div *ngIf="entities" class="table-responsive">
     <table class="table table-bordered table-hover table-sm">
         <thead>
         <tr>
-            <th>{{ 'CREATE_TOPIC_REQUEST.ID' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.TITLE' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.STATUS' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.REQUESTED_BY' | translate }}</th>
+            <th>{{ 'DISCUSS_REQUEST.ID' | translate }}</th>
+            <th>{{ 'DISCUSS_REQUEST.IN_TOPIC' | translate }}</th>
+            <th>{{ 'DISCUSS_REQUEST.REQUESTED_BY' | translate }}</th>
+            <th>{{ 'DISCUSS_REQUEST.STATUS' | translate }}</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
         </tr>
         </thead>
-        <tbody *ngIf="requests.length > 0; else noRequests">
-        <tr *ngFor="let request of requests">
+        <tbody *ngIf="entities.length > 0; else noRequests">
+        <tr *ngFor="let request of entities">
             <td>{{ request.id }}</td>
-            <td>{{ request.requestedTopicTitle }}</td>
-            <td>{{ request.requestedTopicDescription | truncate:[truncateSize]}}</td>
+            <td>{{ request.inTopic.title }}</td>
+            <td>{{ request.requestedBy.name }}</td>
             <td>{{ request.status }}</td>
-            <td>{{ request.requestedBy?.name }}</td>
             <td>
                 <button class="btn btn-outline-success btn-sm"
                         (click)="onApprove(request)"
@@ -35,8 +33,8 @@
         <ng-template #noRequests>
             <tbody>
             <tr>
-                <td colspan="7">
-                    There is no new create topic requests.
+                <td colspan="6">
+                    There is no new discuss topic requests.
                 </td>
             </tr>
             </tbody>
@@ -44,7 +42,7 @@
     </table>
 
     <ngb-pagination
-            *ngIf="requests"
+            *ngIf="entities"
             [collectionSize]="totalElements"
             [(page)]="currentPage"
             (pageChange)="onPageChange()"

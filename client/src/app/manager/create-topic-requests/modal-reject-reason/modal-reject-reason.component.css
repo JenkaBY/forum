@@ -1,4 +1,4 @@
-textarea.ng-invalid {
+textarea.ng-invalid.ng-touched {
     border: 1px solid red;
 }
 
@@ -6,3 +6,4 @@ textarea.ng-invalid {
     color: red;
     font-size: smaller;
 }
+

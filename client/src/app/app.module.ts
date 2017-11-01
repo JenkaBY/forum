@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Http, HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,14 +14,15 @@ import { UserService } from './user/user.service';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UsersComponent } from './user/user-list/users.component';
 import { AdminModule } from './admin/admin.module';
-import { TopicModule } from "./topic/topic.module";
+import { TopicModule } from './topic/topic.module';
 import { AdminService } from './admin/admin.service';
-import { RegistrationModule } from "./registration/registration.module";
+import { RegistrationModule } from './registration/registration.module';
 import { LoginComponent } from './authorization/login/login.component';
-import { AuthenticationService } from "./authorization/authentication.service";
-import { AuthInterceptor } from "./shared/AuthInterceptor";
-import { TopicRequestService } from "./topic/topic-request/create-topic-request.service";
-import { RoleService } from "./shared/role/role.service";
+import { AuthenticationService } from './authorization/authentication.service';
+import { AuthInterceptor } from './shared/AuthInterceptor';
+import { TopicRequestService } from './topic/topic-request/create-topic-request.service';
+import { RoleService } from './shared/role/role.service';
+import { TopicDiscussRequestService } from './topic/topic-disscuss-request/topic-discuss-request.service';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -64,7 +65,8 @@ export function createTranslateLoader(http: Http) {
     {provide: 'userService', useClass: UserService},
     {provide: 'adminService', useClass: AdminService},
     {provide: 'topicRequestService', useClass: TopicRequestService},
-    {provide: 'roleService', useClass: RoleService}
+    {provide: 'roleService', useClass: RoleService},
+    {provide: 'topicDiscussRequestService', useClass: TopicDiscussRequestService}
   ],
   bootstrap: [AppComponent]
 })

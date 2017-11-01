@@ -117,5 +117,11 @@
     "REJECT_REASON": "Reject reason",
     "CREATED_TOPIC": "Created topic",
     "REQUESTED_BY": "Requested by"
+  },
+  "DISCUSS_REQUEST": {
+    "ID": "ID",
+    "IN_TOPIC": "In topic",
+    "REQUESTED_BY": "Requsted by",
+    "STATUS": "Status"
   }
 }

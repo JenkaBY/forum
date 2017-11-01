@@ -23,6 +23,7 @@ export class CreateTopicRequestsComponent implements OnInit {
   maxSize: number;
   approving: boolean = false;
   rejecting: boolean = false;
+  truncateSize = 150;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -38,10 +39,7 @@ export class CreateTopicRequestsComponent implements OnInit {
   private fetchAllPendingRequestsPerPage(httpParams?: HttpParams) {
     this.managerService.getAllPendingCreateTopicRequests()
       .subscribe((page: Page<TopicRequest>) => {
-          this.requests = page.content;
-          this.currentPage = page.number + 1;
-          this.totalElements = page.totalElements;
-          this.pageSize = page.size;
+          this.setPageData(page);
         },
         (error) => {
           this.handleError(error);
@@ -58,9 +56,6 @@ export class CreateTopicRequestsComponent implements OnInit {
     modalRef.result
       .then((requestWithReason) => {
         this.setStatusAndSaveTopicRequest(requestWithReason, Status.REJECTED);
-      })
-      .catch((error) => {
-        this.handleError(error);
       });
   }
 
@@ -73,7 +68,6 @@ export class CreateTopicRequestsComponent implements OnInit {
     request.status = status;
     this.managerService.updateCreateTopicRequest(request)
       .subscribe((updatedRequest) => {
-          console.log(updatedRequest);
           this.onPageChange();
         }, (error) => {
           this.handleError(error);

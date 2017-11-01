@@ -1,7 +1,8 @@
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
+import { HttpParams } from '@angular/common/http';
 
-import { TopicDiscussRequest } from "../../../shared/entity/topic-discuss-request";
-import { Page } from "../../../shared/entity/page";
+import { TopicDiscussRequest } from '../../../shared/entity/topic-discuss-request';
+import { Page } from '../../../shared/entity/page';
 
 /**
  * Service for TopicDiscussRequest
@@ -10,9 +11,11 @@ interface ITopicDiscussRequestService {
 
   createRequest(topicDiscussRequest: TopicDiscussRequest): Observable<TopicDiscussRequest>;
 
-  getAllPending(): Observable<Page<TopicDiscussRequest>>;
+  getAllPending(httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>>;
 
   getByTopicIdAndUserId(topicId: number, userId: number): Observable<TopicDiscussRequest>;
+
+  updateRequest(topicDiscussRequest: TopicDiscussRequest): Observable<boolean>;
 }
 
 export default ITopicDiscussRequestService;
