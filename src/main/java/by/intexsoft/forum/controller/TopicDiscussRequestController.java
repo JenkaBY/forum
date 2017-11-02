@@ -101,6 +101,6 @@ public class TopicDiscussRequestController {
         LOGGER.info("Get TopicDiscussRequest by UserId {0} and TopicId {1}.", userId, topicId);
 
         TopicDiscussRequest discussRequest = topicDiscussRequestService.getByTopicIdAndUserId(topicId, userId);
-        return ok(discussRequest);
+        return Objects.isNull(discussRequest) ? new ResponseEntity<>(OK) : ok(discussRequest);
     }
 }

@@ -55,6 +55,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
       .subscribe(
         ((discussRequest: TopicDiscussRequest) => {
           this.topicDiscussRequest = discussRequest;
+          console.log(discussRequest);
         }),
         (error => this.handleError(error))
       );
@@ -72,9 +73,9 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   onCreateRequest(): void {
-    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length === 0) {
-      return;
-    }
+    // if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length === 0) {
+    //   return;
+    // }
     let request = this.createTopicDiscussRequest();
     this.discussRequestService.createRequest(request)
       .subscribe(

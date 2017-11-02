@@ -59,6 +59,7 @@ public class TopicRequestServiceImpl extends AbstractEntityServiceImpl<TopicRequ
             Topic topic = new Topic();
             topic.title = topicRequest.requestedTopicTitle;
             topic.createdBy = topicRequest.requestedBy;
+            topic.description = topicRequest.requestedTopicDescription;
             topicService.save(topic);
             LOGGER.info("TopicRequest has Status APPROVED. New Topic with id = {0} was created.", topic.getId());
             topicRequest.createdTopic = topic;
