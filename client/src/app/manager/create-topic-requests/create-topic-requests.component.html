@@ -13,18 +13,18 @@
         </thead>
         <tbody *ngIf="requests.length > 0; else noRequests">
         <tr *ngFor="let request of requests">
-            <td>{{ request.id }}</td>
-            <td>{{ request.requestedTopicTitle }}</td>
-            <td>{{ request.requestedTopicDescription | truncate:[truncateSize]}}</td>
-            <td>{{ request.status }}</td>
-            <td>{{ request.requestedBy?.name }}</td>
-            <td>
+            <td width="5%">{{ request.id }}</td>
+            <td width="15%">{{ request.requestedTopicTitle }}</td>
+            <td width="60%">{{ request.requestedTopicDescription | truncate:[truncateSize]}}</td>
+            <td width="5%">{{ request.status }}</td>
+            <td width="5%">{{ request.requestedBy?.name }}</td>
+            <td width="5%">
                 <button class="btn btn-outline-success btn-sm"
                         (click)="onApprove(request)"
                         [disabled]='approving'>{{ 'BUTTON.APPROVE'| translate}}
                 </button>
             </td>
-            <td>
+            <td width="5%">
                 <button class="btn btn-outline-danger btn-sm"
                         (click)="onReject(request)"
                         [disabled]='rejecting'>{{ 'BUTTON.REJECT'| translate}}

@@ -26,7 +26,7 @@ public class TopicRequestServiceImpl extends AbstractEntityServiceImpl<TopicRequ
     }
 
     /**
-     * Find all requests in status PENDING.
+     * Find all requests with status PENDING.
      *
      * @param pageable Parameters for retrieving requests per one page
      * @return Page<TopicRequest> one part of all pending requests.

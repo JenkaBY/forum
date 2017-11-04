@@ -15,7 +15,8 @@
     "REQUEST_DISCUSS": "Request",
     "REFUSE": "Refuse",
     "REJECT": "Reject",
-    "APPROVE": "Approve"
+    "APPROVE": "Approve",
+    "ALL_USERS": "All users"
   },
   "NAV": {
     "TOPICS": "All Topics",
@@ -64,6 +65,12 @@
     "ROLE": "Role",
     "DELETED": "Deleted",
     "APPROVED_BY": "Approved by"
+  },
+  "TOPIC": {
+    "ID": "Id",
+    "TITLE": "Title",
+    "CREATED_BY": "Created by",
+    "ALLOWED_USERS": "Allowed users in the topic <u style=\"color: green\">{{ value }}</u>"
   },
   "ROLE": {
     "TITLE": "Title"

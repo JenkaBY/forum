@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h6 class="modal-title" [innerHTML]="'TOPIC.ALLOWED_USERS' | translate: { value: topic.title }"></h6>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('close')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div *ngIf="topic.allowedUsers" class="table-responsive">
+        <table class="table table-bordered table-hover table-sm">
+            <thead>
+            <tr>
+                <th>{{ 'USER.ID' | translate }}</th>
+                <th>{{ 'USER.NAME' | translate }}</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="topic.allowedUsers.length > 0;">
+            <tr *ngFor="let user of topic.allowedUsers">
+                <td width="10%">{{ user.id }}</td>
+                <td width="85%">{{ user.name }}</td>
+                <td width="5%">
+                    <button class="btn btn-outline-primary btn-sm"
+                            (click)="onDeleteFromList(user)"
+                            [disabled]='false'>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <ng-template #noRequests>
+                <tbody>
+                <tr>
+                    <td colspan="3">
+                        There are no users.
+                    </td>
+                </tr>
+                </tbody>
+            </ng-template>
+        </table>
+
+    </div>
+</div>
+

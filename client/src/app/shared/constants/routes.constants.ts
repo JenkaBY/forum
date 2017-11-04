@@ -30,7 +30,7 @@ export class RoutesConst {
   }
 
   static UPDATE_DISCUSS_REQUEST(requestId: number): string {
-    return `${RoutesConst.routeFormatTwo(TOPIC, REQUEST)}/${requestId}`;
+    return `${RoutesConst.routeFormatTwo(TOPIC, DISCUSS_REQUEST)}/${requestId}`;
   }
 
   static get UPDATE_TOPIC_REQUEST(): string {

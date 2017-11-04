@@ -56,6 +56,8 @@ export class CreateTopicRequestsComponent implements OnInit {
     modalRef.result
       .then((requestWithReason) => {
         this.setStatusAndSaveTopicRequest(requestWithReason, Status.REJECTED);
+      })
+      .catch((error) => {
       });
   }
 

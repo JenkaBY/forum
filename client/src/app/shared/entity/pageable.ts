@@ -3,12 +3,13 @@ import { HttpParams } from '@angular/common/http';
 import { Constants } from '../constants/constants';
 import { Page } from './page';
 
-export class Pageable<T> {
+export abstract class Pageable<T> {
   entities: T[];
   currentPage: number;
   totalElements: number;
   pageSize: number;
   maxSize: number;
+  sortColumn: string = Constants.id;
 
   protected setPageData(page: Page<T>) {
     this.entities = page.content;
@@ -25,8 +26,13 @@ export class Pageable<T> {
     if (!httpParams) {
       httpParams = new HttpParams();
     }
-    httpParams = httpParams.set(Constants.getSortParam, Constants.id)
+    httpParams = httpParams.set(Constants.getSortParam, this.sortColumn)
       .set(Constants.getSizeParam, String(this.pageSize));
     return httpParams;
   }
+
+  /**
+   * To be implemented in concrete class.
+   */
+  abstract onPageChange();
 }

@@ -11,6 +11,8 @@ import { ModalRejectReasonComponent } from './create-topic-requests/modal-reject
 import { ManagerService } from './manager.service';
 import { TruncatePipe } from '../shared/pipes/truncate';
 import { DiscussRequestsComponent } from './discuss-requests/discuss-requests.component';
+import { AllTopicsComponent } from './all-topics/all-topics.component';
+import { UsersInTopicComponent } from './all-topics/users-dicsuss-in-topics/users-in-topic.component';
 
 @NgModule({
   imports: [
@@ -25,10 +27,13 @@ import { DiscussRequestsComponent } from './discuss-requests/discuss-requests.co
     CreateTopicRequestsComponent,
     ModalRejectReasonComponent,
     DiscussRequestsComponent,
+    AllTopicsComponent,
+    UsersInTopicComponent,
     TruncatePipe
   ],
   entryComponents: [
-    ModalRejectReasonComponent
+    ModalRejectReasonComponent,
+    UsersInTopicComponent
   ],
   providers: [
     {provide: 'managerService', useClass: ManagerService}

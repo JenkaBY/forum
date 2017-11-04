@@ -24,13 +24,12 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
 
   ngOnInit() {
     this.currentPage = 1;
-    this.getAllPendingRequestsPerPage();
+    this.getAllPendingRequestsPerPage(this.setHttpParams());
   }
 
   private getAllPendingRequestsPerPage(httpParams?: HttpParams) {
     this.discussRequestService.getAllPending(httpParams)
       .subscribe((page: Page<TopicDiscussRequest>) => {
-          console.log('page', page);
           this.setPageData(page);
         },
         (error) => {
@@ -47,14 +46,13 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   }
 
   onPageChange() {
-    this.getAllPendingRequestsPerPage(this.getHttpParams());
+    this.getAllPendingRequestsPerPage(this.setHttpParams(this.getHttpParams()));
   }
 
   private setStatusAndSaveDiscussRequest(request: TopicDiscussRequest, status: string) {
     request.status = status;
     this.discussRequestService.updateRequest(request)
       .subscribe((updatedRequest) => {
-          console.log('setStatusAndSave', updatedRequest);
           this.onPageChange();
         }, (error) => {
           this.handleError(error);
@@ -65,20 +63,4 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   private handleError(error: HttpErrorResponse) {
     console.log(error);
   }
-
-  // private setPageData(page: Page<TopicRequest>) {
-  //   this.requests = page.content;
-  //   this.currentPage = page.number + 1;
-  //   this.totalElements = page.totalElements;
-  //   this.pageSize = page.size;
-  // }
-  //
-  // private setHttpParams(httpParams?: HttpParams): HttpParams {
-  //   if (!httpParams) {
-  //     httpParams = new HttpParams();
-  //   }
-  //   httpParams = httpParams.set(Constants.getSortParam, Constants.id)
-  //     .set(Constants.getSizeParam, String(this.pageSize));
-  //   return httpParams;
-  // }
 }

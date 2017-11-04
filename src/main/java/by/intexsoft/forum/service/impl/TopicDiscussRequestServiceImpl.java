@@ -52,15 +52,18 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
      * @param topicDiscussRequest Topic request from the client
      * @return TopicDiscussRequestRepository saved.
      */
-//    public TopicDiscussRequestRepository save(TopicDiscussRequestRepository topicDiscussRequest) {
-////        if (topicRequest.status == Status.APPROVED) {
-////            Topic topic = new Topic();
-////            topic.title = topicRequest.requestedTopicTitle;
-////            topic.createdBy = topicRequest.requestedBy;
-////            topicService.save(topic);
-////            LOGGER.info("TopicRequest has Status APPROVED. New Topic with id = {0} was created.", topic.getId());
-////            topicRequest.createdTopic = topic;
-////        }
-//        return repository.save(topicDiscussRequest);
-//    }
+    @Override
+    public TopicDiscussRequest save(TopicDiscussRequest topicDiscussRequest) {
+        if (topicDiscussRequest.status == Status.APPROVED) {
+            Topic topic = topicDiscussRequest.inTopic;
+            topic.allowedUsers.add(topicDiscussRequest.requestedBy);
+            topicService.save(topic);
+            topicDiscussRequest.inTopic = topic;
+            LOGGER.info("TopicDiscussRequest has Status APPROVED. User id={0} was added to discuss in topic with id = {1} was created.",
+                    topicDiscussRequest.requestedBy,
+                    topic.getId());
+        }
+        TopicDiscussRequest req = repository.save(topicDiscussRequest);
+        return req;
+    }
 }
