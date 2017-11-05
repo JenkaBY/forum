@@ -20,6 +20,7 @@
                 <td width="85%">{{ user.name }}</td>
                 <td width="5%">
                     <button class="btn btn-outline-danger btn-sm"
+                            [disabled]="deleting"
                             (click)="onDeleteFromList(user)">
                         <span aria-hidden="true">&times;</span>
                     </button>

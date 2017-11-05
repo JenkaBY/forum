@@ -40,6 +40,13 @@ public class TopicDTO {
     public Topic convertToTopic() {
         Topic topic = new Topic();
         topic.setId(id);
+        topic.description = description;
+        topic.createdAt = createdAt;
+        topic.createdBy = new User();
+        topic.createdBy.setId(createdById);
+        topic.deleted = deleted;
+        topic.imagePath = imagePath;
+        topic.title = title;
         topic.allowedUsers = allowedUserIds
                 .stream()
                 .map(userId -> {

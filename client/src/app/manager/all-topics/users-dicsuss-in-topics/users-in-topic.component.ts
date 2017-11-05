@@ -2,7 +2,9 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import IUserService from '../../../user/interface/iuser.service';
+import ITopicService from '../../../topic/interface/itopic.service';
 import { User } from '../../../shared/entity/user';
+import { Topic } from '../../../shared/entity/topic';
 
 @Component({
   selector: 'app-users-in-topic',
@@ -10,24 +12,38 @@ import { User } from '../../../shared/entity/user';
   styleUrls: ['./users-in-topic.component.css']
 })
 export class UsersInTopicComponent implements OnInit {
-  @Input() topic;
+  @Input() topic: Topic;
   allowedUsers: User[] = [];
+  deleting: boolean = false;
 
   constructor(@Inject('userService') private userService: IUserService,
+              @Inject('topicService') private topicService: ITopicService,
               public activeModal: NgbActiveModal) {
   }
 
   ngOnInit(): void {
     if (this.topic.allowedUserIds.length > 0) {
       this.userService.getAllByIds(this.topic.allowedUserIds)
-        .subscribe((users: User[]) => {
-          this.allowedUsers = users;
-          console.log(this.allowedUsers);
-        });
+        .subscribe((users: User[]) => this.allowedUsers = users);
     }
   }
 
-  onDeleteFromList(user: User) {
-    console.log(user);
+  onDeleteFromList(deletedUser: User) {
+    this.deleting = false;
+    const userIds = this.topic.allowedUserIds;
+    const users = this.allowedUsers;
+    this.topic.allowedUserIds = userIds.filter((id: number) => id !== deletedUser.id);
+    this.topicService.update(this.topic)
+      .subscribe(
+        (topic: Topic) => {
+          this.deleting = false;
+          this.topic = topic;
+          console.log(this.topic);
+        },
+        (error) => {
+          this.deleting = false;
+          console.log(error);
+        });
+    this.allowedUsers = users.filter((user: User) => user.id !== deletedUser.id);
   }
 }

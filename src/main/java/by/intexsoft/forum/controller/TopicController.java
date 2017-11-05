@@ -1,5 +1,6 @@
 package by.intexsoft.forum.controller;
 
+import by.intexsoft.forum.dto.TopicDTO;
 import by.intexsoft.forum.entity.Topic;
 import by.intexsoft.forum.service.TopicService;
 import ch.qos.logback.classic.Logger;
@@ -28,7 +29,7 @@ public class TopicController {
     }
 
     /**
-     * Creates the message given in the body.
+     * Creates the topic given in the body.
      *
      * @param topic that need to be created
      * @return BAD REQUEST if topic data is null. OK with created topic in the body if it has been created.
@@ -64,13 +65,13 @@ public class TopicController {
      * @return BAD REQUEST if topic.id from body is not equal id or body is null or topic.id <= 0
      */
     @PutMapping(path = "/{id}")
-    public ResponseEntity<?> updateTopic(@PathVariable(name = "id") Long id, @RequestBody Topic topic) {
-        if (topic == null || topic.getId() != id || topic.getId() <= 0) {
+    public ResponseEntity<?> updateTopic(@PathVariable(name = "id") Long id, @RequestBody TopicDTO topic) {
+        if (topic == null || topic.id != id || topic.id <= 0) {
             LOGGER.warn("User {0} was tried to update topic with null parameters.", "MANAGER_SHOULD_BE_HERE");
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        Topic savedTopic = topicService.save(topic);
-        return ok(savedTopic);
+        Topic savedTopic = topicService.save(topic.convertToTopic());
+        return ok(new TopicDTO(savedTopic));
     }
 
     /**
@@ -90,7 +91,7 @@ public class TopicController {
      * Gets all topic per page
      *
      * @param pageable parameters of page
-     * @return OK status and Page with content
+     * @return OK status and Page with TopicDTO objects
      */
     @GetMapping(path = "/all")
     public ResponseEntity<?> getAllTopic(Pageable pageable) {
