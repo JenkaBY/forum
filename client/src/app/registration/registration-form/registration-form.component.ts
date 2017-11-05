@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import IUserService from "../../user/interface/iuser.service";
-import { User } from "../../shared/entity/user";
-import { passwordsMatchValidator } from "../../shared/matched-passwords";
-import { Constants } from "../../shared/constants/constants";
-import { HttpErrorResponse } from "@angular/common/http";
-import { RoutesConst } from "../../shared/constants/routes.constants";
+import IUserService from '../../user/interface/iuser.service';
+import { User } from '../../shared/entity/user';
+import { passwordsMatchValidator } from '../../shared/matched-passwords';
+import { Constants } from '../../shared/constants/constants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { RoutesConst } from '../../shared/constants/routes.constants';
 
 @Component({
   selector: 'app-registration-form',
@@ -77,7 +77,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   private redirectToInfoPage(): void {
-    this.router.navigate([RoutesConst.congratulation]);
+    this.router.navigate([RoutesConst.CONGRATULATION]);
   }
 
   onCancel(): void {

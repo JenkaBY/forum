@@ -5,6 +5,9 @@
     </button>
 </div>
 <div class="modal-body">
+    <p *ngIf="error">
+        <ngb-alert [type]="'danger'" (close)="closeAlert()">{{ "ERROR.DELETE_ALLOWED_USER" | translate }}</ngb-alert>
+    </p>
     <div *ngIf="allowedUsers" class="table-responsive">
         <table class="table table-bordered table-hover table-sm">
             <thead>

@@ -15,11 +15,11 @@ const REJECTED = 'rejected';
 const PENDING = 'pending';
 const TOKEN = 'token';
 const OAUTH = 'oauth';
-const CONGRATULATION = 'congratulation';
+const CONGRATULATION = 'CONGRATULATION';
 const PROJECT_NAME = '';
 const LOGOUT = 'logout';
 const DISCUSS_REQUEST = 'discuss_request';
-const CREATE = 'create';
+const CREATE = 'create_topic_requests';
 const DISCUSS = 'discuss';
 const ROLE = 'role';
 
@@ -69,7 +69,7 @@ export class RoutesConst {
     return RoutesConst.routeFormatOne(LOGOUT);
   }
 
-  static get congratulation(): string {
+  static get CONGRATULATION(): string {
     return CONGRATULATION;
   }
 

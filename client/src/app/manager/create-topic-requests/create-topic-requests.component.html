@@ -1,4 +1,4 @@
-<div *ngIf="requests" class="table-responsive">
+<div *ngIf="entities" class="table-responsive">
     <table class="table table-bordered table-hover table-sm">
         <thead>
         <tr>
@@ -11,8 +11,8 @@
             <th>&nbsp;</th>
         </tr>
         </thead>
-        <tbody *ngIf="requests.length > 0; else noRequests">
-        <tr *ngFor="let request of requests">
+        <tbody *ngIf="entities.length > 0; else noRequests">
+        <tr *ngFor="let request of entities">
             <td width="5%">{{ request.id }}</td>
             <td width="15%">{{ request.requestedTopicTitle }}</td>
             <td width="60%">{{ request.requestedTopicDescription | truncate:[truncateSize]}}</td>
@@ -44,7 +44,7 @@
     </table>
 
     <ngb-pagination
-            *ngIf="requests"
+            *ngIf="entities"
             [collectionSize]="totalElements"
             [(page)]="currentPage"
             (pageChange)="onPageChange()"

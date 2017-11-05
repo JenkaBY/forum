@@ -13,7 +13,13 @@
         <tbody *ngIf="entities.length > 0; else noRequests">
         <tr *ngFor="let request of entities">
             <td width="5%">{{ request.id }}</td>
-            <td width="65%">{{ request.inTopic.title }}</td>
+            <td width="65%">
+                <button type="button"
+                        class="btn btn-link btn-sm pt-0 pb-0"
+                        [routerLink]="['/topic', request.inTopic.id]"
+                        role="button">{{ request.inTopic.title }}
+                </button>
+            </td>
             <td width="15%">{{ request.requestedBy.name }}</td>
             <td width="5%">{{ request.status }}</td>
             <td width="5%">

@@ -38,10 +38,11 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
 
   getAllPending(httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
     let oldPage;
-    let result = this.http.get(RoutesConst.GET_ALL_TOPIC_DISCUSS_REQUESTS, httpParams).map((page: Page<TopicDiscussRequest>) => {
-      oldPage = page;
-      return page.content;
-    })
+    let result = this.http.get(RoutesConst.GET_ALL_TOPIC_DISCUSS_REQUESTS, {params: httpParams})
+      .map((page: Page<TopicDiscussRequest>) => {
+        oldPage = page;
+        return page.content;
+      })
       .flatMap((requests: TopicDiscussRequest[]) => {
         if (requests.length > 0) {
           return Observable.forkJoin(
@@ -81,5 +82,4 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
     const params = new HttpParams().set('userId', String(userId));
     return this.http.get(RoutesConst.GET_TOPIC_DISCUSS_REQUEST(topicId), {params: params});
   }
-
 }

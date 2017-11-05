@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+
 import { Page } from '../../shared/entity/page';
 import { Status, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
 import { Pageable } from '../../shared/entity/pageable';
@@ -15,7 +16,6 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   approving: boolean = false;
   rejecting: boolean = false;
 
-
   constructor(private router: Router,
               private route: ActivatedRoute,
               @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService) {
@@ -24,6 +24,7 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
 
   ngOnInit() {
     this.currentPage = 1;
+    this.pageSize = 10;
     this.getAllPendingRequestsPerPage(this.setHttpParams());
   }
 
@@ -51,13 +52,24 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
 
   private setStatusAndSaveDiscussRequest(request: TopicDiscussRequest, status: string) {
     request.status = status;
+    this.changeExecutingStatus(status);
     this.discussRequestService.updateRequest(request)
       .subscribe((updatedRequest) => {
           this.onPageChange();
+        this.changeExecutingStatus(status);
         }, (error) => {
           this.handleError(error);
+        this.changeExecutingStatus(status);
         }
       );
+  }
+
+  private changeExecutingStatus(status: string) {
+    if (status === Status.APPROVED) {
+      this.approving = !this.approving;
+    } else {
+      this.rejecting = !this.rejecting;
+    }
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
@@ -30,9 +30,9 @@ export class ManagerService implements IManagerService {
    * gets all pending to approve or reject the create topic requests.
    * @returns {Observable<Page<TopicRequest>>} Page with Pending to approve or reject the create topic requests
    */
-  getAllPendingCreateTopicRequests(): Observable<Page<TopicRequest>> {
+  getAllPendingCreateTopicRequests(httpParams?: HttpParams): Observable<Page<TopicRequest>> {
     let oldPage;
-    let result = this.http.get<Page<TopicRequest>>(RoutesConst.GET_ALL_PENDING_TOPIC_REQUESTS)
+    let result = this.http.get<Page<TopicRequest>>(RoutesConst.GET_ALL_PENDING_TOPIC_REQUESTS, {params: httpParams})
       .map((page: Page<TopicRequest>) => {
         oldPage = page;
         return page.content;

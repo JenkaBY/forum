@@ -58,7 +58,7 @@ export class TopicService implements ITopicService {
   }
 
   update(topic: Topic): Observable<Topic> {
-    return this.http.put(RoutesConst.TOPIC + topic.id, JSON.stringify(topic), {headers: this.headers});
+    return this.http.put(RoutesConst.TOPIC + topic.id, topic, {headers: this.headers});
   }
 
   create(topic: Topic): Observable<Topic> {

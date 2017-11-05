@@ -15,6 +15,7 @@ export class UsersInTopicComponent implements OnInit {
   @Input() topic: Topic;
   allowedUsers: User[] = [];
   deleting: boolean = false;
+  error: boolean = false;
 
   constructor(@Inject('userService') private userService: IUserService,
               @Inject('topicService') private topicService: ITopicService,
@@ -29,7 +30,7 @@ export class UsersInTopicComponent implements OnInit {
   }
 
   onDeleteFromList(deletedUser: User) {
-    this.deleting = false;
+    this.deleting = true;
     const userIds = this.topic.allowedUserIds;
     const users = this.allowedUsers;
     this.topic.allowedUserIds = userIds.filter((id: number) => id !== deletedUser.id);
@@ -38,12 +39,16 @@ export class UsersInTopicComponent implements OnInit {
         (topic: Topic) => {
           this.deleting = false;
           this.topic = topic;
-          console.log(this.topic);
+          this.allowedUsers = users.filter((user: User) => user.id !== deletedUser.id);
         },
         (error) => {
           this.deleting = false;
-          console.log(error);
+          this.topic.allowedUserIds = userIds;
+          this.error = true;
         });
-    this.allowedUsers = users.filter((user: User) => user.id !== deletedUser.id);
+  }
+
+  closeAlert() {
+    this.error = false;
   }
 }

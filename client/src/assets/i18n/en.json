@@ -128,8 +128,11 @@
   },
   "DISCUSS_REQUEST": {
     "ID": "ID",
-    "IN_TOPIC": "In topic",
+    "IN_TOPIC": "Topic title",
     "REQUESTED_BY": "Requested by",
     "STATUS": "Status"
+  },
+  "ERROR": {
+    "DELETE_ALLOWED_USER": "Error has occurred while deleting the user from allowed users list in the topic. Try again later."
   }
 }

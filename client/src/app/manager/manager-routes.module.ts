@@ -9,9 +9,9 @@ import { AllTopicsComponent } from './all-topics/all-topics.component';
 const managerRoutes: Routes = [
   {
     path: 'manager', component: ManagerDashboardComponent, children: [
-    {path: 'topics', component: AllTopicsComponent},
-    {path: 'discuss', component: DiscussRequestsComponent},
-    {path: 'create', component: CreateTopicRequestsComponent}
+    {path: 'all_topics', component: AllTopicsComponent},
+    {path: 'discuss_requests', component: DiscussRequestsComponent},
+    {path: 'create_topic_requests', component: CreateTopicRequestsComponent}
   ]
   }
 ];
