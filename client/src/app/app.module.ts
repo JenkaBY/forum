@@ -10,7 +10,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './layout/header/header.component';
-import { UserService } from './user/user.service';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UsersComponent } from './user/user-list/users.component';
 import { AdminModule } from './admin/admin.module';
@@ -24,6 +23,7 @@ import { TopicRequestService } from './topic/topic-request/create-topic-request.
 import { RoleService } from './shared/role/role.service';
 import { TopicDiscussRequestService } from './topic/topic-disscuss-request/topic-discuss-request.service';
 import { TopicService } from './topic/topic.service';
+import { UserCacheableService } from './user/user-cacheable.service';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -63,7 +63,7 @@ export function createTranslateLoader(http: Http) {
       multi: true,
     },
     AuthenticationService,
-    {provide: 'userService', useClass: UserService},
+    {provide: 'cacheableUserService', useClass: UserCacheableService},
     {provide: 'adminService', useClass: AdminService},
     {provide: 'topicRequestService', useClass: TopicRequestService},
     {provide: 'topicService', useClass: TopicService},

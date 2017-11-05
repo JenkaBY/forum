@@ -23,7 +23,7 @@ export class ManagerService implements IManagerService {
   private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
 
   constructor(private  http: HttpClient,
-              @Inject('userService') private userService: IUserService) {
+              @Inject('cacheableUserService') private userService: IUserService) {
   }
 
   /**

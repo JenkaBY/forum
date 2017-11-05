@@ -1,15 +1,15 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from 'rxjs/Subscription';
 
 import IAdminService from '../../admin/interface/iadmin.service';
 import IUserService from '../interface/iuser.service';
 import { Page } from '../../shared/entity/page';
 import { User } from '../../shared/entity/user';
 import { Constants } from '../../shared/constants/constants';
-import { RoutesConst } from "../../shared/constants/routes.constants";
-import { AuthenticationService } from "../../authorization/authentication.service";
+import { RoutesConst } from '../../shared/constants/routes.constants';
+import { AuthenticationService } from '../../authorization/authentication.service';
 
 @Component({
   selector: 'app-users',
@@ -33,7 +33,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   blocking = false;
 
   constructor(@Inject('adminService') private adminService: IAdminService,
-              @Inject('userService') private userService: IUserService,
+              @Inject('cacheableUserService') private userService: IUserService,
               private authService: AuthenticationService,
               private router: Router) {
   }

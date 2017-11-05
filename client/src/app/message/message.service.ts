@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 
 import { RoutesConst } from '../shared/constants/routes.constants';
 import IMessageService from './interface/imessage.service';
 import { Message } from '../shared/entity/message';
-import { Page } from "../shared/entity/page";
-import { Constants, HeaderConst } from "../shared/constants/constants";
+import { Page } from '../shared/entity/page';
+import { Constants, HeaderConst } from '../shared/constants/constants';
 
 @Injectable()
 export class MessageService implements IMessageService {
@@ -28,7 +28,7 @@ export class MessageService implements IMessageService {
           this.messagesChanged.next(page);
         },
         (err) => {
-          console.log('Error from DO', err)
+          console.log('Error from DO', err);
         }
       );
   }

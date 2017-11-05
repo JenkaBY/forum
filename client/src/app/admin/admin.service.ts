@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 import { RoutesConst } from '../shared/constants/routes.constants';
 import IAdminService from './interface/iadmin.service';

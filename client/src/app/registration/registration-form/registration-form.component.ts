@@ -25,7 +25,7 @@ export class RegistrationFormComponent implements OnInit {
   creating: boolean;
   private mismatchStr = 'mismatch';
 
-  constructor(@Inject('userService') private userService: IUserService,
+  constructor(@Inject('cacheableUserService') private userService: IUserService,
               private router: Router,
               private location: Location) {
   }

@@ -1,9 +1,9 @@
-import { HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
+import { HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Message } from '../../shared/entity/message';
-import { Page } from "../../shared/entity/page";
+import { Page } from '../../shared/entity/page';
 
 /**
  * Service for Messages

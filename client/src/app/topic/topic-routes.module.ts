@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes } from '@angular/router';
 
-import { TopicListComponent } from "./topic-list/topic-list.component";
-import { TopicComponent } from "./topic/topic.component";
-import { TopicRequestComponent } from "./topic-request/topic-request.component";
+import { TopicListComponent } from './topic-list/topic-list.component';
+import { TopicComponent } from './topic/topic.component';
+import { TopicRequestComponent } from './topic-request/topic-request.component';
 
 
 const topicRoutes: Routes = [

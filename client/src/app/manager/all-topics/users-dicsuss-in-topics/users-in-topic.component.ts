@@ -17,7 +17,7 @@ export class UsersInTopicComponent implements OnInit {
   deleting: boolean = false;
   error: boolean = false;
 
-  constructor(@Inject('userService') private userService: IUserService,
+  constructor(@Inject('cacheableUserService') private userService: IUserService,
               @Inject('topicService') private topicService: ITopicService,
               public activeModal: NgbActiveModal) {
   }

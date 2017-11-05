@@ -1,4 +1,4 @@
-import { User } from "../shared/entity/user";
+import { User } from '../shared/entity/user';
 
 export class OAuthTokensData {
   access_token: string;

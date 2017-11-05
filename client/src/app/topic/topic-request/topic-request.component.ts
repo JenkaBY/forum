@@ -1,15 +1,15 @@
-import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Subscription } from "rxjs/Subscription";
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { Location } from '@angular/common';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
-import { AuthenticationService } from "../../authorization/authentication.service";
-import ITopicRequestService from "./interface/icreate-topic-request.service";
-import { TopicRequest } from "../../shared/entity/topic-request";
-import { User } from "../../shared/entity/user";
-import { Constants } from "../../shared/constants/constants";
-import { Status } from "../../shared/entity/topic-discuss-request";
+import { AuthenticationService } from '../../authorization/authentication.service';
+import ITopicRequestService from './interface/icreate-topic-request.service';
+import { TopicRequest } from '../../shared/entity/topic-request';
+import { User } from '../../shared/entity/user';
+import { Constants } from '../../shared/constants/constants';
+import { Status } from '../../shared/entity/topic-discuss-request';
 
 @Component({
   selector: 'app-topic-request',

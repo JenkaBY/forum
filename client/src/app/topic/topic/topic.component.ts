@@ -33,7 +33,7 @@ export class TopicComponent implements OnInit, OnDestroy {
 
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('topicService') private topicService: TopicService,
-              @Inject('userService') private userService: IUserService,
+              @Inject('cacheableUserService') private userService: IUserService,
               private authService: AuthenticationService,
               private route: ActivatedRoute) {
   }

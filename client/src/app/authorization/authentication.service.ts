@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Router } from "@angular/router";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/observable/of';
 import 'rxjs/add/operator/do';
 
-import IUserService from "../user/interface/iuser.service";
-import { UserCredential } from "./user-credential.model";
-import { RoutesConst } from "../shared/constants/routes.constants";
-import { OAuthTokensData } from "./oauth-token.model";
-import { AppConstant } from "../shared/constants/app-constant";
-import { User } from "../shared/entity/user";
-import { HeaderConst, OAuthConst, RoleConst } from "../shared/constants/constants";
+import IUserService from '../user/interface/iuser.service';
+import { UserCredential } from './user-credential.model';
+import { RoutesConst } from '../shared/constants/routes.constants';
+import { OAuthTokensData } from './oauth-token.model';
+import { AppConstant } from '../shared/constants/app-constant';
+import { User } from '../shared/entity/user';
+import { HeaderConst, OAuthConst, RoleConst } from '../shared/constants/constants';
 
 @Injectable()
 export class AuthenticationService {
@@ -22,7 +22,7 @@ export class AuthenticationService {
   private expireTokenDate: Date;
   private authDataStr = 'authData';
 
-  constructor(@Inject('userService') private userService: IUserService,
+  constructor(@Inject('cacheableUserService') private userService: IUserService,
               private http: HttpClient,
               private router: Router) {
   }

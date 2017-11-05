@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { RoutesConst } from "../../shared/constants/routes.constants";
+import { RoutesConst } from '../../shared/constants/routes.constants';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -9,8 +9,6 @@ import { RoutesConst } from "../../shared/constants/routes.constants";
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-  // isActive = true;
-
 
   constructor(private router: Router,
               private route: ActivatedRoute) {

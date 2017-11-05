@@ -1,5 +1,5 @@
-import { HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 import { User } from '../../shared/entity/user';
 import { Page } from '../../shared/entity/page';

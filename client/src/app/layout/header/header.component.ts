@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { AuthenticationService } from "../../authorization/authentication.service";
-import { User } from "../../shared/entity/user";
-import { Subscription } from "rxjs/Subscription";
-import { Router } from "@angular/router";
+import { AuthenticationService } from '../../authorization/authentication.service';
+import { User } from '../../shared/entity/user';
+import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'forum-header',

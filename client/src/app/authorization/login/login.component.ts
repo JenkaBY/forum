@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
-import { AuthenticationService } from "../authentication.service";
-import { UserCredential } from "../user-credential.model";
-import { RoleConst } from "../../shared/constants/constants";
-import { OAuthTokensData } from "../oauth-token.model";
+import { AuthenticationService } from '../authentication.service';
+import { UserCredential } from '../user-credential.model';
+import { RoleConst } from '../../shared/constants/constants';
+import { OAuthTokensData } from '../oauth-token.model';
 
 @Component({
   selector: 'app-login',

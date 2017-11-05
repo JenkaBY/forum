@@ -20,7 +20,7 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
   private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
 
   constructor(private  http: HttpClient,
-              @Inject('userService') private userService: IUserService,
+              @Inject('cacheableUserService') private userService: IUserService,
               @Inject('topicService') private topicService: ITopicService) {
   }
 

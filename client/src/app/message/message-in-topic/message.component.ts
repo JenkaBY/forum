@@ -1,12 +1,12 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
 
-import IMessageService from "../interface/imessage.service";
-import IUserService from "../../user/interface/iuser.service";
-import { AuthenticationService } from "../../authorization/authentication.service";
+import IMessageService from '../interface/imessage.service';
+import IUserService from '../../user/interface/iuser.service';
+import { AuthenticationService } from '../../authorization/authentication.service';
 import { Message } from '../../shared/entity/message';
 import { Constants } from '../../shared/constants/constants';
-import { User } from "../../shared/entity/user";
+import { User } from '../../shared/entity/user';
 
 @Component({
   selector: 'app-message',
@@ -24,7 +24,7 @@ export class MessageComponent implements OnInit {
   authorMessage: User;
 
   constructor(@Inject('messageService') private messageService: IMessageService,
-              @Inject('userService') private userService: IUserService,
+              @Inject('cacheableUserService') private userService: IUserService,
               private authService: AuthenticationService) {
   }
 

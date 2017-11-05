@@ -22,7 +22,7 @@ export class UserDetailsComponent implements OnInit {
   dateFormat = Constants.getDateTimeFormat;
   roles: Role[];
 
-  constructor(@Inject('userService') private userService: IUserService,
+  constructor(@Inject('cacheableUserService') private userService: IUserService,
               @Inject('roleService') private roleService: IRoleService,
               private route: ActivatedRoute,
               private location: Location) {

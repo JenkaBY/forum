@@ -1,6 +1,6 @@
-import { AbstractEntity } from "./abstract-entity";
-import { Topic } from "./topic";
-import { User } from "./user";
+import { AbstractEntity } from './abstract-entity';
+import { Topic } from './topic';
+import { User } from './user';
 
 export class TopicDiscussRequest extends AbstractEntity {
   requestedBy: User;

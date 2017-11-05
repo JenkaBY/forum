@@ -1,5 +1,5 @@
-import { Role } from "../entity/role";
-import { Observable } from "rxjs/Observable";
+import { Role } from '../entity/role';
+import { Observable } from 'rxjs/Observable';
 
 interface IRoleService {
 

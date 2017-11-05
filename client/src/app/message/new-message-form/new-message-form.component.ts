@@ -1,13 +1,13 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Subscription } from "rxjs/Subscription";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
-import { Topic } from "../../shared/entity/topic";
-import IMessageService from "../interface/imessage.service";
-import { AuthenticationService } from "../../authorization/authentication.service";
-import { User } from "../../shared/entity/user";
-import { isInArray } from "../../shared/utilities";
-import { Constants } from "../../shared/constants/constants";
+import { Topic } from '../../shared/entity/topic';
+import IMessageService from '../interface/imessage.service';
+import { AuthenticationService } from '../../authorization/authentication.service';
+import { User } from '../../shared/entity/user';
+import { isInArray } from '../../shared/utilities';
+import { Constants } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-new-message-form',
