@@ -51,7 +51,7 @@ public class TopicController {
      * @return OK if with topic in the body.
      */
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> readTopic(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> getTopic(@PathVariable(name = "id") Long id) {
         LOGGER.info("Get topic with id = {}", id);
         return ok(topicService.find(id));
     }
@@ -75,6 +75,7 @@ public class TopicController {
 
     /**
      * delete topic from DB
+     *
      * @param id number of topic to be deleted
      * @return OK status
      */
@@ -87,12 +88,13 @@ public class TopicController {
 
     /**
      * Gets all topic per page
+     *
      * @param pageable parameters of page
      * @return OK status and Page with content
      */
     @GetMapping(path = "/all")
     public ResponseEntity<?> getAllTopic(Pageable pageable) {
         LOGGER.info("Request all topics");
-        return ok(topicService.findAll(pageable));
+        return ok(topicService.findAllDto(pageable));
     }
 }

@@ -32,7 +32,7 @@ export class TopicService implements ITopicService {
         if (requests.length > 0) {
           return Observable.forkJoin(
             requests.map((topic: Topic) => {
-              return this.userService.getById(topic.createdBy.id)
+              return this.userService.getById(topic.createdById)
                 .map((user: User) => {
                   topic.createdBy = user;
                   return topic;

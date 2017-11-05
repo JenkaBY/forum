@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements UserService {
@@ -114,6 +116,13 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
     @Override
     public User getUserByEmail(String email) {
         return ((UserRepository) repository).findByEmail(email.toLowerCase());
+    }
+
+    @Override
+    public Set<User> findAllUsersByIds(Set<Long> userIds) {
+        return repository.findAll(userIds)
+                .stream()
+                .collect(Collectors.toSet());
     }
 
     private boolean isNewUser(User user) {

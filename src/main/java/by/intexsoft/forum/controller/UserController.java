@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 import static by.intexsoft.forum.security.SecurityHelper.checkPasswordLength;
 import static org.springframework.http.HttpStatus.*;
@@ -46,10 +47,10 @@ public class UserController {
     public ResponseEntity<?> getUserBy(@PathVariable(value = "id") Long id) {
         User user = userService.find(id);
         if (user == null) {
-            LOGGER.warn("User with id = {0} is not found.", id);
+            LOGGER.warn("User with id = {} is not found.", id);
             return new ResponseEntity<>("User not found.", BAD_REQUEST);
         }
-        LOGGER.info("Get user by id = {0}", id);
+        LOGGER.info("Get user by id = {}", id);
         return new ResponseEntity<>(new UserDTO(user), OK);
     }
 
@@ -69,7 +70,7 @@ public class UserController {
             return new ResponseEntity<>(message, BAD_REQUEST);
         }
         userService.delete(id);
-        LOGGER.info("User with Id={0} has been deleted.", id);
+        LOGGER.info("User with Id={} has been deleted.", id);
         return new ResponseEntity<>(Objects.isNull(userService.find(id)) ? OK : BAD_REQUEST);
     }
 
@@ -83,7 +84,7 @@ public class UserController {
     public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
         User createdUser = userService.save(userDTO.transformToUser());
         // TODO create case if error occurs while saving user
-        LOGGER.info("New user {0} was created.", userDTO);
+        LOGGER.info("New user id={} was created.", userDTO.id);
         return new ResponseEntity<>(new UserDTO(createdUser), CREATED);
     }
 
@@ -100,7 +101,7 @@ public class UserController {
         }
         User updatedUser = userService.save(userDTO.transformToUser());
         // TODO create case if error occurs while saving user
-        LOGGER.info("User with id = {0} was updated.", updatedUser.getId());
+        LOGGER.info("User with id = {} was updated.", updatedUser.getId());
         return new ResponseEntity<>(new UserDTO(updatedUser), OK);
     }
 
@@ -119,5 +120,13 @@ public class UserController {
         User currentUser = securityHelper.getCurrentUser();
         userService.changePassword(currentUser, newPassword);
         return new ResponseEntity<>(OK);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<?> getAllUserByIds(@RequestParam(name = "ids") Set<Long> userIds) {
+        LOGGER.info("Get all users by ids {}.", userIds);
+        Set<User> users = userService.findAllUsersByIds(userIds);
+        return new ResponseEntity<>(users, OK);
     }
 }

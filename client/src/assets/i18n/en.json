@@ -70,7 +70,8 @@
     "ID": "Id",
     "TITLE": "Title",
     "CREATED_BY": "Created by",
-    "ALLOWED_USERS": "Allowed users in the topic <u style=\"color: green\">{{ value }}</u>"
+    "ALLOWED_USERS": "Allowed users in the topic <u>{{ value }}</u>",
+    "COUNT_ALLOWED_USERS": "Qty allowed users"
   },
   "ROLE": {
     "TITLE": "Title"
@@ -128,7 +129,7 @@
   "DISCUSS_REQUEST": {
     "ID": "ID",
     "IN_TOPIC": "In topic",
-    "REQUESTED_BY": "Requsted by",
+    "REQUESTED_BY": "Requested by",
     "STATUS": "Status"
   }
 }

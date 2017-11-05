@@ -4,6 +4,8 @@ import by.intexsoft.forum.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Set;
+
 
 public interface UserService extends AbstractEntityService<User> {
     Page<User> findAll(Pageable page);
@@ -23,4 +25,6 @@ public interface UserService extends AbstractEntityService<User> {
     boolean isNameExist(String name);
 
     User getUserByEmail(String email);
+
+    Set<User> findAllUsersByIds(Set<Long> userIds);
 }

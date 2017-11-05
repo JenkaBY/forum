@@ -101,6 +101,11 @@ export class RoutesConst {
     return RoutesConst.routeFormatOne(USER);
   }
 
+  static get USERS_BY_IDS(): string {
+    let apiUser = RoutesConst.routeFormatOne(USER);
+    return apiUser.slice(0, apiUser.length - 1);
+  }
+
   static get CREATE_NEW_USER(): string {
     return RoutesConst.routeFormatTwo(USER, NEW);
   }

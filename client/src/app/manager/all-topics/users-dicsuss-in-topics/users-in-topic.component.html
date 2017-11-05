@@ -5,7 +5,7 @@
     </button>
 </div>
 <div class="modal-body">
-    <div *ngIf="topic.allowedUsers" class="table-responsive">
+    <div *ngIf="allowedUsers" class="table-responsive">
         <table class="table table-bordered table-hover table-sm">
             <thead>
             <tr>
@@ -14,30 +14,27 @@
                 <th>&nbsp;</th>
             </tr>
             </thead>
-            <tbody *ngIf="topic.allowedUsers.length > 0;">
-            <tr *ngFor="let user of topic.allowedUsers">
+            <tbody *ngIf="topic.allowedUserIds.length > 0; else noUsers">
+            <tr *ngFor="let user of allowedUsers">
                 <td width="10%">{{ user.id }}</td>
                 <td width="85%">{{ user.name }}</td>
                 <td width="5%">
-                    <button class="btn btn-outline-primary btn-sm"
-                            (click)="onDeleteFromList(user)"
-                            [disabled]='false'>
+                    <button class="btn btn-outline-danger btn-sm"
+                            (click)="onDeleteFromList(user)">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </td>
             </tr>
             </tbody>
-            <ng-template #noRequests>
+            <ng-template #noUsers>
                 <tbody>
                 <tr>
                     <td colspan="3">
-                        There are no users.
+                        There are no users in the topic.
                     </td>
                 </tr>
                 </tbody>
             </ng-template>
         </table>
-
     </div>
 </div>
-

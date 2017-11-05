@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 import { RoutesConst } from '../shared/constants/routes.constants';
-import { HeaderConst } from "../shared/constants/constants";
+import { HeaderConst } from '../shared/constants/constants';
 import { User } from '../shared/entity/user';
 import IUserService from './interface/iuser.service';
 import { Page } from '../shared/entity/page';
@@ -33,5 +33,9 @@ export class UserService implements IUserService {
 
   create(user: User): Observable<User> {
     return this.http.post<User>(RoutesConst.CREATE_NEW_USER, JSON.stringify(user), {headers: this.headers});
+  }
+
+  getAllByIds(userIds: number[]): Observable<User[]> {
+    return this.http.get<User[]>(RoutesConst.USERS_BY_IDS, {params: new HttpParams().set('ids', String(userIds))});
   }
 }

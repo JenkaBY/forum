@@ -49,7 +49,6 @@ export class AllTopicsComponent extends Pageable<Topic> implements OnInit {
     modalRef.componentInstance.topic = topic;
     modalRef.result
       .then((result) => {
-        console.log(result);
       })
       .catch((error) => {
         console.log(error);

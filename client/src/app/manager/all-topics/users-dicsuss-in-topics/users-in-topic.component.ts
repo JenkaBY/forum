@@ -11,13 +11,20 @@ import { User } from '../../../shared/entity/user';
 })
 export class UsersInTopicComponent implements OnInit {
   @Input() topic;
-  topicTitle: { value: string };
+  allowedUsers: User[] = [];
 
   constructor(@Inject('userService') private userService: IUserService,
               public activeModal: NgbActiveModal) {
   }
 
   ngOnInit(): void {
+    if (this.topic.allowedUserIds.length > 0) {
+      this.userService.getAllByIds(this.topic.allowedUserIds)
+        .subscribe((users: User[]) => {
+          this.allowedUsers = users;
+          console.log(this.allowedUsers);
+        });
+    }
   }
 
   onDeleteFromList(user: User) {

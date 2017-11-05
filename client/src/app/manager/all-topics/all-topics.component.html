@@ -1,17 +1,18 @@
 <div *ngIf="entities" class="table-responsive">
     <table class="table table-bordered table-hover table-sm">
-        <thead>
+        <thead style="font-size: small">
         <tr>
             <th>{{ 'TOPIC.ID' | translate }}</th>
             <th>{{ 'TOPIC.TITLE' | translate }}</th>
             <th>{{ 'TOPIC.CREATED_BY' | translate }}</th>
+            <th>{{ 'TOPIC.COUNT_ALLOWED_USERS' | translate }}</th>
             <th>&nbsp;</th>
         </tr>
         </thead>
-        <tbody *ngIf="entities.length > 0; else noRequests">
+        <tbody *ngIf="entities.length > 0; else noTopics">
         <tr *ngFor="let topic of entities">
             <td width="5%">{{ topic.id }}</td>
-            <td width="75%">
+            <td width="70%">
                 <button type="button"
                         class="btn btn-link btn-sm pt-0 pb-0"
                         [routerLink]="['/topic', topic.id]"
@@ -19,19 +20,20 @@
                 </button>
             </td>
             <td width="15%">{{ topic.createdBy.name }}</td>
+            <td width="5%">{{ topic.allowedUserIds.length }}</td>
             <td width="5%">
                 <button class="btn btn-outline-primary btn-sm"
                         (click)="onShowUsers(topic)"
-                        [disabled]='false'>{{ 'BUTTON.ALL_USERS'| translate}}
+                        [disabled]='topic.allowedUserIds.length === 0'>{{ 'BUTTON.ALL_USERS'| translate}}
                 </button>
             </td>
         </tr>
         </tbody>
-        <ng-template #noRequests>
+        <ng-template #noTopics>
             <tbody>
             <tr>
-                <td colspan="5">
-                    There is no new discuss topic requests.
+                <td colspan="6">
+                    There is no topics.
                 </td>
             </tr>
             </tbody>
