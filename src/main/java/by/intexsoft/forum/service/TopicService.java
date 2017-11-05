@@ -6,5 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TopicService extends AbstractEntityService<Topic> {
+
     Page<TopicDTO> findAllDto(Pageable pageable);
+
+    Page<TopicDTO> findAllTopicsByUser(long userId, Pageable pageable);
 }

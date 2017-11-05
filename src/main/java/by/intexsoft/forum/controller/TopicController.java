@@ -2,7 +2,10 @@ package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.dto.TopicDTO;
 import by.intexsoft.forum.entity.Topic;
+import by.intexsoft.forum.entity.User;
+import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.TopicService;
+import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +25,14 @@ import static org.springframework.http.ResponseEntity.ok;
 public class TopicController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicController.class);
     private TopicService topicService;
+    private SecurityHelper securityHelper;
+    private UserService userService;
 
     @Autowired
-    public TopicController(TopicService topicService) {
+    public TopicController(TopicService topicService, SecurityHelper securityHelper, UserService userService) {
         this.topicService = topicService;
+        this.securityHelper = securityHelper;
+        this.userService = userService;
     }
 
     /**
@@ -97,5 +104,14 @@ public class TopicController {
     public ResponseEntity<?> getAllTopic(Pageable pageable) {
         LOGGER.info("Request all topics");
         return ok(topicService.findAllDto(pageable));
+    }
+
+    @GetMapping(path = "/user")
+    public ResponseEntity<?> getTopicsByUser(@RequestParam(name = "id") Long userId, Pageable pageable) {
+//        if (!securityHelper.getCurrentUser().getId().equals(userId)){
+//            return new ResponseEntity<>(BAD_REQUEST);
+//        }
+        User user = this.userService.find(userId);
+        return ok(topicService.findAllTopicsByUser(userId, pageable));
     }
 }

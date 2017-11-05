@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implements TopicService {
 
@@ -21,5 +20,12 @@ public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implement
     public Page<TopicDTO> findAllDto(Pageable pageable) {
         return repository.findAll(pageable)
                 .map(topic -> new TopicDTO(topic));
+    }
+
+    @Override
+    public Page<TopicDTO> findAllTopicsByUser(long userId, Pageable pageable) {
+        return ((TopicRepository) repository).findAllTopics(userId, pageable)
+                .map(topic -> new TopicDTO(topic));
+//                .collect(toList());
     }
 }

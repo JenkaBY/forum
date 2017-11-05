@@ -24,6 +24,7 @@ import { RoleService } from './shared/role/role.service';
 import { TopicDiscussRequestService } from './topic/topic-disscuss-request/topic-discuss-request.service';
 import { TopicService } from './topic/topic.service';
 import { UserCacheableService } from './user/user-cacheable.service';
+import { UserModule } from './user/user.module';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -47,6 +48,7 @@ export function createTranslateLoader(http: Http) {
     AdminModule,
     RegistrationModule,
     TopicModule,
+    UserModule,
     AppRoutingModule,
     NgbModule.forRoot(),
     TranslateModule.forRoot(

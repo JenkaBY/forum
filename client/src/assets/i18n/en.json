@@ -21,7 +21,7 @@
   "NAV": {
     "TOPICS": "All Topics",
     "REQUEST": "Topic Request",
-    "MY_TOPICS": "My Topics",
+    "USER_DASHBOARD": "User dashboard",
     "ADMIN_PANEL": "Admin dashboard",
     "MANAGER_PANEL": "Manager dashboard",
     "SIGN_IN": "Sign in",
@@ -47,6 +47,12 @@
     "APPROVE": "Approve",
     "REJECT": "Reject",
     "DELETE": "Delete"
+  },
+  "USER_DASHBOARD": {
+    "DASHBOARD": "User's dashboard",
+    "MY_TOPICS": "My topics",
+    "MY_DISCUSS_REQUESTS": "My discuss requests",
+    "MY_CREATE_TOPIC_REQUESTS": "My create topic requests"
   },
   "MANAGER": {
     "DASHBOARD": "Manager's Dashboard",

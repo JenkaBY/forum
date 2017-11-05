@@ -19,9 +19,12 @@ const CONGRATULATION = 'CONGRATULATION';
 const PROJECT_NAME = '';
 const LOGOUT = 'logout';
 const DISCUSS_REQUEST = 'discuss_request';
+const DISCUSS_REQUESTS = 'discuss_requests';
 const CREATE = 'create_topic_requests';
 const DISCUSS = 'discuss';
 const ROLE = 'role';
+const USER_DASHBOARD = 'user_dashboard';
+const MY_TOPICS = 'my_topics';
 
 export class RoutesConst {
 
@@ -31,6 +34,10 @@ export class RoutesConst {
 
   static UPDATE_DISCUSS_REQUEST(requestId: number): string {
     return `${RoutesConst.routeFormatTwo(TOPIC, DISCUSS_REQUEST)}/${requestId}`;
+  }
+
+  static get MY_TOPICS(): string {
+    return MY_TOPICS;
   }
 
   static get UPDATE_TOPIC_REQUEST(): string {

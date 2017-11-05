@@ -11,6 +11,10 @@ export abstract class Pageable<T> {
   maxSize: number;
   sortColumn: string = Constants.id;
 
+  constructor() {
+    this.currentPage = 1;
+  }
+
   protected setPageData(page: Page<T>) {
     this.entities = page.content;
     this.currentPage = page.number + 1;
