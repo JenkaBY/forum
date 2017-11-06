@@ -16,7 +16,6 @@ import IUserService from '../user/interface/iuser.service';
 @Injectable()
 export class TopicService implements ITopicService {
   private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
-
   constructor(private  http: HttpClient,
               @Inject('cacheableUserService') private userService: IUserService) {
   }
@@ -63,5 +62,11 @@ export class TopicService implements ITopicService {
 
   create(topic: Topic): Observable<Topic> {
     return this.http.post<Topic>(RoutesConst.TOPIC, topic, {headers: this.headers});
+  }
+
+  getAllTopicsCreatedByOrDiscussedUser(userId: number, httpParams?: HttpParams): Observable<Page<Topic>> {
+    httpParams = httpParams ? httpParams.set('userId', String(userId)) : new HttpParams().set('userId', String(userId));
+    console.log(httpParams);
+    return this.http.get<Page<Topic>>(RoutesConst.GET_ALL_USER_TOPICS, {params: httpParams});
   }
 }

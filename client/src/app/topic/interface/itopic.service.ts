@@ -18,6 +18,8 @@ interface ITopicService {
   update(topic: Topic): Observable<Topic>;
 
   create(topic: Topic): Observable<Topic>;
+
+  getAllTopicsCreatedByOrDiscussedUser(userId: number, httpParams?: HttpParams): Observable<Page<Topic>>;
 }
 
 export default ITopicService;

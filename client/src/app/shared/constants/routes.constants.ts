@@ -32,6 +32,10 @@ export class RoutesConst {
     return PROJECT_NAME;
   }
 
+  static get GET_ALL_USER_TOPICS(): string {
+    return RoutesConst.routeFormatTwo(TOPIC, USER);
+  }
+
   static UPDATE_DISCUSS_REQUEST(requestId: number): string {
     return `${RoutesConst.routeFormatTwo(TOPIC, DISCUSS_REQUEST)}/${requestId}`;
   }

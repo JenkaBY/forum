@@ -9,7 +9,6 @@ import { RoutesConst } from '../../shared/constants/routes.constants';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-
   constructor(private router: Router,
               private route: ActivatedRoute) {
   }

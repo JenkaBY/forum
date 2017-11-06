@@ -2,7 +2,6 @@ package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.dto.TopicDTO;
 import by.intexsoft.forum.entity.Topic;
-import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.TopicService;
 import by.intexsoft.forum.service.UserService;
@@ -73,7 +72,7 @@ public class TopicController {
      */
     @PutMapping(path = "/{id}")
     public ResponseEntity<?> updateTopic(@PathVariable(name = "id") Long id, @RequestBody TopicDTO topic) {
-        if (topic == null || topic.id != id || topic.id <= 0) {
+        if (topic == null || !id.equals(topic.id)) {
             LOGGER.warn("User {0} was tried to update topic with null parameters.", "MANAGER_SHOULD_BE_HERE");
             return new ResponseEntity<>(BAD_REQUEST);
         }
@@ -106,12 +105,18 @@ public class TopicController {
         return ok(topicService.findAllDto(pageable));
     }
 
+    /**
+     * Gets all topics by user id per page.
+     *
+     * @param userId   request parameter. Id of user needed to get all topics
+     * @param pageable parameter of page request
+     * @return page object with content and page parameters of topics
+     */
     @GetMapping(path = "/user")
-    public ResponseEntity<?> getTopicsByUser(@RequestParam(name = "id") Long userId, Pageable pageable) {
+    public ResponseEntity<?> getTopicsByUserId(@RequestParam(name = "id") Long userId, Pageable pageable) {
 //        if (!securityHelper.getCurrentUser().getId().equals(userId)){
 //            return new ResponseEntity<>(BAD_REQUEST);
 //        }
-        User user = this.userService.find(userId);
-        return ok(topicService.findAllTopicsByUser(userId, pageable));
+        return ok(topicService.findAllTopicsDtoByUserId(userId, pageable));
     }
 }

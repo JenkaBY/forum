@@ -23,9 +23,8 @@ public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implement
     }
 
     @Override
-    public Page<TopicDTO> findAllTopicsByUser(long userId, Pageable pageable) {
+    public Page<TopicDTO> findAllTopicsDtoByUserId(long userId, Pageable pageable) {
         return ((TopicRepository) repository).findAllTopics(userId, pageable)
                 .map(topic -> new TopicDTO(topic));
-//                .collect(toList());
     }
 }

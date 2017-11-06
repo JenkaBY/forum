@@ -1,1 +1,47 @@
-<h1>It works!</h1>
+<div *ngIf="entities" class="table-responsive">
+    <table class="table table-bordered table-hover table-sm">
+        <thead style="font-size: small">
+        <tr>
+            <th>{{ 'TOPIC.ID' | translate }}</th>
+            <th>{{ 'TOPIC.TITLE' | translate }}</th>
+            <th>{{ 'TOPIC.CREATED_BY' | translate }}</th>
+            <th>{{ 'TOPIC.COUNT_MESSAGES' | translate }}</th>
+        </tr>
+        </thead>
+        <tbody *ngIf="entities.length > 0; else noTopics">
+        <tr *ngFor="let topic of entities">
+            <td width="5%">{{ topic.id }}</td>
+            <td width="75%">
+                <button type="button"
+                        class="btn btn-link btn-sm pt-0 pb-0"
+                        [routerLink]="['/topic', topic.id]"
+                        role="button">{{ topic.title }}
+                </button>
+            </td>
+            <td width="15%">{{ topic.createdBy.name }}</td>
+            <td width="5%">
+                {{ 0 }}
+            </td>
+        </tr>
+        </tbody>
+        <ng-template #noTopics>
+            <tbody>
+            <tr>
+                <td colspan="6">
+                    There are no topics.
+                </td>
+            </tr>
+            </tbody>
+        </ng-template>
+    </table>
+
+    <ngb-pagination
+            *ngIf="entities"
+            [collectionSize]="totalElements"
+            [(page)]="currentPage"
+            (pageChange)="onPageChange()"
+            [maxSize]="maxSize"
+            size="sm" [pageSize]="pageSize">
+    </ngb-pagination>
+
+</div>

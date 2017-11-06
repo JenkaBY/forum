@@ -14,7 +14,6 @@ import { User } from '../../shared/entity/user';
   styleUrls: ['./message.component.css']
 })
 export class MessageComponent implements OnInit {
-  // @Input() topicTitle: string;
   @Input() message: Message;
   dateFormat = Constants.getDateTimeFormat;
   isEdit: boolean;
