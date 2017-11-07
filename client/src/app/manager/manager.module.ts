@@ -8,8 +8,6 @@ import { ManagerRoutesModule } from './manager-routes.module';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { CreateTopicRequestsComponent } from './create-topic-requests/create-topic-requests.component';
 import { ModalRejectReasonComponent } from './create-topic-requests/modal-reject-reason/modal-reject-reason.component';
-import { ManagerService } from './manager.service';
-import { TruncatePipe } from '../shared/pipes/truncate';
 import { DiscussRequestsComponent } from './discuss-requests/discuss-requests.component';
 import { AllTopicsComponent } from './all-topics/all-topics.component';
 import { UsersInTopicComponent } from './all-topics/users-dicsuss-in-topics/users-in-topic.component';
@@ -28,15 +26,11 @@ import { UsersInTopicComponent } from './all-topics/users-dicsuss-in-topics/user
     ModalRejectReasonComponent,
     DiscussRequestsComponent,
     AllTopicsComponent,
-    UsersInTopicComponent,
-    TruncatePipe
+    UsersInTopicComponent
   ],
   entryComponents: [
     ModalRejectReasonComponent,
     UsersInTopicComponent
-  ],
-  providers: [
-    {provide: 'managerService', useClass: ManagerService}
   ]
 })
 export class ManagerModule {

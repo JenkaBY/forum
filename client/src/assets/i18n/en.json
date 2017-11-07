@@ -16,7 +16,8 @@
     "REFUSE": "Refuse",
     "REJECT": "Reject",
     "APPROVE": "Approve",
-    "ALL_USERS": "All users"
+    "ALL_USERS": "All users",
+    "GO_TO_TOPIC": "Go to topic"
   },
   "NAV": {
     "TOPICS": "All Topics",
@@ -125,12 +126,13 @@
   },
   "CREATE_TOPIC_REQUEST": {
     "ID": "ID",
-    "TITLE": "Topic title",
-    "DESCRIPTION": "Topic description",
+    "TITLE": "Requested title",
+    "DESCRIPTION": "Requested description",
     "STATUS": "Status",
     "REJECT_REASON": "Reject reason",
     "CREATED_TOPIC": "Created topic",
-    "REQUESTED_BY": "Requested by"
+    "REQUESTED_BY": "Requested by",
+    "MODIFY_TOPIC_REQUEST": "Modify request"
   },
   "DISCUSS_REQUEST": {
     "ID": "ID",

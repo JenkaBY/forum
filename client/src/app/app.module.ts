@@ -25,6 +25,7 @@ import { TopicDiscussRequestService } from './topic/topic-disscuss-request/topic
 import { TopicService } from './topic/topic.service';
 import { UserCacheableService } from './user/user-cacheable.service';
 import { UserModule } from './user/user.module';
+import { TruncatePipe } from './shared/pipes/truncate';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -36,7 +37,8 @@ export function createTranslateLoader(http: Http) {
     UsersComponent,
     UserDetailsComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

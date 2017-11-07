@@ -4,11 +4,11 @@ import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TopicRequest } from '../../shared/entity/topic-request';
-import IManagerService from '../interface/imanager.service';
 import { Page } from '../../shared/entity/page';
 import { Status } from '../../shared/entity/topic-discuss-request';
 import { ModalRejectReasonComponent } from './modal-reject-reason/modal-reject-reason.component';
 import { Pageable } from '../../shared/entity/pageable';
+import ITopicRequestService from '../../topic/topic-request/interface/icreate-topic-request.service';
 
 @Component({
   selector: 'app-create-topic-requests',
@@ -23,7 +23,7 @@ export class CreateTopicRequestsComponent extends Pageable<TopicRequest> impleme
   constructor(private router: Router,
               private route: ActivatedRoute,
               private modalService: NgbModal,
-              @Inject('managerService') private managerService: IManagerService) {
+              @Inject('topicRequestService') private topicRequestService: ITopicRequestService) {
     super();
     this.pageSize = 10;
   }
@@ -34,7 +34,7 @@ export class CreateTopicRequestsComponent extends Pageable<TopicRequest> impleme
   }
 
   private fetchAllPendingRequestsPerPage(httpParams?: HttpParams) {
-    this.managerService.getAllPendingCreateTopicRequests(httpParams)
+    this.topicRequestService.getAllPendingCreateTopicRequests(httpParams)
       .subscribe((page: Page<TopicRequest>) => {
           this.setPageData(page);
         },
@@ -65,7 +65,7 @@ export class CreateTopicRequestsComponent extends Pageable<TopicRequest> impleme
   private setStatusAndSaveTopicRequest(request: TopicRequest, status: string) {
     request.status = status;
     this.changeExecutingStatus(status);
-    this.managerService.updateCreateTopicRequest(request)
+    this.topicRequestService.updateCreateTopicRequest(request)
       .subscribe((updatedRequest) => {
           this.onPageChange();
         this.changeExecutingStatus(status);

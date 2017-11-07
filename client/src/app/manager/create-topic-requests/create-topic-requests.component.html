@@ -15,7 +15,7 @@
         <tr *ngFor="let request of entities">
             <td width="5%">{{ request.id }}</td>
             <td width="15%">{{ request.requestedTopicTitle }}</td>
-            <td width="60%">{{ request.requestedTopicDescription | truncate:[truncateSize]}}</td>
+            <td width="60%">{{ request.requestedTopicDescription }}</td>
             <td width="5%">{{ request.status }}</td>
             <td width="5%">{{ request.requestedBy?.name }}</td>
             <td width="5%">

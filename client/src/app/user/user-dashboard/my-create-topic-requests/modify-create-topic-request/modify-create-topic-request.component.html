@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <h6 class="modal-title">{{ "CREATE_TOPIC_REQUEST.MODIFY_TOPIC_REQUEST" | translate }}</h6>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('close')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form (ngSubmit)="onSubmit()"
+          [formGroup]="requestForm">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <label for="title">{{ 'CREATE_TOPIC_REQUEST.TITLE' | translate }}</label>
+                <textarea class="form-control"
+                          id="title"
+                          rows="3"
+                          cols="150"
+                          formControlName="title">
+                </textarea>
+                <div *ngIf="titleAC.invalid && titleAC.touched">
+                    <div *ngIf="titleAC.errors['maxlength']" class="invalid-feedback">
+                        {{ "VALIDATION.MAX"| translate:maxTitleLength }}
+                    </div>
+                    <div *ngIf="titleAC.errors['required']" class="invalid-feedback">
+                        {{ "VALIDATION.REQUIRED" | translate }}
+                    </div>
+                </div>
+
+                <label for="description">{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</label>
+                <textarea class="form-control"
+                          id="description"
+                          rows="6"
+                          cols="150"
+                          formControlName="description">
+                </textarea>
+                <div *ngIf="descriptionAC.invalid && descriptionAC.touched">
+                    <div *ngIf="descriptionAC.errors['maxlength']" class="invalid-feedback">
+                        {{ "VALIDATION.MAX"| translate:maxDescriptionLength }}
+                    </div>
+                    <div *ngIf="descriptionAC.errors['required']" class="invalid-feedback">
+                        {{ "VALIDATION.REQUIRED" | translate }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit"
+                    class="btn btn-outline-success"
+                    role="button"
+                    [disabled]="requestForm.invalid">{{ "BUTTON.SAVE" | translate }}
+            </button>
+            <button type="button"
+                    class="btn btn-outline-warning"
+                    (click)="activeModal.dismiss('close')"
+                    role="button">
+                {{ "BUTTON.CANCEL" | translate }}
+            </button>
+        </div>
+    </form>
+</div>
+

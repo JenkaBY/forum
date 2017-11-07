@@ -1,0 +1,67 @@
+<div *ngIf="entities" class="table-responsive">
+    <table class="table table-bordered table-hover table-sm">
+        <thead style="font-size: small">
+        <tr>
+            <th>{{ 'CREATE_TOPIC_REQUEST.TITLE' | translate }}</th>
+            <th>{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</th>
+            <th>{{ 'CREATE_TOPIC_REQUEST.STATUS' | translate }}</th>
+            <th>{{ 'CREATE_TOPIC_REQUEST.REJECT_REASON' | translate }}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody *ngIf="entities.length > 0; else noTopicRequests" style="font-size: small">
+        <tr *ngFor="let topicRequest of entities">
+            <td width="15%">
+                <button *ngIf="isPending(topicRequest); else notPending;"
+                        type="button"
+                        class="btn btn-link btn-sm pt-0 pb-0"
+                        (click)="onEdit(topicRequest)"
+                        role="button">{{ topicRequest.requestedTopicTitle }}
+                </button>
+                <ng-template #notPending>{{ topicRequest.requestedTopicTitle }}</ng-template>
+            </td>
+            <td width="45%">
+                {{ topicRequest.requestedTopicDescription }}
+            </td>
+            <td width="5%">{{ topicRequest.status }}</td>
+            <td width="30%">
+                <button *ngIf="isApproved(topicRequest); else notApproved"
+                        type="button"
+                        class="btn btn-outline-primary btn-sm pt-0 pb-0"
+                        (click)="onGoToTopic(topicRequest)"
+                        role="button">
+                    {{ 'BUTTON.GO_TO_TOPIC' | translate }}
+                </button>
+                <ng-template #notApproved>{{ topicRequest.reason }}</ng-template>
+            </td>
+            <td width="5%">
+                <button type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        (click)="onDelete(topicRequest)"
+                        role="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+        <ng-template #noTopicRequests>
+            <tbody>
+            <tr>
+                <td colspan="5">
+                    You have no topic requests.
+                </td>
+            </tr>
+            </tbody>
+        </ng-template>
+    </table>
+
+    <ngb-pagination
+            *ngIf="entities"
+            [collectionSize]="totalElements"
+            [(page)]="currentPage"
+            (pageChange)="onPageChange()"
+            [maxSize]="maxSize"
+            size="sm" [pageSize]="pageSize">
+    </ngb-pagination>
+
+</div>

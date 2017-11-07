@@ -25,8 +25,17 @@ const DISCUSS = 'discuss';
 const ROLE = 'role';
 const USER_DASHBOARD = 'user_dashboard';
 const MY_TOPICS = 'my_topics';
+const MY = 'my';
 
+export class ApiConst {
+  static get topic() {
+    return TOPIC;
+  }
+}
 export class RoutesConst {
+  static get GET_ALL_USER_CREATE_TOPIC_REQUESTS(): string {
+    return RoutesConst.routeFormatAll(TOPIC, REQUEST, MY);
+  }
 
   static get PROJECT_NAME(): string {
     return PROJECT_NAME;
