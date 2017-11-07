@@ -9,7 +9,7 @@ import ITopicService from './interface/itopic.service';
 import { Topic } from '../shared/entity/topic';
 import { RoutesConst } from '../shared/constants/routes.constants';
 import { Page } from '../shared/entity/page';
-import { HeaderConst } from '../shared/constants/constants';
+import { Constants, HeaderConst } from '../shared/constants/constants';
 import { User } from '../shared/entity/user';
 import IUserService from '../user/interface/iuser.service';
 
@@ -21,8 +21,33 @@ export class TopicService implements ITopicService {
   }
 
   getAllTopics(httpParams?: HttpParams): Observable<Page<Topic>> {
+    return this.getTopicsByUrl(RoutesConst.ALL_TOPIC, httpParams);
+  }
+
+  getById(id: number): Observable<Topic> {
+    return this.http.get(RoutesConst.TOPIC + id);
+  }
+
+  deleteById(id: number): any {
+    return this.http.delete(RoutesConst.TOPIC + id);
+  }
+
+  update(topic: Topic): Observable<Topic> {
+    return this.http.put(RoutesConst.TOPIC + topic.id, topic, {headers: this.headers});
+  }
+
+  create(topic: Topic): Observable<Topic> {
+    return this.http.post<Topic>(RoutesConst.TOPIC, topic, {headers: this.headers});
+  }
+
+  getAllTopicsCreatedByOrDiscussedUser(userId: number, httpParams: HttpParams): Observable<Page<Topic>> {
+    httpParams = httpParams.set(Constants.id, String(userId));
+    return this.getTopicsByUrl(RoutesConst.GET_ALL_USER_TOPICS, httpParams);
+  }
+
+  private getTopicsByUrl(url: string, httpParams?: HttpParams): Observable<Page<Topic>> {
     let oldPage;
-    let result = this.http.get(RoutesConst.ALL_TOPIC, {params: httpParams})
+    let result = this.http.get<Page<Topic>>(url, {params: httpParams})
       .map((page: Page<Topic>) => {
         oldPage = page;
         return page.content;
@@ -46,27 +71,5 @@ export class TopicService implements ITopicService {
         return oldPage;
       });
     return result;
-  }
-
-  getById(id: number): Observable<Topic> {
-    return this.http.get(RoutesConst.TOPIC + id);
-  }
-
-  deleteById(id: number): any {
-    return this.http.delete(RoutesConst.TOPIC + id);
-  }
-
-  update(topic: Topic): Observable<Topic> {
-    return this.http.put(RoutesConst.TOPIC + topic.id, topic, {headers: this.headers});
-  }
-
-  create(topic: Topic): Observable<Topic> {
-    return this.http.post<Topic>(RoutesConst.TOPIC, topic, {headers: this.headers});
-  }
-
-  getAllTopicsCreatedByOrDiscussedUser(userId: number, httpParams?: HttpParams): Observable<Page<Topic>> {
-    httpParams = httpParams ? httpParams.set('userId', String(userId)) : new HttpParams().set('userId', String(userId));
-    console.log(httpParams);
-    return this.http.get<Page<Topic>>(RoutesConst.GET_ALL_USER_TOPICS, {params: httpParams});
   }
 }

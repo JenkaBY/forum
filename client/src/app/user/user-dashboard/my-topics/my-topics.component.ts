@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/operator/toPromise';
 
@@ -7,16 +7,16 @@ import { Topic } from '../../../shared/entity/topic';
 import ITopicService from '../../../topic/interface/itopic.service';
 import { User } from '../../../shared/entity/user';
 import { AuthenticationService } from '../../../authorization/authentication.service';
+import { Page } from '../../../shared/entity/page';
 
 @Component({
   selector: 'app-my-topics',
   templateUrl: './my-topics.component.html',
   styleUrls: ['./my-topics.component.css']
 })
-export class MyTopicsComponent extends Pageable<Topic> implements OnInit {
+export class MyTopicsComponent extends Pageable<Topic> implements OnInit, OnDestroy {
   currentUserSubscription: Subscription;
   loggedUser: User;
-  topics: Topic[];
 
   constructor(@Inject('topicService') private topicService: ITopicService,
               private authService: AuthenticationService) {
@@ -24,21 +24,31 @@ export class MyTopicsComponent extends Pageable<Topic> implements OnInit {
   }
 
   onPageChange() {
-    this.pageSize = 10;
+    this.fetchAllTopicsOfCurrentUser();
   }
 
   ngOnInit(): void {
     this.currentUserSubscription = this.authService.changedCurrentUser
       .subscribe((user: User) => this.loggedUser = user);
-    // .toPromise()
-    // .then((user: User) => this.loggedUser = user)
-    // .then(() => {});
-    // .subscribe();
     this.authService.getCurrentUser;
-    // this.topicService.getAllTopicsCreatedByOrDiscussedUser()
+    this.fetchAllTopicsOfCurrentUser();
+  }
+
+  ngOnDestroy(): void {
+    this.currentUserSubscription.unsubscribe();
   }
 
   private fetchAllTopicsOfCurrentUser() {
+    this.topicService.getAllTopicsCreatedByOrDiscussedUser(this.loggedUser.id, this.setHttpParams())
+      .subscribe((page: Page<Topic>) => {
+          this.setPageData(page);
+        },
+        (error) => {
+          this.handleError(error);
+        });
+  }
 
+  private handleError(error: any) {
+    console.log(error);
   }
 }
