@@ -9,7 +9,7 @@ import static javax.persistence.FetchType.LAZY;
 
 /**
  * TopicRequest class describes the 'topic_requests' table in DB.
- * User's requests to create a topic with specified theme/
+ * User's requests to create a topic with specified theme.
  */
 @Entity
 @Table(name = "topic_requests")
