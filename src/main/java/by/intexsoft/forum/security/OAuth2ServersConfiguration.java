@@ -35,8 +35,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Configuration
 public class OAuth2ServersConfiguration {
 
-//    private static final String RESOURCE_ID = "oauth2_api";
-
     private static InMemoryTokenStore tokenStore = new InMemoryTokenStore();
 
     private ClientDetailsService clientDetailsService;
@@ -110,21 +108,18 @@ public class OAuth2ServersConfiguration {
     @Configuration
     @EnableAuthorizationServer
     public static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
-
         private static String REALM = "FORUM_REALM";
-
-        @Autowired
         private UserApprovalHandler userApprovalHandler;
-
-        @Autowired
-        @Qualifier("authenticationManagerBean")
         private AuthenticationManager authenticationManager;
-
         private UserService userService;
 
         @Autowired
-        public AuthorizationServerConfiguration(UserService userService) {
+        public AuthorizationServerConfiguration(UserService userService,
+                                                @Qualifier("authenticationManagerBean") AuthenticationManager authenticationManager,
+                                                UserApprovalHandler userApprovalHandler) {
             this.userService = userService;
+            this.userApprovalHandler = userApprovalHandler;
+            this.authenticationManager = authenticationManager;
         }
 
         @Override

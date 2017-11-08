@@ -59,7 +59,7 @@ export class ManagerService implements IManagerService {
   }
 
   updateCreateTopicRequest(topicRequest: TopicRequest) {
-    return this.http.put<TopicRequest>(`${RoutesConst.UPDATE_TOPIC_REQUEST}/${topicRequest.id}`, topicRequest, {headers: this.headers});
+    return this.http.put<TopicRequest>(`${RoutesConst.TOPIC_REQUEST}/${topicRequest.id}`, topicRequest, {headers: this.headers});
   }
 
 }

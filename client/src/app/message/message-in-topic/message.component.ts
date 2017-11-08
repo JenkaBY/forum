@@ -53,7 +53,7 @@ export class MessageComponent implements OnInit {
     this.deleting = true;
     this.messageService.deleteMessage(this.message)
       .subscribe((_) => {
-          this.deleting = false
+          this.deleting = false;
         },
         (error: HttpErrorResponse) => {
           this.handleError(error);

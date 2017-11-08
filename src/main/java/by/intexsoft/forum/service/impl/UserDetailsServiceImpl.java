@@ -35,11 +35,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.email,
                 user.hashPassword,
-                convertToGrandAuthorities(Collections.singleton(user.role))
+                convertToGrantAuthorities(Collections.singleton(user.role))
         );
     }
 
-    private Set<GrantedAuthority> convertToGrandAuthorities(Set<Role> roles) {
+    private Set<GrantedAuthority> convertToGrantAuthorities(Set<Role> roles) {
         return roles.stream()
                 .map(role -> role.title)
                 .map(String::toUpperCase)

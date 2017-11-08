@@ -18,7 +18,7 @@ public class TopicRequest extends AbstractEntity {
     @JoinColumn(name = "requested_by", updatable = false, nullable = false)
     public User requestedBy;
 
-    @Column(name = "requested_topic_title", updatable = false, nullable = false)
+    @Column(name = "requested_topic_title", nullable = false)
     public String requestedTopicTitle;
 
     @Column(name = "requested_topic_description", length = 500)

@@ -87,7 +87,7 @@ public class TopicRequestController {
         }
         //TODO add CURRENT_USER
         User currentUser = new User();
-        LOGGER.info("New topic request was created by ", currentUser);
+        LOGGER.info("New topic request was created by ", topicRequest.requestedBy);
         return new ResponseEntity(topicRequestService.save(topicRequest), CREATED);
     }
 
@@ -117,6 +117,6 @@ public class TopicRequestController {
     public ResponseEntity<?> deleteTopicRequest(@PathVariable(value = "id") Long id) {
         topicRequestService.delete(id);
         LOGGER.info("The Topic Request with id = {0} was successfully updated.", id);
-        return new ResponseEntity<>(OK);
+        return new ResponseEntity<>("{}", OK);
     }
 }

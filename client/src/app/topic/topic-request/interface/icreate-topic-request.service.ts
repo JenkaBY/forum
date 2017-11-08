@@ -17,6 +17,8 @@ interface ITopicRequestService {
   getAllRequestsByUserId(userId: number, httpParams: HttpParams): Observable<Page<TopicRequest>>;
 
   updateCreateTopicRequest(topicRequest: TopicRequest): Observable<TopicRequest>
+
+  delete(id: number): Observable<any>;
 }
 
 export default ITopicRequestService;

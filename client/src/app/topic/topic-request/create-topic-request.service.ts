@@ -66,6 +66,10 @@ export class TopicRequestService implements ITopicDiscussRequestService {
   }
 
   updateCreateTopicRequest(topicRequest: TopicRequest): Observable<TopicRequest> {
-    return this.http.put<TopicRequest>(`${RoutesConst.UPDATE_TOPIC_REQUEST}/${topicRequest.id}`, topicRequest, {headers: this.headers});
+    return this.http.put<TopicRequest>(`${RoutesConst.TOPIC_REQUEST}/${topicRequest.id}`, topicRequest, {headers: this.headers});
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${RoutesConst.TOPIC_REQUEST}/${id}`, {headers: this.headers, observe: 'response'});
   }
 }

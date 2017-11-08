@@ -53,7 +53,7 @@ export class RoutesConst {
     return MY_TOPICS;
   }
 
-  static get UPDATE_TOPIC_REQUEST(): string {
+  static get TOPIC_REQUEST(): string {
     return RoutesConst.routeFormatTwo(TOPIC, REQUEST);
   }
 

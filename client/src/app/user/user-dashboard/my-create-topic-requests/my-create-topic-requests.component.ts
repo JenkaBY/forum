@@ -13,6 +13,7 @@ import { Status } from '../../../shared/entity/topic-discuss-request';
 import { ApiConst } from '../../../shared/constants/routes.constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModifyCreateTopicRequestComponent } from './modify-create-topic-request/modify-create-topic-request.component';
+import { ModalPrompt } from '../../../layout/modal-promt/modal-prompt.component';
 
 @Component({
   selector: 'app-my-create-topic-requests',
@@ -47,7 +48,24 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
   }
 
   onDelete(topicReqest: TopicRequest): void {
-
+    const modalRef = this.modalService.open(ModalPrompt);
+    modalRef.result
+      .then((_) => {
+        console.log('then close', _);
+        this.topicRequestService.delete(topicReqest.id)
+          .subscribe(
+            (resp) => {
+              console.log('deleted topicRequest', resp);
+              this.onPageChange();
+            },
+            (error) => {
+              this.handleError('observer error ' + error);
+              this.onPageChange();
+            });
+      })
+      .catch((error) => {
+        this.handleError('catch modal ' + error);
+      });
   }
 
   onEdit(topicRequest: TopicRequest): void {

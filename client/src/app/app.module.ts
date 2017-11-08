@@ -26,6 +26,7 @@ import { TopicService } from './topic/topic.service';
 import { UserCacheableService } from './user/user-cacheable.service';
 import { UserModule } from './user/user.module';
 import { TruncatePipe } from './shared/pipes/truncate';
+import { ModalPrompt } from './layout/modal-promt/modal-prompt.component';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -38,7 +39,8 @@ export function createTranslateLoader(http: Http) {
     UserDetailsComponent,
     HeaderComponent,
     LoginComponent,
-    TruncatePipe
+    TruncatePipe,
+    ModalPrompt
   ],
   imports: [
     BrowserModule,
@@ -74,6 +76,7 @@ export function createTranslateLoader(http: Http) {
     {provide: 'roleService', useClass: RoleService},
     {provide: 'topicDiscussRequestService', useClass: TopicDiscussRequestService}
   ],
+  entryComponents: [ModalPrompt],
   bootstrap: [AppComponent]
 })
 export class AppModule {
