@@ -49,6 +49,20 @@ public class TopicDiscussRequestController {
     }
 
     /**
+     * Get all pending topics discuss request per page
+     *
+     * @param pageable parameters of page
+     * @return Page with content
+     */
+    @GetMapping(path = "/discuss_request/my")
+    public ResponseEntity<?> getAllUserRequests(Pageable pageable) {
+        User currentUser = securityHelper.getCurrentUser();
+
+        LOGGER.info("{} requested all his discuss requests", currentUser);
+        return new ResponseEntity<>(topicDiscussRequestService.findAllByUser(currentUser, pageable), OK);
+    }
+
+    /**
      * Creates topic discuss request in parameters provided in request
      *
      * @param topicId id of topic in which user wants to discuss
@@ -108,5 +122,11 @@ public class TopicDiscussRequestController {
 
         TopicDiscussRequest discussRequest = topicDiscussRequestService.getByTopicIdAndUserId(topicId, userId);
         return Objects.isNull(discussRequest) ? new ResponseEntity<>(OK) : ok(discussRequest);
+    }
+
+    @DeleteMapping("/discuss_request/{requestId}")
+    public ResponseEntity<?> deleteTopicDiscussRequest(@PathVariable("requestId") Long requestId) {
+//        this.topicDiscussRequestService.delete(requestId);
+        return new ResponseEntity<>("{}", Objects.isNull(this.topicDiscussRequestService.find(requestId)) ? OK : BAD_REQUEST);
     }
 }

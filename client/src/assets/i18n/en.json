@@ -139,7 +139,8 @@
     "ID": "ID",
     "IN_TOPIC": "Topic title",
     "REQUESTED_BY": "Requested by",
-    "STATUS": "Status"
+    "STATUS": "Status",
+    "NO_REQUESTS": "You have no topic discuss requests."
   },
   "ERROR": {
     "DELETE_ALLOWED_USER": "Error has occurred while deleting the user from allowed users list in the topic. Try again later."

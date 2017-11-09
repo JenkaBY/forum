@@ -16,6 +16,10 @@ interface ITopicDiscussRequestService {
   getByTopicIdAndUserId(topicId: number, userId: number): Observable<TopicDiscussRequest>;
 
   updateRequest(topicDiscussRequest: TopicDiscussRequest): Observable<boolean>;
+
+  getAllRequestsByUserId(userId: number, httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>>;
+
+  deleteDiscussRequest(discussRequest: TopicDiscussRequest): any;
 }
 
 export default ITopicDiscussRequestService;

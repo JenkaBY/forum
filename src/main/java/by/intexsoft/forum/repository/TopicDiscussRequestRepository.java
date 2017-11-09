@@ -12,5 +12,7 @@ public interface TopicDiscussRequestRepository extends JpaRepository<TopicDiscus
 
     Page<TopicDiscussRequest> findByStatus(Status status, Pageable pageable);
 
+    Page<TopicDiscussRequest> findByRequestedBy(User user, Pageable pageable);
+
     TopicDiscussRequest findFirstByInTopicAndRequestedBy(Topic topicFromDb, User userFromDb);
 }

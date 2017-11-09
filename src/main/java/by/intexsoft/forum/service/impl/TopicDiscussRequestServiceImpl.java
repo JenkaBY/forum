@@ -47,6 +47,12 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
         User userFromDb = userService.find(userId);
         return ((TopicDiscussRequestRepository) repository).findFirstByInTopicAndRequestedBy(topicFromDb, userFromDb);
     }
+
+    @Override
+    public Page<TopicDiscussRequest> findAllByUser(User user, Pageable pageable) {
+        return ((TopicDiscussRequestRepository) repository).findByRequestedBy(user, pageable);
+    }
+
     /**
      * Save topic request in DB. If topicDiscussRequest has status equals Status.APPROVED then the topic will be created too.
      * @param topicDiscussRequest Topic request from the client

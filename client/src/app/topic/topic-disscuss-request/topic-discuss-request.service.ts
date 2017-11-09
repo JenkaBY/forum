@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { RoutesConst } from '../../shared/constants/routes.constants';
+import { ApiConst, RoutesConst } from '../../shared/constants/routes.constants';
 import ITopicDiscussRequestService from './interface/itopic-discuss-request.service';
 import { TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
 import { Page } from '../../shared/entity/page';
@@ -37,8 +37,26 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
   }
 
   getAllPending(httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
+    return this.getTopicsByUrl(RoutesConst.GET_ALL_PENDING_TOPIC_REQUESTS, httpParams);
+  }
+
+  getByTopicIdAndUserId(topicId: number, userId: number): Observable<TopicDiscussRequest> {
+    const params = new HttpParams().set('userId', String(userId));
+    return this.http.get(RoutesConst.GET_TOPIC_DISCUSS_REQUEST(topicId), {params: params});
+  }
+
+  getAllRequestsByUserId(userId: number, httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
+    return this.getTopicsByUrl(ApiConst.GET_ALL_USER_DISCUSS_REQUESTS, httpParams);
+  }
+
+  deleteDiscussRequest(discussRequest: TopicDiscussRequest): any {
+    return this.http.delete(`${ApiConst.TOPIC_DISCUSS_REQUEST}/${discussRequest.id}`,
+      {headers: this.headers, observe: 'response'});
+  }
+
+  private getTopicsByUrl(url: string, httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
     let oldPage;
-    let result = this.http.get(RoutesConst.GET_ALL_TOPIC_DISCUSS_REQUESTS, {params: httpParams})
+    let result = this.http.get(url, {params: httpParams})
       .map((page: Page<TopicDiscussRequest>) => {
         oldPage = page;
         return page.content;
@@ -76,10 +94,5 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
         return oldPage;
       });
     return result;
-  }
-
-  getByTopicIdAndUserId(topicId: number, userId: number): Observable<TopicDiscussRequest> {
-    const params = new HttpParams().set('userId', String(userId));
-    return this.http.get(RoutesConst.GET_TOPIC_DISCUSS_REQUEST(topicId), {params: params});
   }
 }

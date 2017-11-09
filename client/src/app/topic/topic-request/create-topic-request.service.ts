@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { RoutesConst } from '../../shared/constants/routes.constants';
+import { ApiConst, RoutesConst } from '../../shared/constants/routes.constants';
 import ITopicDiscussRequestService from './interface/icreate-topic-request.service';
 import { Page } from '../../shared/entity/page';
 import { TopicRequest } from '../../shared/entity/topic-request';
@@ -62,7 +62,7 @@ export class TopicRequestService implements ITopicDiscussRequestService {
   }
 
   getAllRequestsByUserId(userId: number, httpParams: HttpParams): Observable<Page<TopicRequest>> {
-    return this.http.get<Page<TopicRequest>>(RoutesConst.GET_ALL_USER_CREATE_TOPIC_REQUESTS, {params: httpParams});
+    return this.http.get<Page<TopicRequest>>(ApiConst.GET_ALL_USER_CREATE_TOPIC_REQUESTS, {params: httpParams});
   }
 
   updateCreateTopicRequest(topicRequest: TopicRequest): Observable<TopicRequest> {

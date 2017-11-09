@@ -2,45 +2,37 @@
     <table class="table table-bordered table-hover table-sm">
         <thead style="font-size: small">
         <tr>
-            <th>{{ 'CREATE_TOPIC_REQUEST.TITLE' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.STATUS' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.REJECT_REASON' | translate }}</th>
+            <th>{{ 'DISCUSS_REQUEST.IN_TOPIC' | translate }}</th>
+            <th>{{ 'DISCUSS_REQUEST.STATUS' | translate }}</th>
             <th></th>
         </tr>
         </thead>
-        <tbody *ngIf="entities.length > 0; else noTopicRequests" style="font-size: small">
-        <tr *ngFor="let topicRequest of entities">
+        <tbody *ngIf="entities.length > 0; else noDiscussRequests" style="font-size: small">
+        <tr *ngFor="let discussRequest of entities">
+            <td width="80%">
+                <button type="button"
+                        class="btn btn-link btn-sm"
+                        [routerLink]="['/topic', discussRequest.inTopic.id]"
+                        role="button">{{ discussRequest.inTopic?.title }}
+                </button>
+            </td>
             <td width="15%">
-                <button type="button"
-                        class="btn btn-link btn-sm pt-0 pb-0"
-                        (click)="onEdit(topicRequest)"
-                        role="button">{{ topicRequest.requestedTopicTitle }}
-                </button>
+                {{ discussRequest.status }}
             </td>
-            <td width="45%">
-                <button type="button"
-                        class="btn btn-link btn-sm pt-0 pb-0"
-                        (click)="onEdit(topicRequest)"
-                        role="button">{{ topicRequest.requestedTopicDescription }}
-                </button>
-            </td>
-            <td width="5%">{{ topicRequest.status }}</td>
-            <td width="30%"> {{ topicRequest.reason }}</td>
             <td width="5%">
                 <button type="button"
-                        class="btn btn-danger btn-sm pt-0 pb-0"
-                        (click)="onDelete(topicRequest)"
+                        class="btn btn-outline-danger btn-sm pt-0 pb-0"
+                        (click)="onDelete(discussRequest)"
                         role="button">X
                 </button>
             </td>
         </tr>
         </tbody>
-        <ng-template #noTopicRequests>
+        <ng-template #noDiscussRequests>
             <tbody>
             <tr>
-                <td colspan="5">
-                    You have no topic requests.
+                <td colspan="3">
+                    {{ "DISCUSS_REQUEST.NO_REQUESTS" | translate }}
                 </td>
             </tr>
             </tbody>

@@ -31,12 +31,20 @@ export class ApiConst {
   static get topic() {
     return TOPIC;
   }
-}
-export class RoutesConst {
+
   static get GET_ALL_USER_CREATE_TOPIC_REQUESTS(): string {
     return RoutesConst.routeFormatAll(TOPIC, REQUEST, MY);
   }
 
+  static get GET_ALL_USER_DISCUSS_REQUESTS(): string {
+    return RoutesConst.routeFormatAll(TOPIC, DISCUSS_REQUEST, MY);
+  }
+
+  static get TOPIC_DISCUSS_REQUEST(): string {
+    return RoutesConst.routeFormatTwo(TOPIC, DISCUSS_REQUEST);
+  }
+}
+export class RoutesConst {
   static get PROJECT_NAME(): string {
     return PROJECT_NAME;
   }
@@ -166,15 +174,15 @@ export class RoutesConst {
     return BLOCKED;
   }
 
-  private static routeFormatAll(path1: string, path2: string, path3: string) {
+  static routeFormatAll(path1: string, path2: string, path3: string) {
     return PROJECT_NAME + API + '/' + path1 + '/' + path2 + '/' + path3;
   }
 
-  private static routeFormatOne(path1: string) {
+  static routeFormatOne(path1: string) {
     return PROJECT_NAME + API + '/' + path1 + '/';
   }
 
-  private static routeFormatTwo(path1: string, path2: string) {
+  static routeFormatTwo(path1: string, path2: string) {
     return PROJECT_NAME + API + '/' + path1 + '/' + path2;
   }
 

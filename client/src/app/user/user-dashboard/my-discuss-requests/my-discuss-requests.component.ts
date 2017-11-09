@@ -6,49 +6,54 @@ import { Pageable } from '../../../shared/entity/pageable';
 import { User } from '../../../shared/entity/user';
 import { AuthenticationService } from '../../../authorization/authentication.service';
 import { Page } from '../../../shared/entity/page';
-import { TopicRequest } from '../../../shared/entity/topic-request';
-import ITopicRequestService from '../../../topic/topic-request/interface/icreate-topic-request.service';
+import ITopicDiscussRequestService from '../../../topic/topic-disscuss-request/interface/itopic-discuss-request.service';
+import { TopicDiscussRequest } from '../../../shared/entity/topic-discuss-request';
 
 @Component({
   selector: 'app-my-discuss-requests',
   templateUrl: './my-discuss-requests.component.html',
   styleUrls: ['./my-discuss-requests.component.css']
 })
-export class MyDiscussRequestsComponent extends Pageable<TopicRequest> implements OnInit, OnDestroy {
+export class MyDiscussRequestsComponent extends Pageable<TopicDiscussRequest> implements OnInit, OnDestroy {
   currentUserSubscription: Subscription;
   loggedUser: User;
 
-  constructor(@Inject('topicRequestService') private topicRequestService: ITopicRequestService,
+  constructor(@Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
               private authService: AuthenticationService) {
     super();
+    this.sortColumn = 'id,DESC';
   }
 
   onPageChange() {
-    this.fetchAllTopicRequestsOfCurrentUser();
+    this.fetchAllDiscussRequestsOfCurrentUser();
   }
 
   ngOnInit(): void {
     this.currentUserSubscription = this.authService.changedCurrentUser
       .subscribe((user: User) => this.loggedUser = user);
     this.authService.getCurrentUser;
-    this.fetchAllTopicRequestsOfCurrentUser();
+    this.fetchAllDiscussRequestsOfCurrentUser();
   }
 
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
   }
 
-  onDelete(topicReqest: TopicRequest): void {
-
+  onDelete(discussReqest: TopicDiscussRequest): void {
+    this.discussRequestService.deleteDiscussRequest(discussReqest)
+      .subscribe((response) => {
+          console.log(response);
+          this.onPageChange();
+        },
+        (error) => {
+          this.handleError(error);
+          this.onPageChange();
+        });
   }
 
-  onEdit(topicRequest: TopicRequest): void {
-
-  }
-
-  private fetchAllTopicRequestsOfCurrentUser() {
-    this.topicRequestService.getAllRequestsByUserId(this.loggedUser.id, this.setHttpParams())
-      .subscribe((page: Page<TopicRequest>) => {
+  private fetchAllDiscussRequestsOfCurrentUser() {
+    this.discussRequestService.getAllRequestsByUserId(this.loggedUser.id, this.setHttpParams())
+      .subscribe((page: Page<TopicDiscussRequest>) => {
           this.setPageData(page);
         },
         (error) => {
