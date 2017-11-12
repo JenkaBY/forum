@@ -11,6 +11,7 @@ import { MyCreateTopicRequestsComponent } from './user-dashboard/my-create-topic
 import { ModifyCreateTopicRequestComponent } from './user-dashboard/my-create-topic-requests/modify-create-topic-request/modify-create-topic-request.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserDashboardGuard } from './user-dashboard/user-dashboard.guard';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { UserDashboardGuard } from './user-dashboard/user-dashboard.guard';
     MyTopicsComponent,
     MyCreateTopicRequestsComponent,
     MyDiscussRequestsComponent,
-    ModifyCreateTopicRequestComponent
+    ModifyCreateTopicRequestComponent,
+    UserProfileComponent
   ],
   entryComponents: [
     ModifyCreateTopicRequestComponent

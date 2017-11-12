@@ -4,6 +4,7 @@ import { User } from '../../shared/entity/user';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 import { GuardService } from '../../authorization/guard.service';
+import { RoutesConst } from '../../shared/constants/routes.constants';
 
 @Component({
   selector: 'forum-header',
@@ -63,5 +64,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   get isAdmin() {
     return this.guardService.isAdmin();
+  }
+
+  onProfileClick() {
+    this.router.navigate([RoutesConst.user, RoutesConst.PROFILE]);
   }
 }

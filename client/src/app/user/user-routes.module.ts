@@ -7,6 +7,7 @@ import { MyDiscussRequestsComponent } from './user-dashboard/my-discuss-requests
 import { MyCreateTopicRequestsComponent } from './user-dashboard/my-create-topic-requests/my-create-topic-requests.component';
 import { UserDashboardGuard } from './user-dashboard/user-dashboard.guard';
 import { TopicRequestComponent } from '../topic/topic-request/topic-request.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const userRoutes: Routes = [
   {
@@ -25,6 +26,10 @@ const userRoutes: Routes = [
     component: TopicRequestComponent,
     canActivate: [UserDashboardGuard]
   },
+  {
+    path: 'user/profile',
+    component: UserProfileComponent
+  }
 ];
 
 @NgModule({

@@ -1,0 +1,71 @@
+<div class="d-flex col-12 p-2 justify-content-center" style="border: thin">
+    <div *ngIf="loggedUser" class="row">
+        <div class="col">
+            <legend>{{loggedUser.name}}'s profile</legend>
+            <form [formGroup]="userForm" (ngSubmit)="onSave()">
+
+                <!-- NAME -->
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="name">{{ 'USER.NAME' | translate }}</label>
+                            <input
+                                    type="text"
+                                    id="name"
+                                    formControlName="name"
+                                    class="form-control">
+                            <div *ngIf="name.invalid && name.touched">
+                                <div *ngIf="name.errors['minlength']" class="invalid-feedback">
+                                    {{ "VALIDATION.MIN"| translate:minNameLength }}
+                                </div>
+                                <div *ngIf="name.errors['maxlength']" class="invalid-feedback">
+                                    {{ "VALIDATION.MAX"| translate:maxNameLength }}
+                                </div>
+                                <div *ngIf="name.errors['required']" class="invalid-feedback">
+                                    {{ "VALIDATION.REQUIRED" | translate }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- EMAIL -->
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="email">{{ 'USER.EMAIL' | translate }}</label>
+                            <input type="text"
+                                   id="email"
+                                   formControlName="email"
+                                   class="form-control">
+                            <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+                                {{ "VALIDATION.VALID_EMAIL" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                    <small id="fileHelp" class="form-text text-muted">
+                        This is some placeholder block-level help text for the above input. It's a bit lighter and
+                        easily wraps to a new line.
+                    </small>
+                </div>
+
+                <div class="row">
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-success pull-left" [disabled]="userForm.invalid || saving">
+                            {{ 'BUTTON.SAVE'| translate }}
+                        </button>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-warning pull-12" (click)="onBack()">
+                            {{ 'BUTTON.BACK'| translate }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -26,6 +26,7 @@ const ROLE = 'role';
 const USER_DASHBOARD = 'user_dashboard';
 const MY_TOPICS = 'my_topics';
 const MY = 'my';
+const PROFILE = 'profile';
 
 export class ApiConst {
   static get topic() {
@@ -48,7 +49,16 @@ export class ApiConst {
     return RoutesConst.routeFormatAll(TOPIC, DISCUSS_REQUEST, ALL);
   }
 }
+
 export class RoutesConst {
+  static get PROFILE(): string {
+    return PROFILE;
+  }
+
+  static get user(): string {
+    return USER;
+  }
+
   static get PROJECT_NAME(): string {
     return PROJECT_NAME;
   }
