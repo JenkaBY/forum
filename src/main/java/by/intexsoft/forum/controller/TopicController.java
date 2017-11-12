@@ -2,6 +2,7 @@ package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.dto.TopicDTO;
 import by.intexsoft.forum.entity.Topic;
+import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.TopicService;
 import by.intexsoft.forum.service.UserService;
@@ -60,7 +61,7 @@ public class TopicController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getTopic(@PathVariable(name = "id") Long id) {
         LOGGER.info("Get topic with id = {}", id);
-        return ok(topicService.find(id));
+        return ok(new TopicDTO(topicService.find(id)));
     }
 
     /**
@@ -72,8 +73,9 @@ public class TopicController {
      */
     @PutMapping(path = "/{id}")
     public ResponseEntity<?> updateTopic(@PathVariable(name = "id") Long id, @RequestBody TopicDTO topic) {
+        User manager = securityHelper.getCurrentUser();
         if (topic == null || !id.equals(topic.id)) {
-            LOGGER.warn("User {0} was tried to update topic with null parameters.", "MANAGER_SHOULD_BE_HERE");
+            LOGGER.warn("User {} was tried to update topic with null parameters.", manager);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         Topic savedTopic = topicService.save(topic.convertToTopic());

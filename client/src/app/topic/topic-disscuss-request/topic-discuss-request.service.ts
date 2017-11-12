@@ -37,7 +37,7 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
   }
 
   getAllPending(httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
-    return this.getTopicsByUrl(RoutesConst.GET_ALL_PENDING_TOPIC_REQUESTS, httpParams);
+    return this.getTopicDiscussRequestsByUrl(ApiConst.GET_ALL_PENDING_TOPIC_DISCUSS_REQUESTS, httpParams);
   }
 
   getByTopicIdAndUserId(topicId: number, userId: number): Observable<TopicDiscussRequest> {
@@ -46,7 +46,7 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
   }
 
   getAllRequestsByUserId(userId: number, httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
-    return this.getTopicsByUrl(ApiConst.GET_ALL_USER_DISCUSS_REQUESTS, httpParams);
+    return this.getTopicDiscussRequestsByUrl(ApiConst.GET_ALL_USER_DISCUSS_REQUESTS, httpParams);
   }
 
   deleteDiscussRequest(discussRequest: TopicDiscussRequest): any {
@@ -54,9 +54,9 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
       {headers: this.headers, observe: 'response'});
   }
 
-  private getTopicsByUrl(url: string, httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
+  private getTopicDiscussRequestsByUrl(url: string, httpParams?: HttpParams): Observable<Page<TopicDiscussRequest>> {
     let oldPage;
-    let result = this.http.get(url, {params: httpParams})
+    return this.http.get(url, {params: httpParams})
       .map((page: Page<TopicDiscussRequest>) => {
         oldPage = page;
         return page.content;
@@ -93,6 +93,5 @@ export class TopicDiscussRequestService implements ITopicDiscussRequestService {
         oldPage.content = array;
         return oldPage;
       });
-    return result;
   }
 }

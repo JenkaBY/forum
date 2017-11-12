@@ -43,6 +43,10 @@ export class ApiConst {
   static get TOPIC_DISCUSS_REQUEST(): string {
     return RoutesConst.routeFormatTwo(TOPIC, DISCUSS_REQUEST);
   }
+
+  static get GET_ALL_PENDING_TOPIC_DISCUSS_REQUESTS() {
+    return RoutesConst.routeFormatAll(TOPIC, DISCUSS_REQUEST, ALL);
+  }
 }
 export class RoutesConst {
   static get PROJECT_NAME(): string {

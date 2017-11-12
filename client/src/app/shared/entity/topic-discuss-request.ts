@@ -6,6 +6,7 @@ export class TopicDiscussRequest extends AbstractEntity {
   requestedBy: User;
   approvedBy: User;
   approvedAt: Date;
+  requestedById: number;
   inTopic: Topic;
   status: string;
 }

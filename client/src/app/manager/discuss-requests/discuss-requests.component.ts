@@ -6,6 +6,7 @@ import { Page } from '../../shared/entity/page';
 import { Status, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
 import { Pageable } from '../../shared/entity/pageable';
 import ITopicDiscussRequestService from '../../topic/topic-disscuss-request/interface/itopic-discuss-request.service';
+import { AuthenticationService } from '../../authorization/authentication.service';
 
 @Component({
   selector: 'app-discuss-requests',
@@ -18,7 +19,8 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService) {
+              @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
+              private authService: AuthenticationService) {
     super();
   }
 

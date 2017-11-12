@@ -96,7 +96,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   isAllowedInTopic(): boolean {
-    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length == 0) {
+    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length === 0) {
       return false;
     }
     return isInArray(this.topic.allowedUsers, Constants.id, this.loggedUser.id);
@@ -106,7 +106,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
     if (!this.loggedUser) {
       return false;
     }
-    return this.loggedUser.id == this.topic.createdBy.id || this.loggedUser.role.title === UserRole.MANAGER;
+    return this.loggedUser.id === this.topic.createdById || this.loggedUser.role.title === UserRole.MANAGER;
   }
 
   canEdit(): boolean {

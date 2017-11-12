@@ -55,6 +55,8 @@ export class ModalTopicContentComponent implements OnInit {
 
   private saveTopicIfChanged() {
     if (this.originalTopic.title !== this.topic.title || this.originalTopic.description !== this.topic.description) {
+      console.log('this.topic', this.topic);
+      console.log('this.originalTopic', this.originalTopic);
       this.topicService.update(this.topic)
         .subscribe(topic => {
             this.topic = topic;

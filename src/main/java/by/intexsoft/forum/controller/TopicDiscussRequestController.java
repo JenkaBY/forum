@@ -88,7 +88,7 @@ public class TopicDiscussRequestController {
      *
      * @param requestId id request needed to update
      * @param request   request data
-     * @return
+     * @return Response with updated topicDiscussRequest or BadRequest.
      */
     @PutMapping("/discuss_request/{requestId}")
     public ResponseEntity<?> updateRequest(@PathVariable("requestId") Long requestId,
@@ -102,9 +102,6 @@ public class TopicDiscussRequestController {
         request.approvedBy = currentUser;
         request.approvedAt = new Timestamp(new Date().getTime());
         TopicDiscussRequest updated = topicDiscussRequestService.save(request);
-        if (Objects.isNull(updated)) {
-            return new ResponseEntity<>(BAD_REQUEST);
-        }
         return ok(updated);
     }
 
