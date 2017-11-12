@@ -20,6 +20,7 @@ const password = 'password';
 const username = 'username';
 const managerStr = 'MANAGER';
 const adminStr = 'ADMIN';
+const systemStr = 'SYSTEM';
 const userStr = 'USER';
 const contentType = 'Content-Type';
 const accept = 'Accept';
@@ -31,6 +32,9 @@ const en = 'en';
 const ru = 'ru';
 
 export class RoleConst {
+  static get SYSTEM(): string {
+    return systemStr;
+  }
   static get MANAGER(): string {
     return managerStr;
   }

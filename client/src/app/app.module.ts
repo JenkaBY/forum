@@ -10,15 +10,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './layout/header/header.component';
-import { UserDetailsComponent } from './user/user-details/user-details.component';
-import { UsersComponent } from './user/user-list/users.component';
+import { UserDetailsComponent } from './admin/user-details/user-details.component';
+import { UsersComponent } from './admin/user-list/users.component';
 import { AdminModule } from './admin/admin.module';
 import { TopicModule } from './topic/topic.module';
 import { AdminService } from './admin/admin.service';
 import { RegistrationModule } from './registration/registration.module';
 import { LoginComponent } from './authorization/login/login.component';
 import { AuthenticationService } from './authorization/authentication.service';
-import { AuthInterceptor } from './shared/AuthInterceptor';
 import { TopicRequestService } from './topic/topic-request/create-topic-request.service';
 import { RoleService } from './shared/role/role.service';
 import { TopicDiscussRequestService } from './topic/topic-disscuss-request/topic-discuss-request.service';
@@ -27,6 +26,9 @@ import { UserCacheableService } from './user/user-cacheable.service';
 import { UserModule } from './user/user.module';
 import { TruncatePipe } from './shared/pipes/truncate';
 import { ModalPrompt } from './layout/modal-promt/modal-prompt.component';
+import { GuardService } from './authorization/guard.service';
+import { PageNotFoundComponent } from './layout/page-not-found/page-not-found.component';
+import { AuthInterceptor } from './shared/auth-interceptor';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -40,7 +42,8 @@ export function createTranslateLoader(http: Http) {
     HeaderComponent,
     LoginComponent,
     TruncatePipe,
-    ModalPrompt
+    ModalPrompt,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +72,7 @@ export function createTranslateLoader(http: Http) {
       multi: true,
     },
     AuthenticationService,
+    {provide: 'guardService', useClass: GuardService},
     {provide: 'cacheableUserService', useClass: UserCacheableService},
     {provide: 'adminService', useClass: AdminService},
     {provide: 'topicRequestService', useClass: TopicRequestService},

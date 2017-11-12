@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { User } from '../../shared/entity/user';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
+import { GuardService } from '../../authorization/guard.service';
 
 @Component({
   selector: 'forum-header',
@@ -17,6 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentUser$: Subscription;
 
   constructor(private authService: AuthenticationService,
+              @Inject('guardService') private guardService: GuardService,
               private router: Router) {
   }
 
@@ -49,14 +51,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   get isUser() {
-    return this.authService.isUser;
+    return this.guardService.isUser();
   }
 
+  get canCreateTopicRequest() {
+    return this.guardService.canCreateTopicRequest();
+  }
   get isManager() {
-    return this.authService.isManager;
+    return this.guardService.isManager();
   }
 
   get isAdmin() {
-    return this.authService.isAdmin;
+    return this.guardService.isAdmin();
   }
 }

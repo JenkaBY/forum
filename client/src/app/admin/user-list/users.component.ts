@@ -3,13 +3,14 @@ import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import IAdminService from '../../admin/interface/iadmin.service';
-import IUserService from '../interface/iuser.service';
+import IAdminService from '../interface/iadmin.service';
+import IUserService from '../../user/interface/iuser.service';
 import { Page } from '../../shared/entity/page';
 import { User } from '../../shared/entity/user';
 import { Constants } from '../../shared/constants/constants';
 import { RoutesConst } from '../../shared/constants/routes.constants';
 import { AuthenticationService } from '../../authorization/authentication.service';
+import { GuardService } from '../../authorization/guard.service';
 
 @Component({
   selector: 'app-users',
@@ -34,6 +35,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(@Inject('adminService') private adminService: IAdminService,
               @Inject('cacheableUserService') private userService: IUserService,
+              @Inject('guardService') private guardService: GuardService,
               private authService: AuthenticationService,
               private router: Router) {
   }
@@ -217,10 +219,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   onApprove(user: User) {
     this.approving = true;
     user.rejected = false;
-    user.approver_id = this.admin.id;
+    user.approverId = this.admin.id;
     this.userService.update(user)
       .subscribe(
         (_: User) => {
+          console.log('approved user', _);
           this.onPageChange();
           this.approving = false;
         },
@@ -238,7 +241,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   onReject(user: User) {
     user.rejected = true;
     this.rejecting = true;
-    user.approver_id = this.admin.id;
+    user.approverId = this.admin.id;
     this.userService.update(user)
       .subscribe(
         (_: User) => {
@@ -268,6 +271,14 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.onPageChange();
           this.deleting = false;
         });
+  }
+
+  canDeleteUser(user: User): boolean {
+    return this.guardService.canDeleteUser(user);
+  }
+
+  canEditUser(user: User): boolean {
+    return this.guardService.canEditUser(user);
   }
 
   private handleError(error: HttpErrorResponse) {

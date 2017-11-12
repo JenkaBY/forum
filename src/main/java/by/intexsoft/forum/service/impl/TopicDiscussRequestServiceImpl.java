@@ -15,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Objects;
+
 @Service
 public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<TopicDiscussRequest> implements TopicDiscussRequestService {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicDiscussRequestServiceImpl.class);
@@ -61,15 +64,30 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
     @Override
     public TopicDiscussRequest save(TopicDiscussRequest topicDiscussRequest) {
         if (topicDiscussRequest.status == Status.APPROVED) {
-            Topic topic = topicDiscussRequest.inTopic;
+            Topic topic = topicService.find(topicDiscussRequest.inTopic.getId());
+            if (Objects.isNull(topic.allowedUsers)) {
+                topic.allowedUsers = new HashSet<>();
+            }
             topic.allowedUsers.add(topicDiscussRequest.requestedBy);
             topicService.save(topic);
             topicDiscussRequest.inTopic = topic;
-            LOGGER.info("TopicDiscussRequest has Status APPROVED. User id={0} was added to discuss in topic with id = {1} was created.",
+            LOGGER.info("TopicDiscussRequest has Status APPROVED. User id={} was added to discuss in topic with id = {} was created.",
                     topicDiscussRequest.requestedBy,
                     topic.getId());
         }
         TopicDiscussRequest req = repository.save(topicDiscussRequest);
         return req;
+    }
+
+    @Override
+    public void delete(long discussRequestId) {
+        TopicDiscussRequest discussRequest = this.find(discussRequestId);
+        if (discussRequest.status == Status.APPROVED) {
+            Topic discussedTopic = discussRequest.inTopic;
+            boolean deleted = discussedTopic.removeAllowedUser(discussRequest.requestedBy);
+            topicService.save(discussedTopic);
+            System.out.println("deeleted allowedUser " + deleted);
+        }
+        repository.delete(discussRequest.getId());
     }
 }

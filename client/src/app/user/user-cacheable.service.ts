@@ -40,7 +40,7 @@ export class UserCacheableService implements IUserService {
   }
 
   update(user: User): Observable<User> {
-    return this.http.put<User>(RoutesConst.USER + user.id, JSON.stringify(user),
+    return this.http.put<User>(RoutesConst.USER + user.id, user,
       {headers: this.headers}
     );
   }

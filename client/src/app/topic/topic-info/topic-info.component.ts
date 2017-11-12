@@ -6,11 +6,9 @@ import { Topic } from '../../shared/entity/topic';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import ITopicDiscussRequestService from '../topic-disscuss-request/interface/itopic-discuss-request.service';
 import { User } from '../../shared/entity/user';
-import { UserRole } from '../../shared/entity/role';
 import { Status, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
-import { isInArray } from '../../shared/utilities';
-import { Constants } from '../../shared/constants/constants';
 import { ModalTopicContentComponent } from '../edit-topic/modal-content/modal-topic-content.component';
+import { GuardService } from '../../authorization/guard.service';
 
 @Component({
   selector: 'app-topic-info',
@@ -31,6 +29,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthenticationService,
               @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
+              @Inject('guardService') private guardService: GuardService,
               private modalService: NgbModal) {
   }
 
@@ -73,9 +72,6 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   onCreateRequest(): void {
-    // if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length === 0) {
-    //   return;
-    // }
     let request = this.createTopicDiscussRequest();
     this.discussRequestService.createRequest(request)
       .subscribe(
@@ -91,33 +87,20 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   onCancel(): void {
   }
 
-  onRefuse() {
-
-  }
-
   isAllowedInTopic(): boolean {
-    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length === 0) {
-      return false;
-    }
-    return isInArray(this.topic.allowedUsers, Constants.id, this.loggedUser.id);
+    return this.guardService.canCreateMsgInTopic(this.topic);
   }
 
   canDelete(): boolean {
-    if (!this.loggedUser) {
-      return false;
-    }
-    return this.loggedUser.id === this.topic.createdById || this.loggedUser.role.title === UserRole.MANAGER;
+    return this.guardService.canDeleteTopic(this.topic);
   }
 
   canEdit(): boolean {
-    return this.canDelete();
+    return this.guardService.canEditTopic(this.topic);
   }
 
   canCreateRequest(): boolean {
-    if (!this.loggedUser) {
-      return false;
-    }
-    return !this.isAllowedInTopic() && this.authService.isUser;
+    return this.guardService.canCreateTopicDiscussRequest(this.topic);
   }
 
   private createTopicDiscussRequest(): TopicDiscussRequest {

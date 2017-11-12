@@ -12,6 +12,7 @@ import { Page } from '../../shared/entity/page';
 import { User } from '../../shared/entity/user';
 import IUserService from '../../user/interface/iuser.service';
 import { AuthenticationService } from '../../authorization/authentication.service';
+import { GuardService } from '../../authorization/guard.service';
 
 @Component({
   selector: 'app-topic',
@@ -26,7 +27,6 @@ export class TopicComponent implements OnInit, OnDestroy {
   totalElements: number;
   pageSize: number;
   maxSize: number = Constants.getMaxSize;
-  authorsMessages: User[] = new Array();
   subscriptionOnMsg: Subscription;
   loggedUser: User;
   subscrOnCurrentUser: Subscription;
@@ -34,6 +34,7 @@ export class TopicComponent implements OnInit, OnDestroy {
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('topicService') private topicService: TopicService,
               @Inject('cacheableUserService') private userService: IUserService,
+              @Inject('guardService') private guardService: GuardService,
               private authService: AuthenticationService,
               private route: ActivatedRoute) {
   }
@@ -89,7 +90,7 @@ export class TopicComponent implements OnInit, OnDestroy {
     if (!httpParams) {
       httpParams = new HttpParams();
     }
-    httpParams = httpParams.set(Constants.getSortParam, 'id')
+    httpParams = httpParams.set(Constants.getSortParam, Constants.id)
       .set(Constants.getSizeParam, String(Constants.getPageSize));
     return httpParams;
   }
@@ -110,28 +111,11 @@ export class TopicComponent implements OnInit, OnDestroy {
     this.pageSize = page.size;
   }
 
-  // private fetchAuthors() {
-  //   this.messages.forEach((message: Message) => {
-  //     if (!this.authorsMessages.map((author: User) => author.id).includes(message.createdBy.id)) {
-  //       this.userService.getById(message.createdBy.id)
-  //         .subscribe((user: User) => this.authorsMessages.push(user),
-  //           (error: HttpErrorResponse) => this.handleError(error));
-  //     }
-  //   })
-  // }
-  //
-  // private setCreatedByForMessages() {
-  //   this.messages.forEach((message: Message) => {
-  //     message.createdBy = this.authorsMessages
-  //       .find((user: User) => user.id === message.createdBy.id);
-  //   })
-  // }
-  //
-  // getAuthorBy(id: number) {
-  //   return this.authorsMessages.find((user: User) => user.id === id);
-  // }
-
   private handleError(error: HttpErrorResponse) {
     console.error(error);
+  }
+
+  canWriteMsg(): boolean {
+    return this.guardService.canCreateMsgInTopic(this.topic);
   }
 }

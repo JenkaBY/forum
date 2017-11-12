@@ -9,6 +9,6 @@ export class User extends AbstractEntity {
   lastLogonAt: Date;
   blocked: boolean;
   rejected: boolean;
-  approver_id: number;
+  approverId: number;
   role: Role;
 }

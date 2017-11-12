@@ -6,8 +6,7 @@ import { Topic } from '../../shared/entity/topic';
 import IMessageService from '../interface/imessage.service';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { User } from '../../shared/entity/user';
-import { isInArray } from '../../shared/utilities';
-import { Constants } from '../../shared/constants/constants';
+import { GuardService } from '../../authorization/guard.service';
 
 @Component({
   selector: 'app-new-message-form',
@@ -22,6 +21,7 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
   currentUserSubscr: Subscription;
 
   constructor(@Inject('messageService') private messageService: IMessageService,
+              @Inject('guardService') private guardService: GuardService,
               private authService: AuthenticationService) {
   }
 
@@ -46,7 +46,7 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
       'createdAt': new FormControl(null),
       'updatedAt': new FormControl(null),
       'updatedBy': new FormControl(null)
-    })
+    });
   }
 
   onSendMsg() {
@@ -69,14 +69,11 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
   }
 
   canCreateMsg(): boolean {
-    return this.authService.isManager || (this.authService.isUser && this.isAllowedInTopic());
+    return this.guardService.canCreateMsgInTopic(this.topic);
   }
 
   private isAllowedInTopic(): boolean {
-    if (!this.loggedUser || !this.topic.allowedUsers || this.topic.allowedUsers.length == 0) {
-      return false;
-    }
-    return isInArray(this.topic.allowedUsers, Constants.id, this.loggedUser.id);
+    return this.guardService.canCreateMsgInTopic(this.topic);
   }
 
   get isDisabledSendButton(): boolean {

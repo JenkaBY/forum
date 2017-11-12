@@ -38,7 +38,7 @@
         <button type="button"
                 class="btn btn-warning btn-sm pt-0 pb-0"
                 (click)="onBlock(user)"
-                [disabled]="blocking"
+                [disabled]="blocking || !canEditUser(user)"
                 role="button">X
         </button>
       </td>
@@ -46,7 +46,7 @@
         <button type="button"
                 class="btn btn-danger btn-sm pt-0 pb-0"
                 (click)="onDelete(user.id)"
-                [disabled]="deleting"
+                [disabled]="deleting || !canDeleteUser(user)"
                 role="button">X
         </button>
       </td>
@@ -54,7 +54,7 @@
         <button type="button"
                 class="btn btn-primary btn-sm pt-0 pb-0"
                 (click)="onApprove(user)"
-                [disabled]="approving"
+                [disabled]="approving  || !canEditUser(user)"
                 role="button">V
         </button>
       </td>
@@ -62,7 +62,7 @@
         <button type="button"
                 class="btn btn-danger btn-sm pt-0 pb-0"
                 (click)="onReject(user)"
-                [disabled]="rejecting"
+                [disabled]="rejecting || !canEditUser(user)"
                 role="button">X
         </button>
       </td>

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from 'ng2-translate';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminRoutesModule } from './admin-routes.module';
+import { AdminDashboardGuard } from './admin-dashboard.guard';
 
 @NgModule({
   imports: [
@@ -14,6 +15,9 @@ import { AdminRoutesModule } from './admin-routes.module';
   declarations: [
     AdminDashboardComponent
   ],
+  providers: [
+    AdminDashboardGuard
+  ]
 })
 export class AdminModule {
 }

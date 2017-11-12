@@ -1,5 +1,6 @@
 package by.intexsoft.forum.controller;
 
+import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.dto.UserDTO;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
@@ -64,10 +65,15 @@ public class UserController {
      */
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteUserBy(@PathVariable(value = "id") Long id) {
-        if (userService.find(id) == null) {
+        User foundUser = userService.find(id);
+        if (Objects.isNull(foundUser)) {
             String message = String.format("User with Id = %s doesn't exist.", id);
             LOGGER.warn(message);
             return new ResponseEntity<>(message, BAD_REQUEST);
+        }
+        if (foundUser.role.title.compareToIgnoreCase(RoleConst.SYSTEM) == 0) {
+            LOGGER.warn("Was attempt to delete SYSTEM user");
+            return new ResponseEntity<>(BAD_REQUEST);
         }
         userService.delete(id);
         LOGGER.info("User with Id={} has been deleted.", id);
@@ -99,8 +105,11 @@ public class UserController {
         if (userDTO.id != id) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
+        if (userDTO.role.title.compareToIgnoreCase(RoleConst.SYSTEM) == 0) {
+            LOGGER.warn("Was attempt to update the SYSTEM user id={}", id);
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
         User updatedUser = userService.save(userDTO.transformToUser());
-        // TODO create case if error occurs while saving user
         LOGGER.info("User with id = {} was updated.", updatedUser.getId());
         return new ResponseEntity<>(new UserDTO(updatedUser), OK);
     }
@@ -116,10 +125,9 @@ public class UserController {
         if (!checkPasswordLength(newPassword)) {
             return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);
         }
-//        TODO add currentUser or Admin;
         User currentUser = securityHelper.getCurrentUser();
         userService.changePassword(currentUser, newPassword);
-        return new ResponseEntity<>(OK);
+        return new ResponseEntity<>("{}", OK);
     }
 
 

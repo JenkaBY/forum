@@ -6,10 +6,11 @@ import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { User } from '../../shared/entity/user';
-import IUserService from '../interface/iuser.service';
+import IUserService from '../../user/interface/iuser.service';
 import { Constants } from '../../shared/constants/constants';
 import { Role } from '../../shared/entity/role';
 import IRoleService from '../../shared/role/irole.service';
+import { GuardService } from '../../authorization/guard.service';
 
 @Component({
   selector: 'forum-user-details',
@@ -24,6 +25,7 @@ export class UserDetailsComponent implements OnInit {
 
   constructor(@Inject('cacheableUserService') private userService: IUserService,
               @Inject('roleService') private roleService: IRoleService,
+              @Inject('guardService') private guardService: GuardService,
               private route: ActivatedRoute,
               private location: Location) {
   }
@@ -38,7 +40,7 @@ export class UserDetailsComponent implements OnInit {
         (error: HttpErrorResponse) => {
           this.handleError(error);
         }
-      )
+      );
   }
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class UserDetailsComponent implements OnInit {
       .subscribe((user: User) => {
         this.user = user;
         this.initForm();
-      })
+      });
   }
 
   private initForm() {
@@ -62,7 +64,7 @@ export class UserDetailsComponent implements OnInit {
       'userDataManagement': new FormGroup({
         'role': new FormControl(this.user.role.id),
       })
-    })
+    });
   }
 
   onBack(): void {
@@ -77,5 +79,9 @@ export class UserDetailsComponent implements OnInit {
 
   private handleError(error: HttpErrorResponse) {
     console.log(error);
+  }
+
+  canEditUser(): boolean {
+    return this.guardService.canEditUser(this.user);
   }
 }

@@ -123,7 +123,7 @@ public class TopicDiscussRequestController {
 
     @DeleteMapping("/discuss_request/{requestId}")
     public ResponseEntity<?> deleteTopicDiscussRequest(@PathVariable("requestId") Long requestId) {
-//        this.topicDiscussRequestService.delete(requestId);
+        this.topicDiscussRequestService.delete(requestId);
         return new ResponseEntity<>("{}", Objects.isNull(this.topicDiscussRequestService.find(requestId)) ? OK : BAD_REQUEST);
     }
 }

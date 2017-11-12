@@ -12,4 +12,6 @@ public interface TopicDiscussRequestService extends AbstractEntityService<TopicD
     TopicDiscussRequest getByTopicIdAndUserId(long topicId, long userId);
 
     Page<TopicDiscussRequest> findAllByUser(User user, Pageable pageable);
+
+    void delete(long discussRequestId);
 }

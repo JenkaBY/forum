@@ -63,15 +63,6 @@
                       ngbTooltip="{{'TOOLTIP.REQUEST_TO_TOPIC_DISCUSS' | translate}}">
                 {{ "BUTTON.REQUEST_DISCUSS" | translate }}
               </button>
-              <button *ngIf="isAllowedInTopic()"
-                      type="button"
-                      placement="bottom"
-                      class="btn btn-outline-info"
-                      (click)="onRefuse()"
-                      [disabled]="refusing"
-                      ngbTooltip="{{'TOOLTIP.REFUSE' | translate}}">
-                {{ "BUTTON.REFUSE" | translate }}
-              </button>
             </div>
             <div *ngIf="canDelete() && !editing"
                  class="btn-group btn-group-sm"

@@ -11,6 +11,7 @@ import { ModalRejectReasonComponent } from './create-topic-requests/modal-reject
 import { DiscussRequestsComponent } from './discuss-requests/discuss-requests.component';
 import { AllTopicsComponent } from './all-topics/all-topics.component';
 import { UsersInTopicComponent } from './all-topics/users-dicsuss-in-topics/users-in-topic.component';
+import { ManagerDashboardGuard } from './manager-dashboard.guard';
 
 @NgModule({
   imports: [
@@ -31,6 +32,9 @@ import { UsersInTopicComponent } from './all-topics/users-dicsuss-in-topics/user
   entryComponents: [
     ModalRejectReasonComponent,
     UsersInTopicComponent
+  ],
+  providers: [
+    ManagerDashboardGuard
   ]
 })
 export class ManagerModule {
