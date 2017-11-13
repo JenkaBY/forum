@@ -27,10 +27,16 @@ const USER_DASHBOARD = 'user_dashboard';
 const MY_TOPICS = 'my_topics';
 const MY = 'my';
 const PROFILE = 'profile';
+const UPLOAD = 'upload';
+const USER_IMAGE = 'user_image';
 
 export class ApiConst {
   static get topic() {
     return TOPIC;
+  }
+
+  static get UPLOAD_USER_IMAGE(): string {
+    return RoutesConst.routeFormatTwo(UPLOAD, USER_IMAGE);
   }
 
   static get GET_ALL_USER_CREATE_TOPIC_REQUESTS(): string {

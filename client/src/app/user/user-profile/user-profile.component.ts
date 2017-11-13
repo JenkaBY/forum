@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import IUserService from '../interface/iuser.service';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { User } from '../../shared/entity/user';
+import IUploadFileService from '../../shared/iupload-file.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,6 +27,8 @@ export class UserProfileComponent implements OnInit {
   @ViewChild('fileInput') fileInput;
 
   constructor(@Inject('cacheableUserService') private userService: IUserService,
+              @Inject('uploadFileService') private uploadFileService: IUploadFileService,
+
               private authService: AuthenticationService,
               private route: ActivatedRoute,
               private location: Location) {
@@ -68,12 +71,20 @@ export class UserProfileComponent implements OnInit {
   upload() {
     let fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {
+
       const formData = new FormData();
-      formData.append("image", fileBrowser.files[0]);
-      this.projectService.upload(formData, this.project.id)
-        .subscribe(res => {
+      // formData.append(files[0].name, files[0]);
+      formData.append('image', fileBrowser.files[0], fileBrowser.files[0].name);
+      console.log('FileBroweser[0]', fileBrowser.files[0]);
+      console.log('from.data', formData.get('image'));
+      this.uploadFileService.uploadUserPhoto(formData, '', this.loggedUser.id)
+        .subscribe(
+          res => {
           // do stuff w/my uploaded file
-        });
+            console.log('uploaded file', res);
+          },
+          error => console.log(error)
+        );
     }
   }
 

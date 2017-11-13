@@ -29,6 +29,7 @@ import { ModalPrompt } from './layout/modal-promt/modal-prompt.component';
 import { GuardService } from './authorization/guard.service';
 import { PageNotFoundComponent } from './layout/page-not-found/page-not-found.component';
 import { AuthInterceptor } from './shared/auth-interceptor';
+import { UploadFileService } from './shared/upload-file.service';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -78,7 +79,8 @@ export function createTranslateLoader(http: Http) {
     {provide: 'topicRequestService', useClass: TopicRequestService},
     {provide: 'topicService', useClass: TopicService},
     {provide: 'roleService', useClass: RoleService},
-    {provide: 'topicDiscussRequestService', useClass: TopicDiscussRequestService}
+    {provide: 'topicDiscussRequestService', useClass: TopicDiscussRequestService},
+    {provide: 'uploadFileService', useClass: UploadFileService}
   ],
   entryComponents: [ModalPrompt],
   bootstrap: [AppComponent]

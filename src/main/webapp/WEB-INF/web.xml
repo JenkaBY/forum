@@ -44,7 +44,14 @@
             <!-- Указываем на файл конфигурации диспатчер сервлета...что там должно быть указано????-->
             <param-value>classpath:dispatcher-servlet.xml</param-value>
         </init-param>
+
         <load-on-startup>1</load-on-startup>
+        <multipart-config>
+            <location>C://tmp//</location>
+            <max-file-size>5242880</max-file-size><!--5MB-->
+            <max-request-size>20971520</max-request-size><!--20MB-->
+            <file-size-threshold>5242880</file-size-threshold>
+        </multipart-config>
     </servlet>
 
     <servlet-mapping>

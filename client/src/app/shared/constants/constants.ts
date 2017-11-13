@@ -28,6 +28,7 @@ const bearer = 'Bearer ';
 const basic = 'Basic ';
 const authorization = 'Authorization';
 const jsonType = 'application/json';
+const multipartFormData = 'multipart/form-data';
 const en = 'en';
 const ru = 'ru';
 
@@ -59,6 +60,10 @@ export class HeaderConst {
 
   static get jsonType(): string {
     return jsonType;
+  }
+
+  static get multipartFormData(): string {
+    return multipartFormData;
   }
 
   static get contentType(): string {
