@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   minPasswordLength = {value: 6};
   maxPasswordLength = {value: 16};
   saving: boolean = false;
+  @ViewChild('fileInput') fileInput;
 
   constructor(@Inject('cacheableUserService') private userService: IUserService,
               private authService: AuthenticationService,
@@ -62,6 +63,18 @@ export class UserProfileComponent implements OnInit {
 
   onBack(): void {
     this.location.back();
+  }
+
+  upload() {
+    let fileBrowser = this.fileInput.nativeElement;
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      const formData = new FormData();
+      formData.append("image", fileBrowser.files[0]);
+      this.projectService.upload(formData, this.project.id)
+        .subscribe(res => {
+          // do stuff w/my uploaded file
+        });
+    }
   }
 
   private joinUserData() {
