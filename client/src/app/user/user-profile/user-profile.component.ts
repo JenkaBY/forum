@@ -60,7 +60,9 @@ export class UserProfileComponent implements OnInit {
   private initForm() {
     this.userForm = new FormGroup({
       'name': new FormControl(this.loggedUser.name),
-      'email': new FormControl(this.loggedUser.email)
+      'email': new FormControl(this.loggedUser.email),
+      'imagePath': new FormControl(this.loggedUser.imagePath),
+      'imageOption': new FormControl('imagePath')
     });
   }
 
@@ -91,6 +93,7 @@ export class UserProfileComponent implements OnInit {
   private joinUserData() {
     this.loggedUser.name = this.userForm.value['name'];
     this.loggedUser.email = this.userForm.value['email'];
+    this.loggedUser.imagePath = this.userForm.value['imagePath'];
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -103,5 +106,9 @@ export class UserProfileComponent implements OnInit {
 
   get email() {
     return this.userForm.get('email');
+  }
+
+  get imagePathOption() {
+    return this.userForm.get('imageOption');
   }
 }

@@ -22,14 +22,11 @@ public class UploadFileServiceImpl implements UploadFileService {
         for (MultipartFile file : files) {
 
             if (file.isEmpty()) {
-                continue; //next pls
+                continue;
             }
             String curDir = System.getProperty("catalina.base");
-            System.out.println("catalina.base " + System.getProperty("catalina.base"));
-            System.out.println("user.dir " + System.getProperty("user.dir"));
-            System.out.println("info.properties " + System.getProperty("info.properties"));
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(curDir + file.getOriginalFilename());
+            Path path = Paths.get(curDir + "/" + file.getOriginalFilename());
             Files.write(path, bytes);
             links.add(new FileLink(path.toString()));
         }

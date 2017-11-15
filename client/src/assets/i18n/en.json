@@ -144,5 +144,9 @@
   },
   "ERROR": {
     "DELETE_ALLOWED_USER": "Error has occurred while deleting the user from allowed users list in the topic. Try again later."
+  },
+  "PROFILE": {
+    "UPLOAD_IMAGE": "Upload avatar",
+    "IMAGE_PATH": "Insert link to image"
   }
 }
