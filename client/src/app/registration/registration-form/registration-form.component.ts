@@ -67,7 +67,7 @@ export class RegistrationFormComponent implements OnInit {
           Validators.maxLength(Constants.getMaxPasswordLength.value)]),
       'passwordConfirm': new FormControl('',
         [Validators.required])
-    }, passwordsMatchValidator)
+    }, passwordsMatchValidator);
   }
 
   private convertFormToData(): void {

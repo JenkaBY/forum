@@ -1,5 +1,5 @@
 interface IUploadFileService {
-  uploadUserPhoto(formData, options, id);
+  uploadUserPhoto(formData);
 }
 
 export default IUploadFileService;

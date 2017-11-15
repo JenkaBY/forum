@@ -80,8 +80,11 @@
                             {{currentUser.name }}
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownProfile">
-                            <a class="nav-item nav-link" (click)="onProfileClick()" role="button">
+                            <a class="nav-item nav-link" (click)="onGoToProfile()" role="button">
                                 {{ 'NAV.PROFILE' | translate }}
+                            </a>
+                            <a class="nav-item nav-link" (click)="onChangePassword()" role="button">
+                                {{ 'NAV.CHANGE_PASSWORD' | translate }}
                             </a>
                             <a class="nav-item nav-link" (click)="onSignOut()" role="button">
                                 {{ 'NAV.SIGN_OUT' | translate }}

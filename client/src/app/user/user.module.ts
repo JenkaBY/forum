@@ -12,6 +12,7 @@ import { ModifyCreateTopicRequestComponent } from './user-dashboard/my-create-to
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserDashboardGuard } from './user-dashboard/user-dashboard.guard';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MyCreateTopicRequestsComponent,
     MyDiscussRequestsComponent,
     ModifyCreateTopicRequestComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ChangePasswordComponent
   ],
   entryComponents: [
     ModifyCreateTopicRequestComponent

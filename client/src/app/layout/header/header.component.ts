@@ -13,7 +13,6 @@ import { RoutesConst } from '../../shared/constants/routes.constants';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isNavbarCollapsed = true;
-  isLangNavbarCollapsed = false;
   @Output() onSwitchLang = new EventEmitter<string>();
   loggedUser: User;
   currentUser$: Subscription;
@@ -66,7 +65,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.guardService.isAdmin();
   }
 
-  onProfileClick() {
+  onGoToProfile() {
     this.router.navigate([RoutesConst.user, RoutesConst.PROFILE]);
+  }
+
+  onChangePassword() {
+    this.router.navigate([RoutesConst.user, RoutesConst.changePassword]);
   }
 }

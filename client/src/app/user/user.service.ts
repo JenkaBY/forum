@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { RoutesConst } from '../shared/constants/routes.constants';
+import { ApiConst, RoutesConst } from '../shared/constants/routes.constants';
 import { HeaderConst } from '../shared/constants/constants';
 import { User } from '../shared/entity/user';
 import IUserService from './interface/iuser.service';
@@ -37,5 +37,9 @@ export class UserService implements IUserService {
 
   getAllByIds(userIds: number[]): Observable<User[]> {
     return this.http.get<User[]>(RoutesConst.USERS_BY_IDS, {params: new HttpParams().set('ids', String(userIds))});
+  }
+
+  changePassword(changePassword: ChangePassword): Observable<any> {
+    return this.http.put(ApiConst.CHANGE_PASSWORD, changePassword.newPassword, {headers: this.headers, observe: 'response'});
   }
 }

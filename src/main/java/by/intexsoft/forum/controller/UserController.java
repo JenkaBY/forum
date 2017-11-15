@@ -120,7 +120,7 @@ public class UserController {
      * @param newPassword raw password string
      * @return BAD REQUEST if password is incorrect. Or OK if password has been updated.
      */
-    @PutMapping(path = "/{id}/change_password")
+    @PutMapping(path = "/change_password")
     public ResponseEntity<?> changePassword(@PathVariable(value = "id") Long id, @RequestBody String newPassword) {
         if (!checkPasswordLength(newPassword)) {
             return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);

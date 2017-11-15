@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from './user-list/users.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminDashboardGuard } from './admin-dashboard.guard';
+import { UserDetailsComponent } from './user-details/user-details.component';
 
 const adminRoutes: Routes = [
   {
@@ -11,12 +12,13 @@ const adminRoutes: Routes = [
     canActivate: [AdminDashboardGuard],
     canActivateChild: [AdminDashboardGuard],
     children: [
-    {path: 'users', component: UsersComponent},
-    {path: 'pending', component: UsersComponent},
-    {path: 'approved', component: UsersComponent},
-    {path: 'rejected', component: UsersComponent},
-    {path: 'blocked', component: UsersComponent}
-  ]
+      {path: 'user/:id', component: UserDetailsComponent},
+      {path: 'users', component: UsersComponent},
+      {path: 'pending', component: UsersComponent},
+      {path: 'approved', component: UsersComponent},
+      {path: 'rejected', component: UsersComponent},
+      {path: 'blocked', component: UsersComponent}
+    ]
   }
 ];
 

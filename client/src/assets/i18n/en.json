@@ -17,7 +17,10 @@
     "REJECT": "Reject",
     "APPROVE": "Approve",
     "ALL_USERS": "All users",
-    "GO_TO_TOPIC": "Go to topic"
+    "GO_TO_TOPIC": "Go to topic",
+    "DELETE_IMAGE": "Delete image",
+    "UPLOAD": "Upload",
+    "CHANGE_PASSWORD": "Change password"
   },
   "NAV": {
     "TOPICS": "All Topics",
@@ -30,7 +33,8 @@
     "SIGN_UP": "Sign up",
     "LANG": "Language",
     "OR": "or",
-    "PROFILE": "Profile"
+    "PROFILE": "Profile",
+    "CHANGE_PASSWORD": "Change password"
   },
   "LANG": {
     "EN": "En",
@@ -71,7 +75,11 @@
     "REJECTED": "Rejected?",
     "ROLE": "Role",
     "DELETED": "Deleted",
-    "APPROVED_BY": "Approved by"
+    "APPROVED_BY": "Approved by",
+    "IMAGE_PATH": "Link to image",
+    "CURRENT_PASSWORD": "Current password",
+    "NEW_PASSWORD": "New password",
+    "CONFIRM_PASSWORD": "Confirm password"
   },
   "TOPIC": {
     "ID": "Id",

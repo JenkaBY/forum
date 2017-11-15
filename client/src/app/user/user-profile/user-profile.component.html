@@ -1,17 +1,25 @@
-<div class="d-flex col-12 p-2 justify-content-center" style="border: thin">
-    <div *ngIf="loggedUser" class="row">
-        <div class="col">
-            <legend>{{loggedUser.name}}'s profile</legend>
+<div class="container">
+
+    <div class="d-flex justify-content-center" *ngIf="loggedUser">
+        <div class="col-8">
+            <h4>{{loggedUser.name}}'s profile</h4>
+        </div>
+    </div>
+
+    <div *ngIf="loggedUser" class="d-flex justify-content-center">
+        <div class="col-8">
             <form [formGroup]="userForm" (ngSubmit)="onSave()">
-                <div class="col-2 w-50" *ngIf="loggedUser.imagePath">
-                    <img src='{{ loggedUser.imagePath }}'
-                         alt='{{ loggedUser.name }}'
-                         class="img-thumbnail"
-                         style="width:100px;">
+                <div class="row">
+                    <div *ngIf="imagePath.value">
+                        <img src='{{ imagePath.value }}'
+                             alt='{{ loggedUser.name }}'
+                             class="img"
+                             style="width:500px;">
+                    </div>
                 </div>
                 <!-- NAME -->
                 <div class="row">
-                    <div class="col">
+                    <div class="col-8">
                         <div class="form-group">
                             <label for="name">{{ 'USER.NAME' | translate }}</label>
                             <input
@@ -35,7 +43,7 @@
                 </div>
                 <!-- EMAIL -->
                 <div class="row">
-                    <div class="col">
+                    <div class="col-8">
                         <div class="form-group">
                             <label for="email">{{ 'USER.EMAIL' | translate }}</label>
                             <input type="text"
@@ -55,7 +63,7 @@
                                type="radio"
                                formControlName="imageOption"
                                id="imagePathRadio"
-                               value="imagePath">{{ "PROFILE.INSERT_IMAGE" | translate }}
+                               value="imagePath">{{ "PROFILE.IMAGE_PATH" | translate }}
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -67,37 +75,48 @@
                                value="uploadImage">{{ "PROFILE.UPLOAD_IMAGE" | translate }}
                     </label>
                 </div>
-                <ng-template *ngIf="imagePathOption.value === 'imagePath'; else uploadImage;">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="email">{{ 'USER.IMAGE_PATH' | translate }}</label>
-                                <input type="text"
-                                       id="imagePath"
-                                       formControlName="imagePath"
-                                       class="form-control">
-                            </div>
+                <div class="form-check-inline">
+                    <button type="button"
+                            class="btn btn-outline-danger btn-sm"
+                            (click)="onDeleteImage()">
+                        {{ 'BUTTON.DELETE_IMAGE' | translate }}
+                    </button>
+                </div>
+                <div class="row" *ngIf="imagePathOption.value === 'imagePath'; else uploadImage;">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label for="imagePath">{{ 'USER.IMAGE_PATH' | translate }}</label>
+                            <input type="text"
+                                   id="imagePath"
+                                   formControlName="imagePath"
+                                   class="form-control">
                         </div>
                     </div>
-                </ng-template>
+                </div>
                 <ng-template #uploadImage>
                     <div class="form-group">
                         <input type="file"
+                               accept="image/*"
                                #fileInput
                                enctype='multipart/form-data'
                                placeholder="Upload file..."
                                class="form-control-file"
                                aria-describedby="fileHelp"/>
-                        <button type="button" (click)="upload()">Upload</button>
+                        <br>
+                        <button type="button"
+                                class="btn btn-primary"
+                                (click)="upload()">{{ 'BUTTON.UPLOAD' | translate }}
+                        </button>
                     </div>
                 </ng-template>
                 <div class="row">
                     <div class="col-3">
-                        <button type="submit" class="btn btn-success pull-left" [disabled]="userForm.invalid || saving">
+                        <button type="submit" class="btn btn-success pull-left"
+                                [disabled]="userForm.invalid || saving">
                             {{ 'BUTTON.SAVE'| translate }}
                         </button>
                     </div>
-                    <div class="col-2">
+                    <div class="col-2 offset-2">
                         <button type="button" class="btn btn-warning pull-12" (click)="onBack()">
                             {{ 'BUTTON.BACK'| translate }}
                         </button>

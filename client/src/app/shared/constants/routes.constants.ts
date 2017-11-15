@@ -29,8 +29,13 @@ const MY = 'my';
 const PROFILE = 'profile';
 const UPLOAD = 'upload';
 const USER_IMAGE = 'user_image';
+const CHANGE_PASSWORD = 'change_password';
 
 export class ApiConst {
+  static get CHANGE_PASSWORD(): string {
+    return RoutesConst.routeFormatTwo(USER, CHANGE_PASSWORD);
+  }
+
   static get topic() {
     return TOPIC;
   }
@@ -57,6 +62,10 @@ export class ApiConst {
 }
 
 export class RoutesConst {
+  static get changePassword(): string {
+    return CHANGE_PASSWORD;
+  }
+
   static get PROFILE(): string {
     return PROFILE;
   }

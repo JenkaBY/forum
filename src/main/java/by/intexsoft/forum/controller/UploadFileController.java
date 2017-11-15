@@ -1,5 +1,6 @@
 package by.intexsoft.forum.controller;
 
+import by.intexsoft.forum.constant.ContentType;
 import by.intexsoft.forum.dto.FileLink;
 import by.intexsoft.forum.service.UploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -31,6 +33,9 @@ public class UploadFileController {
     public ResponseEntity<?> uploadUserPhoto(@RequestParam("image") MultipartFile uploadedfile) {
         if (uploadedfile.isEmpty()) {
             return new ResponseEntity("please select a file!", OK);
+        }
+        if (!ContentType.IMAGE.contains(uploadedfile.getContentType())) {
+            return new ResponseEntity<>(BAD_REQUEST);
         }
         List<FileLink> links;
         try {

@@ -10,8 +10,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './layout/header/header.component';
-import { UserDetailsComponent } from './admin/user-details/user-details.component';
-import { UsersComponent } from './admin/user-list/users.component';
 import { AdminModule } from './admin/admin.module';
 import { TopicModule } from './topic/topic.module';
 import { AdminService } from './admin/admin.service';
@@ -30,6 +28,7 @@ import { GuardService } from './authorization/guard.service';
 import { PageNotFoundComponent } from './layout/page-not-found/page-not-found.component';
 import { AuthInterceptor } from './shared/auth-interceptor';
 import { UploadFileService } from './shared/upload-file.service';
+import { ManagerModule } from './manager/manager.module';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -38,8 +37,6 @@ export function createTranslateLoader(http: Http) {
 @NgModule({
   declarations: [
     AppComponent,
-    UsersComponent,
-    UserDetailsComponent,
     HeaderComponent,
     LoginComponent,
     TruncatePipe,
@@ -57,6 +54,7 @@ export function createTranslateLoader(http: Http) {
     RegistrationModule,
     TopicModule,
     UserModule,
+    ManagerModule,
     AppRoutingModule,
     NgbModule.forRoot(),
     TranslateModule.forRoot(

@@ -47,6 +47,8 @@ interface IUserService {
    * @returns {Observable<User[]>} Array of users data
    */
   getAllByIds(userIds: number[]): Observable<User[]>;
+
+  changePassword(changePassword: ChangePassword): Observable<any>;
 }
 
 export default IUserService;
