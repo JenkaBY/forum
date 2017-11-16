@@ -8,6 +8,7 @@ import { HeaderConst } from '../shared/constants/constants';
 import { User } from '../shared/entity/user';
 import IUserService from './interface/iuser.service';
 import { Page } from '../shared/entity/page';
+import { ChangePassword } from '../shared/entity/change-password';
 
 @Injectable()
 export class UserCacheableService implements IUserService {
@@ -59,6 +60,6 @@ export class UserCacheableService implements IUserService {
   }
 
   changePassword(changePassword: ChangePassword): Observable<any> {
-    return this.http.put(ApiConst.CHANGE_PASSWORD, changePassword.newPassword, {headers: this.headers, observe: 'response'});
+    return this.http.put(ApiConst.CHANGE_PASSWORD, changePassword, {headers: this.headers, observe: 'response'});
   }
 }

@@ -3,6 +3,7 @@ import { HttpParams } from '@angular/common/http';
 
 import { User } from '../../shared/entity/user';
 import { Page } from '../../shared/entity/page';
+import { ChangePassword } from '../../shared/entity/change-password';
 
 /**
  * Service for User

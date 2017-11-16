@@ -7,6 +7,7 @@ import { HeaderConst } from '../shared/constants/constants';
 import { User } from '../shared/entity/user';
 import IUserService from './interface/iuser.service';
 import { Page } from '../shared/entity/page';
+import { ChangePassword } from '../shared/entity/change-password';
 
 @Injectable()
 export class UserService implements IUserService {

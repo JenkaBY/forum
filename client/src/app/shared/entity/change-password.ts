@@ -1,5 +1,5 @@
-class ChangePassword {
-  constructor(public currentPassword,
-              public newPassword) {
+export class ChangePassword {
+  constructor(public currentPassword: string,
+              public newPassword: string) {
   }
 }

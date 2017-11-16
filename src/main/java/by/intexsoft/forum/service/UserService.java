@@ -27,4 +27,6 @@ public interface UserService extends AbstractEntityService<User> {
     User getUserByEmail(String email);
 
     Set<User> findAllUsersByIds(Set<Long> userIds);
+
+    User getUserByUsername(String name);
 }

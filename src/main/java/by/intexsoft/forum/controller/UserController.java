@@ -1,6 +1,7 @@
 package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.constant.RoleConst;
+import by.intexsoft.forum.dto.ChangePassword;
 import by.intexsoft.forum.dto.UserDTO;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
@@ -10,13 +11,16 @@ import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static by.intexsoft.forum.security.SecurityHelper.checkPasswordLength;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.ResponseEntity.ok;
 
 /**
  * Controller for managing the users
@@ -24,18 +28,21 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private static final String INCORRECT_PASSWORD = "Incorrect Password";
+    private static final String INCORRECT_PASSWORD = "Incorrect Password length";
+    private static final String INCORRECT_CURRENT_PASSWORD = "Incorrect Current Password";
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(UserController.class);
 
     private UserService userService;
     private RoleService roleService;
     private SecurityHelper securityHelper;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService, SecurityHelper securityHelper) {
+    public UserController(UserService userService, RoleService roleService, SecurityHelper securityHelper, PasswordEncoder encoder) {
         this.userService = userService;
         this.roleService = roleService;
         this.securityHelper = securityHelper;
+        this.passwordEncoder = encoder;
     }
 
     /**
@@ -116,25 +123,54 @@ public class UserController {
 
     /**
      * Changes password for user with id given in request parameters. UserData is taken from Security context.
-     * @param id id number of user for which password to be updated
-     * @param newPassword raw password string
+     * @param passwords object ChangePassword with raw new password and raw Current password
      * @return BAD REQUEST if password is incorrect. Or OK if password has been updated.
      */
     @PutMapping(path = "/change_password")
-    public ResponseEntity<?> changePassword(@PathVariable(value = "id") Long id, @RequestBody String newPassword) {
-        if (!checkPasswordLength(newPassword)) {
+    public ResponseEntity<?> changePassword(@RequestBody ChangePassword passwords) {
+        if (!checkPasswordLength(passwords.newPassword)) {
             return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);
         }
         User currentUser = securityHelper.getCurrentUser();
-        userService.changePassword(currentUser, newPassword);
+        if (!passwordEncoder.matches(passwords.currentPassword, currentUser.hashPassword)) {
+            return new ResponseEntity<>(INCORRECT_CURRENT_PASSWORD, BAD_REQUEST);
+        }
+        userService.changePassword(currentUser, passwords.newPassword);
         return new ResponseEntity<>("{}", OK);
     }
 
-
+    /**
+     * Gets all users by lists in requested params
+     *
+     * @param userIds ids of users
+     * @return Response with list of UserDTO objects and Responce Status OK.
+     */
     @GetMapping
     public ResponseEntity<?> getAllUserByIds(@RequestParam(name = "ids") Set<Long> userIds) {
         LOGGER.info("Get all users by ids {}.", userIds);
         Set<User> users = userService.findAllUsersByIds(userIds);
-        return new ResponseEntity<>(users, OK);
+        return new ResponseEntity<>(
+                users.stream()
+                        .map(user -> new UserDTO(user))
+                        .collect(Collectors.toSet()),
+                OK);
+    }
+
+    @GetMapping("/check_email")
+    public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email") String email) {
+        if (Objects.isNull(email) || email.isEmpty()) {
+            return new ResponseEntity(BAD_REQUEST);
+        }
+        User foundUser = userService.getUserByEmail(email);
+        return ok(new UserDTO(foundUser));
+    }
+
+    @GetMapping("/check_name")
+    public ResponseEntity<?> getUserByName(@RequestParam(name = "name") String name) {
+        if (Objects.isNull(name) || name.isEmpty()) {
+            return new ResponseEntity(BAD_REQUEST);
+        }
+        User foundUser = userService.getUserByUsername(name);
+        return ok(new UserDTO(foundUser));
     }
 }

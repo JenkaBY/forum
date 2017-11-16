@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../authorization/authentication.servic
 import { User } from '../../shared/entity/user';
 import { Constants } from '../../shared/constants/constants';
 import { passwordsMatchValidator } from '../../shared/matched-passwords';
+import { ChangePassword } from '../../shared/entity/change-password';
 
 @Component({
   selector: 'app-change-password',
@@ -68,7 +69,10 @@ export class ChangePasswordComponent implements OnInit {
 
   onChangePassword(): void {
     console.log('password changed', this.passwordForm);
-    this.userService.changePassword(new ChangePassword(this.currentPassword.value, this.password.value))
+
+    const changePassword = new ChangePassword(this.currentPassword.value, this.password.value);
+    console.log('changeP', changePassword);
+    this.userService.changePassword(changePassword)
       .subscribe((response: Response) => {
           console.log('Password Changed', response);
         },

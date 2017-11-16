@@ -105,12 +105,12 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
 
     @Override
     public boolean isEmailExist(String email) {
-        return Objects.nonNull(((UserRepository) repository).findByEmail(email.toLowerCase()));
+        return Objects.nonNull(getUserByEmail(email.toLowerCase()));
     }
 
     @Override
     public boolean isNameExist(String name) {
-        return Objects.nonNull(((UserRepository) repository).findByName(name));
+        return Objects.nonNull(getUserByUsername(name));
     }
 
     @Override
@@ -123,6 +123,11 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
         return repository.findAll(userIds)
                 .stream()
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public User getUserByUsername(String name) {
+        return ((UserRepository) repository).findByName(name);
     }
 
     private boolean isNewUser(User user) {
