@@ -1,3 +1,3 @@
-class FileLink {
+export class FileLink {
   imagePath: string;
 }

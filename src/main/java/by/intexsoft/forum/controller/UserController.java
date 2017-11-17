@@ -2,6 +2,7 @@ package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.dto.ChangePassword;
+import by.intexsoft.forum.dto.EntityAware;
 import by.intexsoft.forum.dto.UserDTO;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
@@ -143,7 +144,7 @@ public class UserController {
      * Gets all users by lists in requested params
      *
      * @param userIds ids of users
-     * @return Response with list of UserDTO objects and Responce Status OK.
+     * @return Response with list of UserDTO objects and Response Status OK.
      */
     @GetMapping
     public ResponseEntity<?> getAllUserByIds(@RequestParam(name = "ids") Set<Long> userIds) {
@@ -159,18 +160,24 @@ public class UserController {
     @GetMapping("/check_email")
     public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email") String email) {
         if (Objects.isNull(email) || email.isEmpty()) {
-            return new ResponseEntity(BAD_REQUEST);
+            return ok(new EntityAware());
         }
         User foundUser = userService.getUserByEmail(email);
-        return ok(new UserDTO(foundUser));
+        if (Objects.isNull(foundUser)) {
+            return ok(new EntityAware());
+        }
+        return ok(new EntityAware(true));
     }
 
     @GetMapping("/check_name")
     public ResponseEntity<?> getUserByName(@RequestParam(name = "name") String name) {
         if (Objects.isNull(name) || name.isEmpty()) {
-            return new ResponseEntity(BAD_REQUEST);
+            return ok(new EntityAware());
         }
         User foundUser = userService.getUserByUsername(name);
-        return ok(new UserDTO(foundUser));
+        if (Objects.isNull(foundUser)) {
+            return ok(new EntityAware());
+        }
+        return ok(new EntityAware(true));
     }
 }

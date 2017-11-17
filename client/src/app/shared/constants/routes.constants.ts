@@ -30,6 +30,8 @@ const PROFILE = 'profile';
 const UPLOAD = 'upload';
 const USER_IMAGE = 'user_image';
 const CHANGE_PASSWORD = 'change_password';
+const CHECK_EMAIL = 'check_email';
+const CHECK_NAME = 'check_name';
 
 export class ApiConst {
   static get CHANGE_PASSWORD(): string {
@@ -38,6 +40,14 @@ export class ApiConst {
 
   static get topic() {
     return TOPIC;
+  }
+
+  static get CHECK_EMAIL(): string {
+    return RoutesConst.routeFormatTwo(USER, CHECK_EMAIL);
+  }
+
+  static get CHECK_USERNAME(): string {
+    return RoutesConst.routeFormatTwo(USER, CHECK_NAME);
   }
 
   static get UPLOAD_USER_IMAGE(): string {

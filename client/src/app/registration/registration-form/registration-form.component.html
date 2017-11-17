@@ -23,6 +23,9 @@
                   <div *ngIf="name.errors['required']" class="invalid-feedback">
                     {{ "VALIDATION.REQUIRED" | translate }}
                   </div>
+                    <div *ngIf="name.getError('usernameExists')" class="invalid-feedback">
+                        {{ "VALIDATION.USERNAME_IN_USE" | translate }}
+                    </div>
                 </div>
               </div>
             </div>
@@ -37,8 +40,12 @@
                   id="email"
                   formControlName="email"
                   class="form-control">
-                <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
-                  {{ "VALIDATION.VALID_EMAIL" | translate }}
+                  <div *ngIf="email.invalid && email.touched && !email.getError('emailExists')"
+                       class="invalid-feedback">
+                      {{ "VALIDATION.INVALID_EMAIL" | translate }}
+                  </div>
+                  <div *ngIf="email.getError('emailExists') && email.touched" class="invalid-feedback">
+                      {{ "VALIDATION.EMAIL_IN_USE" | translate }}
                 </div>
               </div>
             </div>
@@ -83,8 +90,8 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-3">
+            <div class="row justify-content-between">
+                <div class="col-2">
               <button type="submit" class="btn btn-success pull-left" [disabled]="accountForm.invalid || creating">
                 {{ 'BUTTON.CREATE_ACCOUNT'| translate }}
               </button>

@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../authorization/authentication.servic
 import { User } from '../../shared/entity/user';
 import IUploadFileService from '../../shared/iupload-file.service';
 import { Constants } from '../../shared/constants/constants';
+import { FileLink } from '../../shared/entity/file-link';
 
 @Component({
   selector: 'app-user-profile',

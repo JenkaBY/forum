@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiConst } from './constants/routes.constants';
 import { HeaderConst } from './constants/constants';
 import IUploadFileService from './iupload-file.service';
+import { FileLink } from './entity/file-link';
 
 @Injectable()
 export class UploadFileService implements IUploadFileService {

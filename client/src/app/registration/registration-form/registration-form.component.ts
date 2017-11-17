@@ -9,6 +9,7 @@ import { passwordsMatchValidator } from '../../shared/matched-passwords';
 import { Constants } from '../../shared/constants/constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RoutesConst } from '../../shared/constants/routes.constants';
+import { DuplicateValidator } from '../validators/duplicate-validator';
 
 @Component({
   selector: 'app-registration-form',
@@ -57,10 +58,17 @@ export class RegistrationFormComponent implements OnInit {
       'name': new FormControl('',
         [Validators.required,
           Validators.minLength(Constants.getMinNameLength.value),
-          Validators.maxLength(Constants.getMaxNameLength.value)]),
+          Validators.maxLength(Constants.getMaxNameLength.value)],
+        [DuplicateValidator.isUsernameExist(this.userService)]
+      ),
       'email': new FormControl('',
-        [Validators.required,
-          Validators.email]),
+        [
+          Validators.required,
+          Validators.email
+        ],
+        [
+          DuplicateValidator.isEmailExist(this.userService)
+        ]),
       'password': new FormControl('',
         [Validators.required,
           Validators.minLength(Constants.getMinPasswordLength.value),

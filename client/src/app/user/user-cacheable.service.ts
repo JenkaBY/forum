@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 
@@ -9,12 +9,12 @@ import { User } from '../shared/entity/user';
 import IUserService from './interface/iuser.service';
 import { Page } from '../shared/entity/page';
 import { ChangePassword } from '../shared/entity/change-password';
+import { EntityAware } from '../shared/entity/entity-aware';
 
 @Injectable()
 export class UserCacheableService implements IUserService {
   private headers = new HttpHeaders().set(HeaderConst.contentType, HeaderConst.jsonType);
   private cacheUsers: Map<number, User>;
-
   constructor(private  http: HttpClient) {
     this.cacheUsers = new Map();
   }
@@ -61,5 +61,13 @@ export class UserCacheableService implements IUserService {
 
   changePassword(changePassword: ChangePassword): Observable<any> {
     return this.http.put(ApiConst.CHANGE_PASSWORD, changePassword, {headers: this.headers, observe: 'response'});
+  }
+
+  checkEmailExist(email: string): Observable<HttpResponse<EntityAware>> {
+    return this.http.get(ApiConst.CHECK_EMAIL, {params: new HttpParams().set('email', email), observe: 'response'});
+  }
+
+  checkUsernameExist(name: string): Observable<HttpResponse<EntityAware>> {
+    return this.http.get(ApiConst.CHECK_USERNAME, {params: new HttpParams().set('name', name), observe: 'response'});
   }
 }

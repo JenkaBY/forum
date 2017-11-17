@@ -1,9 +1,10 @@
 import { Observable } from 'rxjs/Observable';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpResponse } from '@angular/common/http';
 
 import { User } from '../../shared/entity/user';
 import { Page } from '../../shared/entity/page';
 import { ChangePassword } from '../../shared/entity/change-password';
+import { EntityAware } from '../../shared/entity/entity-aware';
 
 /**
  * Service for User
@@ -50,6 +51,10 @@ interface IUserService {
   getAllByIds(userIds: number[]): Observable<User[]>;
 
   changePassword(changePassword: ChangePassword): Observable<any>;
+
+  checkEmailExist(email: string): Observable<HttpResponse<EntityAware>>;
+
+  checkUsernameExist(name: string): Observable<HttpResponse<EntityAware>>;
 }
 
 export default IUserService;
