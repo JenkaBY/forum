@@ -99,7 +99,7 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
   }
 
   private fetchAllTopicRequestsOfCurrentUser() {
-    this.topicRequestService.getAllRequestsByUserId(this.loggedUser.id, this.setHttpParams())
+    this.topicRequestService.getAllRequestsByUserId(this.loggedUser.id, this.getHttpParams())
       .subscribe((page: Page<TopicRequest>) => {
           this.setPageData(page);
           this.handleError(page);

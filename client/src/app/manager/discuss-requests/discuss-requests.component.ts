@@ -27,7 +27,7 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   ngOnInit() {
     this.currentPage = 1;
     this.pageSize = 10;
-    this.getAllPendingRequestsPerPage(this.setHttpParams());
+    this.getAllPendingRequestsPerPage(this.getHttpParams());
   }
 
   private getAllPendingRequestsPerPage(httpParams?: HttpParams) {
@@ -49,7 +49,7 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   }
 
   onPageChange() {
-    this.getAllPendingRequestsPerPage(this.setHttpParams(this.getHttpParams()));
+    this.getAllPendingRequestsPerPage(this.getHttpParams(this.getHttpParams()));
   }
 
   private setStatusAndSaveDiscussRequest(request: TopicDiscussRequest, status: string) {

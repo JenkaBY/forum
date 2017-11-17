@@ -1,4 +1,4 @@
-<div *ngIf="users" class="table-responsive">
+<div *ngIf="entities" class="table-responsive">
 
   <table class="table table-bordered table-hover table-sm">
     <thead>
@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of users">
+    <tr *ngFor="let user of entities">
       <td>{{ user.id }}</td>
       <td>
         <button type="button"
@@ -69,12 +69,16 @@
     </tr>
     </tbody>
   </table>
-  <ngb-pagination
-    *ngIf="users"
-    [collectionSize]="totalElements"
-    [(page)]="currentPage"
-    (pageChange)="onPageChange()"
-    [maxSize]="maxSize"
-    size="sm" [pageSize]="pageSize">
-  </ngb-pagination>
+  <div class="row justify-content-between">
+    <div class="col-1 offset-4">
+      <ngb-pagination
+          *ngIf="entities"
+          [collectionSize]="totalElements"
+          [(page)]="currentPage"
+          (pageChange)="onPageChange()"
+          [maxSize]="maxSize"
+          size="sm" [pageSize]="pageSize">
+      </ngb-pagination>
+    </div>
+  </div>
 </div>

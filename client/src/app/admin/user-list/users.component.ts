@@ -11,21 +11,14 @@ import { Constants } from '../../shared/constants/constants';
 import { RoutesConst } from '../../shared/constants/routes.constants';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { GuardService } from '../../authorization/guard.service';
+import { Pageable } from '../../shared/entity/pageable';
 
 @Component({
   selector: 'app-users',
   templateUrl: 'users.component.html'
 })
-export class UsersComponent implements OnInit, OnDestroy {
-  user: User;
-  users: User[];
-  approvers: User[];
-  currentPage: number;
-  totalElements: number;
-  pageSize = 20;
-  maxSize: number;
+export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy {
   currentRoute: string;
-  dateFormat: string;
   admin: User;
   subscrOnCurrentUser: Subscription;
   approving = false;
@@ -38,15 +31,15 @@ export class UsersComponent implements OnInit, OnDestroy {
               @Inject('guardService') private guardService: GuardService,
               private authService: AuthenticationService,
               private router: Router) {
+    super();
+    this.pageSize = 20;
   }
 
   ngOnInit(): void {
     this.subscribeOnCurrentUser();
-    this.currentPage = 1;
     this.dateFormat = Constants.getDateTimeFormat;
-    this.approvers = [];
+    // this.approvers = [];
     this.defineCurrentRouteStr();
-    this.maxSize = Constants.getMaxSize;
     this.fetchData();
   }
 
@@ -76,8 +69,8 @@ export class UsersComponent implements OnInit, OnDestroy {
    * Get all users  per page
    * @param {HttpParams} httpParams page params for showing users per page
    */
-  getAll(httpParams?: HttpParams): void {
-    this.adminService.getAllUsers(this.setHttpParams(httpParams))
+  getAll(): void {
+    this.adminService.getAllUsers(this.getHttpParams())
       .subscribe((page: Page<User>) => {
           this.setPageData(page);
         },
@@ -91,7 +84,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param {HttpParams} httpParams page params for showing users per page
    */
   getPendingToApprove(httpParams?: HttpParams) {
-    this.adminService.getAllUsersPendingToApprove(this.setHttpParams(httpParams))
+    this.adminService.getAllUsersPendingToApprove(this.getHttpParams())
       .subscribe((page: Page<User>) => {
           this.setPageData(page);
         },
@@ -105,7 +98,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param {HttpParams} httpParams page params for showing users per page
    */
   getRejectedUsers(httpParams?: HttpParams) {
-    this.adminService.getUsersRejectedByMe(this.setHttpParams(httpParams))
+    this.adminService.getUsersRejectedByMe(this.getHttpParams())
       .subscribe((page: Page<User>) => {
           this.setPageData(page);
         },
@@ -118,8 +111,8 @@ export class UsersComponent implements OnInit, OnDestroy {
    * Get all approved users by current loged admin per page
    * @param {HttpParams} httpParams page params for showing users per page
    */
-  getUsersApprovedByMe(httpParams?: HttpParams) {
-    this.adminService.getUsersApprovedByMe(this.setHttpParams(httpParams))
+  getUsersApprovedByMe() {
+    this.adminService.getUsersApprovedByMe(this.getHttpParams())
       .subscribe((page: Page<User>) => {
           this.setPageData(page);
         },
@@ -133,8 +126,8 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param {HttpParams} httpParams page params for showing users per page
    *
    */
-  getBlockedUsers(httpParams?: HttpParams) {
-    this.adminService.getAllBlockedUsers(this.setHttpParams(httpParams))
+  getBlockedUsers() {
+    this.adminService.getAllBlockedUsers(this.getHttpParams())
       .subscribe((page: Page<User>) => {
           this.setPageData(page);
         },
@@ -147,46 +140,29 @@ export class UsersComponent implements OnInit, OnDestroy {
    * Need to be invoked after changing any state of user.
    */
   onPageChange() {
-    const params = new HttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
-    this.fetchData(params);
+    this.fetchData();
   }
 
-  private setPageData(page: Page<User>) {
-    this.users = page.content;
-    this.currentPage = page.number + 1;
-    this.totalElements = page.totalElements;
-    this.pageSize = page.size;
-  }
-
-  private setHttpParams(httpParams?: HttpParams): HttpParams {
-    if (!httpParams) {
-      httpParams = new HttpParams();
-    }
-    httpParams = httpParams.set(Constants.getSortParam, Constants.id)
-      .set(Constants.getSizeParam, String(this.pageSize));
-    return httpParams;
-  }
-
-  private fetchData(httpParams?: HttpParams) {
+  private fetchData() {
     switch (this.currentRoute) {
       case RoutesConst.users: {
-        this.getAll(httpParams);
+        this.getAll();
         break;
       }
       case RoutesConst.pending: {
-        this.getPendingToApprove(httpParams);
+        this.getPendingToApprove();
         break;
       }
       case RoutesConst.rejected: {
-        this.getRejectedUsers(httpParams);
+        this.getRejectedUsers();
         break;
       }
       case RoutesConst.approved: {
-        this.getUsersApprovedByMe(httpParams);
+        this.getUsersApprovedByMe();
         break;
       }
       case RoutesConst.blocked: {
-        this.getBlockedUsers(httpParams);
+        this.getBlockedUsers();
         break;
       }
     }
@@ -223,7 +199,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.userService.update(user)
       .subscribe(
         (_: User) => {
-          console.log('approved user', _);
           this.onPageChange();
           this.approving = false;
         },

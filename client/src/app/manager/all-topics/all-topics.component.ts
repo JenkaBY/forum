@@ -23,7 +23,7 @@ export class AllTopicsComponent extends Pageable<Topic> implements OnInit {
 
   ngOnInit(): void {
     this.currentPage = 1;
-    this.getAllTopics(this.setHttpParams());
+    this.getAllTopics(this.getHttpParams());
   }
 
   private getAllTopics(httpParams?: HttpParams) {
@@ -37,7 +37,7 @@ export class AllTopicsComponent extends Pageable<Topic> implements OnInit {
   }
 
   onPageChange() {
-    this.getAllTopics(this.setHttpParams(this.getHttpParams()));
+    this.getAllTopics(this.getHttpParams(this.getHttpParams()));
   }
 
   private handleError(error: any) {

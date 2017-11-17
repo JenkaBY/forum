@@ -1,7 +1,7 @@
 <div class="container mt-2">
-  <div class="row">
+  <div class="row justify-content-between">
     <div class="col-12 mb-0">
-      <div *ngFor="let topic of topics" class="card">
+      <div *ngFor="let topic of entities" class="card">
         <div class="card-header pt-1 pb-1">
           <div class="row justify-content-between">
             <div class="col-8">
@@ -15,10 +15,10 @@
         <div class="card-block pb-3">
           <div class="row justify-content-between">
             <div class="col-10">
-                <h6 class="card-subtitle mb-2 text-muted" style="font-size: small">
-                    <b>Author:</b> {{ topic.createdBy?.name }}
-                    <!--<del *ngIf="!topic.createdBy.name">deleted</del>-->
-                </h6>
+              <h6 class="card-subtitle mb-2 text-muted" style="font-size: small">
+                <b>Author:</b> {{ topic.createdBy?.name }}
+                <!--<del *ngIf="!topic.createdBy.name">deleted</del>-->
+              </h6>
               <p>
                 <small class="card-text mb-0">{{ topic.description }}</small>
               </p>
@@ -33,12 +33,17 @@
       </div>
     </div>
   </div>
-  <ngb-pagination
-    *ngIf="topics"
-    [collectionSize]="totalElements"
-    [(page)]="currentPage"
-    (pageChange)="onPageChange()"
-    [maxSize]="maxSize"
-    size="sm" [pageSize]="pageSize">
-  </ngb-pagination>
+
+  <div *ngIf="entities" class="row justify-content-between pt-2">
+    <div class="col-1 offset-5">
+      <ngb-pagination
+          [collectionSize]="totalElements"
+          [(page)]="currentPage"
+          (pageChange)="onPageChange()"
+          [maxSize]="maxSize"
+          size="sm" [pageSize]="pageSize">
+      </ngb-pagination>
+    </div>
+  </div>
+
 </div>

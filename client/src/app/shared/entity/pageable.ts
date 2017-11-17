@@ -37,16 +37,12 @@ export abstract class Pageable<T> {
     this.pageSize = page.size;
   }
 
-  protected getHttpParams(): HttpParams {
-    return new HttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
-  }
-
   /**
    * sets and returns http parameters GET request
    * @param {HttpParams} httpParams not necessary parameters
    * @returns {HttpParams} of page parameters
    */
-  protected setHttpParams(httpParams?: HttpParams): HttpParams {
+  protected getHttpParams(httpParams?: HttpParams): HttpParams {
     if (!httpParams) {
       httpParams = new HttpParams();
     }

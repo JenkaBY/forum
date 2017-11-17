@@ -4,26 +4,26 @@
 
   <div class="clearfix hidden-sm-up"></div>
 
-  <div class="row" *ngIf="messages && messages.length > 0">
-    <div class="col-12 mb-0" *ngFor="let messageEl of messages;">
+  <div class="row" *ngIf="entities && entities.length > 0">
+    <div class="col-12 mb-0" *ngFor="let messageEl of entities;">
       <app-message [message]="messageEl"></app-message>
     </div>
   </div>
 
-  <div class="row" *ngIf="messages && messages.length > 0">
+  <div class="row" *ngIf="entities && entities.length > 0">
     <div class="col-12 d-flex justify-content-center mt-3">
       <ngb-pagination
-        *ngIf="messages"
-        [collectionSize]="totalElements"
-        [(page)]="currentPage"
-        (pageChange)="onPageChange()"
-        [maxSize]="maxSize"
-        size="sm" [pageSize]="pageSize">
+          *ngIf="entities"
+          [collectionSize]="totalElements"
+          [(page)]="currentPage"
+          (pageChange)="onPageChange()"
+          [maxSize]="maxSize"
+          size="sm" [pageSize]="pageSize">
       </ngb-pagination>
     </div>
   </div>
 
-    <div class="h4" *ngIf="messages && messages.length === 0">
+  <div class="h4" *ngIf="entities && entities.length === 0">
     <p>{{ "MESSAGE.NO_MESSAGES"| translate }}</p>
   </div>
 

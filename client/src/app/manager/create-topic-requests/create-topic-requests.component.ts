@@ -30,7 +30,7 @@ export class CreateTopicRequestsComponent extends Pageable<TopicRequest> impleme
 
   ngOnInit() {
     this.currentPage = 1;
-    this.fetchAllPendingRequestsPerPage(this.setHttpParams());
+    this.fetchAllPendingRequestsPerPage(this.getHttpParams());
   }
 
   private fetchAllPendingRequestsPerPage(httpParams?: HttpParams) {
@@ -59,7 +59,7 @@ export class CreateTopicRequestsComponent extends Pageable<TopicRequest> impleme
   }
 
   onPageChange() {
-    this.fetchAllPendingRequestsPerPage(this.setHttpParams(this.getHttpParams()));
+    this.fetchAllPendingRequestsPerPage(this.getHttpParams(this.getHttpParams()));
   }
 
   private setStatusAndSaveTopicRequest(request: TopicRequest, status: string) {

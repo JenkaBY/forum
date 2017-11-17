@@ -1,9 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
-
-import { Constants } from '../../shared/constants/constants';
 import { Topic } from '../../shared/entity/topic';
 import { Message } from '../../shared/entity/message';
 import IMessageService from '../../message/interface/imessage.service';
@@ -13,20 +11,16 @@ import { User } from '../../shared/entity/user';
 import IUserService from '../../user/interface/iuser.service';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { GuardService } from '../../authorization/guard.service';
+import { Pageable } from '../../shared/entity/pageable';
 
 @Component({
   selector: 'app-topic',
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.css']
 })
-export class TopicComponent implements OnInit, OnDestroy {
+export class TopicComponent extends Pageable<Message> implements OnInit, OnDestroy {
   topic: Topic;
   topicId: number;
-  messages: Message[];
-  currentPage: number;
-  totalElements: number;
-  pageSize: number;
-  maxSize: number = Constants.getMaxSize;
   subscriptionOnMsg: Subscription;
   loggedUser: User;
   subscrOnCurrentUser: Subscription;
@@ -37,21 +31,22 @@ export class TopicComponent implements OnInit, OnDestroy {
               @Inject('guardService') private guardService: GuardService,
               private authService: AuthenticationService,
               private route: ActivatedRoute) {
+    super();
   }
 
   ngOnInit() {
-    this.setTopicId();
+    this.initTopicId();
     this.subscribeOnCurrentUser();
     this.loadTopic();
     this.subscribeOnMessages();
-    this.getAllMessages(this.setHttpParams());
+    this.getAllMessages();
   }
 
   ngOnDestroy(): void {
     this.subscriptionOnMsg.unsubscribe();
   }
 
-  subscribeOnMessages() {
+  private subscribeOnMessages() {
     this.subscriptionOnMsg = this.messageService.messagesChanged
       .subscribe((page: Page<Message>) => {
           this.setPageData(page);
@@ -61,7 +56,7 @@ export class TopicComponent implements OnInit, OnDestroy {
         });
   }
 
-  subscribeOnCurrentUser() {
+  private subscribeOnCurrentUser() {
     this.subscrOnCurrentUser = this.authService.changedCurrentUser
       .subscribe((user: User) => {
         this.loggedUser = user;
@@ -69,12 +64,12 @@ export class TopicComponent implements OnInit, OnDestroy {
     this.loggedUser = this.authService.getCurrentUser;
   }
 
-  getAllMessages(httpParams?: HttpParams): void {
-    this.messageService.getAllMessagesBy(this.topicId, httpParams)
+  private getAllMessages(): void {
+    this.messageService.getAllMessagesBy(this.topicId, this.getHttpParams())
       .subscribe();
   }
 
-  loadTopic(): void {
+  private loadTopic(): void {
     this.topicService.getById(this.topicId)
       .subscribe(
         (topic: Topic) => this.topic = topic,
@@ -82,33 +77,12 @@ export class TopicComponent implements OnInit, OnDestroy {
       );
   }
 
-  setTopicId(): void {
+  private initTopicId(): void {
     this.route.params.subscribe(params => this.topicId = +params.id);
   }
 
-  private setHttpParams(httpParams?: HttpParams): HttpParams {
-    if (!httpParams) {
-      httpParams = new HttpParams();
-    }
-    httpParams = httpParams.set(Constants.getSortParam, Constants.id)
-      .set(Constants.getSizeParam, String(Constants.getPageSize));
-    return httpParams;
-  }
-
   onPageChange() {
-    let params = this.setHttpParams().set(Constants.getPageParam, String(this.currentPage - 1));
-    this.getAllMessages(params);
-  }
-
-  /**
-   *
-   * @param {Page<Message>} page
-   */
-  private setPageData(page: Page<Message>) {
-    this.messages = page.content;
-    this.currentPage = page.number + 1;
-    this.totalElements = page.totalElements;
-    this.pageSize = page.size;
+    this.getAllMessages();
   }
 
   private handleError(error: HttpErrorResponse) {

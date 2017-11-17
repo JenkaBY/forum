@@ -39,7 +39,7 @@ export class MyTopicsComponent extends Pageable<Topic> implements OnInit, OnDest
   }
 
   private fetchAllTopicsOfCurrentUser() {
-    this.topicService.getAllTopicsCreatedByOrDiscussedUser(this.loggedUser.id, this.setHttpParams())
+    this.topicService.getAllTopicsCreatedByOrDiscussedUser(this.loggedUser.id, this.getHttpParams())
       .subscribe((page: Page<Topic>) => {
           this.setPageData(page);
         },

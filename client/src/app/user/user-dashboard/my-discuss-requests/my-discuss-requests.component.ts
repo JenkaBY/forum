@@ -52,7 +52,7 @@ export class MyDiscussRequestsComponent extends Pageable<TopicDiscussRequest> im
   }
 
   private fetchAllDiscussRequestsOfCurrentUser() {
-    this.discussRequestService.getAllRequestsByUserId(this.loggedUser.id, this.setHttpParams())
+    this.discussRequestService.getAllRequestsByUserId(this.loggedUser.id, this.getHttpParams())
       .subscribe((page: Page<TopicDiscussRequest>) => {
           this.setPageData(page);
         },
