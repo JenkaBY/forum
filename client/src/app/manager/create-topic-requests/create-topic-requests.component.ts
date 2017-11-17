@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TopicRequest } from '../../shared/entity/topic-request';
@@ -18,23 +17,19 @@ import ITopicRequestService from '../../topic/topic-request/interface/icreate-to
 export class CreateTopicRequestsComponent extends Pageable<TopicRequest> implements OnInit {
   approving: boolean = false;
   rejecting: boolean = false;
-  truncateSize = 150;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private modalService: NgbModal,
+  constructor(private modalService: NgbModal,
               @Inject('topicRequestService') private topicRequestService: ITopicRequestService) {
     super();
     this.pageSize = 10;
   }
 
   ngOnInit() {
-    this.currentPage = 1;
-    this.fetchAllPendingRequestsPerPage(this.getHttpParams());
+    this.fetchAllPendingRequestsPerPage();
   }
 
-  private fetchAllPendingRequestsPerPage(httpParams?: HttpParams) {
-    this.topicRequestService.getAllPendingCreateTopicRequests(httpParams)
+  private fetchAllPendingRequestsPerPage() {
+    this.topicRequestService.getAllPendingCreateTopicRequests(this.getHttpParams())
       .subscribe((page: Page<TopicRequest>) => {
           this.setPageData(page);
         },
@@ -59,7 +54,7 @@ export class CreateTopicRequestsComponent extends Pageable<TopicRequest> impleme
   }
 
   onPageChange() {
-    this.fetchAllPendingRequestsPerPage(this.getHttpParams(this.getHttpParams()));
+    this.fetchAllPendingRequestsPerPage();
   }
 
   private setStatusAndSaveTopicRequest(request: TopicRequest, status: string) {

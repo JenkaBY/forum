@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Pageable } from '../../shared/entity/pageable';
@@ -23,11 +22,11 @@ export class AllTopicsComponent extends Pageable<Topic> implements OnInit {
 
   ngOnInit(): void {
     this.currentPage = 1;
-    this.getAllTopics(this.getHttpParams());
+    this.getAllTopics();
   }
 
-  private getAllTopics(httpParams?: HttpParams) {
-    this.topicService.getAllTopics(httpParams)
+  private getAllTopics() {
+    this.topicService.getAllTopics(this.getHttpParams())
       .subscribe(
         (page: Page<Topic>) => {
           this.setPageData(page);
@@ -37,7 +36,7 @@ export class AllTopicsComponent extends Pageable<Topic> implements OnInit {
   }
 
   onPageChange() {
-    this.getAllTopics(this.getHttpParams(this.getHttpParams()));
+    this.getAllTopics();
   }
 
   private handleError(error: any) {

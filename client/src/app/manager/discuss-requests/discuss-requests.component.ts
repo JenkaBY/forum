@@ -1,12 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Page } from '../../shared/entity/page';
 import { Status, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
 import { Pageable } from '../../shared/entity/pageable';
 import ITopicDiscussRequestService from '../../topic/topic-disscuss-request/interface/itopic-discuss-request.service';
-import { AuthenticationService } from '../../authorization/authentication.service';
 
 @Component({
   selector: 'app-discuss-requests',
@@ -17,21 +15,16 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   approving: boolean = false;
   rejecting: boolean = false;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
-              private authService: AuthenticationService) {
+  constructor(@Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService) {
     super();
   }
 
   ngOnInit() {
-    this.currentPage = 1;
-    this.pageSize = 10;
-    this.getAllPendingRequestsPerPage(this.getHttpParams());
+    this.getAllPendingRequestsPerPage();
   }
 
-  private getAllPendingRequestsPerPage(httpParams?: HttpParams) {
-    this.discussRequestService.getAllPending(httpParams)
+  private getAllPendingRequestsPerPage(): void {
+    this.discussRequestService.getAllPending(this.getHttpParams())
       .subscribe((page: Page<TopicDiscussRequest>) => {
           this.setPageData(page);
         },
@@ -49,7 +42,7 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   }
 
   onPageChange() {
-    this.getAllPendingRequestsPerPage(this.getHttpParams(this.getHttpParams()));
+    this.getAllPendingRequestsPerPage();
   }
 
   private setStatusAndSaveDiscussRequest(request: TopicDiscussRequest, status: string) {

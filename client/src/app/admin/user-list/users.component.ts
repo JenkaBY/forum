@@ -7,7 +7,6 @@ import IAdminService from '../interface/iadmin.service';
 import IUserService from '../../user/interface/iuser.service';
 import { Page } from '../../shared/entity/page';
 import { User } from '../../shared/entity/user';
-import { Constants } from '../../shared/constants/constants';
 import { RoutesConst } from '../../shared/constants/routes.constants';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { GuardService } from '../../authorization/guard.service';
@@ -37,8 +36,6 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
 
   ngOnInit(): void {
     this.subscribeOnCurrentUser();
-    this.dateFormat = Constants.getDateTimeFormat;
-    // this.approvers = [];
     this.defineCurrentRouteStr();
     this.fetchData();
   }

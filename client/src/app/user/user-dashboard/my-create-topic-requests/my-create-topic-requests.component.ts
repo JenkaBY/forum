@@ -74,7 +74,8 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
     modalRef.result
       .then((modifiedRequest) => {
         console.log('modifiedRequest', modifiedRequest);
-        this.topicRequestService.updateCreateTopicRequest(modifiedRequest).subscribe(
+        this.topicRequestService.updateCreateTopicRequest(modifiedRequest)
+          .subscribe(
           (topicRqst: TopicRequest) => {
             console.log('topicRqst', topicRqst);
           },
