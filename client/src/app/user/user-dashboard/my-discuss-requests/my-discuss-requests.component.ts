@@ -8,6 +8,10 @@ import { AuthenticationService } from '../../../authorization/authentication.ser
 import { Page } from '../../../shared/entity/page';
 import ITopicDiscussRequestService from '../../../topic/topic-disscuss-request/interface/itopic-discuss-request.service';
 import { TopicDiscussRequest } from '../../../shared/entity/topic-discuss-request';
+import { ToastsManager } from 'ng2-toastr';
+import { TranslateService } from 'ng2-translate';
+import { ExtendedTranslationService } from '../../../shared/translation-service/extended-translation.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-my-discuss-requests',
@@ -19,7 +23,9 @@ export class MyDiscussRequestsComponent extends Pageable<TopicDiscussRequest> im
   loggedUser: User;
 
   constructor(@Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager) {
     super();
     this.sortColumn = 'id,DESC';
   }
@@ -43,6 +49,7 @@ export class MyDiscussRequestsComponent extends Pageable<TopicDiscussRequest> im
     this.discussRequestService.deleteDiscussRequest(discussReqest)
       .subscribe((response) => {
           console.log(response);
+          this.notifySuccessDelete();
           this.onPageChange();
         },
         (error) => {
@@ -62,6 +69,18 @@ export class MyDiscussRequestsComponent extends Pageable<TopicDiscussRequest> im
   }
 
   private handleError(error: any) {
-    console.log(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
+  }
+
+  private notifySuccessDelete() {
+    const translatedStatus = this.translateService.getTranslate('ACTIONS.DELETED');
+    this.toastr.success(
+      this.translateService.getTranslate(
+        'MESSAGES.TOPIC_DISCUSS_REQUEST_CHANGED', {status: translatedStatus}
+      )
+    );
   }
 }

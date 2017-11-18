@@ -22,7 +22,7 @@ export class TopicRequestService implements ITopicDiscussRequestService {
   }
 
   /**
-   * gets all pending to approve or reject the create topic requests.
+   * gets all pending to approve or reject the create topic requests. Fetches user data for createdById field in Topic object in parallel.
    * @returns {Observable<Page<TopicRequest>>} Page with Pending to approve or reject the create topic requests
    */
   getAllPendingCreateTopicRequests(httpParams?: HttpParams): Observable<Page<TopicRequest>> {
@@ -53,22 +53,47 @@ export class TopicRequestService implements ITopicDiscussRequestService {
     return result;
   }
 
+  /**
+   * sends a request for creating TopicRequest given in the body
+   * @param {TopicRequest} topicRequest data to be saved
+   * @returns {Observable<TopicRequest>} observable of created topic
+   */
   createRequest(topicRequest: TopicRequest): Observable<TopicRequest> {
     return this.http.post(RoutesConst.NEW_TOPIC_REQUEST, topicRequest, {headers: this.headers});
   }
 
+  /**
+   * Unimplemented method.
+   * @returns {Observable<Page<TopicRequest>>}
+   */
   getAllPending(): Observable<Page<TopicRequest>> {
-    return null;
+    throw new Error('Unimplemented method');
   }
 
+  /**
+   * gets all topic discuss request by user ID.
+   * @param {number} userId NOT USED
+   * @param {HttpParams} httpParams params with userId=id in query string
+   * @returns {Observable<Page<TopicRequest>>} observable of pageable with create TopicRequests data
+   */
   getAllRequestsByUserId(userId: number, httpParams: HttpParams): Observable<Page<TopicRequest>> {
     return this.http.get<Page<TopicRequest>>(ApiConst.GET_ALL_USER_CREATE_TOPIC_REQUESTS, {params: httpParams});
   }
 
+  /**
+   * Updates given create topic request.
+   * @param {TopicRequest} topicRequest data to be saved in DB
+   * @returns {Observable<TopicRequest>} observable with updated topic request data
+   */
   updateCreateTopicRequest(topicRequest: TopicRequest): Observable<TopicRequest> {
     return this.http.put<TopicRequest>(`${RoutesConst.TOPIC_REQUEST}/${topicRequest.id}`, topicRequest, {headers: this.headers});
   }
 
+  /**
+   * Deletes the topic request
+   * @param {number} id of topic request to be deleted
+   * @returns {Observable<any>} observable of any with reponse result
+   */
   delete(id: number): Observable<any> {
     return this.http.delete(`${RoutesConst.TOPIC_REQUEST}/${id}`, {headers: this.headers, observe: 'response'});
   }

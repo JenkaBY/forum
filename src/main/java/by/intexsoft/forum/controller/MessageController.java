@@ -52,7 +52,7 @@ public class MessageController {
      */
     @PutMapping(path = "/message/{id}")
     public ResponseEntity<?> updateMessage(@PathVariable(value = "id") Long id, @RequestBody Message message) {
-        if (message.getId() != id) {
+        if (!message.getId().equals(id)) {
             LOGGER.warn("Attempt to update message with id={0} with message = {1}", id, message);
             return new ResponseEntity<>(BAD_REQUEST);
         }

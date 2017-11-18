@@ -8,6 +8,10 @@ import ITopicService from '../../../topic/interface/itopic.service';
 import { User } from '../../../shared/entity/user';
 import { AuthenticationService } from '../../../authorization/authentication.service';
 import { Page } from '../../../shared/entity/page';
+import { TranslateService } from 'ng2-translate';
+import { ExtendedTranslationService } from '../../../shared/translation-service/extended-translation.service';
+import { ToastsManager } from 'ng2-toastr';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-my-topics',
@@ -19,7 +23,9 @@ export class MyTopicsComponent extends Pageable<Topic> implements OnInit, OnDest
   loggedUser: User;
 
   constructor(@Inject('topicService') private topicService: ITopicService,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager) {
     super();
   }
 
@@ -49,6 +55,9 @@ export class MyTopicsComponent extends Pageable<Topic> implements OnInit, OnDest
   }
 
   private handleError(error: any) {
-    console.log(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
   }
 }

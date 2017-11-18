@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
 import { Subscription } from 'rxjs/Subscription';
@@ -7,6 +7,7 @@ import { AuthenticationService } from './authorization/authentication.service';
 import { User } from './shared/entity/user';
 import { RoleService } from './shared/role/role.service';
 import { Role } from './shared/entity/role';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +19,17 @@ export class AppComponent implements OnInit, OnDestroy {
   loggedUser: User;
   currentUserSubscr: Subscription;
   roles: Role[];
+  public viewContainerRef: ViewContainerRef;
 
   constructor(private router: Router,
               private translate: TranslateService,
               private authService: AuthenticationService,
-              @Inject('roleService') roleService: RoleService) {
+              @Inject('roleService') roleService: RoleService,
+              public toastr: ToastsManager,
+              viewContainerRef: ViewContainerRef) {
     translate.setDefaultLang('en');
+    this.viewContainerRef = viewContainerRef;
+    this.toastr.setRootViewContainerRef(viewContainerRef);
       // this.roles = roleService.getRoles();
   }
 

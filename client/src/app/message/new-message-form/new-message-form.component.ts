@@ -7,7 +7,14 @@ import IMessageService from '../interface/imessage.service';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { User } from '../../shared/entity/user';
 import { GuardService } from '../../authorization/guard.service';
+import { ToastsManager } from 'ng2-toastr';
+import { TranslateService } from 'ng2-translate';
+import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
+import { environment } from '../../../environments/environment';
 
+/**
+ * Describes the new message component on topic(message list) page
+ */
 @Component({
   selector: 'app-new-message-form',
   templateUrl: './new-message-form.component.html',
@@ -22,10 +29,16 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
 
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('guardService') private guardService: GuardService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private authService: AuthenticationService) {
   }
 
-  ngOnInit() {
+  /**
+   * Implementation of OnInit interface.
+   * Initialize msgForm and subscribes on logged user.
+   */
+  ngOnInit(): void {
     this.currentUserSubscr = this.authService.changedCurrentUser
       .subscribe((user: User) => {
         this.loggedUser = user;
@@ -34,6 +47,10 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
+  /**
+   * Implementation of OnDestroy interface
+   * Unsubscribe on current user.
+   */
   ngOnDestroy(): void {
     this.currentUserSubscr.unsubscribe();
   }
@@ -49,7 +66,10 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSendMsg() {
+  /**
+   * Eventlistner on 'Send' button. Creates new message and sends to backend.
+   */
+  onSendMsg(): void {
     this.creating = true;
     this.msgForm.get('createdAt').patchValue(new Date());
     this.messageService.createMessage(this.msgForm.value)
@@ -64,10 +84,21 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
         });
   }
 
-  private handleError(error: Response) {
-    console.log(error);
+  private handleError(error: any) {
+    this.translateService.get('ERROR.COMMON_ERROR').subscribe(
+      (translation: string) => {
+        this.toastr.error(translation);
+      }
+    );
+    if (!environment.production) {
+      console.log(error);
+    }
   }
 
+  /**
+   * Defines if current user can create messages
+   * @returns {boolean} true if can otherwise false.
+   */
   canCreateMsg(): boolean {
     return this.guardService.canCreateMsgInTopic(this.topic);
   }
@@ -76,6 +107,10 @@ export class NewMessageFormComponent implements OnInit, OnDestroy {
     return this.guardService.canCreateMsgInTopic(this.topic);
   }
 
+  /**
+   * indicates if 'Send' button to be disabled
+   * @returns {boolean} true if send button to be disabled otherwise false
+   */
   get isDisabledSendButton(): boolean {
     return this.msgForm.invalid || this.creating || this.loggedUser.blocked || !this.canCreateMsg();
   }

@@ -1,128 +1,129 @@
 <div class="container">
 
-    <div class="d-flex justify-content-center" *ngIf="loggedUser">
-        <div class="col-8">
-            <h4>{{loggedUser.name}}'s profile</h4>
-        </div>
+  <div class="d-flex justify-content-center" *ngIf="loggedUser">
+    <div class="col-8">
+      <h4>{{loggedUser.name}}'s profile</h4>
     </div>
+  </div>
 
-    <div *ngIf="loggedUser" class="d-flex justify-content-center">
-        <div class="col-8">
-            <form [formGroup]="userForm" (ngSubmit)="onSave()">
-                <div class="row">
-                    <div *ngIf="imagePath.value">
-                        <img src='{{ imagePath.value }}'
-                             alt='{{ loggedUser.name }}'
-                             class="img"
-                             style="width:500px;">
-                    </div>
-                </div>
-                <!-- NAME -->
-                <div class="row">
-                    <div class="col-8">
-                        <div class="form-group">
-                            <label for="name">{{ 'USER.NAME' | translate }}</label>
-                            <input
-                                    type="text"
-                                    id="name"
-                                    formControlName="name"
-                                    class="form-control">
-                            <div *ngIf="name.invalid && name.touched">
-                                <div *ngIf="name.errors['minlength']" class="invalid-feedback">
-                                    {{ "VALIDATION.MIN"| translate:minNameLength }}
-                                </div>
-                                <div *ngIf="name.errors['maxlength']" class="invalid-feedback">
-                                    {{ "VALIDATION.MAX"| translate:maxNameLength }}
-                                </div>
-                                <div *ngIf="name.errors['required']" class="invalid-feedback">
-                                    {{ "VALIDATION.REQUIRED" | translate }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- EMAIL -->
-                <div class="row">
-                    <div class="col-8">
-                        <div class="form-group">
-                            <label for="email">{{ 'USER.EMAIL' | translate }}</label>
-                            <input type="text"
-                                   id="email"
-                                   formControlName="email"
-                                   class="form-control">
-                            <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
-                                {{ "VALIDATION.VALID_EMAIL" | translate }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Radio buttons -->
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
-                        <input class="form-check-input"
-                               type="radio"
-                               formControlName="imageOption"
-                               id="imagePathRadio"
-                               value="imagePath">{{ "PROFILE.IMAGE_PATH" | translate }}
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label">
-                        <input class="form-check-input"
-                               type="radio"
-                               formControlName="imageOption"
-                               id="uploadImageRadio"
-                               value="uploadImage">{{ "PROFILE.UPLOAD_IMAGE" | translate }}
-                    </label>
-                </div>
-                <div class="form-check-inline">
-                    <button type="button"
-                            class="btn btn-outline-danger btn-sm"
-                            (click)="onDeleteImage()">
-                        {{ 'BUTTON.DELETE_IMAGE' | translate }}
-                    </button>
-                </div>
-                <div class="row" *ngIf="imagePathOption.value === 'imagePath'; else uploadImage;">
-                    <div class="col-8">
-                        <div class="form-group">
-                            <label for="imagePath">{{ 'USER.IMAGE_PATH' | translate }}</label>
-                            <input type="text"
-                                   id="imagePath"
-                                   formControlName="imagePath"
-                                   class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <ng-template #uploadImage>
-                    <div class="form-group">
-                        <input type="file"
-                               accept="image/*"
-                               #fileInput
-                               enctype='multipart/form-data'
-                               placeholder="Upload file..."
-                               class="form-control-file"
-                               aria-describedby="fileHelp"/>
-                        <br>
-                        <button type="button"
-                                class="btn btn-primary"
-                                (click)="upload()">{{ 'BUTTON.UPLOAD' | translate }}
-                        </button>
-                    </div>
-                </ng-template>
-                <div class="row">
-                    <div class="col-3">
-                        <button type="submit" class="btn btn-success pull-left"
-                                [disabled]="userForm.invalid || saving">
-                            {{ 'BUTTON.SAVE'| translate }}
-                        </button>
-                    </div>
-                    <div class="col-2 offset-2">
-                        <button type="button" class="btn btn-warning pull-12" (click)="onBack()">
-                            {{ 'BUTTON.BACK'| translate }}
-                        </button>
-                    </div>
-                </div>
-            </form>
+  <div *ngIf="loggedUser" class="d-flex justify-content-center">
+    <div class="col-8">
+      <form [formGroup]="userForm" (ngSubmit)="onSave()">
+        <div class="row">
+          <div *ngIf="imagePath.value">
+            <img src='{{ imagePath.value }}'
+                 alt='{{ loggedUser.name }}'
+                 class="img"
+                 style="width:500px;">
+          </div>
         </div>
+        <!-- NAME -->
+        <div class="row">
+          <div class="col-8">
+            <div class="form-group">
+              <label for="name">{{ 'USER.NAME' | translate }}</label>
+              <input
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  class="form-control">
+              <div *ngIf="name.invalid && name.touched">
+                <div *ngIf="name.errors['minlength']" class="invalid-feedback">
+                  {{ "VALIDATION.MIN"| translate:minNameLength }}
+                </div>
+                <div *ngIf="name.errors['maxlength']" class="invalid-feedback">
+                  {{ "VALIDATION.MAX"| translate:maxNameLength }}
+                </div>
+                <div *ngIf="name.errors['required']" class="invalid-feedback">
+                  {{ "VALIDATION.REQUIRED" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- EMAIL -->
+        <div class="row">
+          <div class="col-8">
+            <div class="form-group">
+              <label for="email">{{ 'USER.EMAIL' | translate }}</label>
+              <input type="text"
+                     id="email"
+                     formControlName="email"
+                     class="form-control">
+              <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+                {{ "VALIDATION.VALID_EMAIL" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Radio buttons -->
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input"
+                   type="radio"
+                   formControlName="imageOption"
+                   id="imagePathRadio"
+                   value="imagePath">{{ "PROFILE.IMAGE_PATH" | translate }}
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input"
+                   type="radio"
+                   formControlName="imageOption"
+                   id="uploadImageRadio"
+                   value="uploadImage">{{ "PROFILE.UPLOAD_IMAGE" | translate }}
+          </label>
+        </div>
+        <div class="form-check-inline">
+          <button *ngIf="imagePath.value"
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="onDeleteImage()">
+            {{ 'BUTTON.DELETE_IMAGE' | translate }}
+          </button>
+        </div>
+        <div class="row" *ngIf="imagePathOption.value === 'imagePath'; else uploadImage;">
+          <div class="col-8">
+            <div class="form-group">
+              <label for="imagePath">{{ 'USER.IMAGE_PATH' | translate }}</label>
+              <input type="text"
+                     id="imagePath"
+                     formControlName="imagePath"
+                     class="form-control">
+            </div>
+          </div>
+        </div>
+        <ng-template #uploadImage>
+          <div class="form-group">
+            <input type="file"
+                   accept="image/*"
+                   #fileInput
+                   enctype='multipart/form-data'
+                   placeholder="Upload file..."
+                   class="form-control-file"
+                   aria-describedby="fileHelp"/>
+            <br>
+            <button type="button"
+                    class="btn btn-primary"
+                    (click)="upload()">{{ 'BUTTON.UPLOAD' | translate }}
+            </button>
+          </div>
+        </ng-template>
+        <div class="row">
+          <div class="col-3">
+            <button type="submit" class="btn btn-success pull-left"
+                    [disabled]="userForm.invalid || saving">
+              {{ 'BUTTON.SAVE'| translate }}
+            </button>
+          </div>
+          <div class="col-2 offset-2">
+            <button type="button" class="btn btn-warning pull-12" (click)="onBack()">
+              {{ 'BUTTON.BACK'| translate }}
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

@@ -6,6 +6,9 @@ import ITopicService from '../../../topic/interface/itopic.service';
 import { User } from '../../../shared/entity/user';
 import { Topic } from '../../../shared/entity/topic';
 
+/**
+ * Describes the modal window with users allowed in topic
+ */
 @Component({
   selector: 'app-users-in-topic',
   templateUrl: './users-in-topic.component.html',
@@ -14,21 +17,32 @@ import { Topic } from '../../../shared/entity/topic';
 export class UsersInTopicComponent implements OnInit {
   @Input() topic: Topic;
   allowedUsers: User[] = [];
-  deleting: boolean = false;
-  error: boolean = false;
+  deleting = false;
+  error = false;
 
   constructor(@Inject('cacheableUserService') private userService: IUserService,
               @Inject('topicService') private topicService: ITopicService,
               public activeModal: NgbActiveModal) {
   }
 
+  /**
+   * Implementation OnInit interface. Loads all users according to the list in UserIds
+   */
   ngOnInit(): void {
+    this.fetchAllowedUsersByIds();
+  }
+
+  private fetchAllowedUsersByIds() {
     if (this.topic.allowedUserIds.length > 0) {
       this.userService.getAllByIds(this.topic.allowedUserIds)
         .subscribe((users: User[]) => this.allowedUsers = users);
     }
   }
 
+  /**
+   * Send request and Delete user in allowed users list.
+   * @param {User} deletedUser
+   */
   onDeleteFromList(deletedUser: User) {
     this.deleting = true;
     const userIds = this.topic.allowedUserIds;
@@ -48,6 +62,9 @@ export class UsersInTopicComponent implements OnInit {
         });
   }
 
+  /**
+   * Event listener on close button. Closes alert.
+   */
   closeAlert() {
     this.error = false;
   }

@@ -118,12 +118,12 @@ public class TopicDiscussRequestController {
         LOGGER.info("Get TopicDiscussRequest by UserId {} and TopicId {}.", userId, topicId);
 
         TopicDiscussRequest discussRequest = topicDiscussRequestService.getByTopicIdAndUserId(topicId, userId);
-        return Objects.isNull(discussRequest) ? new ResponseEntity<>(OK) : ok(discussRequest);
+        return Objects.isNull(discussRequest) ? new ResponseEntity<>(NO_CONTENT) : ok(discussRequest);
     }
 
     @DeleteMapping("/discuss_request/{requestId}")
     public ResponseEntity<?> deleteTopicDiscussRequest(@PathVariable("requestId") Long requestId) {
         this.topicDiscussRequestService.delete(requestId);
-        return new ResponseEntity<>("{}", Objects.isNull(this.topicDiscussRequestService.find(requestId)) ? OK : BAD_REQUEST);
+        return new ResponseEntity<>(Objects.isNull(this.topicDiscussRequestService.find(requestId)) ? NO_CONTENT : BAD_REQUEST);
     }
 }

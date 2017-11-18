@@ -4,7 +4,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Http, HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateLoader, TranslateModule, TranslateStaticLoader } from 'ng2-translate';
+import { TranslateLoader, TranslateModule, TranslateService, TranslateStaticLoader } from 'ng2-translate';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -31,6 +31,7 @@ import { UploadFileService } from './shared/upload-file.service';
 import { ManagerModule } from './manager/manager.module';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ExtendedTranslationService } from './shared/translation-service/extended-translation.service';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -82,7 +83,8 @@ export function createTranslateLoader(http: Http) {
     {provide: 'topicService', useClass: TopicService},
     {provide: 'roleService', useClass: RoleService},
     {provide: 'topicDiscussRequestService', useClass: TopicDiscussRequestService},
-    {provide: 'uploadFileService', useClass: UploadFileService}
+    {provide: 'uploadFileService', useClass: UploadFileService},
+    {provide: TranslateService, useClass: ExtendedTranslationService}
   ],
   entryComponents: [ModalPrompt],
   bootstrap: [AppComponent]

@@ -10,7 +10,14 @@ import { Constants } from '../../shared/constants/constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RoutesConst } from '../../shared/constants/routes.constants';
 import { DuplicateValidator } from '../validators/duplicate-validator';
+import { ToastsManager } from 'ng2-toastr';
+import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
+import { TranslateService } from 'ng2-translate';
+import { environment } from '../../../environments/environment.prod';
 
+/**
+ * Describes Registration of new account (Sign up) page.
+ */
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
@@ -27,16 +34,25 @@ export class RegistrationFormComponent implements OnInit {
   private mismatchStr = 'mismatch';
 
   constructor(@Inject('cacheableUserService') private userService: IUserService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private router: Router,
               private location: Location) {
   }
 
+  /**
+   * Implemets the OnInit interface. Initialize account.
+   */
   ngOnInit() {
     this.creating = false;
     this.account = new User();
     this.initForm();
   }
 
+  /**
+   * EventListner of 'Create account' button. By clicking on the button creates account on server. If account was created, redirects to
+   * congratulation page.
+   */
   onCreateAccount(): void {
     this.creating = true;
     this.convertFormToData();
@@ -44,6 +60,7 @@ export class RegistrationFormComponent implements OnInit {
       .subscribe(
         (user: User) => {
           this.creating = false;
+          this.notifySuccessCreated();
           this.redirectToInfoPage();
         },
         (error: HttpErrorResponse) => {
@@ -88,32 +105,64 @@ export class RegistrationFormComponent implements OnInit {
     this.router.navigate([RoutesConst.CONGRATULATION]);
   }
 
+  /**
+   * Cancel of creation new user account and go back to previous page
+   */
   onCancel(): void {
     this.location.back();
   }
 
+  /**
+   * Gets 'name' Abstract control for accountForm
+   * @returns {AbstractControl} control for accountForm
+   */
   get name() {
     return this.accountForm.get('name');
   }
 
+  /**
+   * Gets 'email' Abstract control for accountForm
+   * @returns {AbstractControl} control for accountForm
+   */
   get email() {
     return this.accountForm.get('email');
   }
 
+  /**
+   * Gets 'password' Abstract control for accountForm
+   * @returns {AbstractControl} control for accountForm
+   */
   get password() {
     return this.accountForm.get('password');
   }
 
+  /**
+   * Gets 'passwordConfirm' Abstract control for accountForm
+   * @returns {AbstractControl} control for accountForm
+   */
   get passwordConfirm() {
     return this.accountForm.get('passwordConfirm');
   }
 
+  /**
+   * Defines if password and passwordConfirmation match.
+   * @returns {boolean} true if passwords don't match otherwise false
+   */
   get passwordMismatch() {
     return this.accountForm.errors && this.accountForm.errors[this.mismatchStr] ?
       this.accountForm.errors[this.mismatchStr] : false;
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
+  }
+
+  private notifySuccessCreated() {
+    this.translateService.get('MESSAGES.ACCOUNT_CREATED')
+      .subscribe(
+        (translation: string) => this.toastr.success(translation));
   }
 }

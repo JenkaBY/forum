@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
+
 import { Topic } from '../../shared/entity/topic';
 import { Message } from '../../shared/entity/message';
 import IMessageService from '../../message/interface/imessage.service';
@@ -12,7 +13,15 @@ import IUserService from '../../user/interface/iuser.service';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { GuardService } from '../../authorization/guard.service';
 import { Pageable } from '../../shared/entity/pageable';
+import { ToastsManager } from 'ng2-toastr';
+import { TranslateService } from 'ng2-translate';
+import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
+import { environment } from '../../../environments/environment';
 
+/**
+ * Describes the topic page. Shows messages of topic per page. Extends the @Pageable<Message> class.
+ *  See @Pageable to modify default behaviour
+ */
 @Component({
   selector: 'app-topic',
   templateUrl: './topic.component.html',
@@ -29,11 +38,17 @@ export class TopicComponent extends Pageable<Message> implements OnInit, OnDestr
               @Inject('topicService') private topicService: TopicService,
               @Inject('cacheableUserService') private userService: IUserService,
               @Inject('guardService') private guardService: GuardService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private authService: AuthenticationService,
               private route: ActivatedRoute) {
     super();
   }
 
+  /**
+   * Implements OnInit interface
+   * Subscribes on current user, on messages, loads topic data, retrieve messages.
+   */
   ngOnInit() {
     this.initTopicId();
     this.subscribeOnCurrentUser();
@@ -42,8 +57,13 @@ export class TopicComponent extends Pageable<Message> implements OnInit, OnDestr
     this.getAllMessages();
   }
 
+  /**
+   * Implementation of OnDestroy interface.
+   * Unsubscribes on currentUser and messages.
+   */
   ngOnDestroy(): void {
     this.subscriptionOnMsg.unsubscribe();
+    this.subscrOnCurrentUser.unsubscribe();
   }
 
   private subscribeOnMessages() {
@@ -81,14 +101,25 @@ export class TopicComponent extends Pageable<Message> implements OnInit, OnDestr
     this.route.params.subscribe(params => this.topicId = +params.id);
   }
 
+  /**
+   * Need to be invoked after changing page
+   * Refresh list of messages according to page parameters
+   */
   onPageChange() {
     this.getAllMessages();
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.error(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
   }
 
+  /**
+   * Defines if current user can be write messages in current topic.
+   * @returns {boolean}
+   */
   canWriteMsg(): boolean {
     return this.guardService.canCreateMsgInTopic(this.topic);
   }

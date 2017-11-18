@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @Component("restLogoutSuccessHandler")
 public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
@@ -33,7 +33,7 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
      * {@link HttpStatus#OK}.
      */
     public RestLogoutSuccessHandler() {
-        this.httpStatusToReturn = OK;
+        this.httpStatusToReturn = NO_CONTENT;
     }
 
     /**

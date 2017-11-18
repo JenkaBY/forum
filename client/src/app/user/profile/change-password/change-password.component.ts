@@ -8,6 +8,10 @@ import { AuthenticationService } from '../../../authorization/authentication.ser
 import { Constants } from '../../../shared/constants/constants';
 import { passwordsMatchValidator } from '../../../shared/matched-passwords';
 import { ChangePassword } from '../../../shared/entity/change-password';
+import { ToastsManager } from 'ng2-toastr';
+import { TranslateService } from 'ng2-translate';
+import { ExtendedTranslationService } from '../../../shared/translation-service/extended-translation.service';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -22,12 +26,15 @@ export class ChangePasswordComponent implements OnInit {
   loggedUser: User;
   passwordForm: FormGroup;
   changing: boolean = false;
-  private mismatchStr = 'mismatch';
 
   constructor(@Inject('cacheableUserService') private userService: IUserService,
               private authService: AuthenticationService,
+              private toastr: ToastsManager,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
               private location: Location) {
   }
+
+  private mismatchStr = 'mismatch';
 
   ngOnInit(): void {
     this.currentUserSubscription = this.authService.changedCurrentUser
@@ -37,7 +44,6 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   initForm() {
-    console.log(this.loggedUser);
     this.passwordForm = new FormGroup({
         'currentPassword': new FormControl('',
           [Validators.required]),
@@ -48,7 +54,6 @@ export class ChangePasswordComponent implements OnInit {
         'passwordConfirm': new FormControl('', Validators.required)
       },
       passwordsMatchValidator);
-    console.log(this.passwordForm);
   }
 
   ngOnDestroy(): void {
@@ -73,8 +78,8 @@ export class ChangePasswordComponent implements OnInit {
     const changePassword = new ChangePassword(this.currentPassword.value, this.password.value);
     console.log('changeP', changePassword);
     this.userService.changePassword(changePassword)
-      .subscribe((response: Response) => {
-          console.log('Password Changed', response);
+      .subscribe((_: Response) => {
+          this.showSuccessPasswordUpdated();
         },
         (error) => {
           this.handleError(error);
@@ -91,6 +96,13 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   private handleError(error: any) {
-    console.log(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
+  }
+
+  showSuccessPasswordUpdated(): void {
+    this.toastr.success(this.translateService.getTranslate('MESSAGES.PASSWORD_CHANGED'));
   }
 }

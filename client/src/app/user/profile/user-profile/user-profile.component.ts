@@ -1,17 +1,23 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Location } from '@angular/common';
+import { TranslateService } from 'ng2-translate';
+import { ToastsManager } from 'ng2-toastr';
+import { ExtendedTranslationService } from '../../../shared/translation-service/extended-translation.service';
+
 import { User } from '../../../shared/entity/user';
 import IUserService from '../../interface/iuser.service';
 import IUploadFileService from '../../../shared/iupload-file.service';
 import { AuthenticationService } from '../../../authorization/authentication.service';
 import { Constants } from '../../../shared/constants/constants';
 import { FileLink } from '../../../shared/entity/file-link';
+import { environment } from '../../../../environments/environment';
 
-
+/**
+ * Component for user profile.
+ */
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -26,26 +32,36 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   saving: boolean = false;
   @ViewChild('fileInput') fileInput;
+
   constructor(@Inject('cacheableUserService') private userService: IUserService,
               @Inject('uploadFileService') private uploadFileService: IUploadFileService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private authService: AuthenticationService,
-              private route: ActivatedRoute,
               private location: Location) {
 
   }
 
+  /**
+   * Subscribes on logged user, initialize form with data.
+   */
   ngOnInit() {
     this.currentUserSubscription = this.authService.changedCurrentUser
       .subscribe((user: User) => this.loggedUser = user);
     this.loggedUser = this.authService.getCurrentUser;
     this.initForm();
-    console.log('on init', this.loggedUser);
   }
 
+  /**
+   * Unsubscribe on current user.
+   */
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
   }
 
+  /**
+   * save to backend the user's data.
+   */
   onSave() {
     console.log('saved user', this.loggedUser);
     this.joinUserData();
@@ -54,6 +70,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
           this.loggedUser = user;
           // this.onBack();
           console.log('updated user', user);
+          this.authService.changedCurrentUser.next(user);
+          this.notifySuccessUpdateProfile();
         },
         (error: HttpErrorResponse) => {
           this.handleError(error);
@@ -77,12 +95,18 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     console.log(this.userForm);
   }
 
+  /**
+   * return on the previous page
+   */
   onBack(): void {
     this.location.back();
   }
 
+  /**
+   * Upload photo to backend
+   */
   upload() {
-    let fileBrowser = this.fileInput.nativeElement;
+    const fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {
       const formData = new FormData();
       const imageName = 'image';
@@ -93,8 +117,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
             // do stuff w/my uploaded file
             this.loggedUser.imagePath = fileLinks[0].imagePath;
             console.log('uploaded file', fileLinks);
+            this.notifySuccessUploadPhoto();
           },
-          error => console.log(error)
+          error => this.handleError(error)
         );
     }
   }
@@ -106,26 +131,61 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
   }
 
+  /**
+   * Gets 'name' Abstract control for userForm
+   * @returns {AbstractControl} control for userForm
+   */
   get name(): AbstractControl {
     return this.userForm.get('name');
   }
 
+  /**
+   * Gets 'email' Abstract control for userForm
+   * @returns {AbstractControl} control for userForm
+   */
   get email(): AbstractControl {
     return this.userForm.get('email');
   }
 
+  /**
+   * Gets 'imagePathOption' Abstract control for userForm
+   * @returns {AbstractControl} control for userForm
+   */
   get imagePathOption(): AbstractControl {
     return this.userForm.get('imageOption');
   }
 
+  /**
+   * Gets 'imagePath' Abstract control for userForm
+   * @returns {AbstractControl} control for userForm
+   */
   get imagePath(): AbstractControl {
     return this.userForm.get('imagePath');
   }
 
+  /**
+   * EventLister for 'delete image' Button.
+   * Patches value imagePath control of userForm with null.
+   */
   onDeleteImage(): void {
     this.userForm.patchValue({imagePath: null});
+  }
+
+  private notifySuccessUpdateProfile(): void {
+    this.translateService.get('MESSAGES.PROFILE_UPDATED')
+      .subscribe(
+        (translation: string) => this.toastr.success(translation));
+  }
+
+  private notifySuccessUploadPhoto() {
+    this.translateService.get('MESSAGES.UPLOADED_USER_PHOTO')
+      .subscribe(
+        (translation: string) => this.toastr.success(translation));
   }
 }

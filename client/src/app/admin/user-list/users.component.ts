@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -13,6 +13,8 @@ import { RoutesConst } from '../../shared/constants/routes.constants';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import { GuardService } from '../../authorization/guard.service';
 import { Pageable } from '../../shared/entity/pageable';
+import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-users',
@@ -30,16 +32,17 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
   constructor(@Inject('adminService') private adminService: IAdminService,
               @Inject('cacheableUserService') private userService: IUserService,
               @Inject('guardService') private guardService: GuardService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
               private toastr: ToastsManager,
-              private vcr: ViewContainerRef,
-              private translateService: TranslateService,
               private authService: AuthenticationService,
               private router: Router) {
     super();
     this.pageSize = 20;
-    this.toastr.setRootViewContainerRef(vcr);
   }
 
+  /**
+   * Initialize subscription on currentUser, define,  current routes for correct invoking of fetching data method
+   */
   ngOnInit(): void {
     this.subscribeOnCurrentUser();
     this.defineCurrentRouteStr();
@@ -141,6 +144,7 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
 
   /**
    * Need to be invoked after changing any state of user.
+   * Refresh list of user according to page parameters
    */
   onPageChange() {
     this.fetchData();
@@ -255,29 +259,38 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
         });
   }
 
+  /**
+   * defines if given user can be deleted. It needs to deny to delete self and SYSTEM user
+   * @param {User} user to be defined possibility
+   * @returns {boolean} true if can be edit or delete
+   */
   canDeleteUser(user: User): boolean {
     return this.guardService.canDeleteUser(user);
   }
 
+  /**
+   * defines if given user can be edited. It needs to deny to edit self and SYSTEM user
+   * @param {User} user to be defined possibility
+   * @returns {boolean} true if can be edit or delete
+   */
   canEditUser(user: User): boolean {
     return this.guardService.canEditUser(user);
   }
 
   private handleError(error: HttpErrorResponse) {
-    this.translateService.get('ERROR.COMMON_ERROR').subscribe(
-      (translation: string) => {
-        this.toastr.error(translation);
-      }
-    );
-    console.log(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
   }
 
-  private notifySuccess(id: number, operation: String): void {
-    this.translateService.get('MESSAGES.MANAGING_OF_USER', {id: id, operation: operation}).subscribe(
-      (translation: string) => {
-        console.log(translation);
-        this.toastr.success(translation);
-      }
-    );
+  private notifySuccess(id: number, operationKey: string): void {
+    const operation = this.translateService.getTranslate('ACTIONS.' + operationKey.toUpperCase());
+    this.translateService.get('MESSAGES.MANAGING_OF_USER', {id: id, operation: operation})
+      .subscribe(
+        (translation: string) => {
+          this.toastr.success(translation);
+        }
+      );
   }
 }

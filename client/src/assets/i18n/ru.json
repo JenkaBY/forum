@@ -47,5 +47,18 @@
     "TEXT": "Text",
     "CREATED_BY": "Created by",
     "CREATED_AT": "Created at"
+  },
+  "MESSAGES": {
+    "MANAGING_OF_USER": "Пользователь с id = {{ id }} был успешно {{ operation }}.",
+    "PASSWORD_CHANGED": "Пароль был успешно изменен."
+  },
+  "ACTIONS": {
+    "UPDATED": "обновлен",
+    "DELETED": "удален",
+    "APPROVED": "подтвержден",
+    "REJECTED": "отклонен",
+    "CREATED": "создан",
+    "BLOCKED": "заблокирован",
+    "UNBLOCKED": "разблокирован"
   }
 }

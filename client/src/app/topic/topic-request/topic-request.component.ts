@@ -3,6 +3,9 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Subscription } from 'rxjs/Subscription';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
+import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
+import { TranslateService } from 'ng2-translate';
 
 import { AuthenticationService } from '../../authorization/authentication.service';
 import ITopicRequestService from './interface/icreate-topic-request.service';
@@ -10,7 +13,11 @@ import { TopicRequest } from '../../shared/entity/topic-request';
 import { User } from '../../shared/entity/user';
 import { Constants } from '../../shared/constants/constants';
 import { Status } from '../../shared/entity/topic-discuss-request';
+import { environment } from '../../../environments/environment';
 
+/**
+ * Describes the 'create topic request' page
+ */
 @Component({
   selector: 'app-topic-request',
   templateUrl: './topic-request.component.html',
@@ -27,6 +34,8 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthenticationService,
               @Inject('topicRequestService') private topicRequestService: ITopicRequestService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private location: Location,
               private router: Router) {
   }
@@ -40,12 +49,11 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
         this.loggedUser = user;
       });
     this.loggedUser = this.authService.getCurrentUser;
-    // this.loadTopicDiscussRequest();
     this.initForm();
   }
 
   /**
-   * unsubscribe on currentUser
+   * unsubscribes on currentUser
    */
   ngOnDestroy(): void {
     this.currentUserSubscr.unsubscribe();
@@ -58,10 +66,6 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  private handleError(error: any) {
-    console.log(error);
-  }
-
   private initForm() {
     this.requestForm = new FormGroup({
       'requestedTopicTitle': new FormControl('',
@@ -70,7 +74,7 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
       'requestedTopicDescription': new FormControl('',
         [Validators.required,
           Validators.maxLength(Constants.getMaxLengthTopicDescription.value)])
-    })
+    });
   }
 
   /**
@@ -83,11 +87,12 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
     this.topicRequestService.createRequest(this.topicRequest).subscribe(
       (topicRequest: TopicRequest) => {
         this.sending = false;
+        this.notifySuccessCreated();
         this.router.navigate(['/']);
       },
       (error) => {
         this.sending = false;
-        this.handleErorr(error);
+        this.handleError(error);
       }
     );
   }
@@ -109,14 +114,23 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * simplification of invoke the 'requestedTopicDescription' field of formGroup
-   * @returns {AbstractControl} for 'requestedTopicDescription' field.
+   * simplification of invoke the 'requestedTopicDescription' control of formGroup
+   * @returns {AbstractControl} for 'requestedTopicDescription' control.
    */
   get description(): AbstractControl {
     return this.requestForm.get('requestedTopicDescription');
   }
 
-  private handleErorr(error: any) {
-    console.log(error);
+  private handleError(error: any) {
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
+  }
+
+  private notifySuccessCreated() {
+    this.translateService.get('MESSAGES.TOPIC_REQUEST_CREATED')
+      .subscribe(
+        (translation: string) => this.toastr.success(translation));
   }
 }

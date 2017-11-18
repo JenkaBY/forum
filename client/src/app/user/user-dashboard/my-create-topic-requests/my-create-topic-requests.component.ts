@@ -2,6 +2,9 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 import 'rxjs/operator/toPromise';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from 'ng2-translate';
+import { ToastsManager } from 'ng2-toastr';
 
 import { Pageable } from '../../../shared/entity/pageable';
 import { User } from '../../../shared/entity/user';
@@ -11,9 +14,10 @@ import { TopicRequest } from '../../../shared/entity/topic-request';
 import ITopicRequestService from '../../../topic/topic-request/interface/icreate-topic-request.service';
 import { Status } from '../../../shared/entity/topic-discuss-request';
 import { ApiConst } from '../../../shared/constants/routes.constants';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModifyCreateTopicRequestComponent } from './modify-create-topic-request/modify-create-topic-request.component';
 import { ModalPrompt } from '../../../layout/modal-promt/modal-prompt.component';
+import { ExtendedTranslationService } from '../../../shared/translation-service/extended-translation.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-my-create-topic-requests',
@@ -25,6 +29,8 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
   loggedUser: User;
 
   constructor(@Inject('topicRequestService') private topicRequestService: ITopicRequestService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private authService: AuthenticationService,
               private modalService: NgbModal,
               private router: Router) {
@@ -51,20 +57,19 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
     const modalRef = this.modalService.open(ModalPrompt);
     modalRef.result
       .then((_) => {
-        console.log('then close', _);
         this.topicRequestService.delete(topicReqest.id)
           .subscribe(
             (resp) => {
-              console.log('deleted topicRequest', resp);
+              this.notifySuccess('deleted');
               this.onPageChange();
             },
             (error) => {
-              this.handleError('observer error ' + error);
+              this.handleError(error);
               this.onPageChange();
             });
       })
       .catch((error) => {
-        this.handleError('catch modal ' + error);
+        //do nothing. Close window.
       });
   }
 
@@ -73,17 +78,16 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
     modalRef.componentInstance.request = topicRequest;
     modalRef.result
       .then((modifiedRequest) => {
-        console.log('modifiedRequest', modifiedRequest);
         this.topicRequestService.updateCreateTopicRequest(modifiedRequest)
           .subscribe(
-          (topicRqst: TopicRequest) => {
-            console.log('topicRqst', topicRqst);
-          },
-          (error) => this.handleError(error)
-        );
+            (topicRqst: TopicRequest) => {
+              this.notifySuccess('updated');
+            },
+            (error) => this.handleError(error)
+          );
       })
       .catch((error) => {
-        this.handleError(error);
+        //do nothing. Close window.
       });
   }
 
@@ -101,9 +105,9 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
 
   private fetchAllTopicRequestsOfCurrentUser() {
     this.topicRequestService.getAllRequestsByUserId(this.loggedUser.id, this.getHttpParams())
-      .subscribe((page: Page<TopicRequest>) => {
+      .subscribe(
+        (page: Page<TopicRequest>) => {
           this.setPageData(page);
-          this.handleError(page);
         },
         (error) => {
           this.handleError(error);
@@ -111,6 +115,18 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
   }
 
   private handleError(error: any) {
-    console.log(error);
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
+    if (!environment.production) {
+      console.log(error);
+    }
+  }
+
+  private notifySuccess(action: string) {
+    const translatedStatus = this.translateService.getTranslate('ACTIONS.' + action.toUpperCase());
+    this.toastr.success(
+      this.translateService.getTranslate(
+        'MESSAGES.CREATE_TOPIC_REQUEST_CHANGED', {status: translatedStatus}
+      )
+    );
   }
 }

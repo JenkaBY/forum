@@ -162,6 +162,31 @@
     "IMAGE_PATH": "Insert link to image"
   },
   "MESSAGES": {
-    "MANAGING_OF_USER": "User with id = {{ id }} was successfully {{ operation }}."
+    "MANAGING_OF_USER": "User with id = {{ id }} was successfully {{ operation }}.",
+    "PASSWORD_CHANGED": "Password was successfully changed.",
+    "UPLOADED_USER_PHOTO": "User photo was successfully uploaded on server.",
+    "PROFILE_UPDATED": "Your profile was successfully updated.",
+    "ACCOUNT_CREATED": "Account was successfully created.",
+    "TOPIC_REQUEST_CREATED": "Topic request was successfully created.",
+    "MESSAGE_UPDATED": "Message was successfully updated.",
+    "MESSAGE_DELETED": "Message was successfully deleted.",
+    "MESSAGE_UPDATED_FAILURE": "Updating message was failure.",
+    "TOPIC_DISCUSS_REQUEST_CHANGED": "Topic discuss request was successfully {{status}}.",
+    "CREATE_TOPIC_REQUEST_CHANGED": "Create topic request was successfully {{status}}.",
+    "TOPIC_UPDATED": "Create topic request was updated."
+  },
+  "ACTIONS": {
+    "UPDATED": "updated",
+    "DELETED": "deleted",
+    "APPROVED": "approved",
+    "REJECTED": "rejected",
+    "CREATED": "created",
+    "BLOCKED": "blocked",
+    "UNBLOCKED": "unblocked"
+  },
+  "STATUS": {
+    "APPROVED": "approved",
+    "REJECTED": "rejected",
+    "PENDING": "pending"
   }
 }

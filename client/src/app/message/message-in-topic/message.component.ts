@@ -7,7 +7,14 @@ import { AuthenticationService } from '../../authorization/authentication.servic
 import { Message } from '../../shared/entity/message';
 import { Constants } from '../../shared/constants/constants';
 import { User } from '../../shared/entity/user';
+import { ToastsManager } from 'ng2-toastr';
+import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
+import { TranslateService } from 'ng2-translate';
+import { environment } from '../../../environments/environment';
 
+/**
+ * Describes one message component.
+ */
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
@@ -24,36 +31,45 @@ export class MessageComponent implements OnInit {
 
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('cacheableUserService') private userService: IUserService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private authService: AuthenticationService) {
   }
 
-  calculateRowsForEditMsg(): number {
-    const oneRowLength = 100;
-    let rows = this.message.text.length / oneRowLength;
-    return rows < 10 ? 10 : Math.round(rows) + 1;
-  }
-
+  /**
+   * Implementation of OnInit interface. Loads author message data.
+   */
   ngOnInit(): void {
     this.isEdit = false;
     this.saving = false;
     this.fetchAuthorData();
   }
 
+  /**
+   * Eventlistner on 'Edit' button. Open edit form.
+   */
   onEdit(): void {
     this.previousMsgText = this.message.text;
     this.isEdit = true;
   }
 
+  /**
+   * Eventlistner on 'Cancel' button. Discard all changes.
+   */
   onCancel(): void {
     this.message.text = this.previousMsgText;
     this.isEdit = false;
   }
 
+  /**
+   * EventListner on 'delete' button. Deletes message
+   */
   onDelete(): void {
     this.deleting = true;
     this.messageService.deleteMessage(this.message)
       .subscribe((_) => {
           this.deleting = false;
+          this.notifySuccessMsgDeleted();
         },
         (error: HttpErrorResponse) => {
           this.handleError(error);
@@ -61,6 +77,9 @@ export class MessageComponent implements OnInit {
         });
   }
 
+  /**
+   * Eventlistner on Save button. Update message.
+   */
   onSave(): void {
     this.saving = true;
     this.messageService.updateMessage(this.message)
@@ -70,21 +89,25 @@ export class MessageComponent implements OnInit {
           this.saving = false;
           this.isEdit = false;
           this.previousMsgText = null;
+          this.notifySuccessMsgUpdated();
         },
         (error) => {
           this.saving = false;
           this.isEdit = false;
           this.message.text = this.previousMsgText;
           this.handleError(error);
+          this.notifyWarningMsgUpdated();
         }
       );
   }
 
+  /**
+   * Defines if current user can edit message
+   * @returns {boolean}
+   */
   canEdit(): boolean {
     const user = this.authService.currentUser;
-    if (!user)
-      return false;
-    if (user.id == this.authorMessage.id || this.authService.isManager) {
+    if (user && (user.id == this.authorMessage.id || this.authService.isManager)) {
       return true;
     }
     return false;
@@ -93,10 +116,35 @@ export class MessageComponent implements OnInit {
   private fetchAuthorData() {
     this.userService.getById(this.message.createdBy.id)
       .subscribe((user: User) => this.authorMessage = user,
-        (error: HttpErrorResponse) => this.handleError(error))
+        (error: HttpErrorResponse) => this.handleError(error));
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.log(error);
+    this.translateService.get('ERROR.COMMON_ERROR').subscribe(
+      (translation: string) => {
+        this.toastr.error(translation);
+      }
+    );
+    if (!environment.production) {
+      console.log(error);
+    }
+  }
+
+  private calculateRowsForEditMsg(): number {
+    const oneRowLength = 100;
+    let rows = this.message.text.length / oneRowLength;
+    return rows < 10 ? 10 : Math.round(rows) + 1;
+  }
+
+  private notifySuccessMsgUpdated() {
+    this.toastr.success(this.translateService.getTranslate('MESSAGES.MESSAGE_UPDATED'));
+  }
+
+  private notifySuccessMsgDeleted() {
+    this.toastr.success(this.translateService.getTranslate('MESSAGES.MESSAGE_DELETED'));
+  }
+
+  private notifyWarningMsgUpdated() {
+    this.toastr.warning(this.translateService.getTranslate('MESSAGES.MESSAGE_UPDATED_FAILURE'));
   }
 }
