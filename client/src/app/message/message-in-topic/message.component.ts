@@ -11,6 +11,8 @@ import { ToastsManager } from 'ng2-toastr';
 import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
 import { TranslateService } from 'ng2-translate';
 import { environment } from '../../../environments/environment';
+import { GuardService } from '../../authorization/guard.service';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Describes one message component.
@@ -28,9 +30,12 @@ export class MessageComponent implements OnInit {
   deleting: boolean;
   previousMsgText: string;
   authorMessage: User;
+  currentUserSubscr: Subscription;
+  loggedUser: User;
 
   constructor(@Inject('messageService') private messageService: IMessageService,
               @Inject('cacheableUserService') private userService: IUserService,
+              @Inject('guardService') private guardService: GuardService,
               @Inject(TranslateService) private translateService: ExtendedTranslationService,
               private toastr: ToastsManager,
               private authService: AuthenticationService) {
@@ -40,9 +45,18 @@ export class MessageComponent implements OnInit {
    * Implementation of OnInit interface. Loads author message data.
    */
   ngOnInit(): void {
+    this.subscribeOnLoggedUser();
     this.isEdit = false;
     this.saving = false;
     this.fetchAuthorData();
+  }
+
+  private subscribeOnLoggedUser(): void {
+    this.currentUserSubscr = this.authService.changedCurrentUser
+      .subscribe((user: User) => {
+        this.loggedUser = user;
+      });
+    this.loggedUser = this.authService.getCurrentUser;
   }
 
   /**
@@ -54,7 +68,7 @@ export class MessageComponent implements OnInit {
   }
 
   /**
-   * Eventlistner on 'Cancel' button. Discard all changes.
+   * Event listener on 'Cancel' button. Discard all changes.
    */
   onCancel(): void {
     this.message.text = this.previousMsgText;
@@ -106,11 +120,7 @@ export class MessageComponent implements OnInit {
    * @returns {boolean}
    */
   canEdit(): boolean {
-    const user = this.authService.currentUser;
-    if (user && (user.id == this.authorMessage.id || this.authService.isManager)) {
-      return true;
-    }
-    return false;
+    return this.guardService.canEditMsg(this.message);
   }
 
   private fetchAuthorData() {

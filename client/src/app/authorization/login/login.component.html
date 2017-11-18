@@ -11,18 +11,18 @@
 
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="form-group">
+      <div class="form-group p-2">
         <form [formGroup]="userCredentialForm" (ngSubmit)="onLogin()" novalidate>
           <!-- EMAIL -->
           <div class="row">
-            <div class="col mb-3">
+            <div class="col">
               <div class="form-group">
                 <label for="email">{{ 'USER.EMAIL' | translate }}</label>
                 <input
-                  type="text"
-                  id="email"
-                  formControlName="email"
-                  class="form-control">
+                    type="text"
+                    id="email"
+                    formControlName="email"
+                    class="form-control">
                 <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
                   <div *ngIf="email.errors['required']" class="invalid-feedback">
                     {{ "VALIDATION.REQUIRED" | translate }}
@@ -33,14 +33,14 @@
           </div>
           <!-- PASSWORD -->
           <div class="row">
-            <div class="col mb-3">
+            <div class="col">
               <div class="form-group">
                 <label for="password">{{ 'USER.PASSWORD' | translate }}</label>
                 <input
-                  type="password"
-                  id="password"
-                  formControlName="password"
-                  class="form-control">
+                    type="password"
+                    id="password"
+                    formControlName="password"
+                    class="form-control">
                 <div *ngIf="password.invalid && password.touched">
                   <div *ngIf="password.errors['required']" class="invalid-feedback">
                     {{ "VALIDATION.REQUIRED" | translate }}
@@ -49,15 +49,29 @@
               </div>
             </div>
           </div>
+          <!-- REMEMBER ME -->
           <div class="row">
-            <div class="col-3">
-              <button type="submit" class="btn btn-success pull-left"
+            <div class="col mb-3">
+              <div class="form-check">
+                <label class="form-check-label" for="rememberMe">
+                  <input type="checkbox"
+                         id="rememberMe"
+                         formControlName="rememberMe"
+                         class="form-check-input">
+                  {{ "LOGIN.REMEMBER_ME"| translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-between">
+            <div class="col-2">
+              <button type="submit" class="btn btn-success"
                       [disabled]="userCredentialForm.invalid || logging">
                 {{ 'BUTTON.LOGIN'| translate }}
               </button>
             </div>
-            <div class="col-2">
-              <button type="button" class="btn btn-warning pull-2" (click)="onBack()">
+            <div class="col-2 mr-3">
+              <button type="button" class="btn btn-warning" (click)="onBack()">
                 {{ 'BUTTON.BACK'| translate }}
               </button>
             </div>

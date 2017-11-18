@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     this.logging = true;
     this.invalidCredential = false;
-    this.userCredential = {email: this.email.value, password: this.password.value};
+    this.userCredential = {email: this.email.value, password: this.password.value, rememberMe: this.rememberMe.value};
     this.authService.login(this.userCredential)
       .subscribe(
         (result: OAuthTokensData) => {
@@ -55,8 +55,9 @@ export class LoginComponent implements OnInit {
   private initForm(): void {
     this.userCredentialForm = new FormGroup({
       'email': new FormControl('', Validators.required),
-      'password': new FormControl('', Validators.required)
-    })
+      'password': new FormControl('', Validators.required),
+      'rememberMe': new FormControl(false)
+    });
   }
 
   onBack(): void {
@@ -69,6 +70,10 @@ export class LoginComponent implements OnInit {
 
   get password(): AbstractControl {
     return this.userCredentialForm.get('password');
+  }
+
+  get rememberMe(): AbstractControl {
+    return this.userCredentialForm.get('rememberMe');
   }
 
   onShowAlert() {

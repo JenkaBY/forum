@@ -12,7 +12,7 @@ import { RoutesConst } from '../shared/constants/routes.constants';
 import { OAuthTokensData } from './oauth-token.model';
 import { AppConstant } from '../shared/constants/app-constant';
 import { User } from '../shared/entity/user';
-import { HeaderConst, OAuthConst, RoleConst } from '../shared/constants/constants';
+import { HeaderConst, OAuthConst } from '../shared/constants/constants';
 import { environment } from '../../environments/environment.prod';
 
 @Injectable()
@@ -41,6 +41,7 @@ export class AuthenticationService {
           if (!environment.production) {
             console.log('logout error', err, this.currentUser);
           }
+          this.eraseUserData();
         });
   }
 
@@ -53,7 +54,7 @@ export class AuthenticationService {
           this.oauthToken = resInfo;
           this.currentUser = this.oauthToken.user;
           this.changedCurrentUser.next(this.oauthToken.user);
-          this.saveTokenInLocalStorage();
+          this.saveTokenInLocalStorage(userCredential.rememberMe);
           this.setExpireTokenDate();
           return Observable.of(this.currentUser);
         },
@@ -115,39 +116,14 @@ export class AuthenticationService {
   }
 
   get getCurrentUser(): User {
-    if (!this.currentUser) {
-      // this.autoLogin();
-    }
     this.changedCurrentUser.next(this.currentUser);
     return this.currentUser;
   }
 
-  get isManager(): boolean {
-    if (!this.currentUser) {
-      return false;
+  private saveTokenInLocalStorage(rememberMe: boolean): void {
+    if (!rememberMe) {
+      return;
     }
-    return this.currentUser.role.title === RoleConst.MANAGER;
-  }
-
-  get isAdmin(): boolean {
-    if (!this.currentUser) {
-      return false;
-    }
-    return this.currentUser.role.title === RoleConst.ADMIN;
-  }
-
-  get isUser(): boolean {
-    if (!this.currentUser) {
-      return false;
-    }
-    return this.currentUser.role.title === RoleConst.USER;
-  }
-
-  get isUserOrManager(): boolean {
-    return this.isManager || this.isUser;
-  }
-
-  private saveTokenInLocalStorage(): void {
     localStorage.setItem(this.authDataStr, JSON.stringify({tokenObj: this.oauthToken}));
   }
 
@@ -155,12 +131,13 @@ export class AuthenticationService {
     localStorage.removeItem(this.authDataStr);
   }
 
-  autoLogin(): boolean {
+  tryAutoLogin() {
     const authData = JSON.parse(localStorage.getItem(this.authDataStr));
     if (authData) {
       this.oauthToken = authData.tokenObj;
-      this.changedCurrentUser.next(this.oauthToken.user);
+      this.currentUser = this.oauthToken.user;
+      this.setExpireTokenDate();
+      this.changedCurrentUser.next(this.currentUser);
     }
-    return !!authData;
   }
 }

@@ -188,5 +188,8 @@
     "APPROVED": "approved",
     "REJECTED": "rejected",
     "PENDING": "pending"
+  },
+  "LOGIN": {
+    "REMEMBER_ME": "Remember me"
   }
 }
