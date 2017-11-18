@@ -2,13 +2,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
+import { User } from '../../../shared/entity/user';
+import IUserService from '../../interface/iuser.service';
+import { AuthenticationService } from '../../../authorization/authentication.service';
+import { Constants } from '../../../shared/constants/constants';
+import { passwordsMatchValidator } from '../../../shared/matched-passwords';
+import { ChangePassword } from '../../../shared/entity/change-password';
 
-import IUserService from '../interface/iuser.service';
-import { AuthenticationService } from '../../authorization/authentication.service';
-import { User } from '../../shared/entity/user';
-import { Constants } from '../../shared/constants/constants';
-import { passwordsMatchValidator } from '../../shared/matched-passwords';
-import { ChangePassword } from '../../shared/entity/change-password';
 
 @Component({
   selector: 'app-change-password',

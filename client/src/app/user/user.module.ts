@@ -11,8 +11,9 @@ import { MyCreateTopicRequestsComponent } from './user-dashboard/my-create-topic
 import { ModifyCreateTopicRequestComponent } from './user-dashboard/my-create-topic-requests/modify-create-topic-request/modify-create-topic-request.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserDashboardGuard } from './user-dashboard/user-dashboard.guard';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { UserProfileGuard } from './profile/user-profile.guard';
+import { UserProfileComponent } from './profile/user-profile/user-profile.component';
+import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ModifyCreateTopicRequestComponent
   ],
   providers: [
-    UserDashboardGuard
+    UserDashboardGuard,
+    UserProfileGuard
   ]
 })
 export class UserModule {

@@ -1,7 +1,9 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { TranslateService } from 'ng2-translate';
 
 import IAdminService from '../interface/iadmin.service';
 import IUserService from '../../user/interface/iuser.service';
@@ -28,10 +30,14 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
   constructor(@Inject('adminService') private adminService: IAdminService,
               @Inject('cacheableUserService') private userService: IUserService,
               @Inject('guardService') private guardService: GuardService,
+              private toastr: ToastsManager,
+              private vcr: ViewContainerRef,
+              private translateService: TranslateService,
               private authService: AuthenticationService,
               private router: Router) {
     super();
     this.pageSize = 20;
+    this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit(): void {
@@ -105,7 +111,7 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
   }
 
   /**
-   * Get all approved users by current loged admin per page
+   * Get all approved users by current logged admin per page
    * @param {HttpParams} httpParams page params for showing users per page
    */
   getUsersApprovedByMe() {
@@ -175,6 +181,7 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
     this.userService.update(user)
       .subscribe(
         (_: User) => {
+          this.notifySuccess(_.id, user.blocked ? 'blocked' : 'unblocked');
           this.onPageChange();
           this.blocking = false;
         },
@@ -196,6 +203,7 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
     this.userService.update(user)
       .subscribe(
         (_: User) => {
+          this.notifySuccess(_.id, 'approved');
           this.onPageChange();
           this.approving = false;
         },
@@ -217,6 +225,7 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
     this.userService.update(user)
       .subscribe(
         (_: User) => {
+          this.notifySuccess(_.id, 'rejected');
           this.onPageChange();
           this.rejecting = false;
         },
@@ -235,6 +244,7 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
     this.deleting = true;
     this.userService.deleteById(id)
       .subscribe((result) => {
+          this.notifySuccess(id, 'deleted');
           this.onPageChange();
           this.deleting = false;
         },
@@ -254,6 +264,20 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
   }
 
   private handleError(error: HttpErrorResponse) {
+    this.translateService.get('ERROR.COMMON_ERROR').subscribe(
+      (translation: string) => {
+        this.toastr.error(translation);
+      }
+    );
     console.log(error);
+  }
+
+  private notifySuccess(id: number, operation: String): void {
+    this.translateService.get('MESSAGES.MANAGING_OF_USER', {id: id, operation: operation}).subscribe(
+      (translation: string) => {
+        console.log(translation);
+        this.toastr.success(translation);
+      }
+    );
   }
 }

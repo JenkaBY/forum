@@ -4,13 +4,13 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Location } from '@angular/common';
+import { User } from '../../../shared/entity/user';
+import IUserService from '../../interface/iuser.service';
+import IUploadFileService from '../../../shared/iupload-file.service';
+import { AuthenticationService } from '../../../authorization/authentication.service';
+import { Constants } from '../../../shared/constants/constants';
+import { FileLink } from '../../../shared/entity/file-link';
 
-import IUserService from '../interface/iuser.service';
-import { AuthenticationService } from '../../authorization/authentication.service';
-import { User } from '../../shared/entity/user';
-import IUploadFileService from '../../shared/iupload-file.service';
-import { Constants } from '../../shared/constants/constants';
-import { FileLink } from '../../shared/entity/file-link';
 
 @Component({
   selector: 'app-user-profile',

@@ -9,8 +9,6 @@
       <th>{{ 'USER.ROLE' | translate }}</th>
       <th>{{ 'USER.BLOCKED' | translate }}</th>
       <th>{{ 'USER.REJECTED' | translate }}</th>
-      <!--<th>{{ 'USER.APPROVED_BY' | translate }}</th>-->
-      <!--<th>{{ 'USER.LAST_LOGON_AT' | translate }}</th>-->
       <th *ngIf="['blocked'].indexOf(currentRoute) > -1">{{ 'ADMIN.UNBLOCK' | translate }}</th>
       <th *ngIf="['users'].indexOf(currentRoute) > -1">{{ 'ADMIN.BLOCK_UNBLOCK' | translate }}</th>
       <th *ngIf="currentRoute === 'users'">{{ 'ADMIN.DELETE' | translate }}</th>
@@ -22,18 +20,17 @@
     <tr *ngFor="let user of entities">
       <td>{{ user.id }}</td>
       <td>
-        <button type="button"
+        <button *ngIf="canEditUser(user); else username" type="button"
                 class="btn btn-link btn-sm pt-0 pb-0"
-                [routerLink]="['/user', user.id]"
+                [routerLink]="['../user', user.id]"
                 role="button">{{ user.name }}
         </button>
+        <ng-template #username>{{user.name}}</ng-template>
       </td>
       <td>{{ user.email }}</td>
       <td>{{ user.role.title }}</td>
       <td><span class="badge badge-{{ user.blocked ? 'warning' : 'info' }}">{{ user.blocked }}</span></td>
       <td><span class="badge badge-{{ user.rejected ? 'warning' : 'info' }}">{{ user.rejected }}</span></td>
-      <!--<td>{{ user.approver_id ? getUserName(user.approver_id) : '' }}</td>-->
-      <!--<td>{{ user.lastLogonAt ? (user.lastLogonAt| date:dateFormat) : '' }}</td>-->
       <td *ngIf="['blocked', 'users'].indexOf(currentRoute) > -1">
         <button type="button"
                 class="btn btn-warning btn-sm pt-0 pb-0"

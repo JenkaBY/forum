@@ -21,7 +21,7 @@ const routes: Routes = [
     ManagerRoutesModule,
     RegistrationRoutesModule,
     TopicRoutesModule,
-    RouterModule.forRoot(routes, {enableTracing: true})
+    RouterModule.forRoot(routes)
   ],
   exports: [
     RouterModule,

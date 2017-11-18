@@ -7,8 +7,9 @@ import { MyDiscussRequestsComponent } from './user-dashboard/my-discuss-requests
 import { MyCreateTopicRequestsComponent } from './user-dashboard/my-create-topic-requests/my-create-topic-requests.component';
 import { UserDashboardGuard } from './user-dashboard/user-dashboard.guard';
 import { TopicRequestComponent } from '../topic/topic-request/topic-request.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { UserProfileGuard } from './profile/user-profile.guard';
+import { UserProfileComponent } from './profile/user-profile/user-profile.component';
+import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 
 const userRoutes: Routes = [
   {
@@ -30,12 +31,12 @@ const userRoutes: Routes = [
   {
     path: 'user/profile',
     component: UserProfileComponent,
-    canActivate: [UserDashboardGuard]
+    canActivate: [UserProfileGuard]
   },
   {
     path: 'user/change_password',
     component: ChangePasswordComponent,
-    canActivate: [UserDashboardGuard]
+    canActivate: [UserProfileGuard]
   }
 ];
 

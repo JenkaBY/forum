@@ -1,8 +1,9 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from 'ng2-translate';
-import { AuthenticationService } from './authorization/authentication.service';
 import { Subscription } from 'rxjs/Subscription';
+
+import { AuthenticationService } from './authorization/authentication.service';
 import { User } from './shared/entity/user';
 import { RoleService } from './shared/role/role.service';
 import { Role } from './shared/entity/role';

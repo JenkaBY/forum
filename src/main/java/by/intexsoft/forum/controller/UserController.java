@@ -85,7 +85,7 @@ public class UserController {
         }
         userService.delete(id);
         LOGGER.info("User with Id={} has been deleted.", id);
-        return new ResponseEntity<>(Objects.isNull(userService.find(id)) ? OK : BAD_REQUEST);
+        return new ResponseEntity<>(Objects.isNull(userService.find(id)) ? NO_CONTENT : BAD_REQUEST);
     }
 
     /**
@@ -137,7 +137,7 @@ public class UserController {
             return new ResponseEntity<>(INCORRECT_CURRENT_PASSWORD, BAD_REQUEST);
         }
         userService.changePassword(currentUser, passwords.newPassword);
-        return new ResponseEntity<>("{}", OK);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     /**

@@ -29,6 +29,8 @@ import { PageNotFoundComponent } from './layout/page-not-found/page-not-found.co
 import { AuthInterceptor } from './shared/auth-interceptor';
 import { UploadFileService } from './shared/upload-file.service';
 import { ManagerModule } from './manager/manager.module';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -50,19 +52,21 @@ export function createTranslateLoader(http: Http) {
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     AdminModule,
     RegistrationModule,
     TopicModule,
     UserModule,
     ManagerModule,
     AppRoutingModule,
+    ToastModule.forRoot(),
     NgbModule.forRoot(),
     TranslateModule.forRoot(
       {
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
-    })
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      })
   ],
   providers: [
     {

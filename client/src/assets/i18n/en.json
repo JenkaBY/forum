@@ -153,10 +153,15 @@
     "NO_REQUESTS": "You have no topic discuss requests."
   },
   "ERROR": {
-    "DELETE_ALLOWED_USER": "Error has occurred while deleting the user from allowed users list in the topic. Try again later."
+    "DELETE_ALLOWED_USER": "Error was occurred while deleting the user from allowed users list in the topic. Try again later.",
+    "CONNECTION_FAILURE": "Connection failure. Try again later.",
+    "COMMON_ERROR": "Error was occurred."
   },
   "PROFILE": {
     "UPLOAD_IMAGE": "Upload avatar",
     "IMAGE_PATH": "Insert link to image"
+  },
+  "MESSAGES": {
+    "MANAGING_OF_USER": "User with id = {{ id }} was successfully {{ operation }}."
   }
 }
