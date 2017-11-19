@@ -1,84 +1,94 @@
-<div class="d-flex p-2 justify-content-center" style="border: thin">
-    <div *ngIf="user" class="row">
-        <div class="col">
-            <legend>{{user.name}}'s details</legend>
-            <form [formGroup]="userForm" (ngSubmit)="onSave()">
-                <div formGroupName="userData">
-                    <!-- ID -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="id" class="p-2">{{ 'USER.ID' | translate }}:</label>
-                                <input
-                                        type="text"
-                                        id="id"
-                                        formControlName="id"
-                                        class="form-control-plaintext"
-                                        style="border: none"
-                                        readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- NAME -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="name">{{ 'USER.NAME' | translate }}</label>
-                                <input
-                                        type="text"
-                                        id="name"
-                                        formControlName="name"
-                                        class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- EMAIL -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="email">{{ 'USER.EMAIL' | translate }}</label>
-                                <input
-                                        type="text"
-                                        id="email"
-                                        formControlName="email"
-                                        class="form-control"
-                                >
-                            </div>
-                        </div>
-                    </div>
+<div class="container">
+  <div *ngIf="user" class="row justify-content-center">
+    <div class="col-8">
+      <legend>{{user.name}}'s details</legend>
+      <form [formGroup]="userForm" (ngSubmit)="onSave()">
+        <div formGroupName="userData">
+          <!-- ID -->
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="id" class="p-2">{{ 'USER.ID' | translate }}:</label>
+                <input type="text"
+                       id="id"
+                       formControlName="id"
+                       class="form-control-plaintext"
+                       style="border: none"
+                       readonly>
+              </div>
+            </div>
+          </div>
+          <!-- NAME -->
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="name">{{ 'USER.NAME' | translate }}</label>
+                <input type="text"
+                       id="name"
+                       formControlName="name"
+                       class="form-control">
+                <div *ngIf="name.invalid && name.touched">
+                  <div *ngIf="name.errors['minlength']" class="invalid-feedback">
+                    {{ "VALIDATION.MIN"| translate:minNameLength }}
+                  </div>
+                  <div *ngIf="name.errors['maxlength']" class="invalid-feedback">
+                    {{ "VALIDATION.MAX"| translate:maxNameLength }}
+                  </div>
+                  <div *ngIf="name.errors['required']" class="invalid-feedback">
+                    {{ "VALIDATION.REQUIRED" | translate }}
+                  </div>
                 </div>
-                <div formGroupName="userDataManagement">
-                    <!-- ROLE -->
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="role">{{ 'USER.ROLE' | translate }}</label>
-                                <select
-                                        class="form-control"
-                                        formControlName="role"
-                                        id="role"
-                                >
-                                    <option value="1">USER</option>
-                                    <option value="2">ADMIN</option>
-                                    <option value="3">MANAGER</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+            </div>
+          </div>
+          <!-- EMAIL -->
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="email">{{ 'USER.EMAIL' | translate }}</label>
+                <input type="text"
+                       id="email"
+                       formControlName="email"
+                       class="form-control">
+                <div *ngIf="email.invalid && email.touched"
+                     class="invalid-feedback">
+                  {{ "VALIDATION.INVALID_EMAIL" | translate }}
                 </div>
-                <div class="row">
-                    <div class="col-3">
-                        <button type="submit" class="btn btn-success pull-left">
-                            {{ 'BUTTON.SAVE'| translate }}
-                        </button>
-                    </div>
-                    <div class="col-2">
-                        <button type="button" class="btn btn-warning pull-2" (click)="onBack()">
-                            {{ 'BUTTON.BACK'| translate }}
-                        </button>
-                    </div>
-                </div>
-            </form>
+              </div>
+            </div>
+          </div>
         </div>
+        <div formGroupName="userDataManagement">
+          <!-- ROLE -->
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="role">{{ 'USER.ROLE' | translate }}</label>
+                <select
+                    class="form-control"
+                    formControlName="role"
+                    id="role">
+                  <option value="1">USER</option>
+                  <option value="2">ADMIN</option>
+                  <option value="3">MANAGER</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-between">
+          <div class="col-2">
+            <button type="submit" class="btn btn-success" [disabled]="userForm.invalid || saving">
+              {{ 'BUTTON.SAVE'| translate }}
+            </button>
+          </div>
+          <div class="col-2">
+            <button type="button" class="btn btn-warning" (click)="onBack()">
+              {{ 'BUTTON.BACK'| translate }}
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 public class UploadFileServiceImpl implements UploadFileService {
     private final static String USERS_FOLDER = "/assets/user_folder/";
+    private final static String PATH_TO_ASSETS = "/webapps/forum/assets/src-img/";
 
     @Override
     public List<FileLink> uploadUserImage(List<MultipartFile> files) throws IOException {
@@ -26,7 +27,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             }
             String curDir = System.getProperty("catalina.base");
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(curDir + "/" + file.getOriginalFilename());
+            Path path = Paths.get(curDir + PATH_TO_ASSETS + file.getOriginalFilename());
             Files.write(path, bytes);
             links.add(new FileLink(path.toString()));
         }

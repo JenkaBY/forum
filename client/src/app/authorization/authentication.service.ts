@@ -15,6 +15,9 @@ import { User } from '../shared/entity/user';
 import { HeaderConst, OAuthConst } from '../shared/constants/constants';
 import { environment } from '../../environments/environment.prod';
 
+/**
+ * Authentification service. Manages the authentification, makes Token requests to backend
+ */
 @Injectable()
 export class AuthenticationService {
   currentUser: User;
@@ -28,10 +31,18 @@ export class AuthenticationService {
               private router: Router) {
   }
 
+  /**
+   * Login an user according to user credential
+   * @param {UserCredential} userCredential contains email, password and remebemberMe params.
+   * @returns {Observable<OAuthTokensData>} token data
+   */
   login(userCredential: UserCredential) {
     return this.requestOAuthToken(userCredential);
   }
 
+  /**
+   * Logout current user. Erases user data from localStorage and varaibles.
+   */
   logout() {
     this.http.post(RoutesConst.logout, null, {observe: 'response'})
       .subscribe((response) => {
@@ -71,6 +82,10 @@ export class AuthenticationService {
     this.changedCurrentUser.next();
   }
 
+  /**
+   * Get header params for making requests for logged user
+   * @returns {HttpHeaders} headers with basic auth params of encoded client credential
+   */
   public getAuthorizationHeaders(): HttpHeaders {
     const headerObj = {};
     headerObj[HeaderConst.accept] = HeaderConst.jsonType;
@@ -79,7 +94,11 @@ export class AuthenticationService {
     return headers;
   }
 
-  public getAuthorizationHeader(): string {
+  /**
+   * Returns header with access token
+   * @returns {string} header with access token or null if user not logged in.
+   */
+  public getAuthorizationAccessTokenHeader(): string {
     return this.oauthToken && !this.isAccessTokenExpired() ? HeaderConst.bearer + this.oauthToken.access_token : null;
   }
 
@@ -115,6 +134,10 @@ export class AuthenticationService {
     this.expireTokenDate = date;
   }
 
+  /**
+   * place current user in Subject object and returns current user
+   * @returns {User} logged user
+   */
   get getCurrentUser(): User {
     this.changedCurrentUser.next(this.currentUser);
     return this.currentUser;
@@ -131,6 +154,10 @@ export class AuthenticationService {
     localStorage.removeItem(this.authDataStr);
   }
 
+  /**
+   * Tries to load from local storage auth data, if data exists and token doesn't expire then sets current user
+   * If token expire then erase auth data from local storage and variables.
+   */
   tryAutoLogin() {
     const authData = JSON.parse(localStorage.getItem(this.authDataStr));
     if (authData) {
@@ -138,6 +165,13 @@ export class AuthenticationService {
       this.currentUser = this.oauthToken.user;
       this.setExpireTokenDate();
       this.changedCurrentUser.next(this.currentUser);
+      this.checkAndDeleteAuthData();
+    }
+  }
+
+  private checkAndDeleteAuthData() {
+    if (this.isAccessTokenExpired()) {
+      this.eraseUserData();
     }
   }
 }

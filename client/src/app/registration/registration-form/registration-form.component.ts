@@ -41,7 +41,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   /**
-   * Implemets the OnInit interface. Initialize account.
+   * Implements the OnInit interface. Initialize account.
    */
   ngOnInit() {
     this.creating = false;
@@ -79,13 +79,8 @@ export class RegistrationFormComponent implements OnInit {
         [DuplicateValidator.isUsernameExist(this.userService)]
       ),
       'email': new FormControl('',
-        [
-          Validators.required,
-          Validators.email
-        ],
-        [
-          DuplicateValidator.isEmailExist(this.userService)
-        ]),
+        [Validators.required, Validators.email],
+        [DuplicateValidator.isEmailExist(this.userService)]),
       'password': new FormControl('',
         [Validators.required,
           Validators.minLength(Constants.getMinPasswordLength.value),
