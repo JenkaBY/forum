@@ -7,7 +7,7 @@ import 'rxjs/observable/of';
 import 'rxjs/add/operator/do';
 
 import IUserService from '../user/interface/iuser.service';
-import { UserCredential } from './user-credential.model';
+import { UserCredential } from './user-credential';
 import { RoutesConst } from '../shared/constants/routes.constants';
 import { OAuthTokensData } from './oauth-token.model';
 import { AppConstant } from '../shared/constants/app-constant';
@@ -16,7 +16,7 @@ import { HeaderConst, OAuthConst } from '../shared/constants/constants';
 import { environment } from '../../environments/environment.prod';
 
 /**
- * Authentification service. Manages the authentification, makes Token requests to backend
+ * Authentication service. Manages the authentication and makes Token requests to backend
  */
 @Injectable()
 export class AuthenticationService {
@@ -36,7 +36,7 @@ export class AuthenticationService {
    * @param {UserCredential} userCredential contains email, password and remebemberMe params.
    * @returns {Observable<OAuthTokensData>} token data
    */
-  login(userCredential: UserCredential) {
+  login(userCredential: UserCredential): Observable<OAuthTokensData> {
     return this.requestOAuthToken(userCredential);
   }
 
@@ -67,12 +67,18 @@ export class AuthenticationService {
           this.changedCurrentUser.next(this.oauthToken.user);
           this.saveTokenInLocalStorage(userCredential.rememberMe);
           this.setExpireTokenDate();
-          return Observable.of(this.currentUser);
         },
         (err: HttpErrorResponse) => {
-          console.log('Invalid credential!', err);
-          return Observable.of(this.currentUser);
+          // console.log('Invalid credential!', err);
+          // this.resolveErrorInToken(err);
         });
+  }
+
+  private resolveErrorInToken(error: HttpErrorResponse) {
+    console.log('message', error.message);
+    console.log('error', error.error);
+    console.log('status', error.status);
+    console.log('status text', error.statusText);
   }
 
   private eraseUserData(): void {

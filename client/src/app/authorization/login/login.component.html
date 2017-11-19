@@ -1,9 +1,9 @@
 <div class="container">
-  <div class="row" *ngIf="invalidCredential">
+  <div class="row" *ngIf="loginErrorOccured">
     <div class="col-12">
       <p>
         <ngb-alert [dismissible]="false">
-          {{ 'MESSAGE.INVALID_CREDENTIAL'| translate }}
+          {{ errorKey | translate }}
         </ngb-alert>
       </p>
     </div>

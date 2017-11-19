@@ -13,10 +13,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
+/**
+ * Class describes implementation of {@link UserDetailsService}. It's used by Spring security for searching
+ * an {@link UserDetails} by email.
+ */
 @Service(value = "userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -29,12 +34,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userService = userService;
     }
 
+    /**
+     * Implementation of {@link UserDetailsService#loadUserByUsername(String)} method.
+     *
+     * @param email user email. Uses for searching an {@link UserDetails}.
+     * @return {@link UserDetails} instance
+     * @throws UsernameNotFoundException if user is not found in DB
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.getUserByEmail(email);
+        boolean enabled = Objects.nonNull(user.approvedBy);
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = !user.rejected;
         return new org.springframework.security.core.userdetails.User(
                 user.email,
                 user.hashPassword,
+                enabled,
+                accountNonExpired,
+                credentialsNonExpired,
+                accountNonLocked,
                 convertToGrantAuthorities(Collections.singleton(user.role))
         );
     }

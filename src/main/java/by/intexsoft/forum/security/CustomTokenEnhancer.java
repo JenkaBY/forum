@@ -25,18 +25,17 @@ public class CustomTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-
         by.intexsoft.forum.entity.User authenticatedUser = userService.getUserByEmail(user.getUsername());
         final Map<String, Object> additionalInfo = new HashMap<>();
+        authenticatedUser = updateLastLogonAt(authenticatedUser);
+        additionalInfo.put("user", new UserDTO(authenticatedUser));
+        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+        return accessToken;
+    }
 
+    private by.intexsoft.forum.entity.User updateLastLogonAt(by.intexsoft.forum.entity.User authenticatedUser) {
         authenticatedUser.lastLogonAt = new Timestamp(new Date().getTime());
         authenticatedUser = userService.save(authenticatedUser);
-        
-        additionalInfo.put("user", new UserDTO(authenticatedUser));
-
-        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-
-
-        return accessToken;
+        return authenticatedUser;
     }
 }

@@ -2,7 +2,7 @@
   <div class="card-header pb-1 mb-1">
     <div class="row justify-content-between pb-1">
       <div class="col-8">
-        <p><em><b>#{{ message.id }}</b></em> {{ message.createdAt | date:dateFormat }}</p>
+        <p class="pb-1 mb-1"><em><b>#{{ message.id }}</b></em> {{ message.createdAt | date:dateFormat }}</p>
       </div>
       <div class="col-1">
         <div *ngIf="canEdit()"

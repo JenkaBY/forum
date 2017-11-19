@@ -125,7 +125,6 @@
     "SUCCESSFULLY_CREATED_ACCOUNT": "Your account was successfully created. Please wait while an administrator will approve your registration.",
     "READ_FORUM": "Read are our forum for now!",
     "TRY_LOGIN": "Try to log in again later.",
-    "INVALID_CREDENTIAL": "Invalid email or password!",
     "NO_MESSAGES": "There is no messages yet. You can write it the first.",
     "BLOCKED_USER": "You are blocked. You can't create new message!",
     "CANT_CREATE_MESSAGES": "You can't create message in this topic. If you would like to discuss, please make request to manager by pressing the button 'Request' in the top of the topic.",
@@ -173,7 +172,10 @@
     "MESSAGE_UPDATED_FAILURE": "Updating message was failure.",
     "TOPIC_DISCUSS_REQUEST_CHANGED": "Topic discuss request was successfully {{status}}.",
     "CREATE_TOPIC_REQUEST_CHANGED": "Create topic request was successfully {{status}}.",
-    "TOPIC_UPDATED": "Create topic request was updated."
+    "TOPIC_UPDATED": "Create topic request was updated.",
+    "LOCKED_ACCOUNT": "Your account was rejected. Please create another one.",
+    "DISABLED_USER": "Your account is not approved yet. Try to login later again later.",
+    "INVALID_CREDENTIAL": "Invalid email or password!"
   },
   "ACTIONS": {
     "UPDATED": "updated",
