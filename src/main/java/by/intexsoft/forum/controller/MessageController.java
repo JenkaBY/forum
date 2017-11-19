@@ -39,7 +39,6 @@ public class MessageController {
      */
     @GetMapping(path = "/topic/{topicId}/all")
     public ResponseEntity<?> getAllMessagesByTopic(@PathVariable(value = "topicId") Long topicId, Pageable pageable) {
-
         return ok(messageService.findAllByTopic(topicId, pageable));
     }
 
@@ -53,7 +52,7 @@ public class MessageController {
     @PutMapping(path = "/message/{id}")
     public ResponseEntity<?> updateMessage(@PathVariable(value = "id") Long id, @RequestBody Message message) {
         if (!message.getId().equals(id)) {
-            LOGGER.warn("Attempt to update message with id={0} with message = {1}", id, message);
+            LOGGER.warn("Attempt to update message with id={} with message = {}", id, message);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         Message updatedMessage = messageService.save(message);
@@ -69,11 +68,11 @@ public class MessageController {
     @DeleteMapping(path = "/message/{id}")
     public ResponseEntity<?> deleteMessage(@PathVariable(value = "id") Long id) {
         if (Objects.isNull(id)) {
-            LOGGER.warn("Attempt to delete message with id={0}", id);
+            LOGGER.warn("Attempt to delete message with id={}", id);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         messageService.delete(id);
-        return new ResponseEntity<>("{}", OK);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     /**
@@ -86,7 +85,7 @@ public class MessageController {
     @PostMapping(path = "/message/new")
     public ResponseEntity<?> createMessage(@RequestBody Message message) {
         if (Objects.isNull(message) || Objects.isNull(message.createdBy)) {
-            LOGGER.warn("Attempt to create message message = {1}", message);
+            LOGGER.warn("Attempt to create message message = {}", message);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         messageService.save(message);
