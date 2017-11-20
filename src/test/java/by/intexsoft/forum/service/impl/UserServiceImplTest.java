@@ -157,18 +157,9 @@ public class UserServiceImplTest {
 
     @Test
     public void findAllUsersByIds() throws Exception {
-        Set<Long> ids = new HashSet<>(
-                Arrays.asList(
-                        Long.valueOf(1),
-                        Long.valueOf(2),
-                        Long.valueOf(9),
-                        Long.valueOf(10)
-                )
-
-        );
+        Set<Long> ids = new HashSet<>(Arrays.asList(1L, 2L, 9L, 10L));
         when(repository.findAll(ids)).thenReturn(findByIds(ids));
         assertEquals("Size to be equals " + ids.size(), userService.findAllUsersByIds(ids).size(), ids.size());
-
     }
 
     @Test
@@ -208,7 +199,7 @@ public class UserServiceImplTest {
     private List<User> createUsers() {
         return IntStream.range(0, 11)
                 .boxed()
-                .map(i -> createUser(new Long(i + 1)))
+                .map(i -> createUser(i + 1L))
                 .collect(toList());
 
     }
