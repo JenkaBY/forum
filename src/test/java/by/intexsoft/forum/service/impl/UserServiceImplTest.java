@@ -19,15 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,7 +31,7 @@ public class UserServiceImplTest {
 
     private PasswordEncoder realPasswordEncoder = new BCryptPasswordEncoder();
     @Mock
-    private PasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private PasswordEncoder bCryptPasswordEncoder;
 
     @Mock
     private RoleService roleService;
@@ -111,6 +107,7 @@ public class UserServiceImplTest {
         savedUser.setId(users.size());
         when(repository.save(newUser)).thenReturn(savedUser);
         assertEquals("new user have to id after save", userService.save(newUser), savedUser);
+
         User updatedUser = cloneUser(savedUser);
         updatedUser.name = "updated";
         when(repository.save(savedUser)).thenReturn(updatedUser);
@@ -125,30 +122,91 @@ public class UserServiceImplTest {
         clone.hashPassword = realPasswordEncoder.encode(newPassword);
         when(bCryptPasswordEncoder.encode(newPassword)).thenReturn(realPasswordEncoder.encode(newPassword));
         when(repository.save(user)).thenReturn(clone);
-        System.out.println("before user.password" + user.hashPassword);
-        System.out.println("Before clone.password" + clone.hashPassword);
         userService.changePassword(user, newPassword);
         assertTrue("New password to be saved", realPasswordEncoder.matches(newPassword, user.hashPassword));
     }
 
     @Test
     public void isEmailExist() throws Exception {
+        String email = users.get(0).email;
+        when(userService.getUserByEmail(email)).thenReturn(findByEmail(email));
+        assertTrue("To be found user", userService.isEmailExist(email));
+
+        String nonExistingEmail = "Email@email.test";
+        when(userService.getUserByEmail(nonExistingEmail)).thenReturn(findByEmail(nonExistingEmail));
+        assertTrue("To be NOT found user", !userService.isEmailExist(nonExistingEmail));
     }
 
     @Test
     public void isNameExist() throws Exception {
+        String name = users.get(0).name;
+        when(userService.getUserByUsername(name)).thenReturn(findByUsername(name));
+        assertTrue("To be found user", userService.isNameExist(name));
+
+        String nonExistingName = "NOT_FOUND";
+        when(userService.getUserByUsername(nonExistingName)).thenReturn(findByUsername(nonExistingName));
+        assertTrue("To be NOT found user", !userService.isNameExist(nonExistingName));
     }
 
     @Test
     public void getUserByEmail() throws Exception {
+        String email = users.get(0).email;
+        when(userService.getUserByEmail(email)).thenReturn(findByEmail(email));
+        assertEquals("To be found user", userService.getUserByEmail(email), users.get(0));
+
+        String nonExistingEmail = "Email@email.test";
+        when(userService.getUserByEmail(nonExistingEmail)).thenReturn(findByEmail(nonExistingEmail));
+        assertNull("To be NOT found user", userService.getUserByEmail(nonExistingEmail));
     }
 
     @Test
     public void findAllUsersByIds() throws Exception {
+        Set<Long> ids = new HashSet<>(
+                Arrays.asList(
+                        Long.valueOf(1),
+                        Long.valueOf(2),
+                        Long.valueOf(9),
+                        Long.valueOf(10)
+                )
+
+        );
+        when(repository.findAll(ids)).thenReturn(findByIds(ids));
+        assertEquals("Size to be equals " + ids.size(), userService.findAllUsersByIds(ids).size(), ids.size());
+
     }
 
     @Test
     public void getUserByUsername() throws Exception {
+        String name = users.get(0).name;
+        when(userService.getUserByUsername(name)).thenReturn(findByUsername(name));
+        assertNotNull("To be found user", userService.getUserByUsername(name));
+
+        String nonExistingName = "NOT_FOUND";
+        when(userService.getUserByUsername(nonExistingName)).thenReturn(findByUsername(nonExistingName));
+        assertNull("To be NOT found user", userService.getUserByUsername(nonExistingName));
+    }
+
+    private User findByEmail(String email) {
+        return users
+                .stream()
+                .filter(user -> user.email.equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private User findByUsername(String name) {
+        return users
+                .stream()
+                .filter(user -> user.name.equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private List<User> findByIds(Set<Long> ids) {
+        return users
+                .stream()
+                .filter(user -> ids.contains(user.getId()))
+                .collect(toList());
     }
 
     private List<User> createUsers() {
@@ -211,7 +269,6 @@ public class UserServiceImplTest {
     private void approve3users() {
         users = users.stream()
                 .map(user -> {
-//                    System.out.println("user.getId() " + (user.getId() - 1) + " users.size() - getSizeApprovedUsers() " + (users.size()) + " - " + getSizeApprovedUsers() + "=" + 7);
                     if (user.getId() > users.size() - getSizeApprovedUsers()) {
                         user.approvedBy = getUserByRoleTitle(RoleConst.MANAGER);
                     }
