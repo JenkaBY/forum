@@ -4,23 +4,65 @@
     "SAVE": "Сохранить",
     "BACK": "Назад",
     "DELETE": "Удалить",
-    "DETAIL": "Подробно"
+    "DETAIL": "Подробно",
+    "EDIT": "Редактировать",
+    "SEND": "Отправить",
+    "SEND_REQUEST": "Отправить запрос",
+    "CREATE_ACCOUNT": "Создать аккаунт",
+    "READ": "Читать",
+    "CANCEL": "Отмена",
+    "LOGIN": "Войти",
+    "REQUEST_DISCUSS": "Запрос на участие",
+    "REJECT": "Отклонить",
+    "APPROVE": "Подтвердить",
+    "ALL_USERS": "Все пользоваттели",
+    "GO_TO_TOPIC": "На страницу темы",
+    "DELETE_IMAGE": "Удалить ававтар",
+    "UPLOAD": "Загрузить",
+    "CHANGE_PASSWORD": "Изменить пароль"
   },
   "NAV": {
     "TOPICS": "Все разделы",
-    "REQUEST": "Topic Request",
-    "USER_DASHBORD": "Мои разделы",
+    "REQUEST": "Создать тему",
+    "USER_DASHBOARD": "Моя панель",
     "ADMIN_PANEL": "Панель администратора",
     "MANAGER_PANEL": "Панель менеджера",
     "SIGN_IN": "Войти",
     "LOG_OUT": "Выйти",
     "SIGN_UP": "Регистрация",
     "LANG": "Язык",
-    "OR": "или"
+    "OR": "или",
+    "PROFILE": "Профиль",
+    "CHANGE_PASSWORD": "Изменить пароль"
   },
   "LANG": {
     "EN": "En",
     "RU": "Рус"
+  },
+  "ADMIN": {
+    "ALL_USERS": "Все пользователи",
+    "REJECTED_USERS": "Отклоненные пользователи",
+    "APPROVED_USERS": "Подтвержденные пользователи",
+    "PENDING_APPROVE": "Ожидающие подтверждения",
+    "BLOCKED": "Заблокированные пользователи",
+    "UNBLOCK": "Разблокировать",
+    "BLOCK": "Заблокировать",
+    "BLOCK_UNBLOCK": "За(/раз)блокировать",
+    "APPROVE": "Подтвердить",
+    "REJECT": "Отклонить",
+    "DELETE": "Удалить"
+  },
+  "USER_DASHBOARD": {
+    "DASHBOARD": "Панель пользователя",
+    "MY_TOPICS": "Мои темы",
+    "MY_DISCUSS_REQUESTS": "Мои запросы на дискуссию",
+    "MY_CREATE_TOPIC_REQUESTS": "Мои запросы на создание темы"
+  },
+  "MANAGER": {
+    "DASHBOARD": "Панель менеджера",
+    "ALL_TOPICS": "Все тема",
+    "CREATE_REQUESTS": "Запросы на создание тем",
+    "DISCUSS_REQUESTS": "Запросы на участие в темах"
   },
   "USER": {
     "ID": "Id",
@@ -32,16 +74,21 @@
     "REJECTED": "Отклонен?",
     "ROLE": "Роль",
     "DELETED": "Удален?",
-    "APPROVED_BY": "Approved by"
+    "APPROVED_BY": "Подтвержден",
+    "IMAGE_PATH": "Путь к аватару",
+    "CURRENT_PASSWORD": "Текущий пароль",
+    "NEW_PASSWORD": "Новый пароль",
+    "CONFIRM_PASSWORD": "Потдверждение пароля"
+  },
+  "TOPIC": {
+    "ID": "Id",
+    "TITLE": "Навзание",
+    "CREATED_BY": "Создано",
+    "ALLOWED_USERS": "Разрешенные пользователи в теме <u>{{ value }}</u>",
+    "COUNT_ALLOWED_USERS": "Кол-во пользователей"
   },
   "ROLE": {
     "TITLE": "Название"
-  },
-  "ADMIN": {
-    "ALL_USERS": "Все пользователи",
-    "REJECTED_USERS": "Отклоненные пользователи",
-    "APPROVED_USERS": "Подтвержденные пользователи",
-    "DELETE": "Удалить"
   },
   "MESSAGE": {
     "TEXT": "Text",
