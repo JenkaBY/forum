@@ -19,18 +19,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
+    private PasswordEncoder realPasswordEncoder = new BCryptPasswordEncoder();
+    @Mock
     private PasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     @Mock
     private RoleService roleService;
     @Mock
@@ -45,7 +51,7 @@ public class UserServiceImplTest {
     @Before
     public void setUp() throws Exception {
         users = createUsers();
-        pageable = this.getPageable();
+        pageable = getPageable();
         setSystemUser();
         setAdmin();
         setManager();
@@ -60,14 +66,17 @@ public class UserServiceImplTest {
     @Test
     public void findAll() throws Exception {
         when(repository.findAll(pageable)).thenReturn(getPageUsers());
-        assertEquals(userService.findAll(pageable).getContent().size(), getPageSize());
+        assertEquals("Contains the " + getPageSize() + " users", userService.findAll(pageable).getContent().size(), getPageSize());
+        users = new ArrayList<>();
+        when(repository.findAll(pageable)).thenReturn(getPageUsers());
+        assertEquals("Contains the " + 0 + " users", userService.findAll(pageable).getContent().size(), 0);
     }
 
     @Test
     public void findAllPendingToApprove() throws Exception {
         approve3users();
         when(repository.findByApprovedByIsNullAndRejectedIsFalse(pageable)).thenReturn(pendingToApproveUsers());
-        assertEquals(userService.findAllPendingToApprove(getPageable()).getContent().size(), countNonApprovedUser());
+        assertEquals("Contains the " + countNonApprovedUser() + " users", userService.findAllPendingToApprove(getPageable()).getContent().size(), countNonApprovedUser());
     }
 
     @Test
@@ -75,7 +84,7 @@ public class UserServiceImplTest {
         approve3users();
         User manager = getUserByRoleTitle(RoleConst.MANAGER);
         when(repository.findByApprovedByAndRejectedFalse(manager, pageable)).thenReturn(approvedUsers(manager));
-        assertEquals(userService.findAllApprovedByAndNotRejected(manager, getPageable())
+        assertEquals("Contains the " + countNonApprovedUser() + " users", userService.findAllApprovedByAndNotRejected(manager, pageable)
                 .getContent().size(), countApprovedUserByManager(manager));
     }
 
@@ -84,7 +93,7 @@ public class UserServiceImplTest {
         reject3users();
         User manager = getUserByRoleTitle(RoleConst.MANAGER);
         when(repository.findByApprovedByIsNullAndRejectedIsFalse(pageable)).thenReturn(rejectedUsers(manager));
-        assertEquals(userService.findAllPendingToApprove(getPageable()).getContent().size(), countRejectedUser(manager));
+        assertEquals(userService.findAllPendingToApprove(pageable).getContent().size(), countRejectedUser(manager));
     }
 
     @Test
@@ -96,10 +105,30 @@ public class UserServiceImplTest {
 
     @Test
     public void save() throws Exception {
+        User newUser = createUser(null);
+        newUser.setId(users.size());
+        User savedUser = cloneUser(newUser);
+        savedUser.setId(users.size());
+        when(repository.save(newUser)).thenReturn(savedUser);
+        assertEquals("new user have to id after save", userService.save(newUser), savedUser);
+        User updatedUser = cloneUser(savedUser);
+        updatedUser.name = "updated";
+        when(repository.save(savedUser)).thenReturn(updatedUser);
+        assertEquals("name should be updated", userService.save(savedUser).name, updatedUser.name);
     }
 
     @Test
     public void changePassword() throws Exception {
+        String newPassword = "newPassword";
+        User user = users.get(0);
+        User clone = cloneUser(user);
+        clone.hashPassword = realPasswordEncoder.encode(newPassword);
+        when(bCryptPasswordEncoder.encode(newPassword)).thenReturn(realPasswordEncoder.encode(newPassword));
+        when(repository.save(user)).thenReturn(clone);
+        System.out.println("before user.password" + user.hashPassword);
+        System.out.println("Before clone.password" + clone.hashPassword);
+        userService.changePassword(user, newPassword);
+        assertTrue("New password to be saved", realPasswordEncoder.matches(newPassword, user.hashPassword));
     }
 
     @Test
@@ -125,19 +154,36 @@ public class UserServiceImplTest {
     private List<User> createUsers() {
         return IntStream.range(0, 11)
                 .boxed()
-                .map(i -> {
-                    User user = new User();
-                    user.setId(i + 1);
-                    user.hashPassword = bCryptPasswordEncoder.encode(rawPassword);
-                    user.name = "name" + (i + 1);
-                    user.email = "email" + (i + 1) + "@email";
-                    Role userRole = new Role();
-                    userRole.title = RoleConst.USER;
-                    user.role = userRole;
-                    return user;
-                })
+                .map(i -> createUser(new Long(i + 1)))
                 .collect(toList());
 
+    }
+
+    private User cloneUser(User user) {
+        User clone = new User();
+        clone.setId(user.getId());
+        clone.hashPassword = new String(user.hashPassword);
+        clone.email = new String(user.email);
+        Role role = new Role();
+        role.title = new String(user.role.title);
+        clone.role = role;
+        clone.name = new String(user.name);
+        return clone;
+    }
+
+    private User createUser(Long id) {
+        User user = new User();
+        user.hashPassword = realPasswordEncoder.encode(rawPassword);
+        if (Objects.isNull(id)) {
+            id = new Date().getTime();
+        }
+        user.setId(id);
+        user.name = "name" + (id);
+        user.email = "email" + (id) + "@email";
+        Role userRole = new Role();
+        userRole.title = RoleConst.USER;
+        user.role = userRole;
+        return user;
     }
 
     private Page<User> getPageUsers() {
@@ -165,7 +211,7 @@ public class UserServiceImplTest {
     private void approve3users() {
         users = users.stream()
                 .map(user -> {
-                    System.out.println("user.getId()" + (user.getId() - 1) + " users.size() - getSizeApprovedUsers() " + (users.size()) + " - " + getSizeApprovedUsers() + "+" + 7);
+//                    System.out.println("user.getId() " + (user.getId() - 1) + " users.size() - getSizeApprovedUsers() " + (users.size()) + " - " + getSizeApprovedUsers() + "=" + 7);
                     if (user.getId() > users.size() - getSizeApprovedUsers()) {
                         user.approvedBy = getUserByRoleTitle(RoleConst.MANAGER);
                     }
