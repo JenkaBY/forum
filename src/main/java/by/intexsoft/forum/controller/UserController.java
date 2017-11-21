@@ -57,7 +57,7 @@ public class UserController {
         User user = userService.find(id);
         if (user == null) {
             LOGGER.warn("User with id = {} is not found.", id);
-            return new ResponseEntity<>("User not found.", BAD_REQUEST);
+            return new ResponseEntity<>(BAD_REQUEST);
         }
         LOGGER.info("Get user by id = {}", id);
         return new ResponseEntity<>(new UserDTO(user), OK);
@@ -73,14 +73,15 @@ public class UserController {
      */
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteUserBy(@PathVariable(value = "id") Long id) {
+        User currentUser = securityHelper.getCurrentUser();
         User foundUser = userService.find(id);
         if (Objects.isNull(foundUser)) {
             String message = String.format("User with Id = %s doesn't exist.", id);
             LOGGER.warn(message);
-            return new ResponseEntity<>(message, BAD_REQUEST);
+            return new ResponseEntity<>(BAD_REQUEST);
         }
-        if (foundUser.role.title.compareToIgnoreCase(RoleConst.SYSTEM) == 0) {
-            LOGGER.warn("Was attempt to delete SYSTEM user");
+        if (foundUser.role.title.equalsIgnoreCase(RoleConst.SYSTEM)) {
+            LOGGER.warn("The attempt to delete SYSTEM user by user id={} was.", currentUser.getId());
             return new ResponseEntity<>(BAD_REQUEST);
         }
         userService.delete(id);
@@ -157,6 +158,12 @@ public class UserController {
                 OK);
     }
 
+    /**
+     * Checks is email exist in DB.
+     *
+     * @param email that to be checked.  Parameter in query string
+     * @return {@link EntityAware} object in all cases
+     */
     @GetMapping("/check_email")
     public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email") String email) {
         if (Objects.isNull(email) || email.isEmpty()) {
@@ -169,6 +176,11 @@ public class UserController {
         return ok(new EntityAware(true));
     }
 
+    /**
+     * Checks is name exist in DB.
+     * @param name that to be checked. Parameter in query string
+     * @return {@link EntityAware} object in all cases
+     */
     @GetMapping("/check_name")
     public ResponseEntity<?> getUserByName(@RequestParam(name = "name") String name) {
         if (Objects.isNull(name) || name.isEmpty()) {

@@ -42,7 +42,7 @@ public class TopicRequestController {
     @GetMapping(path = "/pending")
     public ResponseEntity<?> getAllPending(Pageable pageable) {
         User currentUser = securityHelper.getCurrentUser();
-        LOGGER.info("{0} requests all pending topic requests", currentUser);
+        LOGGER.info("{} requests all pending topic requests", currentUser);
         return new ResponseEntity<>(topicRequestService.findAllPending(pageable)
                 .map((topicRequest) -> new TopicRequestDTO(topicRequest)), OK);
     }
@@ -50,7 +50,7 @@ public class TopicRequestController {
     @GetMapping(path = "/all")
     public ResponseEntity<?> getAll() {
         User currentUser = securityHelper.getCurrentUser();
-        LOGGER.info("{0} requests all pending topic requests", currentUser);
+        LOGGER.info("{} requests all pending topic requests", currentUser);
         return new ResponseEntity<>(topicRequestService.findAll()
                 .stream()
                 .map(topicRequest -> new TopicRequestDTO(topicRequest))
@@ -69,7 +69,7 @@ public class TopicRequestController {
     public ResponseEntity<?> getAllByUser(Pageable pageable) {
 //        TODO add CURRENT_USER
         User currentUser = securityHelper.getCurrentUser();
-        LOGGER.info("{0} requests all own topic requests", currentUser);
+        LOGGER.info("{} requests all own topic requests", currentUser);
         return new ResponseEntity<>(topicRequestService.findAllByRequestedBy(currentUser, pageable), OK);
     }
 
@@ -100,11 +100,12 @@ public class TopicRequestController {
      */
     @PutMapping(path = "/{id}")
     public ResponseEntity<?> updateRequest(@PathVariable(value = "id") Long id, @RequestBody TopicRequest topicRequest) {
+        User currentManager = securityHelper.getCurrentUser();
         if ((topicRequest == null) || (!topicRequest.getId().equals(id))) {
-            LOGGER.warn("Attempt the editing of topic request was by {0}", "ADMIN_SHOULD_BE_HERE");
+            LOGGER.warn("Attempt the editing of topic request was by manager id = {}", currentManager);
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        LOGGER.info("The Topic Request with id = {0} was successfully updated.", topicRequest.getId());
+        LOGGER.info("The Topic Request with id = {} was successfully updated.", topicRequest.getId());
         return ok(topicRequestService.save(topicRequest));
     }
 
@@ -116,7 +117,7 @@ public class TopicRequestController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteTopicRequest(@PathVariable(value = "id") Long id) {
         topicRequestService.delete(id);
-        LOGGER.info("The Topic Request with id = {0} was successfully updated.", id);
-        return new ResponseEntity<>("{}", OK);
+        LOGGER.info("The Topic Request with id = {} was successfully updated.", id);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 }

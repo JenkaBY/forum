@@ -43,7 +43,6 @@ public class AdminController {
 
     /**
      * Getting all users per page
-     *
      * @param pageable parameter for getting data per page
      * @return page of content with page parameters
      */
@@ -79,7 +78,7 @@ public class AdminController {
         if (Objects.isNull(admin) || !admin.role.title.equals(RoleConst.ADMIN)) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        LOGGER.info("User {0} trying to get all approved users.", admin);
+        LOGGER.info("User {} trying to get all approved users.", admin);
         return ResponseEntity.ok(userService.findAllApprovedByAndNotRejected(admin, pageable));
     }
 
@@ -94,7 +93,7 @@ public class AdminController {
         if (Objects.isNull(admin) || !admin.role.title.equals(RoleConst.ADMIN)) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        LOGGER.info("User {0} trying to get all rejected users.", admin);
+        LOGGER.info("User {} trying to get all rejected users.", admin);
         return ResponseEntity.ok(userService.findAllApprovedByAndRejected(admin, pageable));
     }
 

@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements UserService {
-    @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
     private RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, RoleService roleService) {
+    public UserServiceImpl(UserRepository repository, RoleService roleService, PasswordEncoder bCryptPasswordEncoder) {
         super(repository);
         this.roleService = roleService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     /**
