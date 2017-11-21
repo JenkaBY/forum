@@ -1,9 +1,13 @@
 <div class="container mt-2">
-  <div class="row justify-content-between">
+  <div class="row justify-content-between mt-3">
     <div class="col-12">
-      <input #searchBox id="search-box" (keyup)="search(searchBox.value)"/>
+      <input #searchBox
+             id="search-box"
+             (keyup)="search(searchBox.value)"
+             class="form-control"
+             placeholder="{{ 'PLACEHOLDER.TYPE_TITLE'| translate }}"/>
     </div>
-    <div class="col-12 mb-0">
+    <div class="col-12 mb-0 mt-3">
       <div *ngFor="let topic of entities" class="card">
         <div class="card-header pt-1 pb-1">
           <div class="row justify-content-between">

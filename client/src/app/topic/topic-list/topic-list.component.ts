@@ -1,5 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 import ITopicService from '../interface/itopic.service';
 import { Topic } from '../../shared/entity/topic';
@@ -9,7 +16,6 @@ import { ToastsManager } from 'ng2-toastr';
 import { TranslateService } from 'ng2-translate';
 import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
 import { environment } from '../../../environments/environment';
-import { Subject } from 'rxjs/Subject';
 
 /**
  * Describes list of topics page(main page). Extends Pageable object. By default 10 topics per page.
@@ -20,8 +26,12 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './topic-list.component.html',
   styleUrls: ['./topic-list.component.css']
 })
-export class TopicListComponent extends Pageable<Topic> implements OnInit {
+export class TopicListComponent extends Pageable<Topic> implements OnInit, OnDestroy {
   private searchTopics = new Subject<string>();
+
+  private searchTitle;
+  private initialRun = true;
+
   constructor(@Inject('topicService') private topicService: ITopicService,
               @Inject(TranslateService) private translateService: ExtendedTranslationService,
               private toastr: ToastsManager) {
@@ -29,10 +39,17 @@ export class TopicListComponent extends Pageable<Topic> implements OnInit {
   }
 
   /**
-   * Implementation the OnInit interface
+   * Implementation of the OnInit interface
    */
   ngOnInit() {
-    this.getAll();
+    this.onChangeSearchingTopics();
+  }
+
+  /**
+   * Implementation the OnDestroy interface. Unsubscribe on searchTopic Subject
+   */
+  ngOnDestroy(): void {
+    this.searchTopics.unsubscribe();
   }
 
   /**
@@ -53,9 +70,7 @@ export class TopicListComponent extends Pageable<Topic> implements OnInit {
    * Refresh list of topics according to page parameters
    */
   onPageChange() {
-    let title;
-    this.searchTopics.asObservable().subscribe((titleResult: string) => title = titleResult);
-    this.getAll(title);
+    this.getAll(this.searchTitle);
   }
 
   /**
@@ -66,12 +81,21 @@ export class TopicListComponent extends Pageable<Topic> implements OnInit {
     this.searchTopics.next(searchText);
   }
 
-  private onChangeSearchingTopics() {
+  private onChangeSearchingTopics(): void {
     this.searchTopics
       .debounceTime(400)
       .distinctUntilChanged()
-      .switchMap(title => title ? this.getAll(title) : this.getAll());
+      .switchMap(title => Observable.of(title))
+      .subscribe(title => {
+        this.searchTitle = title;
+        this.getAll(title);
+      });
+    if (this.initialRun) {
+      this.getAll();
+      this.initialRun = false;
+    }
   }
+
   private handleError(error: HttpErrorResponse) {
     this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
     if (!environment.production) {

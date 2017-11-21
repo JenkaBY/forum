@@ -31,6 +31,12 @@ public class Topic extends AbstractEntity{
     @Column(length = 500)
     public String description;
 
+    /**
+     * Removes allowed user from list allowedUser
+     *
+     * @param user to be removed
+     * @return {@code true} if user was removed
+     */
     public boolean removeAllowedUser(User user) {
         return allowedUsers.removeIf(
                 user1 -> user1.getId().equals(user.getId())

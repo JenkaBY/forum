@@ -38,22 +38,23 @@ public class TopicController {
         this.userService = userService;
     }
 
-    /**
-     * Creates the topic given in the body.
-     *
-     * @param topic that need to be created
-     * @return BAD REQUEST if topic data is null. OK with created topic in the body if it has been created.
-     */
-    @PostMapping(path = "/new")
-    public ResponseEntity<?> create(@RequestBody Topic topic) {
-        if (topic == null) {
-            LOGGER.warn("User {0} was tried to create topic with null parameters.", "MANAGER_SHOULD_BE_HERE");
-            return new ResponseEntity<>(BAD_REQUEST);
-        }
-        Topic savedTopic = topicService.save(topic);
-        LOGGER.info("The topic with id = {0} was created,", savedTopic.getId());
-        return ok(savedTopic);
-    }
+//    /**
+//     * Creates the topic given in the body.
+//     *
+//     * @param topic that need to be created
+//     * @return BAD REQUEST if topic data is null. OK with created topic in the body if it has been created.
+//     */
+//    @PostMapping(path = "/new")
+//    public ResponseEntity<?> create(@RequestBody Topic topic) {
+//
+//        if (topic == null) {
+//            LOGGER.warn("User {} was tried to create topic with null parameters.", );
+//            return new ResponseEntity<>(BAD_REQUEST);
+//        }
+//        Topic savedTopic = topicService.save(topic);
+//        LOGGER.info("The topic with id = {0} was created,", savedTopic.getId());
+//        return ok(savedTopic);
+//    }
 
     /**
      * Gets one topic
@@ -109,13 +110,13 @@ public class TopicController {
     public ResponseEntity<?> getAllTopic(@RequestParam(name = "title", required = false) String title, Pageable pageable) {
         if (Objects.nonNull(title) && !title.isEmpty()) {
             Page<TopicDTO> topics = topicService.findAllByTopicTitle(title, pageable);
-            return topics.getTotalElements() > 0 ? ok(topics) : new ResponseEntity(NO_CONTENT);
+            return ok(topics);
         }
         return ok(topicService.findAllDto(pageable));
     }
 
     /**
-     * Gets all topics by user id per page.
+     * Gets all topics by user ID per page.
      *
      * @param userId   request parameter. Id of user needed to get all topics
      * @param pageable parameter of page request

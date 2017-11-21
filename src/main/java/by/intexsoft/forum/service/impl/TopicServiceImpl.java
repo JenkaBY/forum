@@ -52,7 +52,7 @@ public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implement
      */
     @Override
     public Page<TopicDTO> findAllByTopicTitle(String title, Pageable pageable) {
-        return ((TopicRepository) repository).findByTitleContaining(title, pageable)
+        return ((TopicRepository) repository).findByTitleContainingIgnoreCase(title, pageable)
                 .map(topic -> new TopicDTO(topic));
     }
 }

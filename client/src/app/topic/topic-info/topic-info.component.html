@@ -1,79 +1,74 @@
 <div class="card mb-2 p-2">
   <div class="card-header pb-1 mb-1">
     <div class="row justify-content-between pb-0 mb-0">
-      <div class="col-9">
+      <div class="col-10">
         <h3>{{ topic?.title }}</h3>
       </div>
-      <div class="col-1"></div>
-      <div class="col-2">
-        <!--<button placement="bottom"-->
-        <!--type="button"-->
-        <!--class="btn btn-outline-primary"-->
-        <!--(click)="onEdit()"-->
-        <!--[disabled]="editing">-->
-        <!--test-->
-        <!--</button>-->
-        <div *ngIf="loggedUser"
-             class="btn-group btn-group-sm mr-2 col-2"
-             role="group"
-             aria-label="Manage topic">
 
-          <div class="btn-toolbar" role="toolbar" aria-label="Manage topic button">
-            <div *ngIf="canEdit()"
-                 class="btn-group btn-group-sm mr-2"
-                 role="group"
-                 aria-label="Editing">
-              <button *ngIf="editing"
-                      placement="bottom"
-                      type="button"
-                      class="btn btn-outline-success"
-                      (click)="onSave()"
-                      [disabled]="saving"
-                      ngbTooltip="{{'TOOLTIP.SAVE_TOPIC' | translate}}">
-                {{ "BUTTON.SAVE" | translate }}
-              </button>
-              <button placement="bottom"
-                      type="button"
-                      class="btn btn-outline-primary"
-                      (click)="onEdit()"
-                      *ngIf="!saving"
-                      [disabled]="editing"
-                      ngbTooltip="{{'TOOLTIP.EDIT_TOPIC' | translate}}">
-                {{ "BUTTON.EDIT" | translate }}
-              </button>
-              <button *ngIf="editing"
-                      placement="bottom"
-                      type="button"
-                      class="btn btn-outline-warning"
-                      (click)="onCancel()"
-                      ngbTooltip="{{'TOOLTIP.CANCEL_TOPIC' | translate}}">
-                {{ "BUTTON.CANCEL" | translate }}
-              </button>
-            </div>
-            <div *ngIf="!editing && canCreateRequest()"
-                 class="btn-group btn-group-sm mr-2"
-                 role="group"
-                 aria-label="Requesting">
-              <button *ngIf="canCreateRequest() && !topicDiscussRequest"
-                      type="button"
-                      placement="bottom"
-                      class="btn btn-outline-primary"
-                      (click)="onCreateRequest()"
-                      [disabled]="requesting"
-                      ngbTooltip="{{'TOOLTIP.REQUEST_TO_TOPIC_DISCUSS' | translate}}">
-                {{ "BUTTON.REQUEST_DISCUSS" | translate }}
-              </button>
-            </div>
-            <div *ngIf="canDelete() && !editing"
-                 class="btn-group btn-group-sm"
-                 role="group"
-                 aria-label="Deleting">
-              <button type="button"
-                      placement="right"
-                      class="btn btn-outline-danger"
-                      (click)="onDelete()"
-                      ngbTooltip="{{'TOOLTIP.DELETE_TOPIC' | translate}}">X
-              </button>
+      <div class="col-2">
+        <div class="row justify-content-end">
+          <div *ngIf="loggedUser"
+               class="btn-group btn-group-sm"
+               role="group"
+               aria-label="Manage topic">
+
+            <div class="btn-toolbar" role="toolbar" aria-label="Manage topic button">
+              <div *ngIf="canEdit()"
+                   class="btn-group btn-group-sm"
+                   role="group"
+                   aria-label="Editing">
+                <button *ngIf="editing"
+                        placement="bottom"
+                        type="button"
+                        class="btn btn-outline-success"
+                        (click)="onSave()"
+                        [disabled]="saving"
+                        ngbTooltip="{{'TOOLTIP.SAVE_TOPIC' | translate}}">
+                  {{ "BUTTON.SAVE" | translate }}
+                </button>
+                <button placement="bottom"
+                        type="button"
+                        class="btn btn-outline-primary"
+                        (click)="onEdit()"
+                        *ngIf="!saving"
+                        [disabled]="editing"
+                        ngbTooltip="{{'TOOLTIP.EDIT_TOPIC' | translate}}">
+                  {{ "BUTTON.EDIT" | translate }}
+                </button>
+                <button *ngIf="editing"
+                        placement="bottom"
+                        type="button"
+                        class="btn btn-outline-warning"
+                        (click)="onCancel()"
+                        ngbTooltip="{{'TOOLTIP.CANCEL_TOPIC' | translate}}">
+                  {{ "BUTTON.CANCEL" | translate }}
+                </button>
+              </div>
+              <div *ngIf="!editing && canCreateRequest()"
+                   class="btn-group btn-group-sm"
+                   role="group"
+                   aria-label="Requesting">
+                <button *ngIf="canCreateRequest() && !topicDiscussRequest"
+                        type="button"
+                        placement="bottom"
+                        class="btn btn-outline-primary"
+                        (click)="onCreateRequest()"
+                        [disabled]="requesting"
+                        ngbTooltip="{{'TOOLTIP.REQUEST_TO_TOPIC_DISCUSS' | translate}}">
+                  {{ "BUTTON.REQUEST_DISCUSS" | translate }}
+                </button>
+              </div>
+              <div *ngIf="canDelete() && !editing"
+                   class="btn-group btn-group-sm"
+                   role="group"
+                   aria-label="Deleting">
+                <button type="button"
+                        placement="right"
+                        class="btn btn-outline-danger"
+                        (click)="onDelete()"
+                        ngbTooltip="{{'TOOLTIP.DELETE_TOPIC' | translate}}">X
+                </button>
+              </div>
             </div>
           </div>
         </div>

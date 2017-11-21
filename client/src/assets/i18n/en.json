@@ -102,7 +102,8 @@
   },
   "PLACEHOLDER": {
     "TYPE_TEXT": "Please type your message here",
-    "REJECT_REASON": "Type the reject reason here..."
+    "REJECT_REASON": "Type the reject reason here...",
+    "TYPE_TITLE": "Type topic title here..."
   },
   "VALIDATION": {
     "REQUIRED": "This field is required.",
