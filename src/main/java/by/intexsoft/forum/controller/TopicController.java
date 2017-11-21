@@ -9,12 +9,15 @@ import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.ok;
 
 /**
@@ -90,9 +93,10 @@ public class TopicController {
      */
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deleteTopic(@PathVariable(name = "id") Long id) {
-        LOGGER.info("User with id = {0} was deleted topic with id = {1}", "USER_ID", id);
+        User loggedUser = securityHelper.getCurrentUser();
+        LOGGER.info("User with id = {} was deleted topic with id = {}", loggedUser.getId(), id);
         topicService.delete(id);
-        return new ResponseEntity<>(OK);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     /**
@@ -102,8 +106,11 @@ public class TopicController {
      * @return OK status and Page with TopicDTO objects
      */
     @GetMapping(path = "/all")
-    public ResponseEntity<?> getAllTopic(Pageable pageable) {
-        LOGGER.info("Request all topics");
+    public ResponseEntity<?> getAllTopic(@RequestParam(name = "title", required = false) String title, Pageable pageable) {
+        if (Objects.nonNull(title) && !title.isEmpty()) {
+            Page<TopicDTO> topics = topicService.findAllByTopicTitle(title, pageable);
+            return topics.getTotalElements() > 0 ? ok(topics) : new ResponseEntity(NO_CONTENT);
+        }
         return ok(topicService.findAllDto(pageable));
     }
 

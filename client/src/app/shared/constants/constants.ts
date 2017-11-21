@@ -6,6 +6,7 @@ const pageParam = 'page';
 const sortParam = 'sort';
 const sizeParam = 'size';
 const id = 'id';
+const title = 'title';
 const minNameLength = {value: 4};
 const maxNameLength = {value: 20};
 const minPasswordLength = {value: 6};
@@ -116,6 +117,9 @@ export class LanguageConst {
 }
 
 export class Constants {
+  static get title(): string {
+    return title;
+  }
   static get id(): string {
     return id;
   }

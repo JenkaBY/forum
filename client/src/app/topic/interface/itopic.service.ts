@@ -9,7 +9,7 @@ import { Page } from '../../shared/entity/page';
  */
 interface ITopicService {
 
-  getAllTopics(httpParams?: HttpParams): Observable<Page<Topic>>;
+  getAllTopics(httpParams: HttpParams, title?: string): Observable<Page<Topic>>;
 
   getById(id: number): Observable<Topic>;
 

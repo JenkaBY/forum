@@ -15,5 +15,6 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     @Query("select t from Topic t left join t.allowedUsers u where t.createdBy.id = :userId or u.id = :userId")
     Page<Topic> findAllTopics(@Param("userId") long userId, Pageable pageable);
 
+    Page<Topic> findByTitleContaining(String title, Pageable pageable);
 }
 

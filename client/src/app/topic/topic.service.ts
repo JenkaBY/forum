@@ -20,7 +20,8 @@ export class TopicService implements ITopicService {
               @Inject('cacheableUserService') private userService: IUserService) {
   }
 
-  getAllTopics(httpParams?: HttpParams): Observable<Page<Topic>> {
+  getAllTopics(httpParams: HttpParams, title?: string): Observable<Page<Topic>> {
+    httpParams = title ? httpParams.set(Constants.title, title) : httpParams;
     return this.getTopicsByUrl(RoutesConst.ALL_TOPIC, httpParams);
   }
 

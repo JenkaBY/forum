@@ -9,6 +9,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { TranslateService } from 'ng2-translate';
 import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
 import { environment } from '../../../environments/environment';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * Describes list of topics page(main page). Extends Pageable object. By default 10 topics per page.
@@ -20,7 +21,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./topic-list.component.css']
 })
 export class TopicListComponent extends Pageable<Topic> implements OnInit {
-
+  private searchTopics = new Subject<string>();
   constructor(@Inject('topicService') private topicService: ITopicService,
               @Inject(TranslateService) private translateService: ExtendedTranslationService,
               private toastr: ToastsManager) {
@@ -37,8 +38,8 @@ export class TopicListComponent extends Pageable<Topic> implements OnInit {
   /**
    *  Retrieve topics per page
    */
-  getAll(): void {
-    this.topicService.getAllTopics(this.getHttpParams())
+  getAll(title?: string): void {
+    this.topicService.getAllTopics(this.getHttpParams(), title)
       .subscribe(
         (page: Page<Topic>) => {
           this.setPageData(page);
@@ -52,9 +53,25 @@ export class TopicListComponent extends Pageable<Topic> implements OnInit {
    * Refresh list of topics according to page parameters
    */
   onPageChange() {
-    this.getAll();
+    let title;
+    this.searchTopics.asObservable().subscribe((titleResult: string) => title = titleResult);
+    this.getAll(title);
   }
 
+  /**
+   * Search topics
+   * @param {string} searchText
+   */
+  search(searchText: string): void {
+    this.searchTopics.next(searchText);
+  }
+
+  private onChangeSearchingTopics() {
+    this.searchTopics
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(title => title ? this.getAll(title) : this.getAll());
+  }
   private handleError(error: HttpErrorResponse) {
     this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
     if (!environment.production) {

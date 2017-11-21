@@ -10,4 +10,6 @@ public interface TopicService extends AbstractEntityService<Topic> {
     Page<TopicDTO> findAllDto(Pageable pageable);
 
     Page<TopicDTO> findAllTopicsDtoByUserId(long userId, Pageable pageable);
+
+    Page<TopicDTO> findAllByTopicTitle(String title, Pageable pageable);
 }
