@@ -23,6 +23,11 @@ public class TopicDTO {
     public TopicDTO() {
     }
 
+    /**
+     * For creating from Topic object
+     *
+     * @param topic for which to be created topicDTO
+     */
     public TopicDTO(Topic topic) {
         id = topic.getId();
         deleted = topic.deleted;
@@ -37,6 +42,10 @@ public class TopicDTO {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Converts instance to Topic
+     * @return Topic converted Topic
+     */
     public Topic convertToTopic() {
         Topic topic = new Topic();
         topic.setId(id);

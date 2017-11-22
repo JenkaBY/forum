@@ -5,6 +5,9 @@ import by.intexsoft.forum.entity.User;
 
 import java.sql.Timestamp;
 
+/**
+ * Representation User to exchange between frontend and backend.
+ */
 public class UserDTO {
     public long id;
     public String name;
@@ -34,6 +37,11 @@ public class UserDTO {
         createdAt = user.createdAt;
     }
 
+    /**
+     * Converts object to {@link User} object
+     *
+     * @return User instanse of User class
+     */
     public User transformToUser() {
         User user = new User();
         user.setId(id);
@@ -53,12 +61,5 @@ public class UserDTO {
             user.role = role;
         }
         return user;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDTO{" +
-                "id=" + id +
-                ", name='" + name;
     }
 }

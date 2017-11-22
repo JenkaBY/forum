@@ -1,8 +1,9 @@
 package by.intexsoft.forum.constant;
 
+/**
+ * Class with constants for validation
+ */
 public class Validation {
     public static final byte MIN_PASSWORD_LENGTH = 6;
     public static final byte MAX_PASSWORD_LENGTH = 16;
-    public static final String EMAIL_IN_USE = "Such email already in use";
-    public static final String NAME_IN_USE = "Such name already in use";
 }
