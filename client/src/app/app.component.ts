@@ -8,7 +8,11 @@ import { User } from './shared/entity/user';
 import { RoleService } from './shared/role/role.service';
 import { Role } from './shared/entity/role';
 import { ToastsManager } from 'ng2-toastr';
+import { Location } from '@angular/common';
 
+/**
+ * Describes main app selector
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public viewContainerRef: ViewContainerRef;
 
   constructor(private router: Router,
+              private location: Location,
               private translate: TranslateService,
               private authService: AuthenticationService,
               @Inject('roleService') roleService: RoleService,
@@ -30,9 +35,12 @@ export class AppComponent implements OnInit, OnDestroy {
     translate.setDefaultLang('en');
     this.viewContainerRef = viewContainerRef;
     this.toastr.setRootViewContainerRef(viewContainerRef);
-      // this.roles = roleService.getRoles();
+    // this.roles = roleService.getRoles();
   }
 
+  /**
+   * Implementation of OnInit interface. Subscribe on current user
+   */
   ngOnInit(): void {
     this.currentUserSubscr = this.authService.changedCurrentUser
       .subscribe((user: User) => {
@@ -42,10 +50,17 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loggedUser = this.authService.getCurrentUser;
   }
 
+  /**
+   * Implementation of OnDestroy interface. Unsubscribe on current user
+   */
   ngOnDestroy(): void {
     this.currentUserSubscr.unsubscribe();
   }
 
+  /**
+   * Switch language
+   * @param {string} lang language abbreviation ex. En, Ru
+   */
   switchLanguage(lang: string): void {
     if (this.translate.currentLang === lang) return;
     this.translate.use(lang);
@@ -53,5 +68,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   openAdminDashBoard(open: boolean): void {
     this.isAdminDashboardOpened = open;
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

@@ -1,3 +1,11 @@
 <forum-header (onSwitchLang)="switchLanguage($event)"
               (onOpenAdminDashboard)="openAdminDashBoard($event)"></forum-header>
 <router-outlet></router-outlet>
+<div class="goBack">
+  <button type="button"
+          (click)="goBack()"
+          class="btn btn-outline-success btn-sm rounded-circle"
+          ngbTooltip="{{'TOOLTIP.BACK' | translate}}">
+    <i class="fa fa-chevron-left fa-2x" aria-hidden="true"></i>
+  </button>
+</div>

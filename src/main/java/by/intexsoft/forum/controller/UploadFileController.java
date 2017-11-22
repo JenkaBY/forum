@@ -51,6 +51,12 @@ public class UploadFileController {
         return new ResponseEntity<>(links, OK);
     }
 
+    /**
+     * Handle exception when temp location is not found
+     *
+     * @param exc exception to be handle
+     * @return ResponseEntity with 404 status code
+     */
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> handleStorageFileNotFound(IOException exc) {
         return ResponseEntity.notFound().build();

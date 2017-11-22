@@ -38,24 +38,6 @@ public class TopicController {
         this.userService = userService;
     }
 
-//    /**
-//     * Creates the topic given in the body.
-//     *
-//     * @param topic that need to be created
-//     * @return BAD REQUEST if topic data is null. OK with created topic in the body if it has been created.
-//     */
-//    @PostMapping(path = "/new")
-//    public ResponseEntity<?> create(@RequestBody Topic topic) {
-//
-//        if (topic == null) {
-//            LOGGER.warn("User {} was tried to create topic with null parameters.", );
-//            return new ResponseEntity<>(BAD_REQUEST);
-//        }
-//        Topic savedTopic = topicService.save(topic);
-//        LOGGER.info("The topic with id = {0} was created,", savedTopic.getId());
-//        return ok(savedTopic);
-//    }
-
     /**
      * Gets one topic
      *
@@ -124,9 +106,6 @@ public class TopicController {
      */
     @GetMapping(path = "/user")
     public ResponseEntity<?> getTopicsByUserId(@RequestParam(name = "id") Long userId, Pageable pageable) {
-//        if (!securityHelper.getCurrentUser().getId().equals(userId)){
-//            return new ResponseEntity<>(BAD_REQUEST);
-//        }
         return ok(topicService.findAllTopicsDtoByUserId(userId, pageable));
     }
 }

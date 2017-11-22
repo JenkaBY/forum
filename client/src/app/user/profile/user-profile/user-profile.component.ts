@@ -114,8 +114,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.uploadFileService.uploadUserPhoto(formData)
         .subscribe(
           (fileLinks: FileLink[]) => {
-            // do stuff w/my uploaded file
             this.loggedUser.imagePath = fileLinks[0].imagePath;
+            this.imagePath.patchValue(this.loggedUser.imagePath);
             console.log('uploaded file', fileLinks);
             this.notifySuccessUploadPhoto();
           },

@@ -98,7 +98,8 @@
     "REQUEST_TO_TOPIC_DISCUSS": "Request to manager to discuss in the topic.",
     "EDIT_TOPIC": "Edit topic",
     "DELETE_TOPIC": "Delete topic",
-    "REFUSE": "Refuse to discus in the topic"
+    "REFUSE": "Refuse to discus in the topic",
+    "BACK": "Back to previous page"
   },
   "PLACEHOLDER": {
     "TYPE_TEXT": "Please type your message here",

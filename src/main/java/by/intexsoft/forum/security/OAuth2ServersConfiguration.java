@@ -28,9 +28,12 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+import static org.springframework.http.HttpMethod.*;
+
 /**
  * Этот класс служит для объединения двух классов конфигурации...из за того что TokenStore должен
  * быть расшарен между этими классами либо стоит использовать другую реалищацию TokenStore (JdbcTokenStore)
+ * либо исправлять текущую ситуацию
  */
 @Configuration
 public class OAuth2ServersConfiguration {
@@ -87,12 +90,33 @@ public class OAuth2ServersConfiguration {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                    .antMatchers("/api/private").authenticated()
-                    .antMatchers("/api/admin/**").access("hasRole('ROLE_ADMIN')")
-                    //                            .antMatchers("/user/**").access("hasRole('ROLE_ADMIN')")
-                    //                            .antMatchers("/allowed-for-user/**").access("hasRole('ROLE_USER')")
-                    .antMatchers("/**").permitAll()
+                    .antMatchers(GET, "/api/topic/*/all").permitAll() // GET messages in topic
+                    .antMatchers(GET, "/api/topic/all").permitAll() // GET all topics
+                    .antMatchers(GET, "/api/role/all").permitAll() // GET all roles
+                    .antMatchers(GET, "/api/message/**").permitAll() // GET all topics
+
+                    .antMatchers("/api/message/**").access("hasAnyRole('ROLE_MANAGER', 'ROLE_USER')") // POST, DELETE, PUT messages
+                    .antMatchers(GET, "/api/topic/user").access("hasRole('ROLE_USER')") //GET user's topic
+                    .antMatchers(GET, "/api/topic/*").permitAll() //GET topic
+                    .antMatchers("/api/topic/*/discuss_request/**").access("hasRole('ROLE_USER')") //POST, GET topic discuss request
+                    .antMatchers(GET, "/api/topic/discuss_request/my").access("hasRole('ROLE_USER')") //POST new topic discuss request
+                    .antMatchers("/api/topic/discuss_request/**").access("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')") //POST new topic discuss request
+
+                    .antMatchers(GET, "/api/topic/request/all").access("hasRole('ROLE_MANAGER')")
+                    .antMatchers(GET, "/api/topic/request/pending").access("hasRole('ROLE_MANAGER')")
+                    .antMatchers(PUT, "/api/topic/request/**").access("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')")
+                    .antMatchers("/api/topic/request/**").access("hasRole('ROLE_USER')") //GET, POST new create or get my topic request
+                    .antMatchers(POST, "/api/topic/request/new").access("hasRole('ROLE_USER')") //POST new topic discuss request
+
+                    .antMatchers(GET, "/api/user").access("hasRole('ROLE_MANAGER')")
+                    .antMatchers(PUT, "/api/user/**").authenticated() //UPDATE user's data, change password
+                    .antMatchers(DELETE, "/api/user/**").access("hasRole('ROLE_ADMIN')") //UPDATE user's data, change password
+                    .antMatchers("/api/user/**").permitAll()
+
+                    .antMatchers("/api/admin/**").access("hasRole('ROLE_ADMIN')") // GET users
+                    .antMatchers("/upload/user_image").authenticated()
                     .antMatchers("/asset/**").permitAll()
+                    .antMatchers("/**").permitAll()
                     .and()
                     .logout()
                     .logoutUrl("/api/logout/")
