@@ -48,14 +48,13 @@ public class UserController {
 
     /**
      * gets user data by id given in request
-     *
      * @param id id number of user
      * @return BAD_REQUEST if user not found or OK with userData in Body.
      */
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getUserBy(@PathVariable(value = "id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserBy(@PathVariable long id) {
         User user = userService.find(id);
-        if (user == null) {
+        if (Objects.isNull(user)) {
             LOGGER.warn("User with id = {} is not found.", id);
             return new ResponseEntity<>(BAD_REQUEST);
         }
@@ -66,13 +65,12 @@ public class UserController {
 
     /**
      * Delete user by id
-     *
      * @param id id number of user
      * @return BAD_REQUEST if user not found or user is not deleted.
      * OK if user has been deleted.
      */
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteUserBy(@PathVariable(value = "id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUserBy(@PathVariable long id) {
         User currentUser = securityHelper.getCurrentUser();
         User foundUser = userService.find(id);
         if (Objects.isNull(foundUser)) {
@@ -91,8 +89,7 @@ public class UserController {
 
     /**
      * Creates new user.
-     *
-     * @param userDTO user data(password email and name) to be created
+     * @param userDTO user's data(password email and name) to be created
      * @return created user data with OK status.
      */
     @PostMapping(path = "/new")
@@ -109,13 +106,13 @@ public class UserController {
      * @param id id of updated user
      * @return BAD REQUEST if ids doesn't match
      */
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable(value = "id") Long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable long id) {
         if (userDTO.id != id) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        if (userDTO.role.title.compareToIgnoreCase(RoleConst.SYSTEM) == 0) {
-            LOGGER.warn("Was attempt to update the SYSTEM user id={}", id);
+        if (userDTO.role.title.equalsIgnoreCase(RoleConst.SYSTEM)) {
+            LOGGER.warn("Attempt to update the SYSTEM user id={}", id);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         User updatedUser = userService.save(userDTO.transformToUser());
@@ -128,7 +125,7 @@ public class UserController {
      * @param passwords object ChangePassword with raw new password and raw Current password
      * @return BAD REQUEST if password is incorrect. Or OK if password has been updated.
      */
-    @PutMapping(path = "/change_password")
+    @PutMapping("/change_password")
     public ResponseEntity<?> changePassword(@RequestBody ChangePassword passwords) {
         if (!checkPasswordLength(passwords.newPassword)) {
             return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);
@@ -143,12 +140,11 @@ public class UserController {
 
     /**
      * Gets all users by lists in requested params
-     *
      * @param userIds ids of users
      * @return Response with list of UserDTO objects and Response Status OK.
      */
     @GetMapping
-    public ResponseEntity<?> getAllUserByIds(@RequestParam(name = "ids") Set<Long> userIds) {
+    public ResponseEntity<?> getAllUserByIds(@RequestParam("ids") Set<Long> userIds) {
         LOGGER.info("Get all users by ids {}.", userIds);
         Set<User> users = userService.findAllUsersByIds(userIds);
         return new ResponseEntity<>(
@@ -160,12 +156,11 @@ public class UserController {
 
     /**
      * Checks is email exist in DB.
-     *
      * @param email that to be checked.  Parameter in query string
      * @return {@link EntityAware} object in all cases
      */
     @GetMapping("/check_email")
-    public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email") String email) {
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
         if (Objects.isNull(email) || email.isEmpty()) {
             return ok(new EntityAware());
         }
@@ -182,7 +177,7 @@ public class UserController {
      * @return {@link EntityAware} object in all cases
      */
     @GetMapping("/check_name")
-    public ResponseEntity<?> getUserByName(@RequestParam(name = "name") String name) {
+    public ResponseEntity<?> getUserByName(@RequestParam String name) {
         if (Objects.isNull(name) || name.isEmpty()) {
             return ok(new EntityAware());
         }

@@ -49,7 +49,7 @@ public class MessageController {
      * @param message message data.
      * @return BAD_REQUEST if message doesn't exist or OK with updated message
      */
-    @PutMapping(path = "/message/{id}")
+    @PutMapping("/message/{id}")
     public ResponseEntity<?> updateMessage(@PathVariable(value = "id") Long id, @RequestBody Message message) {
         if (!message.getId().equals(id)) {
             LOGGER.warn("Attempt to update message with id={} with message = {}", id, message);
@@ -66,9 +66,9 @@ public class MessageController {
      * @return BAD_REQUEST if message doesn't exist or OK with empty object in the body. Empty body needed for angular
      */
     @DeleteMapping(path = "/message/{id}")
-    public ResponseEntity<?> deleteMessage(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> deleteMessage(@PathVariable(value = "id") long id) {
         if (Objects.isNull(id)) {
-            LOGGER.warn("Attempt to delete message with id={}", id);
+            LOGGER.warn("Attempt to delete message with id={}");
             return new ResponseEntity<>(BAD_REQUEST);
         }
         messageService.delete(id);

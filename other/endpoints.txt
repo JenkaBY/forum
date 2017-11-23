@@ -1,0 +1,51 @@
+- /admin/user/all],methods=[GET]}
+- /admin/user/approved],methods=[GET]}
+- /admin/user/blocked],methods=[GET]}
+- /admin/user/rejected],methods=[GET]}
+- /admin/user/pending],methods=[GET]
+
+- /message/{id}],methods=[DELETE]}
+- /message/{id}],methods=[PUT]}
+- /message/new],methods=[POST]}
+- /topic/{topicId}/all],methods=[GET]}
+- /role/all],methods=[GET]}
+- /topic/all],methods=[GET]}
+
+- /topic/{id}],methods=[GET]
+
+- /topic/{id}],methods=[DELETE] 
+- /topic/{id}],methods=[PUT]
+
+- /topic/user],methods=[GET]}
+- /topic/{topicId}/discuss_request/new],methods=[POST]}
+- /topic/discuss_request/{requestId}],methods=[PUT]}
+- /topic/discuss_request/all],methods=[GET]}
+- /topic/discuss_request/my],methods=[GET]}
+- /topic/discuss_request/{requestId}],methods=[DELETE]}
+- /topic/{topicId}/discuss_request],methods=[GET]}
+
+- /topic/request/all],methods=[GET]}
+- /topic/request/pending],methods=[GET]}
+
+- /topic/request/new],methods=[POST]}
+- /topic/request/my],methods=[GET]}
+- /topic/request/{id}],methods=[DELETE]}
+
+- /topic/request/{id}],methods=[PUT]}
+
+
+- /upload/user_image],methods=[POST]}
+
+/user/new],methods=[POST]}
+/user/check_email],methods=[GET]}
+/user/check_name],methods=[GET]}
+/user/{id}],methods=[GET]}
+
+-/user/{id}],methods=[PUT]}
+-/user/change_password],methods=[PUT]}
+
+-/user/{id}],methods=[DELETE]}
+
+-/user,methods=[GET]}
+
+

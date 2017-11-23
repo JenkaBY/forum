@@ -1,0 +1,30 @@
+message Http failure response for http://localhost:4200/api/oauth/token?grant_type=password&username=notify@notify&password=123456: 400 Bad Request
+error {error: "invalid_grant", error_description: "User account is locked"}
+status 400
+status text Bad Request
+
+/**
+** если два параметра одновременно установлены в фолс
+**  enabled = false
+*** accountNonLocked = false
+***
+message Http failure response for http://localhost:4200/api/oauth/token?grant_type=password&username=notify@notify&password=123456: 400 Bad Request
+error {error: "invalid_grant", error_description: "User account is locked"}
+status 400
+status text Bad Request
+
+*************
+*** если только enabled = false
+**
+error {error: "invalid_grant", error_description: "User is disabled"}
+status 400
+status text Bad Request
+
+**** INVALID CREDENTIAL
+error {error: "invalid_grant", error_description: "Bad credentials"}
+
+1. User создал аккаунт и approvedBy = null AND  rejected = false;
+2. пользователь подтвержден approvedBy = 2 AND  rejected = false;
+3. пользователь подтвержден approvedBy = 2 AND  rejected = true;
+accountNonLocked ~ rejected = true
+enabled ~ approvedBy = null
