@@ -24,7 +24,7 @@ import static org.springframework.http.ResponseEntity.ok;
  * Controller for manage the topics
  */
 @RestController
-@RequestMapping(path = "/topic")
+@RequestMapping("/topic")
 public class TopicController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicController.class);
     private TopicService topicService;
@@ -40,28 +40,26 @@ public class TopicController {
 
     /**
      * Gets one topic
-     *
      * @param id number requested topic
      * @return OK if with topic in the body.
      */
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getTopic(@PathVariable(name = "id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTopic(@PathVariable long id) {
         LOGGER.info("Get topic with id = {}", id);
         return ok(new TopicDTO(topicService.find(id)));
     }
 
     /**
      * Updates the topic data
-     *
      * @param id    number of topic to update
      * @param topic data
      * @return BAD REQUEST if topic.id from body is not equal id or body is null or topic.id <= 0
      */
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<?> updateTopic(@PathVariable(name = "id") Long id, @RequestBody TopicDTO topic) {
-        User manager = securityHelper.getCurrentUser();
-        if (topic == null || !id.equals(topic.id)) {
-            LOGGER.warn("User {} was tried to update topic with null parameters.", manager);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateTopic(@PathVariable long id, @RequestBody TopicDTO topic) {
+        User currentUser = securityHelper.getCurrentUser();
+        if (topic == null || !topic.id.equals(id)) {
+            LOGGER.warn("User {} was tried to update topic with null parameters.", currentUser);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         Topic savedTopic = topicService.save(topic.convertToTopic());
@@ -70,15 +68,17 @@ public class TopicController {
 
     /**
      * delete topic from DB
-     *
      * @param id number of topic to be deleted
      * @return OK status
      */
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteTopic(@PathVariable(name = "id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTopic(@PathVariable long id) {
         User loggedUser = securityHelper.getCurrentUser();
-        LOGGER.info("User with id = {} was deleted topic with id = {}", loggedUser.getId(), id);
         topicService.delete(id);
+        if (Objects.nonNull(topicService.find(id))) {
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
+        LOGGER.info("User with id = {} was deleted topic with id = {}", loggedUser.getId(), id);
         return new ResponseEntity<>(NO_CONTENT);
     }
 
@@ -88,8 +88,8 @@ public class TopicController {
      * @param pageable parameters of page
      * @return OK status and Page with TopicDTO objects
      */
-    @GetMapping(path = "/all")
-    public ResponseEntity<?> getAllTopic(@RequestParam(name = "title", required = false) String title, Pageable pageable) {
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllTopic(@RequestParam(required = false) String title, Pageable pageable) {
         if (Objects.nonNull(title) && !title.isEmpty()) {
             Page<TopicDTO> topics = topicService.findAllByTopicTitle(title, pageable);
             return ok(topics);
@@ -104,8 +104,8 @@ public class TopicController {
      * @param pageable parameter of page request
      * @return page object with content and page parameters of topics
      */
-    @GetMapping(path = "/user")
-    public ResponseEntity<?> getTopicsByUserId(@RequestParam(name = "id") Long userId, Pageable pageable) {
+    @GetMapping("/user")
+    public ResponseEntity<?> getTopicsByUserId(@RequestParam("id") long userId, Pageable pageable) {
         return ok(topicService.findAllTopicsDtoByUserId(userId, pageable));
     }
 }

@@ -22,7 +22,7 @@ import static org.springframework.http.ResponseEntity.ok;
  * Controller for manage the topic discuss requests
  */
 @RestController
-@RequestMapping(path = "/topic")
+@RequestMapping("/topic")
 public class TopicDiscussRequestController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicDiscussRequestController.class);
     private TopicDiscussRequestService topicDiscussRequestService;
@@ -36,46 +36,38 @@ public class TopicDiscussRequestController {
 
     /**
      * Get all pending topics discuss request per page
-     *
      * @param pageable parameters of page
      * @return Page with content
      */
-    @GetMapping(path = "/discuss_request/all")
+    @GetMapping("/discuss_request/all")
     public ResponseEntity<?> getAllPending(Pageable pageable) {
         User currentUser = securityHelper.getCurrentUser();
-
         LOGGER.info("{} requests all pending inTopic discuss requests", currentUser);
         return new ResponseEntity<>(topicDiscussRequestService.findAllPending(pageable), OK);
     }
 
     /**
      * Get all pending topics discuss request per page
-     *
      * @param pageable parameters of page
-     * @return Page with content
+     * @return Page with content and page params
      */
-    @GetMapping(path = "/discuss_request/my")
+    @GetMapping("/discuss_request/my")
     public ResponseEntity<?> getAllUserRequests(Pageable pageable) {
         User currentUser = securityHelper.getCurrentUser();
-
         LOGGER.info("{} requested all his discuss requests", currentUser);
         return new ResponseEntity<>(topicDiscussRequestService.findAllByUser(currentUser, pageable), OK);
     }
 
     /**
      * Creates topic discuss request in parameters provided in request
-     *
      * @param topicId id of topic in which user wants to discuss
      * @param request data of topic discuss request
      * @return
      */
-    @PostMapping(path = "/{topicId}/discuss_request/new")
-    public ResponseEntity<?> createRequest(@PathVariable("topicId") Long topicId, @RequestBody TopicDiscussRequest request) {
+    @PostMapping("/{topicId}/discuss_request/new")
+    public ResponseEntity<?> createRequest(@PathVariable long topicId, @RequestBody TopicDiscussRequest request) {
         LOGGER.info("Creating the topicDiscussRequest in the topic {} was requested by {}",
                 topicId, request.requestedBy.getId());
-        if (Objects.isNull(request) || !topicId.equals(request.inTopic.getId())) {
-            return new ResponseEntity<>(BAD_REQUEST);
-        }
         TopicDiscussRequest created = topicDiscussRequestService.save(request);
         if (Objects.isNull(created)) {
             return new ResponseEntity<>(BAD_REQUEST);
@@ -85,20 +77,16 @@ public class TopicDiscussRequestController {
 
     /**
      * Updates the given topic discuss request
-     *
      * @param requestId id request needed to update
      * @param request   request data
      * @return Response with updated topicDiscussRequest or BadRequest.
      */
     @PutMapping("/discuss_request/{requestId}")
-    public ResponseEntity<?> updateRequest(@PathVariable("requestId") Long requestId,
+    public ResponseEntity<?> updateRequest(@PathVariable long requestId,
                                            @RequestBody TopicDiscussRequest request) {
         User currentUser = securityHelper.getCurrentUser();
 
         LOGGER.info("Updating the topicDiscussRequest was requested by {}", currentUser);
-        if (Objects.isNull(request)) {
-            return new ResponseEntity<>(BAD_REQUEST);
-        }
         request.approvedBy = currentUser;
         request.approvedAt = new Timestamp(new Date().getTime());
         TopicDiscussRequest updated = topicDiscussRequestService.save(request);
@@ -107,22 +95,26 @@ public class TopicDiscussRequestController {
 
     /**
      * Gets topics discuss request by parameters given in the request params
-     *
      * @param userId  id of user
      * @param topicId id of topic
      * @return OK with content in a body
      */
-    @GetMapping(path = "/{topicId}/discuss_request")
-    public ResponseEntity<?> getTopicDiscussRequestByUserId(@RequestParam("userId") Long userId,
-                                                            @PathVariable("topicId") Long topicId) {
+    @GetMapping("/{topicId}/discuss_request")
+    public ResponseEntity<?> getTopicDiscussRequestByUserId(@RequestParam long userId,
+                                                            @PathVariable long topicId) {
         LOGGER.info("Get TopicDiscussRequest by UserId {} and TopicId {}.", userId, topicId);
-
         TopicDiscussRequest discussRequest = topicDiscussRequestService.getByTopicIdAndUserId(topicId, userId);
         return Objects.isNull(discussRequest) ? new ResponseEntity<>(NO_CONTENT) : ok(discussRequest);
     }
 
+    /**
+     * Deletes topicRequest
+     *
+     * @param requestId id of topic request to be deleted
+     * @return OK if was deleted and Bad_requesr if not
+     */
     @DeleteMapping("/discuss_request/{requestId}")
-    public ResponseEntity<?> deleteTopicDiscussRequest(@PathVariable("requestId") Long requestId) {
+    public ResponseEntity<?> deleteTopicDiscussRequest(@PathVariable long requestId) {
         this.topicDiscussRequestService.delete(requestId);
         return new ResponseEntity<>(Objects.isNull(this.topicDiscussRequestService.find(requestId)) ? NO_CONTENT : BAD_REQUEST);
     }

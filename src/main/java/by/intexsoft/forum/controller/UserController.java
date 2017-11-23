@@ -95,7 +95,6 @@ public class UserController {
     @PostMapping(path = "/new")
     public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
         User createdUser = userService.save(userDTO.transformToUser());
-        // TODO create case if error occurs while saving user
         LOGGER.info("New user id={} was created.", userDTO.id);
         return new ResponseEntity<>(new UserDTO(createdUser), CREATED);
     }

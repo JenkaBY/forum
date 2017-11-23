@@ -17,7 +17,7 @@ import static org.springframework.http.ResponseEntity.ok;
  * Controller for manage roles.
  */
 @RestController
-@RequestMapping(path = "/role")
+@RequestMapping("/role")
 public class RoleController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(RoleController.class);
     private RoleService roleService;
@@ -28,11 +28,10 @@ public class RoleController {
     }
 
     /**
-     * Get all roles except 'SYSTEM' role from DB
-     *
+     * Get all roles except 'SYSTEM' role
      * @return response with list of existing roles.
      */
-    @GetMapping(path = "/all")
+    @GetMapping("/all")
     public ResponseEntity<?> getRoles() {
         return ok(roleService.findAll()
                 .stream()
