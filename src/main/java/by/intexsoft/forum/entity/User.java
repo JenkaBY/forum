@@ -13,7 +13,7 @@ import static javax.persistence.FetchType.LAZY;
  */
 @Entity
 @Table(name = "users")
-public class User extends AbstractEntity {
+public class User extends AbstractVersionEntity {
 
     private static final long serialVersionUID = 2114056750097110098L;
 

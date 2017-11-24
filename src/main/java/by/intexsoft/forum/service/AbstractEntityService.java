@@ -1,13 +1,13 @@
 package by.intexsoft.forum.service;
 
-import by.intexsoft.forum.entity.AbstractEntity;
+import by.intexsoft.forum.entity.AbstractVersionEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface AbstractEntityService<T extends AbstractEntity> {
-	void delete(long id);
+public interface AbstractEntityService<T extends AbstractVersionEntity> {
+    void delete(long id);
 
 	T save(T entity);
 

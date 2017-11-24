@@ -1,18 +1,15 @@
 package by.intexsoft.forum.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.sql.Timestamp;
 
 @MappedSuperclass
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "new"})
-public class AbstractEntity extends AbstractPersistable<Long> {
-
-	private static final long serialVersionUID = -140584652196083093L;
+public abstract class AbstractVersionEntity extends AbstractSystemEntity {
+    private static final long serialVersionUID = -140584652196083093L;
 
 	@Column(columnDefinition = "boolean default false", nullable = false, insertable = false)
 	public boolean deleted;
@@ -20,6 +17,10 @@ public class AbstractEntity extends AbstractPersistable<Long> {
 	@Column(name = "created_at", updatable = false)
 	@CreationTimestamp
 	public Timestamp createdAt;
+
+    @Version
+    @Column(columnDefinition = "default 0", nullable = false)
+    public long version;
 
 	public void setId(long id) {
 		super.setId(id);

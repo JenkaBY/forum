@@ -1,6 +1,6 @@
 package by.intexsoft.forum.service.impl;
 
-import by.intexsoft.forum.entity.AbstractEntity;
+import by.intexsoft.forum.entity.AbstractVersionEntity;
 import by.intexsoft.forum.service.AbstractEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public class AbstractEntityServiceImpl<T extends AbstractEntity> implements AbstractEntityService<T> {
+public class AbstractEntityServiceImpl<T extends AbstractVersionEntity> implements AbstractEntityService<T> {
 
 	protected JpaRepository<T, Long> repository;
 

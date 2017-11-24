@@ -1,16 +1,15 @@
 package by.intexsoft.forum.entity;
 
-import by.intexsoft.forum.entity.helper.Status;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "topic_discuss_requests")
-public class TopicDiscussRequest extends AbstractEntity {
+public class TopicDiscussRequest extends AbstractVersionEntity {
     private static final long serialVersionUID = 2114056750097120018L;
 
     @ManyToOne(fetch = LAZY)
@@ -30,5 +29,9 @@ public class TopicDiscussRequest extends AbstractEntity {
 
     @Enumerated(STRING)
     @Column(length = 10)
-    public Status status;
+    public by.intexsoft.forum.entity.helper.Status status;
+
+    @ManyToOne(fetch = EAGER)
+    @JoinColumn(name = "status_id", nullable = false)
+    public Status statusId;
 }

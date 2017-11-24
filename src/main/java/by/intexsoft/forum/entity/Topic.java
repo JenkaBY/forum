@@ -10,7 +10,7 @@ import static javax.persistence.FetchType.LAZY;
  */
 @Entity
 @Table(name = "topics")
-public class Topic extends AbstractEntity{
+public class Topic extends AbstractVersionEntity {
 
     @Column(unique = true, nullable = false)
     public String title;
