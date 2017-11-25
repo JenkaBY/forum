@@ -1,8 +1,8 @@
-import { AbstractEntity } from './abstract-entity';
 import { User } from './user';
 import { Topic } from './topic';
+import { AbstractVersioningEntity } from './abstract/abstract-versioning-entity';
 
-export class Message extends AbstractEntity {
+export class Message extends AbstractVersioningEntity {
     text: string;
     createdBy: User;
     updatedBy: User;

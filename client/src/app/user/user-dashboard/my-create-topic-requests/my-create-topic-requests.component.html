@@ -23,7 +23,7 @@
             <td width="45%">
                 {{ topicRequest.requestedTopicDescription }}
             </td>
-            <td width="5%">{{ topicRequest.status }}</td>
+          <td width="5%">{{ getTranslationStatusStr(topicRequest.status.title) | translate }}</td>
             <td width="30%">
                 <button *ngIf="isApproved(topicRequest); else notApproved"
                         type="button"

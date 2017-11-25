@@ -1,10 +1,10 @@
 package by.intexsoft.forum.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.Version;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 import java.sql.Timestamp;
 
 @MappedSuperclass

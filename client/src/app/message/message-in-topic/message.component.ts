@@ -60,7 +60,7 @@ export class MessageComponent implements OnInit {
   }
 
   /**
-   * Eventlistner on 'Edit' button. Open edit form.
+   * Event listner on 'Edit' button. Open edit form.
    */
   onEdit(): void {
     this.previousMsgText = this.message.text;
@@ -110,7 +110,7 @@ export class MessageComponent implements OnInit {
           this.isEdit = false;
           this.message.text = this.previousMsgText;
           this.handleError(error);
-          this.notifyWarningMsgUpdated();
+          // this.notifyWarningMsgUpdated();
         }
       );
   }
@@ -130,14 +130,14 @@ export class MessageComponent implements OnInit {
   }
 
   private handleError(error: HttpErrorResponse) {
-    this.translateService.get('ERROR.COMMON_ERROR').subscribe(
-      (translation: string) => {
-        this.toastr.error(translation);
-      }
-    );
     if (!environment.production) {
       console.log(error);
     }
+    if (error.error && error.error.message) {
+      this.toastr.error(error.error.message);
+      return;
+    }
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
   }
 
   private calculateRowsForEditMsg(): number {

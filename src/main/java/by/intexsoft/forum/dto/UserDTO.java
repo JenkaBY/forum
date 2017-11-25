@@ -20,6 +20,7 @@ public class UserDTO {
     public Long approverId;
     public Role role;
     public Timestamp createdAt;
+    public long version;
 
     public UserDTO() {
     }
@@ -35,12 +36,13 @@ public class UserDTO {
         approverId = user.approvedBy != null ? user.approvedBy.getId() : null;
         role = user.role;
         createdAt = user.createdAt;
+        version = user.version;
     }
 
     /**
      * Converts object to {@link User} object
      *
-     * @return User instanse of User class
+     * @return User instance of User class
      */
     public User transformToUser() {
         User user = new User();
@@ -53,6 +55,7 @@ public class UserDTO {
         user.blocked = blocked;
         user.rejected = rejected;
         user.createdAt = createdAt;
+        user.version = version;
         if (approverId != null) {
             user.approvedBy = new User();
             user.approvedBy.setId(approverId);

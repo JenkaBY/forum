@@ -17,7 +17,7 @@
                 </button>
             </td>
             <td width="15%">
-                {{ discussRequest.status }}
+              {{ getTranslationString(discussRequest.status.title) | translate }}
             </td>
             <td width="5%">
                 <button type="button"

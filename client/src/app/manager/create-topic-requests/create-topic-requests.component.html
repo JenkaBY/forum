@@ -1,55 +1,55 @@
 <div *ngIf="entities" class="table-responsive">
-    <table class="table table-bordered table-hover table-sm">
-        <thead>
-        <tr>
-            <th>{{ 'CREATE_TOPIC_REQUEST.ID' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.TITLE' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.STATUS' | translate }}</th>
-            <th>{{ 'CREATE_TOPIC_REQUEST.REQUESTED_BY' | translate }}</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-        </tr>
-        </thead>
-        <tbody *ngIf="entities.length > 0; else noRequests">
-        <tr *ngFor="let request of entities">
-            <td width="5%">{{ request.id }}</td>
-            <td width="15%">{{ request.requestedTopicTitle }}</td>
-            <td width="60%">{{ request.requestedTopicDescription }}</td>
-            <td width="5%">{{ request.status }}</td>
-            <td width="5%">{{ request.requestedBy?.name }}</td>
-            <td width="5%">
-                <button class="btn btn-outline-success btn-sm"
-                        (click)="onApprove(request)"
-                        [disabled]='approving'>{{ 'BUTTON.APPROVE'| translate}}
-                </button>
-            </td>
-            <td width="5%">
-                <button class="btn btn-outline-danger btn-sm"
-                        (click)="onReject(request)"
-                        [disabled]='rejecting'>{{ 'BUTTON.REJECT'| translate}}
-                </button>
-            </td>
-        </tr>
-        </tbody>
-        <ng-template #noRequests>
-            <tbody>
-            <tr>
-                <td colspan="7">
-                    There is no new create topic requests.
-                </td>
-            </tr>
-            </tbody>
-        </ng-template>
-    </table>
+  <table class="table table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+      <th>{{ 'CREATE_TOPIC_REQUEST.ID' | translate }}</th>
+      <th>{{ 'CREATE_TOPIC_REQUEST.TITLE' | translate }}</th>
+      <th>{{ 'CREATE_TOPIC_REQUEST.DESCRIPTION' | translate }}</th>
+      <th>{{ 'CREATE_TOPIC_REQUEST.STATUS' | translate }}</th>
+      <th>{{ 'CREATE_TOPIC_REQUEST.REQUESTED_BY' | translate }}</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="entities.length > 0; else noRequests">
+    <tr *ngFor="let request of entities">
+      <td width="5%">{{ request.id }}</td>
+      <td width="15%">{{ request.requestedTopicTitle }}</td>
+      <td width="60%">{{ request.requestedTopicDescription }}</td>
+      <td width="5%">{{ getStatusTranslationStr(request.status.title) | translate }}</td>
+      <td width="5%">{{ request.requestedBy?.name }}</td>
+      <td width="5%">
+        <button class="btn btn-outline-success btn-sm"
+                (click)="onApprove(request)"
+                [disabled]='approving'>{{ 'BUTTON.APPROVE'| translate}}
+        </button>
+      </td>
+      <td width="5%">
+        <button class="btn btn-outline-danger btn-sm"
+                (click)="onReject(request)"
+                [disabled]='rejecting'>{{ 'BUTTON.REJECT'| translate}}
+        </button>
+      </td>
+    </tr>
+    </tbody>
+    <ng-template #noRequests>
+      <tbody>
+      <tr>
+        <td colspan="7">
+          There is no new create topic requests.
+        </td>
+      </tr>
+      </tbody>
+    </ng-template>
+  </table>
 
-    <ngb-pagination
-            *ngIf="entities"
-            [collectionSize]="totalElements"
-            [(page)]="currentPage"
-            (pageChange)="onPageChange()"
-            [maxSize]="maxSize"
-            size="sm" [pageSize]="pageSize">
-    </ngb-pagination>
+  <ngb-pagination
+      *ngIf="entities"
+      [collectionSize]="totalElements"
+      [(page)]="currentPage"
+      (pageChange)="onPageChange()"
+      [maxSize]="maxSize"
+      size="sm" [pageSize]="pageSize">
+  </ngb-pagination>
 
 </div>

@@ -32,6 +32,8 @@ import { ManagerModule } from './manager/manager.module';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtendedTranslationService } from './shared/translation-service/extended-translation.service';
+import { StatusService } from './shared/status/status.service';
+import { LocaleInterceptor } from './shared/locale-interceptor';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
@@ -75,6 +77,11 @@ export function createTranslateLoader(http: Http) {
       useClass: AuthInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LocaleInterceptor,
+      multi: true,
+    },
     AuthenticationService,
     {provide: 'guardService', useClass: GuardService},
     {provide: 'cacheableUserService', useClass: UserCacheableService},
@@ -84,6 +91,7 @@ export function createTranslateLoader(http: Http) {
     {provide: 'roleService', useClass: RoleService},
     {provide: 'topicDiscussRequestService', useClass: TopicDiscussRequestService},
     {provide: 'uploadFileService', useClass: UploadFileService},
+    {provide: 'statusService', useClass: StatusService},
     {provide: TranslateService, useClass: ExtendedTranslationService}
   ],
   entryComponents: [ModalPrompt],

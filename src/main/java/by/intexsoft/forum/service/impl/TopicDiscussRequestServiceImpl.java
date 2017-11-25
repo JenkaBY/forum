@@ -5,6 +5,7 @@ import by.intexsoft.forum.entity.TopicDiscussRequest;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.entity.helper.Status;
 import by.intexsoft.forum.repository.TopicDiscussRequestRepository;
+import by.intexsoft.forum.service.StatusService;
 import by.intexsoft.forum.service.TopicDiscussRequestService;
 import by.intexsoft.forum.service.TopicService;
 import by.intexsoft.forum.service.UserService;
@@ -23,14 +24,18 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicDiscussRequestServiceImpl.class);
     private TopicService topicService;
     private UserService userService;
+    private StatusService statusService;
 
     @Autowired
     public TopicDiscussRequestServiceImpl(TopicDiscussRequestRepository repository,
                                           TopicService topicService,
-                                          UserService userService) {
+                                          UserService userService,
+                                          StatusService statusService) {
         super(repository);
         this.topicService = topicService;
         this.userService = userService;
+        this.statusService = statusService;
+
     }
 
     /**
@@ -41,7 +46,9 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
      */
     @Override
     public Page<TopicDiscussRequest> findAllPending(Pageable pageable) {
-        return ((TopicDiscussRequestRepository) repository).findByStatus(Status.PENDING, pageable);
+        return ((TopicDiscussRequestRepository) repository).findByStatus(
+                this.statusService.findByTitle(Status.PENDING.name()),
+                pageable);
     }
 
     @Override
@@ -58,12 +65,13 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
 
     /**
      * Save topic request in DB. If topicDiscussRequest has status equals Status.APPROVED then the topic will be created too.
+     *
      * @param topicDiscussRequest Topic request from the client
      * @return TopicDiscussRequestRepository saved.
      */
     @Override
     public TopicDiscussRequest save(TopicDiscussRequest topicDiscussRequest) {
-        if (topicDiscussRequest.status == Status.APPROVED) {
+        if (topicDiscussRequest.status.equals(this.statusService.findByTitle(Status.APPROVED.name()))) {
             Topic topic = topicService.find(topicDiscussRequest.inTopic.getId());
             if (Objects.isNull(topic.allowedUsers)) {
                 topic.allowedUsers = new HashSet<>();
@@ -82,7 +90,7 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
     @Override
     public void delete(long discussRequestId) {
         TopicDiscussRequest discussRequest = this.find(discussRequestId);
-        if (discussRequest.status == Status.APPROVED) {
+        if (discussRequest.status.equals(this.statusService.findByTitle(Status.APPROVED.name()))) {
             Topic discussedTopic = discussRequest.inTopic;
             boolean deleted = discussedTopic.removeAllowedUser(discussRequest.requestedBy);
             topicService.save(discussedTopic);

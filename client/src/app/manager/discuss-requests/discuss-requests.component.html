@@ -21,7 +21,7 @@
                 </button>
             </td>
             <td width="15%">{{ request.requestedBy.name }}</td>
-            <td width="5%">{{ request.status }}</td>
+          <td width="5%">{{ getTranslationString(request.status.title) | translate }}</td>
             <td width="5%">
                 <button class="btn btn-outline-success btn-sm"
                         (click)="onApprove(request)"

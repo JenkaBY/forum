@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 import { Role } from '../entity/role';
 import { RoutesConst } from '../constants/routes.constants';
@@ -14,22 +15,11 @@ export class RoleService implements IRoleService {
   constructor(private  http: HttpClient) {
   }
 
-  getAllRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(RoutesConst.ALL_ROLES);
-  }
-
-  private initializeRoles() {
-    this.getAllRoles().subscribe(
-      (roles: Role[]) => {
-        this.roles = roles;
-      },
-      (error) => {
-        console.log(error);
-      }
-    )
-  }
-
-  getRoles(): Role[] {
-      return null;
+  getRoles(): Observable<Role[]> {
+    if (this.roles) {
+      return Observable.of(this.roles);
+    }
+    return this.http.get<Role[]>(RoutesConst.ALL_ROLES)
+      .do((roles: Role[]) => this.roles = roles);
   }
 }

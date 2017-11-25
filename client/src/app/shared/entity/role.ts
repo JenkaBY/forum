@@ -1,12 +1,13 @@
-import { AbstractEntity } from './abstract-entity';
+import { AbstractSystemEntity } from './abstract/abstract-system-entity';
 
-export class Role extends AbstractEntity {
+export class Role extends AbstractSystemEntity {
   title: string;
 }
 
-const user = "USER";
-const admin = "ADMIN";
-const manager = "MANAGER";
+const user = 'USER';
+const admin = 'ADMIN';
+const manager = 'MANAGER';
+const system = 'SYSTEM';
 
 export class UserRole {
   static get USER(): string {
@@ -19,5 +20,9 @@ export class UserRole {
 
   static get MANAGER(): string {
     return manager;
+  }
+
+  static get SYSTEM(): string {
+    return system;
   }
 }

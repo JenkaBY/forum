@@ -1,9 +1,9 @@
 package by.intexsoft.forum.repository;
 
+import by.intexsoft.forum.entity.Status;
 import by.intexsoft.forum.entity.Topic;
 import by.intexsoft.forum.entity.TopicDiscussRequest;
 import by.intexsoft.forum.entity.User;
-import by.intexsoft.forum.entity.helper.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

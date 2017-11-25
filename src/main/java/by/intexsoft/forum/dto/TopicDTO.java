@@ -19,6 +19,7 @@ public class TopicDTO {
     public Set<Long> allowedUserIds;
     public String imagePath;
     public String description;
+    public long version;
 
     public TopicDTO() {
     }
@@ -36,6 +37,7 @@ public class TopicDTO {
         description = topic.description;
         createdById = topic.createdBy.getId();
         imagePath = topic.imagePath;
+        version = topic.version;
         allowedUserIds = topic.allowedUsers
                 .stream()
                 .map(user -> user.getId())
@@ -56,6 +58,7 @@ public class TopicDTO {
         topic.deleted = deleted;
         topic.imagePath = imagePath;
         topic.title = title;
+        topic.version = version;
         topic.allowedUsers = allowedUserIds
                 .stream()
                 .map(userId -> {

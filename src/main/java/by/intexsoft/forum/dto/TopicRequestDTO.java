@@ -1,7 +1,7 @@
 package by.intexsoft.forum.dto;
 
+import by.intexsoft.forum.entity.Status;
 import by.intexsoft.forum.entity.TopicRequest;
-import by.intexsoft.forum.entity.helper.Status;
 
 /**
  * Representation TopicRequest to exchange between frontend and backend.
@@ -13,6 +13,7 @@ public class TopicRequestDTO {
     public Status status;
     public String reason;
     public long requestedById;
+    public long version;
 
     /**
      * For Jakson mapper
@@ -24,11 +25,12 @@ public class TopicRequestDTO {
      * @param topicRequest
      */
     public TopicRequestDTO(TopicRequest topicRequest) {
-        this.id = topicRequest.getId();
-        this.requestedTopicTitle = topicRequest.requestedTopicTitle;
-        this.requestedTopicDescription = topicRequest.requestedTopicDescription;
-        this.requestedById = topicRequest.requestedBy.getId();
-        this.status = topicRequest.status;
-        this.reason = topicRequest.reason;
+        id = topicRequest.getId();
+        requestedTopicTitle = topicRequest.requestedTopicTitle;
+        requestedTopicDescription = topicRequest.requestedTopicDescription;
+        requestedById = topicRequest.requestedBy.getId();
+        status = topicRequest.status;
+        reason = topicRequest.reason;
+        version = topicRequest.version;
     }
 }

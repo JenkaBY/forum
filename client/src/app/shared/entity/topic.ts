@@ -1,7 +1,7 @@
-import { AbstractEntity } from './abstract-entity';
 import { User } from './user';
+import { AbstractVersioningEntity } from './abstract/abstract-versioning-entity';
 
-export class Topic extends AbstractEntity {
+export class Topic extends AbstractVersioningEntity {
   title: string;
   createdBy: User;
   createdById: number;

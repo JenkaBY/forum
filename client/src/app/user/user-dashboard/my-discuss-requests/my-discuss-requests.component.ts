@@ -83,4 +83,8 @@ export class MyDiscussRequestsComponent extends Pageable<TopicDiscussRequest> im
       )
     );
   }
+
+  private getTranslationString(status: string): string {
+    return `STATUS.${status}`;
+  }
 }

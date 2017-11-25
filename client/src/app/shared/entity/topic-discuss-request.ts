@@ -1,21 +1,22 @@
-import { AbstractEntity } from './abstract-entity';
 import { Topic } from './topic';
 import { User } from './user';
+import { AbstractVersioningEntity } from './abstract/abstract-versioning-entity';
+import { Status } from './status';
 
-export class TopicDiscussRequest extends AbstractEntity {
+export class TopicDiscussRequest extends AbstractVersioningEntity {
   requestedBy: User;
   approvedBy: User;
   approvedAt: Date;
   requestedById: number;
   inTopic: Topic;
-  status: string;
+  status: Status;
 }
 
 const PENDING = 'PENDING';
 const APPROVED = 'APPROVED';
 const REJECTED = 'REJECTED';
 
-export class Status {
+export class StatusConst {
   static get PENDING() {
     return PENDING;
   }

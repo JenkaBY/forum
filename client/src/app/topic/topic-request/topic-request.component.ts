@@ -12,8 +12,8 @@ import ITopicRequestService from './interface/icreate-topic-request.service';
 import { TopicRequest } from '../../shared/entity/topic-request';
 import { User } from '../../shared/entity/user';
 import { Constants } from '../../shared/constants/constants';
-import { Status } from '../../shared/entity/topic-discuss-request';
 import { environment } from '../../../environments/environment';
+import IStatusService from '../../shared/status/istatus.service';
 
 /**
  * Describes the 'create topic request' page
@@ -34,6 +34,7 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthenticationService,
               @Inject('topicRequestService') private topicRequestService: ITopicRequestService,
+              @Inject('statusService') private statusService: IStatusService,
               @Inject(TranslateService) private translateService: ExtendedTranslationService,
               private toastr: ToastsManager,
               private location: Location,
@@ -99,7 +100,7 @@ export class TopicRequestComponent implements OnInit, OnDestroy {
 
   private convertFormToTopicRequest() {
     this.topicRequest = new TopicRequest();
-    this.topicRequest.status = Status.PENDING;
+    this.topicRequest.status = this.statusService.getPendingStatus();
     this.topicRequest.requestedBy = this.loggedUser;
     this.topicRequest.requestedTopicTitle = this.title.value;
     this.topicRequest.requestedTopicDescription = this.description.value;

@@ -96,7 +96,7 @@ export class TopicListComponent extends Pageable<Topic> implements OnInit, OnDes
     }
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error) {
     this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
     if (!environment.production) {
       console.log(error);

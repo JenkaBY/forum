@@ -1,7 +1,7 @@
-import { AbstractEntity } from './abstract-entity';
 import { Role } from './role';
+import { AbstractVersioningEntity } from './abstract/abstract-versioning-entity';
 
-export class User extends AbstractEntity {
+export class User extends AbstractVersioningEntity {
   name: string;
   email: string;
   imagePath: string;

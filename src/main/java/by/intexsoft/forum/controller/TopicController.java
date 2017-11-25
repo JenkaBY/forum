@@ -98,7 +98,7 @@ public class TopicController {
     }
 
     /**
-     * Gets all topics by user ID per page.
+     * Gets all topics by user's ID per page.
      *
      * @param userId   request parameter. Id of user needed to get all topics
      * @param pageable parameter of page request

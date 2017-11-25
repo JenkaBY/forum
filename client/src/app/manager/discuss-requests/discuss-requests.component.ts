@@ -2,13 +2,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Page } from '../../shared/entity/page';
-import { Status, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
+import { StatusConst, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
 import { Pageable } from '../../shared/entity/pageable';
 import ITopicDiscussRequestService from '../../topic/topic-disscuss-request/interface/itopic-discuss-request.service';
 import { TranslateService } from 'ng2-translate';
 import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
 import { ToastsManager } from 'ng2-toastr';
 import { environment } from '../../../environments/environment';
+import IStatusService from '../../shared/status/istatus.service';
+import { Status } from '../../shared/entity/status';
 
 /**
  * Describes manager dashboard panel with users topic discuss requests.
@@ -23,6 +25,7 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
   rejecting: boolean = false;
 
   constructor(@Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
+              @Inject('statusService') private statusService: IStatusService,
               @Inject(TranslateService) private translateService: ExtendedTranslationService,
               private toastr: ToastsManager) {
     super();
@@ -50,7 +53,7 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
    * @param {TopicDiscussRequest} request to be approved
    */
   onApprove(request: TopicDiscussRequest): void {
-    this.setStatusAndSaveDiscussRequest(request, Status.APPROVED);
+    this.setStatusAndSaveDiscussRequest(request, this.statusService.getApprovedStatus());
   }
 
   /**
@@ -58,7 +61,7 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
    * @param {TopicDiscussRequest} request to be rejected
    */
   onReject(request: TopicDiscussRequest): void {
-    this.setStatusAndSaveDiscussRequest(request, Status.REJECTED);
+    this.setStatusAndSaveDiscussRequest(request, this.statusService.getRejectedStatus());
   }
 
   /**
@@ -69,23 +72,23 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
     this.getAllPendingRequestsPerPage();
   }
 
-  private setStatusAndSaveDiscussRequest(request: TopicDiscussRequest, status: string) {
+  private setStatusAndSaveDiscussRequest(request: TopicDiscussRequest, status: Status) {
     request.status = status;
-    this.changeExecutingStatus(status);
+    this.changeExecutingStatus(status.title);
     this.discussRequestService.updateRequest(request)
       .subscribe((updatedRequest) => {
           this.onPageChange();
-          this.notifySuccessUpdateStatus(status);
-          this.changeExecutingStatus(status);
+        this.notifySuccessUpdateStatus(status.title);
+        this.changeExecutingStatus(status.title);
         }, (error) => {
           this.handleError(error);
-          this.changeExecutingStatus(status);
+        this.changeExecutingStatus(status.title);
         }
       );
   }
 
   private changeExecutingStatus(status: string) {
-    if (status === Status.APPROVED) {
+    if (status === StatusConst.APPROVED) {
       this.approving = !this.approving;
     } else {
       this.rejecting = !this.rejecting;
@@ -106,5 +109,9 @@ export class DiscussRequestsComponent extends Pageable<TopicDiscussRequest> impl
         'MESSAGES.TOPIC_DISCUSS_REQUEST_CHANGED', {status: translatedStatus}
       )
     );
+  }
+
+  private getTranslationString(status: string): string {
+    return `STATUS.${status}`;
   }
 }

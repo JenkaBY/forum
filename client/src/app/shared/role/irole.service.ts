@@ -3,9 +3,7 @@ import { Observable } from 'rxjs/Observable';
 
 interface IRoleService {
 
-  getAllRoles(): Observable<Role[]>
-
-  getRoles(): Role[];
+  getRoles(): Observable<Role[]>
 }
 
 export default IRoleService;

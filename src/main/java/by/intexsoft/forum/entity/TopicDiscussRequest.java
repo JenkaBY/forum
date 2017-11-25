@@ -3,7 +3,6 @@ package by.intexsoft.forum.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
@@ -27,11 +26,11 @@ public class TopicDiscussRequest extends AbstractVersionEntity {
     @JoinColumn(name = "topic_id", updatable = false)
     public Topic inTopic;
 
-    @Enumerated(STRING)
-    @Column(length = 10)
-    public by.intexsoft.forum.entity.helper.Status status;
+//    @Enumerated(STRING)
+//    @Column(length = 10)
+//    public by.intexsoft.forum.entity.helper.Status status;
 
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "status_id", nullable = false)
-    public Status statusId;
+    public Status status;
 }

@@ -12,12 +12,12 @@ import { AuthenticationService } from '../../../authorization/authentication.ser
 import { Page } from '../../../shared/entity/page';
 import { TopicRequest } from '../../../shared/entity/topic-request';
 import ITopicRequestService from '../../../topic/topic-request/interface/icreate-topic-request.service';
-import { Status } from '../../../shared/entity/topic-discuss-request';
 import { ApiConst } from '../../../shared/constants/routes.constants';
 import { ModifyCreateTopicRequestComponent } from './modify-create-topic-request/modify-create-topic-request.component';
 import { ModalPrompt } from '../../../layout/modal-promt/modal-prompt.component';
 import { ExtendedTranslationService } from '../../../shared/translation-service/extended-translation.service';
 import { environment } from '../../../../environments/environment';
+import IStatusService from '../../../shared/status/istatus.service';
 
 @Component({
   selector: 'app-my-create-topic-requests',
@@ -30,6 +30,7 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
 
   constructor(@Inject('topicRequestService') private topicRequestService: ITopicRequestService,
               @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              @Inject('statusService') private statusService: IStatusService,
               private toastr: ToastsManager,
               private authService: AuthenticationService,
               private modalService: NgbModal,
@@ -96,11 +97,11 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
   }
 
   isApproved(topicRequest: TopicRequest): boolean {
-    return topicRequest.status === Status.APPROVED;
+    return topicRequest.status.title === this.statusService.getApprovedStatus().title;
   }
 
   isPending(topicRequest: TopicRequest): boolean {
-    return topicRequest.status === Status.PENDING;
+    return topicRequest.status.title === this.statusService.getPendingStatus().title;
   }
 
   private fetchAllTopicRequestsOfCurrentUser() {
@@ -128,5 +129,9 @@ export class MyCreateTopicRequestsComponent extends Pageable<TopicRequest> imple
         'MESSAGES.CREATE_TOPIC_REQUEST_CHANGED', {status: translatedStatus}
       )
     );
+  }
+
+  private getTranslationStatusStr(status: string): string {
+    return `STATUS.${status}`;
   }
 }

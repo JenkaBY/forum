@@ -29,6 +29,7 @@ const bearer = 'Bearer ';
 const basic = 'Basic ';
 const authorization = 'Authorization';
 const jsonType = 'application/json';
+const acceptLanguage = 'Accept-Language';
 const multipartFormData = 'multipart/form-data';
 const en = 'en';
 const ru = 'ru';
@@ -77,6 +78,10 @@ export class HeaderConst {
 
   static get basic(): string {
     return basic;
+  }
+
+  static get acceptLanguage(): string {
+    return acceptLanguage;
   }
 }
 

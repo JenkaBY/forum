@@ -93,6 +93,7 @@ public class OAuth2ServersConfiguration {
                     .antMatchers(GET, "/api/topic/*/all").permitAll() // GET messages in topic
                     .antMatchers(GET, "/api/topic/all").permitAll() // GET all topics
                     .antMatchers(GET, "/api/role/all").permitAll() // GET all roles
+                    .antMatchers(GET, "/api/statuses").permitAll() // GET all statuses
                     .antMatchers(GET, "/api/message/**").permitAll() // GET all topics
 
                     .antMatchers("/api/message/**").access("hasAnyRole('ROLE_MANAGER', 'ROLE_USER')") // POST, DELETE, PUT messages

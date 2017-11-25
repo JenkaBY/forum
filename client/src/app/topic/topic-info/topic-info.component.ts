@@ -6,9 +6,10 @@ import { Topic } from '../../shared/entity/topic';
 import { AuthenticationService } from '../../authorization/authentication.service';
 import ITopicDiscussRequestService from '../topic-disscuss-request/interface/itopic-discuss-request.service';
 import { User } from '../../shared/entity/user';
-import { Status, TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
+import { TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
 import { ModalTopicContentComponent } from '../edit-topic/modal-content/modal-topic-content.component';
 import { GuardService } from '../../authorization/guard.service';
+import IStatusService from '../../shared/status/istatus.service';
 
 @Component({
   selector: 'app-topic-info',
@@ -29,6 +30,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthenticationService,
               @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
+              @Inject('statusService') private statusService: IStatusService,
               @Inject('guardService') private guardService: GuardService,
               private modalService: NgbModal) {
   }
@@ -106,7 +108,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   private createTopicDiscussRequest(): TopicDiscussRequest {
     const request = new TopicDiscussRequest();
     request.inTopic = this.topic;
-    request.status = Status.PENDING;
+    request.status = this.statusService.getPendingStatus();
     request.requestedBy = this.loggedUser;
     request.createdAt = new Date();
     return request;

@@ -10,14 +10,15 @@
 						 http://www.springframework.org/schema/tx
 						 http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-	<import resource="classpath:jpa-repositories.xml" />
-	<context:annotation-config />
-	<context:component-scan base-package="by.intexsoft.forum.service by.intexsoft.forum.security"/>
+    <import resource="classpath:jpa-repositories.xml"/>
+    <import resource="classpath:locale-context.xml"/>
+    <context:annotation-config/>
+    <context:component-scan base-package="by.intexsoft.forum.service by.intexsoft.forum.security"/>
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<context:property-placeholder
-		location="classpath:postgres.properties,classpath:hibernate.properties"
-		ignore-unresolvable="true"  />
+            location="classpath:postgres.properties,classpath:hibernate.properties,classpath:locale/messages.properties"
+            ignore-unresolvable="true"  />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

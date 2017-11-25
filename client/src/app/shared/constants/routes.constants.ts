@@ -32,6 +32,7 @@ const USER_IMAGE = 'user_image';
 const CHANGE_PASSWORD = 'change_password';
 const CHECK_EMAIL = 'check_email';
 const CHECK_NAME = 'check_name';
+const STATUSES = 'statuses';
 
 export class ApiConst {
   static get CHANGE_PASSWORD(): string {
@@ -68,6 +69,10 @@ export class ApiConst {
 
   static get GET_ALL_PENDING_TOPIC_DISCUSS_REQUESTS() {
     return RoutesConst.routeFormatAll(TOPIC, DISCUSS_REQUEST, ALL);
+  }
+
+  static get GET_ALL_STATUSES() {
+    return RoutesConst.routeFormatOne(STATUSES);
   }
 }
 

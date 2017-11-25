@@ -5,6 +5,7 @@ import by.intexsoft.forum.entity.TopicRequest;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.entity.helper.Status;
 import by.intexsoft.forum.repository.TopicRequestRepository;
+import by.intexsoft.forum.service.StatusService;
 import by.intexsoft.forum.service.TopicRequestService;
 import by.intexsoft.forum.service.TopicService;
 import ch.qos.logback.classic.Logger;
@@ -18,11 +19,15 @@ import org.springframework.stereotype.Service;
 public class TopicRequestServiceImpl extends AbstractEntityServiceImpl<TopicRequest> implements TopicRequestService {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicRequestServiceImpl.class);
     private TopicService topicService;
+    private StatusService statusService;
 
     @Autowired
-    public TopicRequestServiceImpl(TopicRequestRepository repository, TopicService topicService) {
+    public TopicRequestServiceImpl(TopicRequestRepository repository,
+                                   TopicService topicService,
+                                   StatusService statusService) {
         super(repository);
         this.topicService = topicService;
+        this.statusService = statusService;
     }
 
     /**
@@ -33,12 +38,13 @@ public class TopicRequestServiceImpl extends AbstractEntityServiceImpl<TopicRequ
      */
     @Override
     public Page<TopicRequest> findAllPending(Pageable pageable) {
-        return ((TopicRequestRepository) repository).findByStatus(Status.PENDING, pageable);
+        return ((TopicRequestRepository) repository).findByStatus(statusService.findByTitle(Status.PENDING.name()), pageable);
     }
 
     /**
      * Find all user's requests in batch.
-     * @param user User whom requests should be found
+     *
+     * @param user     User whom requests should be found
      * @param pageable Parameters for retrieving requests per one page
      * @return Page<TopicRequest> one part of all requests.
      */
@@ -50,12 +56,13 @@ public class TopicRequestServiceImpl extends AbstractEntityServiceImpl<TopicRequ
 
     /**
      * Save topic request in DB. If topicRequest has status equals Status.APPROVED then the topic will be created too.
+     *
      * @param topicRequest Topic request from the client
      * @return TopicRequest saved.
      */
     @Override
     public TopicRequest save(TopicRequest topicRequest) {
-        if (topicRequest.status == Status.APPROVED) {
+        if (topicRequest.status.equals(this.statusService.findByTitle(Status.APPROVED.name()))) {
             Topic topic = new Topic();
             topic.title = topicRequest.requestedTopicTitle;
             topic.createdBy = topicRequest.requestedBy;

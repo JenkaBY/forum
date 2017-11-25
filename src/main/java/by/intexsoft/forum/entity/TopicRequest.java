@@ -2,7 +2,6 @@ package by.intexsoft.forum.entity;
 
 import javax.persistence.*;
 
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
@@ -27,13 +26,10 @@ public class TopicRequest extends AbstractVersionEntity {
     @JoinColumn(name = "created_topic_id")
     public Topic createdTopic;
 
-    @Enumerated(STRING)
-    public by.intexsoft.forum.entity.helper.Status status;
-
     @Column(insertable = false, length = 500)
     public String reason;
 
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "status_id", nullable = false)
-    public Status statusId;
+    public Status status;
 }

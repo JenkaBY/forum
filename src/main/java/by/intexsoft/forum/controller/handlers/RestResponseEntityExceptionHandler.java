@@ -1,28 +1,48 @@
 package by.intexsoft.forum.controller.handlers;
 
-import by.intexsoft.forum.dto.ExceptionInfoDTO;
-import org.springframework.http.HttpHeaders;
+import by.intexsoft.forum.dto.ApiErrorResponseDTO;
+import org.hibernate.StaleObjectStateException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Exception handler for all exceptions occurred while application work
  */
 @RestControllerAdvice
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestResponseEntityExceptionHandler {
+    @Autowired
+    private ReloadableResourceBundleMessageSource messageSource;
 
-    @ExceptionHandler(value = {Exception.class})
-    protected ResponseEntity<?> handleConflict(RuntimeException ex, WebRequest request) {
+    @ExceptionHandler({StaleObjectStateException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    protected ApiErrorResponseDTO handleOptimisticLockException(HttpServletRequest request, Exception ex) {
         System.out.println(ex.getMessage());
-        return handleExceptionInternal(ex,
-                new ExceptionInfoDTO(ex.getMessage(), ex.getStackTrace()),
-                new HttpHeaders(),
-                HttpStatus.CONFLICT,
-                request);
+        System.out.println(request.getLocale());
+        return
+                new ApiErrorResponseDTO(ex.getMessage(),
+                        ex.getStackTrace(),
+                        request.getRequestURI(),
+                        HttpStatus.CONFLICT.value(),
+                        messageSource.getMessage("optimistic.lock.error", null, request.getLocale()));
     }
+
+//    @ExceptionHandler({Exception.class})
+//    protected ResponseEntity<?> handleGlobalException(RuntimeException ex, WebRequest request) {
+//        System.out.println(ex.getMessage());
+//        return handleExceptionInternal(ex,
+//                new ApiErrorResponseDTO(ex.getMessage(),
+//                        ex.getStackTrace(),
+//                        request.getDescription(false),
+//                        request.getHeader("Status Code")),
+//                new HttpHeaders(),
+//                HttpStatus.BAD_REQUEST,
+//                request);
+//    }
 }
 
