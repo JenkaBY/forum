@@ -3,10 +3,10 @@ package by.intexsoft.forum.dto;
 /**
  * Describes exists a entity in DB or not
  */
-public class EntityAware {
+public class EntityAwareDTO {
     public boolean found;
 
-    public EntityAware() {
+    public EntityAwareDTO() {
     }
 
     /**
@@ -14,7 +14,7 @@ public class EntityAware {
      *
      * @param found {@code boolean} found or not entity in DB
      */
-    public EntityAware(boolean found) {
+    public EntityAwareDTO(boolean found) {
         this.found = found;
     }
 }

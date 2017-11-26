@@ -278,10 +278,14 @@ export class UsersComponent extends Pageable<User> implements OnInit, OnDestroy 
   }
 
   private handleError(error: HttpErrorResponse) {
-    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
     if (!environment.production) {
       console.log(error);
     }
+    if (error.error && error.error.message) {
+      this.toastr.error(error.error.message);
+      return;
+    }
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
   }
 
   private notifySuccess(id: number, operationKey: string): void {

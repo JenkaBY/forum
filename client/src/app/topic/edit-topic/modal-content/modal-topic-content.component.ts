@@ -85,10 +85,14 @@ export class ModalTopicContentComponent implements OnInit {
   }
 
   private handleError(error) {
-    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
     if (!environment.production) {
       console.log(error);
     }
+    if (error.error && error.error.message) {
+      this.toastr.error(error.error.message);
+      return;
+    }
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
   }
 
   /**

@@ -75,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Switch language
-   * @param {string} lang language abbreviation ex. En, Ru
+   * @param {string} lang language abbreviation ex. en, ru
    */
   switchLanguage(lang: string): void {
     if (this.translate.currentLang === lang) return;

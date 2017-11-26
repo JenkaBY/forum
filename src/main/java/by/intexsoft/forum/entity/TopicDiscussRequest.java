@@ -26,10 +26,6 @@ public class TopicDiscussRequest extends AbstractVersionEntity {
     @JoinColumn(name = "topic_id", updatable = false)
     public Topic inTopic;
 
-//    @Enumerated(STRING)
-//    @Column(length = 10)
-//    public by.intexsoft.forum.entity.helper.Status status;
-
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "status_id", nullable = false)
     public Status status;

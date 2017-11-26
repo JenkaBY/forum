@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { TopicRequest } from '../../../shared/entity/topic-request';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-modal-reject-reason',
@@ -43,7 +44,9 @@ export class ModalRejectReasonComponent implements OnInit {
   }
 
   private handleError(error) {
-    console.log(error);
+    if (!environment.production) {
+      console.log(error);
+    }
   }
 
   get reasonAC(): AbstractControl {

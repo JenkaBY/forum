@@ -10,6 +10,10 @@ import { TopicDiscussRequest } from '../../shared/entity/topic-discuss-request';
 import { ModalTopicContentComponent } from '../edit-topic/modal-content/modal-topic-content.component';
 import { GuardService } from '../../authorization/guard.service';
 import IStatusService from '../../shared/status/istatus.service';
+import { environment } from '../../../environments/environment';
+import { ToastsManager } from 'ng2-toastr';
+import { ExtendedTranslationService } from '../../shared/translation-service/extended-translation.service';
+import { TranslateService } from 'ng2-translate';
 
 @Component({
   selector: 'app-topic-info',
@@ -32,6 +36,8 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
               @Inject('topicDiscussRequestService') private discussRequestService: ITopicDiscussRequestService,
               @Inject('statusService') private statusService: IStatusService,
               @Inject('guardService') private guardService: GuardService,
+              @Inject(TranslateService) private translateService: ExtendedTranslationService,
+              private toastr: ToastsManager,
               private modalService: NgbModal) {
   }
 
@@ -115,6 +121,13 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   private handleError(error: any) {
-    console.log(error);
+    if (!environment.production) {
+      console.log(error);
+    }
+    if (error.error && error.error.message) {
+      this.toastr.error(error.error.message);
+      return;
+    }
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
   }
 }

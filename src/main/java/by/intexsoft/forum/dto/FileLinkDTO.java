@@ -3,13 +3,13 @@ package by.intexsoft.forum.dto;
 /**
  * Contains string with path to image or other file for transfer to frontend.
  */
-public class FileLink {
+public class FileLinkDTO {
     public String imagePath;
 
     /**
      * For Jakson
      */
-    public FileLink() {
+    public FileLinkDTO() {
     }
 
     /**
@@ -17,7 +17,7 @@ public class FileLink {
      *
      * @param imagePath path to file
      */
-    public FileLink(String imagePath) {
+    public FileLinkDTO(String imagePath) {
         this.imagePath = imagePath;
     }
 }

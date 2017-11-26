@@ -1,6 +1,6 @@
 package by.intexsoft.forum.service.impl;
 
-import by.intexsoft.forum.dto.FileLink;
+import by.intexsoft.forum.dto.FileLinkDTO;
 import by.intexsoft.forum.service.UploadFileService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,12 +28,12 @@ public class UploadFileServiceImpl implements UploadFileService {
      * Uploads file to './assets/src-img/' directory
      *
      * @param files files to be uploaded
-     * @return List of {@link FileLink} objects with links to uploaded files
+     * @return List of {@link FileLinkDTO} objects with links to uploaded files
      * @throws IOException if error was occurred during uploading file
      */
     @Override
-    public List<FileLink> uploadUserImage(List<MultipartFile> files) throws IOException {
-        List<FileLink> links = new LinkedList<>();
+    public List<FileLinkDTO> uploadUserImage(List<MultipartFile> files) throws IOException {
+        List<FileLinkDTO> links = new LinkedList<>();
         for (MultipartFile file : files) {
             if (file.isEmpty()) {
                 continue;
@@ -44,7 +44,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             String unique = getUnique();
             Path path = Paths.get(curDir + PATH_TO_ASSETS + unique + originalFileName);
             Files.write(path, bytes);
-            links.add(new FileLink(resolvePathToFile(path.toString(), originalFileName)));
+            links.add(new FileLinkDTO(resolvePathToFile(path.toString(), originalFileName)));
         }
         return links;
     }

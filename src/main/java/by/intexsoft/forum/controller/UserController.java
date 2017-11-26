@@ -1,8 +1,8 @@
 package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.constant.RoleConst;
-import by.intexsoft.forum.dto.ChangePassword;
-import by.intexsoft.forum.dto.EntityAware;
+import by.intexsoft.forum.dto.ChangePasswordDTO;
+import by.intexsoft.forum.dto.EntityAwareDTO;
 import by.intexsoft.forum.dto.UserDTO;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
@@ -121,11 +121,11 @@ public class UserController {
 
     /**
      * Changes password for user with id given in request parameters. UserData is taken from Security context.
-     * @param passwords object ChangePassword with raw new password and raw Current password
+     * @param passwords object ChangePasswordDTO with raw new password and raw Current password
      * @return BAD REQUEST if password is incorrect. Or OK if password has been updated.
      */
     @PutMapping("/change_password")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePassword passwords) {
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO passwords) {
         if (!checkPasswordLength(passwords.newPassword)) {
             return new ResponseEntity<>(INCORRECT_PASSWORD, BAD_REQUEST);
         }
@@ -156,34 +156,34 @@ public class UserController {
     /**
      * Checks is email exist in DB.
      * @param email that to be checked.  Parameter in query string
-     * @return {@link EntityAware} object in all cases
+     * @return {@link EntityAwareDTO} object in all cases
      */
     @GetMapping("/check_email")
     public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
         if (Objects.isNull(email) || email.isEmpty()) {
-            return ok(new EntityAware());
+            return ok(new EntityAwareDTO());
         }
         User foundUser = userService.getUserByEmail(email);
         if (Objects.isNull(foundUser)) {
-            return ok(new EntityAware());
+            return ok(new EntityAwareDTO());
         }
-        return ok(new EntityAware(true));
+        return ok(new EntityAwareDTO(true));
     }
 
     /**
      * Checks is name exist in DB.
      * @param name that to be checked. Parameter in query string
-     * @return {@link EntityAware} object in all cases
+     * @return {@link EntityAwareDTO} object in all cases
      */
     @GetMapping("/check_name")
     public ResponseEntity<?> getUserByName(@RequestParam String name) {
         if (Objects.isNull(name) || name.isEmpty()) {
-            return ok(new EntityAware());
+            return ok(new EntityAwareDTO());
         }
         User foundUser = userService.getUserByUsername(name);
         if (Objects.isNull(foundUser)) {
-            return ok(new EntityAware());
+            return ok(new EntityAwareDTO());
         }
-        return ok(new EntityAware(true));
+        return ok(new EntityAwareDTO(true));
     }
 }

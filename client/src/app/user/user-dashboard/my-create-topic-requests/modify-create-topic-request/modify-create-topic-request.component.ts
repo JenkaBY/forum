@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TopicRequest } from '../../../../shared/entity/topic-request';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-modify-create-topic-request',
@@ -47,7 +48,9 @@ export class ModifyCreateTopicRequestComponent implements OnInit {
   }
 
   private handleError(error) {
-    console.log(error);
+    if (!environment.production) {
+      console.log(error);
+    }
   }
 
   get titleAC(): AbstractControl {

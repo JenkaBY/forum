@@ -1,7 +1,7 @@
 package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.constant.ContentType;
-import by.intexsoft.forum.dto.FileLink;
+import by.intexsoft.forum.dto.FileLinkDTO;
 import by.intexsoft.forum.service.UploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class UploadFileController {
     /**
      * Allows to upload image for user avatar
      * @param uploadedFile should be uploaded to the server
-     * @return links if file was uploaded then OK with List of {@link FileLink} object, else BAD_REQUEST
+     * @return links if file was uploaded then OK with List of {@link FileLinkDTO} object, else BAD_REQUEST
      */
     @PostMapping(path = "/user_image")
     public ResponseEntity<?> uploadUserPhoto(@RequestParam("image") MultipartFile uploadedFile) {
@@ -41,7 +41,7 @@ public class UploadFileController {
         if (!ContentType.IMAGE.contains(uploadedFile.getContentType())) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
-        List<FileLink> links;
+        List<FileLinkDTO> links;
         try {
             links = uploadFileService.uploadUserImage(Arrays.asList(uploadedFile));
         } catch (IOException e) {

@@ -55,14 +55,14 @@ export class AllTopicsComponent extends Pageable<Topic> implements OnInit {
   }
 
   private handleError(error: any) {
-    this.translateService.get('ERROR.COMMON_ERROR').subscribe(
-      (translation: string) => {
-        this.toastr.error(translation);
-      }
-    );
     if (!environment.production) {
       console.log(error);
     }
+    if (error.error && error.error.message) {
+      this.toastr.error(error.error.message);
+      return;
+    }
+    this.toastr.error(this.translateService.getTranslate('ERROR.COMMON_ERROR'));
   }
 
   /**

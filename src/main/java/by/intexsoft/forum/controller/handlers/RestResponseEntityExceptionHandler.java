@@ -12,18 +12,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Exception handler for all exceptions occurred while application work
+ * Exception handler for exceptions occurred while application works
  */
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler {
     @Autowired
     private ReloadableResourceBundleMessageSource messageSource;
 
+    /**
+     * Handles the StaleObjectStateException (optimistic lock exception). Sets  the {@link HttpStatus#CONFLICT} to response
+     *
+     * @param request request from frontend
+     * @param ex      exception to be handled
+     * @return {@link ApiErrorResponseDTO} object that exception info and localized message about error that will be shown in UI
+     */
     @ExceptionHandler({StaleObjectStateException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     protected ApiErrorResponseDTO handleOptimisticLockException(HttpServletRequest request, Exception ex) {
-        System.out.println(ex.getMessage());
-        System.out.println(request.getLocale());
         return
                 new ApiErrorResponseDTO(ex.getMessage(),
                         ex.getStackTrace(),
