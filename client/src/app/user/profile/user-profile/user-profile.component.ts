@@ -63,13 +63,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
    * save to backend the user's data.
    */
   onSave() {
-    console.log('saved user', this.loggedUser);
     this.joinUserData();
     this.userService.update(this.loggedUser)
       .subscribe((user: User) => {
           this.loggedUser = user;
-          // this.onBack();
-          console.log('updated user', user);
           this.authService.changedCurrentUser.next(user);
           this.notifySuccessUpdateProfile();
         },
@@ -80,7 +77,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
-    console.log(this.loggedUser);
     this.userForm = new FormGroup({
       'name': new FormControl(this.loggedUser.name,
         [Validators.required,
@@ -92,7 +88,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       'imagePath': new FormControl(this.loggedUser.imagePath),
       'imageOption': new FormControl('imagePath')
     });
-    console.log(this.userForm);
   }
 
   /**
@@ -116,7 +111,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
           (fileLinks: FileLink[]) => {
             this.loggedUser.imagePath = fileLinks[0].imagePath;
             this.imagePath.patchValue(this.loggedUser.imagePath);
-            console.log('uploaded file', fileLinks);
             this.notifySuccessUploadPhoto();
           },
           error => this.handleError(error)
@@ -191,5 +185,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.translateService.get('MESSAGES.UPLOADED_USER_PHOTO')
       .subscribe(
         (translation: string) => this.toastr.success(translation));
+  }
+
+  private onFailedLoadingImage(event): void {
+    this.toastr.warning('Loading image is failed.');
   }
 }

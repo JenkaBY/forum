@@ -103,10 +103,6 @@ export class GuardService {
   }
 
   canDeleteUser(user: User): boolean {
-    // console.log('CAN DELETE user id', user.id, 'logged id', this.loggedUser.id);
-    // console.log('CAN DELETE user id', user.id, 'isBlocked', this.isBlocked());
-    // console.log('CAN DELETE user id', user.id, 'user Role', user.role.title);
-    // console.log('CAN DELETE user id', user.id, 'isAdmin', this.isAdmin());
     return this.isAdmin()
       && !this.isBlocked()
       && this.loggedUser.id !== user.id

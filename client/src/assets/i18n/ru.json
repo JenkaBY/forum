@@ -67,7 +67,7 @@
   },
   "USER": {
     "ID": "Id",
-    "NAME": "Логин",
+    "NAME": "Ник",
     "EMAIL": "Email",
     "LAST_LOGON_AT": "Был в сети",
     "PASSWORD": "Пароль",

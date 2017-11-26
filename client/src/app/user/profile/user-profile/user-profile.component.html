@@ -14,7 +14,8 @@
             <img src='{{ imagePath.value }}'
                  alt='{{ loggedUser.name }}'
                  class="img"
-                 style="width:500px;">
+                 style="width:500px;"
+                 (error)="onFailedLoadingImage($event)">
           </div>
         </div>
         <!-- NAME -->

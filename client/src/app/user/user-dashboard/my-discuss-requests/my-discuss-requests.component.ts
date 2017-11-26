@@ -48,7 +48,6 @@ export class MyDiscussRequestsComponent extends Pageable<TopicDiscussRequest> im
   onDelete(discussReqest: TopicDiscussRequest): void {
     this.discussRequestService.deleteDiscussRequest(discussReqest)
       .subscribe((response) => {
-          console.log(response);
           this.notifySuccessDelete();
           this.onPageChange();
         },

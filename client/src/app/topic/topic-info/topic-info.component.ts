@@ -62,7 +62,6 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
       .subscribe(
         ((discussRequest: TopicDiscussRequest) => {
           this.topicDiscussRequest = discussRequest;
-          console.log(discussRequest);
         }),
         (error => this.handleError(error))
       );

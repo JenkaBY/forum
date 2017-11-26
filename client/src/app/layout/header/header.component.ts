@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.loggedUser = user;
         },
         (err) => {
-          console.log("Error in onInit in Header", err)
+          //Do nothing
         });
     this.loggedUser = this.authService.getCurrentUser;
   }
@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   get canCreateTopicRequest() {
     return this.guardService.canCreateTopicRequest();
   }
+
   get isManager() {
     return this.guardService.isManager();
   }
