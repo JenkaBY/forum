@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Describes 'statuses' table in DB
+ */
 @Entity
 @Table(name = "statuses")
 public class Status extends AbstractSystemEntity {

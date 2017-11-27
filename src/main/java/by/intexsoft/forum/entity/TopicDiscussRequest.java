@@ -6,6 +6,9 @@ import java.sql.Timestamp;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
+/**
+ * Describes 'topic_discuss_requests' table in DB
+ */
 @Entity
 @Table(name = "topic_discuss_requests")
 public class TopicDiscussRequest extends AbstractVersionEntity {

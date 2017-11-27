@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 //https://github.com/dzinot/spring-boot-jpa-soft-delete/blob/master/src/main/java/com/kristijangeorgiev/softdelete/repository/SoftDeletesRepositoryImpl.java
 
 /**
- * Interface serves for getting topics
+ * Interface serves for managing topics
  */
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     /**

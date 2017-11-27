@@ -15,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of {@link TopicRequestService} interface
+ */
 @Service
 public class TopicRequestServiceImpl extends AbstractEntityServiceImpl<TopicRequest> implements TopicRequestService {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicRequestServiceImpl.class);

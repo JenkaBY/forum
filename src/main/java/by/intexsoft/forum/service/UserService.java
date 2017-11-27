@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Set;
 
-
 public interface UserService extends AbstractEntityService<User> {
     Page<User> findAll(Pageable page);
 
