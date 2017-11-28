@@ -1,7 +1,9 @@
 package by.intexsoft.forum.controller.handlers;
 
 import by.intexsoft.forum.dto.ApiErrorResponseDTO;
+import ch.qos.logback.classic.Logger;
 import org.hibernate.StaleObjectStateException;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
@@ -16,8 +18,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler {
+    private static Logger LOGGER = (Logger) LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
     @Autowired
     private ReloadableResourceBundleMessageSource messageSource;
+
 
     /**
      * Handles the StaleObjectStateException (optimistic lock exception). Sets  the {@link HttpStatus#CONFLICT} to response
@@ -29,6 +33,7 @@ public class RestResponseEntityExceptionHandler {
     @ExceptionHandler({StaleObjectStateException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     protected ApiErrorResponseDTO handleOptimisticLockException(HttpServletRequest request, Exception ex) {
+        LOGGER.warn(ex.getMessage());
         return
                 new ApiErrorResponseDTO(ex.getMessage(),
                         ex.getStackTrace(),

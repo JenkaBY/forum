@@ -55,7 +55,7 @@ export class TopicInfoComponent implements OnInit, OnDestroy {
   }
 
   private loadTopicDiscussRequest() {
-    if (!this.loggedUser) {
+    if (!this.loggedUser || this.guardService.isManager()) {
       return;
     }
     this.discussRequestService.getByTopicIdAndUserId(this.topic.id, this.loggedUser.id)

@@ -46,7 +46,12 @@ public class TopicController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTopic(@PathVariable long id) {
         LOGGER.info("Get topic with id = {}", id);
-        return ok(new TopicDTO(topicService.find(id)));
+        Topic topic = topicService.find(id);
+        if (Objects.isNull(topic)) {
+            LOGGER.warn("Attempt to get non existing topic id={}.", id);
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
+        return ok(new TopicDTO(topic));
     }
 
     /**

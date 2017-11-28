@@ -99,7 +99,7 @@ public class OAuth2ServersConfiguration {
                     .antMatchers("/api/message/**").access("hasAnyRole('ROLE_MANAGER', 'ROLE_USER')") // POST, DELETE, PUT messages
                     .antMatchers(GET, "/api/topic/user").access("hasRole('ROLE_USER')") //GET user's topic
                     .antMatchers(GET, "/api/topic/*").permitAll() //GET topic
-                    .antMatchers("/api/topic/*/discuss_request/**").access("hasRole('ROLE_USER')") //POST, GET topic discuss request
+                    .antMatchers("/api/topic/*/discuss_request/**").access("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')") //POST, GET topic discuss request
                     .antMatchers(GET, "/api/topic/discuss_request/my").access("hasRole('ROLE_USER')") //POST new topic discuss request
                     .antMatchers("/api/topic/discuss_request/**").access("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')") //POST new topic discuss request
 
