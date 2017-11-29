@@ -11,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements UserService {
@@ -120,9 +120,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
 
     @Override
     public Set<User> findAllUsersByIds(Set<Long> userIds) {
-        return repository.findAll(userIds)
-                .stream()
-                .collect(Collectors.toSet());
+        return new HashSet<>(repository.findAll(userIds));
     }
 
     @Override
@@ -131,7 +129,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
     }
 
     private boolean isNewUser(User user) {
-        return Objects.isNull(user.getId()) || user.getId() == 0;
+        return Objects.isNull(user.getId()) || user.getId().equals(0L);
     }
 
     private boolean needToFetchHashPassword(User user) {

@@ -31,7 +31,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import static org.springframework.http.HttpMethod.*;
 
 /**
- * Этот класс служит для объединения двух классов конфигурации...из за того что TokenStore должен
+ * Этот класс служит для объединения двух классов конфигурации...из-за того что TokenStore должен
  * быть расшарен между этими классами либо стоит использовать другую реалищацию TokenStore (JdbcTokenStore)
  * либо исправлять текущую ситуацию
  */
@@ -64,8 +64,7 @@ public class OAuth2ServersConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder;
+        return new BCryptPasswordEncoder();
     }
 
     @Configuration

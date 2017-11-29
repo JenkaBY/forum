@@ -1,8 +1,8 @@
 package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.entity.Message;
+import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.MessageService;
-import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,19 @@ import static org.springframework.http.ResponseEntity.ok;
 public class MessageController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(MessageController.class);
     private MessageService messageService;
-    private UserService userService;
+    private SecurityHelper securityHelper;
 
     @Autowired
-    public MessageController(MessageService messageService) {
+    public MessageController(MessageService messageService, SecurityHelper securityHelper) {
         this.messageService = messageService;
+        this.securityHelper = securityHelper;
     }
 
     /**
      * Get all message in the topic
      * @param topicId  number of topic for which need to get all messages per page
      * @param pageable parameter for getting data per page
-     * @return
+     * @return response with Page<Message> and 200 status code
      */
     @GetMapping(path = "/topic/{topicId}/all")
     public ResponseEntity<?> getAllMessagesByTopic(@PathVariable(value = "topicId") long topicId, Pageable pageable) {
@@ -49,10 +50,11 @@ public class MessageController {
      */
     @PutMapping("/message/{id}")
     public ResponseEntity<?> updateMessage(@PathVariable long id, @RequestBody Message message) {
-        if (!message.getId().equals(id) || Objects.isNull(message) || message.text.isEmpty()) {
+        if (!message.getId().equals(id) || message.text.isEmpty()) {
             LOGGER.warn("Attempt to update message with id={} with message = {}", id, message);
             return new ResponseEntity<>(BAD_REQUEST);
         }
+        message.updatedBy = securityHelper.getCurrentUser();
         Message updatedMessage = messageService.save(message);
         return ok(updatedMessage);
     }
@@ -64,8 +66,8 @@ public class MessageController {
      */
     @DeleteMapping(path = "/message/{id}")
     public ResponseEntity<?> deleteMessage(@PathVariable long id) {
-        Message msagFromDb = messageService.find(id);
-        if (Objects.isNull(msagFromDb)) {
+        Message msgFromDb = messageService.find(id);
+        if (Objects.isNull(msgFromDb)) {
             LOGGER.warn("Attempt to delete non-existing message with id={}");
             return new ResponseEntity<>(BAD_REQUEST);
         }

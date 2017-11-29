@@ -5,7 +5,6 @@ import by.intexsoft.forum.entity.Topic;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.TopicService;
-import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,11 @@ public class TopicController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicController.class);
     private TopicService topicService;
     private SecurityHelper securityHelper;
-    private UserService userService;
 
     @Autowired
-    public TopicController(TopicService topicService, SecurityHelper securityHelper, UserService userService) {
+    public TopicController(TopicService topicService, SecurityHelper securityHelper) {
         this.topicService = topicService;
         this.securityHelper = securityHelper;
-        this.userService = userService;
     }
 
     /**
@@ -63,8 +60,8 @@ public class TopicController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateTopic(@PathVariable long id, @RequestBody TopicDTO topic) {
         User currentUser = securityHelper.getCurrentUser();
-        if (topic == null || !topic.id.equals(id)) {
-            LOGGER.warn("User {} was tried to update topic with null parameters.", currentUser);
+        if (!topic.id.equals(id)) {
+            LOGGER.warn("User with id = {} was tried to update topic that doesn't equal id = {}.", currentUser.getId(), id);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         Topic savedTopic = topicService.save(topic.convertToTopic());
@@ -81,6 +78,7 @@ public class TopicController {
         User loggedUser = securityHelper.getCurrentUser();
         topicService.delete(id);
         if (Objects.nonNull(topicService.find(id))) {
+            LOGGER.info("User with id = {} was attempting to delete topic with id = {} ", loggedUser.getId(), id);
             return new ResponseEntity<>(BAD_REQUEST);
         }
         LOGGER.info("User with id = {} was deleted topic with id = {}", loggedUser.getId(), id);

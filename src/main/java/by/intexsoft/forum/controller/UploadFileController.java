@@ -2,14 +2,17 @@ package by.intexsoft.forum.controller;
 
 import by.intexsoft.forum.constant.ContentType;
 import by.intexsoft.forum.dto.FileLinkDTO;
+import by.intexsoft.forum.security.SecurityHelper;
 import by.intexsoft.forum.service.UploadFileService;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -21,11 +24,13 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/upload")
 public class UploadFileController {
+    private static Logger LOGGER = (Logger) LoggerFactory.getLogger(UploadFileController.class);
     private UploadFileService uploadFileService;
-
+    private SecurityHelper securityHelper;
     @Autowired
-    public UploadFileController(UploadFileService uploadFileService) {
+    public UploadFileController(UploadFileService uploadFileService, SecurityHelper securityHelper) {
         this.uploadFileService = uploadFileService;
+        this.securityHelper = securityHelper;
     }
 
     /**
@@ -43,10 +48,11 @@ public class UploadFileController {
         }
         List<FileLinkDTO> links;
         try {
-            links = uploadFileService.uploadUserImage(Arrays.asList(uploadedFile));
+            links = uploadFileService.uploadUserImage(Collections.singletonList(uploadedFile));
         } catch (IOException e) {
             return new ResponseEntity<>(BAD_REQUEST);
         }
+        LOGGER.info("User(id = {}) was upload image {} to server", securityHelper.getCurrentUser().getId(), uploadedFile.getOriginalFilename());
         return new ResponseEntity<>(links, OK);
     }
 

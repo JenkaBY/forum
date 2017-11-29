@@ -18,10 +18,9 @@ import java.util.List;
  */
 @Service
 public class UploadFileServiceImpl implements UploadFileService {
-    private final static String USERS_FOLDER = "/assets/user_folder/";
+    //    TODO create applications.properties file and put constant there
     private final static String PATH_TO_ASSETS = "/webapps/forum/assets/src-img/";
     private final static String ASSETS = "assets";
-    private final static String ROOT = "ROOT";
 
 
     /**
@@ -44,12 +43,12 @@ public class UploadFileServiceImpl implements UploadFileService {
             String unique = getUnique();
             Path path = Paths.get(curDir + PATH_TO_ASSETS + unique + originalFileName);
             Files.write(path, bytes);
-            links.add(new FileLinkDTO(resolvePathToFile(path.toString(), originalFileName)));
+            links.add(new FileLinkDTO(resolvePathToFile(path.toString())));
         }
         return links;
     }
 
-    private String resolvePathToFile(String pathToFile, String originalFileName) {
+    private String resolvePathToFile(String pathToFile) {
         return convertToRelativePath(pathToFile);
     }
 

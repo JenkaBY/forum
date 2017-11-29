@@ -83,8 +83,7 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
                     topicDiscussRequest.requestedBy,
                     topic.getId());
         }
-        TopicDiscussRequest req = repository.save(topicDiscussRequest);
-        return req;
+        return repository.save(topicDiscussRequest);
     }
 
     @Override
@@ -92,9 +91,8 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
         TopicDiscussRequest discussRequest = this.find(discussRequestId);
         if (discussRequest.status.equals(this.statusService.findByTitle(Status.APPROVED.name()))) {
             Topic discussedTopic = discussRequest.inTopic;
-            boolean deleted = discussedTopic.removeAllowedUser(discussRequest.requestedBy);
+            discussedTopic.removeAllowedUser(discussRequest.requestedBy);
             topicService.save(discussedTopic);
-            System.out.println("deeleted allowedUser " + deleted);
         }
         repository.delete(discussRequest.getId());
     }
