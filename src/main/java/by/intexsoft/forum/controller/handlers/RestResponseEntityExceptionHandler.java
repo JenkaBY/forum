@@ -19,8 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+    private final ReloadableResourceBundleMessageSource messageSource;
+
     @Autowired
-    private ReloadableResourceBundleMessageSource messageSource;
+    public RestResponseEntityExceptionHandler(ReloadableResourceBundleMessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 
 
     /**
