@@ -1,0 +1,34 @@
+-- Table: public.topic_discuss_requests
+
+-- DROP TABLE public.topic_discuss_requests;
+
+CREATE TABLE public.topic_discuss_requests
+(
+  id bigint NOT NULL,
+  created_at timestamp without time zone,
+  deleted boolean NOT NULL DEFAULT false,
+  approved_at timestamp without time zone,
+  approved_by bigint,
+  topic_id bigint,
+  requested_by bigint NOT NULL,
+  version bigint NOT NULL DEFAULT 0,
+  status_id bigint NOT NULL DEFAULT 1,
+  CONSTRAINT topic_discuss_requests_pkey PRIMARY KEY (id),
+  CONSTRAINT fkn3i9lxkhmx1wlfh01j2abum8s FOREIGN KEY (requested_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkt5q18p3kdie7rtkx2y16ot3ui FOREIGN KEY (topic_id)
+      REFERENCES public.topics (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fktn37midqs91to7kl8qw6bgx8p FOREIGN KEY (approved_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkxibqxauk1imvvnty6l1qwes5 FOREIGN KEY (status_id)
+      REFERENCES public.statuses (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.topic_discuss_requests
+  OWNER TO postgres;

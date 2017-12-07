@@ -1,0 +1,40 @@
+-- Table: public.users
+
+-- DROP TABLE public.users;
+
+CREATE TABLE public.users
+(
+  id bigint NOT NULL,
+  created_at timestamp without time zone,
+  deleted boolean NOT NULL DEFAULT false,
+  blocked boolean NOT NULL DEFAULT false,
+  email character varying(255) NOT NULL,
+  hash_password character varying(60) NOT NULL,
+  last_logon_at timestamp without time zone,
+  name character varying(127) NOT NULL,
+  rejected boolean NOT NULL DEFAULT false,
+  approved_by bigint,
+  role_id bigint NOT NULL,
+  image_path character varying(255),
+  version bigint NOT NULL DEFAULT 0,
+  CONSTRAINT users_pkey PRIMARY KEY (id),
+  CONSTRAINT fk28rnrmfyr79kglyvn44r32anq FOREIGN KEY (approved_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkig70q09y04hrrvlh4h0w2h0sx FOREIGN KEY (approved_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkn5fmjfij13xp7oxbqt7rwd4pa FOREIGN KEY (role_id)
+      REFERENCES public.roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkp56c1712k691lhsyewcssf40f FOREIGN KEY (role_id)
+      REFERENCES public.roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_3g1j96g94xpk3lpxl2qbl985x UNIQUE (name),
+  CONSTRAINT uk_6dotkott2kjsp8vw4d0m25fb7 UNIQUE (email)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.users
+  OWNER TO postgres;

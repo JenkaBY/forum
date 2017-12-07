@@ -1,0 +1,24 @@
+-- Table: public.topics_users
+
+-- DROP TABLE public.topics_users;
+
+CREATE TABLE public.topics_users
+(
+  topic_id bigint NOT NULL,
+  user_id bigint NOT NULL,
+  CONSTRAINT topics_users_pkey PRIMARY KEY (topic_id, user_id),
+  CONSTRAINT fk3r07h23lu9mlkihwmdky9sq09 FOREIGN KEY (user_id)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fks12ugntawdvcqi5fhff1vt925 FOREIGN KEY (user_id)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fks83jdqdd010geh8uiqj5jfqwb FOREIGN KEY (topic_id)
+      REFERENCES public.topics (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.topics_users
+  OWNER TO postgres;

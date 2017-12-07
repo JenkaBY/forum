@@ -1,0 +1,48 @@
+-- Table: public.topic_requests
+
+-- DROP TABLE public.topic_requests;
+
+CREATE TABLE public.topic_requests
+(
+  id bigint NOT NULL,
+  created_at timestamp without time zone,
+  deleted boolean NOT NULL DEFAULT false,
+  reason character varying(500),
+  requested_topic_title character varying(255) NOT NULL,
+  created_topic_id bigint,
+  requested_by bigint NOT NULL,
+  requested_topic_description character varying(500),
+  version bigint NOT NULL DEFAULT 0,
+  status_id bigint NOT NULL DEFAULT 1,
+  CONSTRAINT topic_requests_pkey PRIMARY KEY (id),
+  CONSTRAINT fk93xmyejvbp87ocejd9nin1bfx FOREIGN KEY (created_topic_id)
+      REFERENCES public.topics (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_status_id FOREIGN KEY (status_id)
+      REFERENCES public.statuses (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkf82qhxmuaoqa3yrt2gwx0755j FOREIGN KEY (requested_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkqp1l3s8dbe1iukm9oa2h3x5u FOREIGN KEY (requested_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fksupx9f31b11eq78xccql1p1oa FOREIGN KEY (status_id)
+      REFERENCES public.statuses (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.topic_requests
+  OWNER TO postgres;
+
+-- Index: public.fki_status_id
+
+-- DROP INDEX public.fki_status_id;
+
+CREATE INDEX fki_status_id
+  ON public.topic_requests
+  USING btree
+  (status_id);
+

@@ -1,0 +1,37 @@
+-- Table: public.messages
+
+-- DROP TABLE public.messages;
+
+CREATE TABLE public.messages
+(
+  id bigint NOT NULL,
+  created_at timestamp without time zone,
+  deleted boolean NOT NULL DEFAULT false,
+  text character varying(1000) NOT NULL,
+  updated_at timestamp without time zone,
+  created_by bigint,
+  topic_id bigint NOT NULL,
+  updated_by bigint,
+  version bigint NOT NULL DEFAULT 0,
+  CONSTRAINT messages_pkey PRIMARY KEY (id),
+  CONSTRAINT fk7782xqfapspawqs5vv5wpc3tc FOREIGN KEY (updated_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk83abkaxhmxf59hub3av1ojjdl FOREIGN KEY (updated_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkdv4wodetm6ej6m3bc9f4ix9si FOREIGN KEY (created_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkkoe6xlcl0wxc7d5ckn58y1x0c FOREIGN KEY (topic_id)
+      REFERENCES public.topics (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fkqrh6snbfu5yme4sxyf8vkh5xt FOREIGN KEY (created_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.messages
+  OWNER TO postgres;

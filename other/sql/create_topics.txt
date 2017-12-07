@@ -1,0 +1,28 @@
+-- Table: public.topics
+
+-- DROP TABLE public.topics;
+
+CREATE TABLE public.topics
+(
+  id bigint NOT NULL,
+  created_at timestamp without time zone,
+  deleted boolean NOT NULL DEFAULT false,
+  title character varying(255) NOT NULL,
+  created_by bigint,
+  description character varying(500),
+  image_path character varying(255),
+  version bigint NOT NULL DEFAULT 0,
+  CONSTRAINT topics_pkey PRIMARY KEY (id),
+  CONSTRAINT fkaewa94ts0j1piw2o5mr9lu5ec FOREIGN KEY (created_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fki0uvkmnhcwp0kp7opt0ymf8cv FOREIGN KEY (created_by)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_71rjsqaorlydivvwh8xgousre UNIQUE (title)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.topics
+  OWNER TO postgres;
