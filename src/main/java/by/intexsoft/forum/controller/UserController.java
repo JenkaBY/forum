@@ -6,7 +6,6 @@ import by.intexsoft.forum.dto.EntityAwareDTO;
 import by.intexsoft.forum.dto.UserDTO;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.security.SecurityHelper;
-import by.intexsoft.forum.service.RoleService;
 import by.intexsoft.forum.service.UserService;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +33,12 @@ public class UserController {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(UserController.class);
 
     private UserService userService;
-    private RoleService roleService;
     private SecurityHelper securityHelper;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService, SecurityHelper securityHelper, PasswordEncoder encoder) {
+    public UserController(UserService userService, SecurityHelper securityHelper, PasswordEncoder encoder) {
         this.userService = userService;
-        this.roleService = roleService;
         this.securityHelper = securityHelper;
         this.passwordEncoder = encoder;
     }
@@ -148,7 +145,7 @@ public class UserController {
         Set<User> users = userService.findAllUsersByIds(userIds);
         return new ResponseEntity<>(
                 users.stream()
-                        .map(user -> new UserDTO(user))
+                        .map(UserDTO::new)
                         .collect(Collectors.toSet()),
                 OK);
     }

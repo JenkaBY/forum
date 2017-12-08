@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
@@ -44,7 +45,7 @@ public class TopicRequestController {
         User currentUser = securityHelper.getCurrentUser();
         LOGGER.info("{} requests all pending topic requests", currentUser);
         return new ResponseEntity<>(topicRequestService.findAllPending(pageable)
-                .map((topicRequest) -> new TopicRequestDTO(topicRequest)), OK);
+                .map(TopicRequestDTO::new), OK);
     }
 
     @GetMapping(path = "/all")
@@ -53,7 +54,7 @@ public class TopicRequestController {
         LOGGER.info("{} requests all pending topic requests", currentUser);
         return new ResponseEntity<>(topicRequestService.findAll()
                 .stream()
-                .map(topicRequest -> new TopicRequestDTO(topicRequest))
+                .map(TopicRequestDTO::new)
                 .collect(Collectors.toList()),
                 OK);
     }
@@ -81,27 +82,23 @@ public class TopicRequestController {
      */
     @PostMapping(path = "/new")
     public ResponseEntity<?> createRequest(@RequestBody TopicRequest topicRequest) {
-        if (topicRequest == null) {
-            LOGGER.warn("Trying to create topic request with null parameters.");
-            return new ResponseEntity<>(BAD_REQUEST);
-        }
-        //TODO add CURRENT_USER
-        User currentUser = new User();
-        LOGGER.info("New topic request was created by ", topicRequest.requestedBy);
-        return new ResponseEntity(topicRequestService.save(topicRequest), CREATED);
+        User currentUser = securityHelper.getCurrentUser();
+        LOGGER.info("New topic request was created by {}", currentUser);
+        return new ResponseEntity<>(topicRequestService.save(topicRequest), CREATED);
     }
 
     /**
      * Updates requests. Used only manager
-     * @param id of topic request
+     *
+     * @param id           of topic request
      * @param topicRequest data of request to be updated
      * @return OK with created topic. Or BAD REQUEST if data from body is null or ids (in request parameter and request body)
      * doesn't match
      */
     @PutMapping(path = "/{id}")
-    public ResponseEntity<?> updateRequest(@PathVariable(value = "id") Long id, @RequestBody TopicRequest topicRequest) {
+    public ResponseEntity<?> updateRequest(@PathVariable long id, @RequestBody TopicRequest topicRequest) {
         User currentManager = securityHelper.getCurrentUser();
-        if ((topicRequest == null) || (!topicRequest.getId().equals(id))) {
+        if (!topicRequest.getId().equals(id)) {
             LOGGER.warn("Attempt the editing of topic request was by manager id = {}", currentManager);
             return new ResponseEntity<>(BAD_REQUEST);
         }
@@ -111,11 +108,17 @@ public class TopicRequestController {
 
     /**
      * Deletes the topic request by id
+     *
      * @param id number of topic request id to be deleted.
-     * @return OK status
+     * @return NO_CONTENT status if deleting was successfully
      */
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteTopicRequest(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> deleteTopicRequest(@PathVariable long id) {
+        User currentManager = securityHelper.getCurrentUser();
+        if (Objects.isNull(topicRequestService.find(id))) {
+            LOGGER.warn("Attempt the deleting non existing topic request(id={}) was by manager id = {}", id, currentManager);
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
         topicRequestService.delete(id);
         LOGGER.info("The Topic Request with id = {} was successfully updated.", id);
         return new ResponseEntity<>(NO_CONTENT);

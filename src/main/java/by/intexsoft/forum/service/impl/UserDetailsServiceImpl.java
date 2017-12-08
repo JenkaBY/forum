@@ -24,8 +24,7 @@ import static java.util.stream.Collectors.toSet;
  */
 @Service(value = "userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-    public static final String ROLE = "ROLE_";
+    private static final String ROLE = "ROLE_";
 
     private UserService userService;
 

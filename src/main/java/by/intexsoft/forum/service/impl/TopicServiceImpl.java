@@ -28,7 +28,7 @@ public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implement
      */
     public Page<TopicDTO> findAllDto(Pageable pageable) {
         return repository.findAll(pageable)
-                .map(topic -> new TopicDTO(topic));
+                .map(TopicDTO::new);
     }
 
     /**
@@ -40,7 +40,7 @@ public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implement
     @Override
     public Page<TopicDTO> findAllTopicsDtoByUserId(long userId, Pageable pageable) {
         return ((TopicRepository) repository).findAllTopics(userId, pageable)
-                .map(topic -> new TopicDTO(topic));
+                .map(TopicDTO::new);
     }
 
     /**
@@ -53,6 +53,6 @@ public class TopicServiceImpl extends AbstractEntityServiceImpl<Topic> implement
     @Override
     public Page<TopicDTO> findAllByTopicTitle(String title, Pageable pageable) {
         return ((TopicRepository) repository).findByTitleContainingIgnoreCase(title, pageable)
-                .map(topic -> new TopicDTO(topic));
+                .map(TopicDTO::new);
     }
 }

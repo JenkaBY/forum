@@ -62,7 +62,7 @@ public class TopicDiscussRequestController {
      * Creates topic discuss request in parameters provided in request
      * @param topicId id of topic in which user wants to discuss
      * @param request data of topic discuss request
-     * @return
+     * @return response with created topic discuss request and 200 status code or status code BAD REQUEST
      */
     @PostMapping("/{topicId}/discuss_request/new")
     public ResponseEntity<?> createRequest(@PathVariable long topicId, @RequestBody TopicDiscussRequest request) {
@@ -85,6 +85,10 @@ public class TopicDiscussRequestController {
     public ResponseEntity<?> updateRequest(@PathVariable long requestId,
                                            @RequestBody TopicDiscussRequest request) {
         User currentUser = securityHelper.getCurrentUser();
+        if (!request.getId().equals(requestId)) {
+            LOGGER.warn("User {} was tried to update topic discuss request with id = {}.", currentUser, requestId);
+            return new ResponseEntity<>(BAD_REQUEST);
+        }
 
         LOGGER.info("Updating the topicDiscussRequest was requested by {}", currentUser);
         request.approvedBy = currentUser;

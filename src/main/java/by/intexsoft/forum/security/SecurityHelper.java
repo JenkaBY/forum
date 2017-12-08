@@ -5,7 +5,6 @@ import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public final class SecurityHelper {
         this.userService = userService;
     }
 
-
     /**
      * Checking password length
      *
@@ -40,15 +38,12 @@ public final class SecurityHelper {
     /**
      * Get the the current user or null.
      *
-     * @return current user
+     * @return current user or null
      */
-
     public User getCurrentUser() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        User currentUser = null;
-        String email = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
+            String email = null;
             if (authentication.getPrincipal() instanceof UserDetails) {
                 UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
                 email = springSecurityUser.getUsername();
@@ -59,24 +54,7 @@ public final class SecurityHelper {
                 return userService.getUserByEmail(email);
             }
         }
-        return currentUser;
-    }
-
-    /**
-     * If the current user has a specific authority (security role).
-     * <p>
-     *
-     * @param authority the authority to check
-     * @return true if the current user has the authority, false otherwise
-     */
-    public static boolean isCurrentUserInRole(String authority) {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null) {
-            return authentication.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(authority));
-        }
-        return false;
+        return null;
     }
 }
 

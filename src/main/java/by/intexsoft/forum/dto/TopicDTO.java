@@ -2,6 +2,7 @@ package by.intexsoft.forum.dto;
 
 import by.intexsoft.forum.entity.Topic;
 import by.intexsoft.forum.entity.User;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class TopicDTO {
         version = topic.version;
         allowedUserIds = topic.allowedUsers
                 .stream()
-                .map(user -> user.getId())
+                .map(AbstractPersistable::getId)
                 .collect(Collectors.toSet());
     }
 
