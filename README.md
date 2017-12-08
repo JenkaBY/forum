@@ -21,6 +21,7 @@
 - Панель Менеджера содержит меню создания новой темы, список запросов от пользователей на участие в темах.
 
 Используемые в проекте технологии.
+
 Back-end Technologies:
 - DataBase - PostgreSQL
 - Persistence Layer - Spring Data, Hibernate
