@@ -16,23 +16,19 @@ CREATE TABLE "users" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "topic_requests" (
 	"id" serial NOT NULL,
 	"created_at" TIMESTAMP NOT NULL,
 	"deleted" BOOLEAN NOT NULL DEFAULT 'false',
 	"requested_by" integer NOT NULL,
 	"requested_topic_title" varchar(255) NOT NULL,
-	"created_topic_id" integer(255),
+	"created_topic_id" integer,
 	"status" varchar(255) NOT NULL,
 	"reason" varchar(255),
 	CONSTRAINT topic_requests_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "topics" (
 	"id" serial NOT NULL,
@@ -46,8 +42,6 @@ CREATE TABLE "topics" (
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "topic_discuss_requests" (
 	"id" serial NOT NULL,
@@ -63,8 +57,6 @@ CREATE TABLE "topic_discuss_requests" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "messages" (
 	"id" serial NOT NULL,
 	"created_at" TIMESTAMP NOT NULL,
@@ -79,8 +71,6 @@ CREATE TABLE "messages" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "roles" (
 	"id" serial NOT NULL,
 	"created_at" TIMESTAMP NOT NULL,
@@ -91,16 +81,12 @@ CREATE TABLE "roles" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "topics_users" (
 	"topic_id" integer NOT NULL,
 	"user_id" integer NOT NULL
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 ALTER TABLE "users" ADD CONSTRAINT "users_fk0" FOREIGN KEY ("approved_by") REFERENCES "users"("id");
 ALTER TABLE "users" ADD CONSTRAINT "users_fk1" FOREIGN KEY ("role_id") REFERENCES "roles"("id");
@@ -118,7 +104,5 @@ ALTER TABLE "messages" ADD CONSTRAINT "messages_fk0" FOREIGN KEY ("created_by") 
 ALTER TABLE "messages" ADD CONSTRAINT "messages_fk1" FOREIGN KEY ("updated_by") REFERENCES "users"("id");
 ALTER TABLE "messages" ADD CONSTRAINT "messages_fk2" FOREIGN KEY ("topic_id") REFERENCES "topics"("id");
 
-
 ALTER TABLE "topics_users" ADD CONSTRAINT "topics_users_fk0" FOREIGN KEY ("topic_id") REFERENCES "topics"("id");
 ALTER TABLE "topics_users" ADD CONSTRAINT "topics_users_fk1" FOREIGN KEY ("user_id") REFERENCES "users"("id");
-

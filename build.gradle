@@ -1,29 +1,36 @@
 group 'by.intexsoft'
 version '0.9.0'
 
-apply plugin: 'war'
-apply plugin: 'com.bmuschko.tomcat'
-apply plugin: 'idea'
-
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'com.bmuschko:gradle-tomcat-plugin:2.3'
+        classpath "gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:5.0.4"
     }
 }
-// если убрать то кирилица не будет восприниматься и варка не будет собираться
-compileJava.options.encoding = 'UTF-8'
 
 def tomcatVersion = '8.5.16'
 def springVersion = '4.3.10.RELEASE'
-def springSecurityVersion = '4.2.3.RELEASE'
 def springSecurityOauthVersion = '2.2.0.RELEASE'
 def hibernateVersion = '5.2.10.Final'
 def postgreSqlVersion = '9.4.1212'
 def logbackVersion = '1.2.3'
-def jaksonVersion = '2.9.0'
+def jacksonVersion = '2.9.0'
+def mockitoVersion = '2.10.0'
+def junitVersion = '4.12'
+
+apply plugin: 'war'
+apply plugin: 'com.bmuschko.tomcat'
+apply plugin: 'idea'
+apply plugin: 'org.flywaydb.flyway'
+
+// если убрать то кирилица не будет восприниматься и варка не будет собираться
+compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 
 repositories {
@@ -37,10 +44,10 @@ dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
     compile "org.hibernate:hibernate-entitymanager:${hibernateVersion}"
     compile "org.postgresql:postgresql:${postgreSqlVersion}"
-    compile "com.fasterxml.jackson.core:jackson-databind:${jaksonVersion}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     compile "ch.qos.logback:logback-classic:${logbackVersion}"
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.10.0'
+    testCompile "junit:junit:${junitVersion}"
+    testCompile "org.mockito:mockito-core:${mockitoVersion}"
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
             "org.apache.tomcat.embed:tomcat-embed-logging-juli:8.5.2",
             "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
@@ -62,6 +69,17 @@ war {
     dependsOn = ['client:buildClient']
     from 'client/dist'
     destinationDir = file("$rootDir/build/war")
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/fly_forum'
+    user = 'postgres'
+    password = 'postgres'
+    schemas = ['public', 'test']
+    placeholders = [
+            'keyABC': 'valueXYZ'
+    ]
+    cleanDisabled = false
 }
 
 task buildWarWithoutDeps(type: War) {
