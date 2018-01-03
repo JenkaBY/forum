@@ -38,7 +38,6 @@ public class UserServiceImplTest {
 
     private List<User> users;
     private Pageable pageable;
-    private String rawPassword = "password";
 
     @Before
     public void setUp() throws Exception {
@@ -207,17 +206,18 @@ public class UserServiceImplTest {
     private User cloneUser(User user) {
         User clone = new User();
         clone.setId(user.getId());
-        clone.hashPassword = new String(user.hashPassword);
-        clone.email = new String(user.email);
+        clone.hashPassword = user.hashPassword;
+        clone.email = user.email;
         Role role = new Role();
-        role.title = new String(user.role.title);
+        role.title = user.role.title;
         clone.role = role;
-        clone.name = new String(user.name);
+        clone.name = user.name;
         return clone;
     }
 
     private User createUser(Long id) {
         User user = new User();
+        String rawPassword = "password";
         user.hashPassword = realPasswordEncoder.encode(rawPassword);
         if (Objects.isNull(id)) {
             id = new Date().getTime();
@@ -255,34 +255,31 @@ public class UserServiceImplTest {
 
     private void approve3users() {
         users = users.stream()
-                .map(user -> {
+                .peek(user -> {
                     if (user.getId() > users.size() - getSizeApprovedUsers()) {
                         user.approvedBy = getUserByRoleTitle(RoleConst.MANAGER);
                     }
-                    return user;
                 })
                 .collect(toList());
     }
 
     private void reject3users() {
         users = users.stream()
-                .map(user -> {
+                .peek(user -> {
                     if (user.getId() > users.size() - getSizeApprovedUsers()) {
                         user.approvedBy = getUserByRoleTitle(RoleConst.MANAGER);
                         user.rejected = true;
                     }
-                    return user;
                 })
                 .collect(toList());
     }
 
     private void block4users() {
         users = users.stream()
-                .map(user -> {
+                .peek(user -> {
                     if (user.getId() > users.size() - 4) {
                         user.blocked = true;
                     }
-                    return user;
                 })
                 .collect(toList());
     }
@@ -316,9 +313,7 @@ public class UserServiceImplTest {
 
     private Page<User> rejectedUsers(User manager) {
         return new PageImpl<>(
-                users.stream()
-                        .filter(user -> user.rejected && user.approvedBy.equals(manager))
-                        .collect(toList()),
+                getUsersRejectedByManager(manager),
                 getPageable(),
                 countRejectedUser(manager));
     }
@@ -328,10 +323,14 @@ public class UserServiceImplTest {
     }
 
     private long countRejectedUser(User manager) {
+        return getUsersRejectedByManager(manager)
+                .size();
+    }
+
+    private List<User> getUsersRejectedByManager(User manager) {
         return users.stream()
                 .filter(user -> user.rejected && user.approvedBy.equals(manager))
-                .collect(toList())
-                .size();
+                .collect(toList());
     }
 
     private long countNonApprovedUser() {
@@ -377,6 +376,6 @@ public class UserServiceImplTest {
         return users.stream()
                 .filter(user -> user.role.title.equalsIgnoreCase(roleTitle))
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 }
