@@ -134,6 +134,6 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
 
     private boolean needToFetchHashPassword(User user) {
         return !isNewUser(user)
-                && (Objects.isNull(user.hashPassword) || user.hashPassword.equalsIgnoreCase(""));
+                && (Objects.isNull(user.hashPassword) || user.hashPassword.equals(""));
     }
 }

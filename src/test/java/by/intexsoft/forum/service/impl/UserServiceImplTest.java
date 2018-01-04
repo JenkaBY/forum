@@ -1,9 +1,9 @@
 package by.intexsoft.forum.service.impl;
 
 import by.intexsoft.forum.constant.RoleConst;
-import by.intexsoft.forum.entity.Role;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.repository.UserRepository;
+import by.intexsoft.forum.service.RoleService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.*;
@@ -27,12 +26,18 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
-
+    private TestHelper helper = new TestHelper();
     private PasswordEncoder realPasswordEncoder = new BCryptPasswordEncoder();
+
     @Mock
     private PasswordEncoder bCryptPasswordEncoder;
     @Mock
     private UserRepository repository;
+    @Mock
+    private RoleService roleService;
+    @Mock
+    private UserServiceImpl mockedUserService;
+
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -41,11 +46,8 @@ public class UserServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        users = createUsers();
+        users = helper.getUsers();
         pageable = getPageable();
-        setSystemUser();
-        setAdmin();
-        setManager();
     }
 
     @After
@@ -67,53 +69,74 @@ public class UserServiceImplTest {
     public void findAllPendingToApprove() throws Exception {
         approve3users();
         when(repository.findByApprovedByIsNullAndRejectedIsFalse(pageable)).thenReturn(pendingToApproveUsers());
-        assertEquals("Contains the " + countNonApprovedUser() + " users", userService.findAllPendingToApprove(getPageable()).getContent().size(), countNonApprovedUser());
+        assertEquals("Contains the " + sizeNonApprovedUser() + " users", userService.findAllPendingToApprove(getPageable()).getContent().size(), sizeNonApprovedUser());
     }
 
     @Test
     public void findAllApprovedByAndNotRejected() throws Exception {
         approve3users();
-        User manager = getUserByRoleTitle(RoleConst.MANAGER);
+        User manager = helper.getUserByRoleTitle(RoleConst.MANAGER);
         when(repository.findByApprovedByAndRejectedFalse(manager, pageable)).thenReturn(approvedUsers(manager));
-        assertEquals("Contains the " + countNonApprovedUser() + " users", userService.findAllApprovedByAndNotRejected(manager, pageable)
-                .getContent().size(), countApprovedUserByManager(manager));
+        assertEquals("Contains the " + sizeNonApprovedUser() + " users", userService.findAllApprovedByAndNotRejected(manager, pageable)
+                .getContent().size(), sizeApprovedUserByManager(manager));
     }
 
     @Test
     public void findAllApprovedByAndRejected() throws Exception {
         reject3users();
-        User manager = getUserByRoleTitle(RoleConst.MANAGER);
+        User manager = helper.getUserByRoleTitle(RoleConst.MANAGER);
         when(repository.findByApprovedByIsNullAndRejectedIsFalse(pageable)).thenReturn(rejectedUsers(manager));
-        assertEquals(userService.findAllPendingToApprove(pageable).getContent().size(), countRejectedUser(manager));
+        assertEquals(userService.findAllPendingToApprove(pageable).getContent().size(), sizeRejectedUser(manager));
     }
 
     @Test
     public void findAllBlocked() throws Exception {
         block4users();
         when(repository.findByBlockedTrue(getPageable())).thenReturn(blockedUsers());
-        assertEquals(countBlockedUser(), userService.findAllBlocked(getPageable()).getContent().size());
+        assertEquals(sizeBlockedUser(), userService.findAllBlocked(getPageable()).getContent().size());
     }
 
     @Test
     public void save() throws Exception {
-        User newUser = createUser(null);
+        User newUser = helper.createUser(null);
         newUser.setId(users.size());
-        User savedUser = cloneUser(newUser);
+        User savedUser = helper.cloneUser(newUser);
         savedUser.setId(users.size());
         when(repository.save(newUser)).thenReturn(savedUser);
-        assertEquals("new user have to id after save", userService.save(newUser), savedUser);
+        assertEquals("new user should have an ID after saving", userService.save(newUser), savedUser);
 
-        User updatedUser = cloneUser(savedUser);
+        User updatedUser = helper.cloneUser(savedUser);
         updatedUser.name = "updated";
         when(repository.save(savedUser)).thenReturn(updatedUser);
         assertEquals("name should be updated", userService.save(savedUser).name, updatedUser.name);
     }
 
     @Test
+    public void saveNewUserAndEncryptPassword() {
+        User newUser = helper.createUser(null);
+        newUser.setId(0);
+        newUser.hashPassword = TestHelper.PASSWORD;
+        final String camelCaseEmail = "camelCase@email.com";
+        newUser.email = camelCaseEmail;
+        User savedUser = helper.cloneUser(newUser);
+        savedUser.setId(users.size());
+        savedUser.hashPassword = realPasswordEncoder.encode(TestHelper.PASSWORD);
+        savedUser.email = camelCaseEmail.toLowerCase();
+
+        when(bCryptPasswordEncoder.encode(newUser.hashPassword)).thenReturn(realPasswordEncoder.encode(TestHelper.PASSWORD));
+        when(repository.save(newUser)).thenReturn(savedUser);
+        when(roleService.findByTitle(RoleConst.USER)).thenReturn(helper.getUserByRoleTitle(RoleConst.USER).role);
+        newUser = userService.save(newUser);
+        assertNotEquals("Password should be encrypted.", newUser.hashPassword, TestHelper.PASSWORD);
+        assertEquals("Email should be saved in lowerCase.", newUser.email, camelCaseEmail.toLowerCase());
+        assertEquals(newUser.getId(), savedUser.getId());
+    }
+
+    @Test
     public void changePassword() throws Exception {
         String newPassword = "newPassword";
         User user = users.get(0);
-        User clone = cloneUser(user);
+        User clone = helper.cloneUser(user);
         clone.hashPassword = realPasswordEncoder.encode(newPassword);
         when(bCryptPasswordEncoder.encode(newPassword)).thenReturn(realPasswordEncoder.encode(newPassword));
         when(repository.save(user)).thenReturn(clone);
@@ -124,33 +147,33 @@ public class UserServiceImplTest {
     @Test
     public void isEmailExist() throws Exception {
         String email = users.get(0).email;
-        when(userService.getUserByEmail(email)).thenReturn(findByEmail(email));
+        when(userService.getUserByEmail(email)).thenReturn(helper.findByEmail(email));
         assertTrue("To be found user", userService.isEmailExist(email));
 
         String nonExistingEmail = "Email@email.test";
-        when(userService.getUserByEmail(nonExistingEmail)).thenReturn(findByEmail(nonExistingEmail));
-        assertTrue("To be NOT found user", !userService.isEmailExist(nonExistingEmail));
+        when(userService.getUserByEmail(nonExistingEmail)).thenReturn(helper.findByEmail(nonExistingEmail));
+        assertFalse("To be NOT found user", userService.isEmailExist(nonExistingEmail));
     }
 
     @Test
     public void isNameExist() throws Exception {
         String name = users.get(0).name;
-        when(userService.getUserByUsername(name)).thenReturn(findByUsername(name));
+        when(userService.getUserByUsername(name)).thenReturn(helper.findByUsername(name));
         assertTrue("To be found user", userService.isNameExist(name));
 
         String nonExistingName = "NOT_FOUND";
-        when(userService.getUserByUsername(nonExistingName)).thenReturn(findByUsername(nonExistingName));
-        assertTrue("To be NOT found user", !userService.isNameExist(nonExistingName));
+        when(userService.getUserByUsername(nonExistingName)).thenReturn(helper.findByUsername(nonExistingName));
+        assertFalse("To be NOT found user", userService.isNameExist(nonExistingName));
     }
 
     @Test
     public void getUserByEmail() throws Exception {
         String email = users.get(0).email;
-        when(userService.getUserByEmail(email)).thenReturn(findByEmail(email));
+        when(userService.getUserByEmail(email)).thenReturn(helper.findByEmail(email));
         assertEquals("To be found user", userService.getUserByEmail(email), users.get(0));
 
         String nonExistingEmail = "Email@email.test";
-        when(userService.getUserByEmail(nonExistingEmail)).thenReturn(findByEmail(nonExistingEmail));
+        when(userService.getUserByEmail(nonExistingEmail)).thenReturn(helper.findByEmail(nonExistingEmail));
         assertNull("To be NOT found user", userService.getUserByEmail(nonExistingEmail));
     }
 
@@ -164,71 +187,20 @@ public class UserServiceImplTest {
     @Test
     public void getUserByUsername() throws Exception {
         String name = users.get(0).name;
-        when(userService.getUserByUsername(name)).thenReturn(findByUsername(name));
+        when(userService.getUserByUsername(name)).thenReturn(helper.findByUsername(name));
         assertNotNull("To be found user", userService.getUserByUsername(name));
 
         String nonExistingName = "NOT_FOUND";
-        when(userService.getUserByUsername(nonExistingName)).thenReturn(findByUsername(nonExistingName));
+        when(userService.getUserByUsername(nonExistingName)).thenReturn(helper.findByUsername(nonExistingName));
         assertNull("To be NOT found user", userService.getUserByUsername(nonExistingName));
     }
 
-    private User findByEmail(String email) {
-        return users
-                .stream()
-                .filter(user -> user.email.equalsIgnoreCase(email))
-                .findFirst()
-                .orElse(null);
-    }
-
-    private User findByUsername(String name) {
-        return users
-                .stream()
-                .filter(user -> user.name.equals(name))
-                .findFirst()
-                .orElse(null);
-    }
 
     private List<User> findByIds(Set<Long> ids) {
         return users
                 .stream()
                 .filter(user -> ids.contains(user.getId()))
                 .collect(toList());
-    }
-
-    private List<User> createUsers() {
-        return IntStream.range(0, 11)
-                .boxed()
-                .map(i -> createUser(i + 1L))
-                .collect(toList());
-
-    }
-
-    private User cloneUser(User user) {
-        User clone = new User();
-        clone.setId(user.getId());
-        clone.hashPassword = user.hashPassword;
-        clone.email = user.email;
-        Role role = new Role();
-        role.title = user.role.title;
-        clone.role = role;
-        clone.name = user.name;
-        return clone;
-    }
-
-    private User createUser(Long id) {
-        User user = new User();
-        String rawPassword = "password";
-        user.hashPassword = realPasswordEncoder.encode(rawPassword);
-        if (Objects.isNull(id)) {
-            id = new Date().getTime();
-        }
-        user.setId(id);
-        user.name = "name" + (id);
-        user.email = "email" + (id) + "@email";
-        Role userRole = new Role();
-        userRole.title = RoleConst.USER;
-        user.role = userRole;
-        return user;
     }
 
     private Page<User> getPageUsers() {
@@ -257,7 +229,7 @@ public class UserServiceImplTest {
         users = users.stream()
                 .peek(user -> {
                     if (user.getId() > users.size() - getSizeApprovedUsers()) {
-                        user.approvedBy = getUserByRoleTitle(RoleConst.MANAGER);
+                        user.approvedBy = helper.getUserByRoleTitle(RoleConst.MANAGER);
                     }
                 })
                 .collect(toList());
@@ -267,7 +239,7 @@ public class UserServiceImplTest {
         users = users.stream()
                 .peek(user -> {
                     if (user.getId() > users.size() - getSizeApprovedUsers()) {
-                        user.approvedBy = getUserByRoleTitle(RoleConst.MANAGER);
+                        user.approvedBy = helper.getUserByRoleTitle(RoleConst.MANAGER);
                         user.rejected = true;
                     }
                 })
@@ -290,7 +262,7 @@ public class UserServiceImplTest {
                         .filter(user -> user.blocked)
                         .collect(toList()),
                 getPageable(),
-                countBlockedUser());
+                sizeBlockedUser());
     }
 
     private Page<User> pendingToApproveUsers() {
@@ -299,7 +271,7 @@ public class UserServiceImplTest {
                         .filter(user -> Objects.isNull(user.approvedBy))
                         .collect(toList()),
                 getPageable(),
-                countNonApprovedUser());
+                sizeNonApprovedUser());
     }
 
     private Page<User> approvedUsers(User manager) {
@@ -308,21 +280,21 @@ public class UserServiceImplTest {
                         .filter(user -> Objects.nonNull(user.approvedBy) && user.approvedBy.equals(manager))
                         .collect(toList()),
                 getPageable(),
-                countApprovedUserByManager(manager));
+                sizeApprovedUserByManager(manager));
     }
 
     private Page<User> rejectedUsers(User manager) {
         return new PageImpl<>(
                 getUsersRejectedByManager(manager),
                 getPageable(),
-                countRejectedUser(manager));
+                sizeRejectedUser(manager));
     }
 
     private int getSizeApprovedUsers() {
         return 3;
     }
 
-    private long countRejectedUser(User manager) {
+    private long sizeRejectedUser(User manager) {
         return getUsersRejectedByManager(manager)
                 .size();
     }
@@ -333,49 +305,24 @@ public class UserServiceImplTest {
                 .collect(toList());
     }
 
-    private long countNonApprovedUser() {
+    private long sizeNonApprovedUser() {
         return users.stream()
                 .filter(user -> Objects.isNull(user.approvedBy))
                 .collect(toList())
                 .size();
     }
 
-    private long countApprovedUserByManager(User manager) {
+    private long sizeApprovedUserByManager(User manager) {
         return users.stream()
                 .filter(user -> Objects.nonNull(user.approvedBy) && user.approvedBy.equals(manager))
                 .collect(toList())
                 .size();
     }
 
-    private long countBlockedUser() {
+    private long sizeBlockedUser() {
         return users.stream()
                 .filter(user -> user.blocked)
                 .collect(toList())
                 .size();
-    }
-
-    private void setSystemUser() {
-        Role system = new Role();
-        system.title = RoleConst.SYSTEM;
-        users.get(0).role = system;
-    }
-
-    private void setAdmin() {
-        Role admin = new Role();
-        admin.title = RoleConst.ADMIN;
-        users.get(1).role = admin;
-    }
-
-    private void setManager() {
-        Role role = new Role();
-        role.title = RoleConst.MANAGER;
-        users.get(2).role = role;
-    }
-
-    private User getUserByRoleTitle(String roleTitle) {
-        return users.stream()
-                .filter(user -> user.role.title.equalsIgnoreCase(roleTitle))
-                .findFirst()
-                .orElse(null);
     }
 }

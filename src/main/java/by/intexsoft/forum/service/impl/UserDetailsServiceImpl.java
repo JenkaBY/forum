@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toSet;
 
 /**
@@ -43,6 +44,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.getUserByEmail(email);
+        if (Objects.isNull(user) || Objects.isNull(user.role)) {
+            throw new UsernameNotFoundException(format("User with email = %s not found or has no Role.", email));
+        }
         boolean enabled = Objects.nonNull(user.approvedBy);
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
