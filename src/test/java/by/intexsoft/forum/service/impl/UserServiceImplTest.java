@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +23,7 @@ import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -38,6 +40,7 @@ public class UserServiceImplTest {
     @Mock
     private UserServiceImpl mockedUserService;
 
+    @Spy
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -124,12 +127,19 @@ public class UserServiceImplTest {
         savedUser.email = camelCaseEmail.toLowerCase();
 
         when(bCryptPasswordEncoder.encode(newUser.hashPassword)).thenReturn(realPasswordEncoder.encode(TestHelper.PASSWORD));
-        when(repository.save(newUser)).thenReturn(savedUser);
+        when(repository.save(newUser)).thenReturn(helper.cloneUser(savedUser));
         when(roleService.findByTitle(RoleConst.USER)).thenReturn(helper.getUserByRoleTitle(RoleConst.USER).role);
         newUser = userService.save(newUser);
         assertNotEquals("Password should be encrypted.", newUser.hashPassword, TestHelper.PASSWORD);
         assertEquals("Email should be saved in lowerCase.", newUser.email, camelCaseEmail.toLowerCase());
         assertEquals(newUser.getId(), savedUser.getId());
+
+        newUser.hashPassword = null;
+        doReturn(savedUser).when(userService).find(newUser.getId());
+        when(repository.save(newUser)).thenReturn(savedUser);
+
+        userService.save(newUser);
+        assertNotNull("User password should be fetched.", newUser.hashPassword);
     }
 
     @Test
