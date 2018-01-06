@@ -16,6 +16,29 @@ import static java.util.stream.Collectors.toList;
 public class TestHelper {
     private PasswordEncoder realPasswordEncoder;
     public static final String PASSWORD = "password";
+    public final static Role ADMIN;
+    public final static Role USER;
+    public final static Role MANAGER;
+    public static final Role SYSTEM;
+
+    static {
+        ADMIN = new Role();
+        ADMIN.title = RoleConst.ADMIN;
+        ADMIN.setId(1);
+
+        USER = new Role();
+        USER.title = RoleConst.USER;
+        USER.setId(2);
+
+        MANAGER = new Role();
+        MANAGER.title = RoleConst.MANAGER;
+        MANAGER.setId(3);
+
+        SYSTEM = new Role();
+        SYSTEM.title = RoleConst.SYSTEM;
+        SYSTEM.setId(4);
+    }
+
 
     private List<User> users;
 
@@ -61,29 +84,21 @@ public class TestHelper {
         user.setId(Objects.isNull(id) ? new Date().getTime() : id);
         user.name = "name" + (id);
         user.email = "email" + (id) + "@email.com";
-        Role userRole = new Role();
-        userRole.title = RoleConst.USER;
-        user.role = userRole;
+        user.role = USER;
         return user;
     }
 
 
     public void setSystemUser() {
-        Role system = new Role();
-        system.title = RoleConst.SYSTEM;
-        users.get(0).role = system;
+        users.get(0).role = SYSTEM;
     }
 
     public void setAdmin() {
-        Role admin = new Role();
-        admin.title = RoleConst.ADMIN;
-        users.get(1).role = admin;
+        users.get(1).role = ADMIN;
     }
 
     public void setManager() {
-        Role role = new Role();
-        role.title = RoleConst.MANAGER;
-        users.get(2).role = role;
+        users.get(2).role = MANAGER;
     }
 
     public User getUserByRoleTitle(String roleTitle) {
