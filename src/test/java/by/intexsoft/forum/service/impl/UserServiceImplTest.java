@@ -14,7 +14,6 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,7 +48,7 @@ public class UserServiceImplTest {
     @Before
     public void setUp() throws Exception {
         users = helper.getUsers();
-        pageable = getPageable();
+        pageable = helper.getPageable();
     }
 
     @After
@@ -61,7 +60,8 @@ public class UserServiceImplTest {
     @Test
     public void findAll() throws Exception {
         when(mockUserRepository.findAll(pageable)).thenReturn(getPageUsers());
-        assertEquals("Contains the " + getPageSize() + " users", userService.findAll(pageable).getContent().size(), getPageSize());
+        assertEquals("Contains the " + helper.getPageSize() + " users",
+                userService.findAll(pageable).getContent().size(), helper.getPageSize());
         users = new ArrayList<>();
         when(mockUserRepository.findAll(pageable)).thenReturn(getPageUsers());
         assertEquals("Contains the " + 0 + " users", userService.findAll(pageable).getContent().size(), 0);
@@ -71,7 +71,8 @@ public class UserServiceImplTest {
     public void findAllPendingToApprove() throws Exception {
         approve3users();
         when(mockUserRepository.findByApprovedByIsNullAndRejectedIsFalse(pageable)).thenReturn(pendingToApproveUsers());
-        assertEquals("Contains the " + sizeNonApprovedUser() + " users", userService.findAllPendingToApprove(getPageable()).getContent().size(), sizeNonApprovedUser());
+        assertEquals("Contains the " + sizeNonApprovedUser() + " users",
+                userService.findAllPendingToApprove(helper.getPageable()).getContent().size(), sizeNonApprovedUser());
     }
 
     @Test
@@ -95,8 +96,8 @@ public class UserServiceImplTest {
     @Test
     public void findAllBlocked() throws Exception {
         block4users();
-        when(mockUserRepository.findByBlockedTrue(getPageable())).thenReturn(blockedUsers());
-        assertEquals(sizeBlockedUser(), userService.findAllBlocked(getPageable()).getContent().size());
+        when(mockUserRepository.findByBlockedTrue(helper.getPageable())).thenReturn(blockedUsers());
+        assertEquals(sizeBlockedUser(), userService.findAllBlocked(helper.getPageable()).getContent().size());
     }
 
     @Test
@@ -128,7 +129,7 @@ public class UserServiceImplTest {
         resultUser.email = camelCaseEmail.toLowerCase();
 
         when(mockUserRepository.save(newUser)).thenReturn(helper.cloneUser(resultUser));
-        when(mockRoleService.findByTitle(RoleConst.USER)).thenReturn(helper.USER);
+        when(mockRoleService.findByTitle(RoleConst.USER)).thenReturn(TestHelper.USER);
 
         User savedNewUser = userService.save(newUser);
 
@@ -239,23 +240,11 @@ public class UserServiceImplTest {
     private Page<User> getPageUsers() {
         return new PageImpl<>(
                 users.stream()
-                        .limit(getPageSize())
+                        .limit(helper.getPageSize())
                         .collect(toList()),
-                getPageable(),
+                helper.getPageable(),
                 users.size()
         );
-    }
-
-    private Pageable getPageable() {
-        return new PageRequest(getPageNumber(), getPageSize());
-    }
-
-    private int getPageSize() {
-        return 5;
-    }
-
-    private int getPageNumber() {
-        return 0;
     }
 
     private void approve3users() {
@@ -294,7 +283,7 @@ public class UserServiceImplTest {
                 users.stream()
                         .filter(user -> user.blocked)
                         .collect(toList()),
-                getPageable(),
+                helper.getPageable(),
                 sizeBlockedUser());
     }
 
@@ -303,7 +292,7 @@ public class UserServiceImplTest {
                 users.stream()
                         .filter(user -> Objects.isNull(user.approvedBy))
                         .collect(toList()),
-                getPageable(),
+                helper.getPageable(),
                 sizeNonApprovedUser());
     }
 
@@ -312,14 +301,14 @@ public class UserServiceImplTest {
                 users.stream()
                         .filter(user -> Objects.nonNull(user.approvedBy) && user.approvedBy.equals(manager))
                         .collect(toList()),
-                getPageable(),
+                helper.getPageable(),
                 sizeApprovedUserByManager(manager));
     }
 
     private Page<User> rejectedUsers(User manager) {
         return new PageImpl<>(
                 getUsersRejectedByManager(manager),
-                getPageable(),
+                helper.getPageable(),
                 sizeRejectedUser(manager));
     }
 
@@ -341,21 +330,18 @@ public class UserServiceImplTest {
     private long sizeNonApprovedUser() {
         return users.stream()
                 .filter(user -> Objects.isNull(user.approvedBy))
-                .collect(toList())
-                .size();
+                .count();
     }
 
     private long sizeApprovedUserByManager(User manager) {
         return users.stream()
                 .filter(user -> Objects.nonNull(user.approvedBy) && user.approvedBy.equals(manager))
-                .collect(toList())
-                .size();
+                .count();
     }
 
     private long sizeBlockedUser() {
         return users.stream()
                 .filter(user -> user.blocked)
-                .collect(toList())
-                .size();
+                .count();
     }
 }

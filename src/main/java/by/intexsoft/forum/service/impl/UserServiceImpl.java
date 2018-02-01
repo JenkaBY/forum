@@ -39,7 +39,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
     }
 
     /**
-     * Ищет всех пользователей ожидающих подтверждения регистрации
+     * Ищет всех пользователей, ожидающих подтверждения регистрации
      *
      * @param pageable Pageable объект, который содержит параметры для постраничного вывода
      * @return Page<User> постраничный список пользователей
@@ -62,7 +62,7 @@ public class UserServiceImpl extends AbstractEntityServiceImpl<User> implements 
     }
 
     /**
-     * Поиск users которые отвергнуты администратором
+     * Поиск users которые отклонены администратором
      *
      * @param admin    ид админстратора, который подтвердил регистрацию пользователя
      * @param pageable Pageable объект, который содержит параметры для постраничного вывода

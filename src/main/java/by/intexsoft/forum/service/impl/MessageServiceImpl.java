@@ -33,6 +33,6 @@ public class MessageServiceImpl extends AbstractEntityServiceImpl<Message> imple
     @Override
     public Message save(Message message) {
         message.updatedAt = new Timestamp(new Date().getTime());
-        return this.repository.save(message);
+        return repository.save(message);
     }
 }

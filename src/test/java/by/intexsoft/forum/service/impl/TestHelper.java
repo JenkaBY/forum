@@ -4,6 +4,8 @@ import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.entity.Role;
 import by.intexsoft.forum.entity.Status;
 import by.intexsoft.forum.entity.User;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -140,5 +142,17 @@ public class TestHelper {
                 .filter(user -> user.name.equals(name))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Pageable getPageable() {
+        return new PageRequest(getPageNumber(), getPageSize());
+    }
+
+    public int getPageSize() {
+        return 5;
+    }
+
+    public int getPageNumber() {
+        return 0;
     }
 }
