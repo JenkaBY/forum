@@ -2,6 +2,7 @@ package by.intexsoft.forum.service.impl;
 
 import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.entity.Role;
+import by.intexsoft.forum.entity.Status;
 import by.intexsoft.forum.entity.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,11 +16,14 @@ import static java.util.stream.Collectors.toList;
 
 public class TestHelper {
     private PasswordEncoder realPasswordEncoder;
-    public static final String PASSWORD = "password";
-    public final static Role ADMIN;
-    public final static Role USER;
-    public final static Role MANAGER;
-    public static final Role SYSTEM;
+    static final String PASSWORD = "password";
+    static final Role ADMIN;
+    static final Role USER;
+    static final Role MANAGER;
+    static final Role SYSTEM;
+    static final Status PENDING;
+    static final Status APPROVED;
+    static final Status REJECTED;
 
     static {
         ADMIN = new Role();
@@ -39,6 +43,19 @@ public class TestHelper {
         SYSTEM.setId(4);
     }
 
+    static {
+        PENDING = new Status();
+        PENDING.title = "PENDING";
+        PENDING.setId(1);
+
+        APPROVED = new Status();
+        APPROVED.title = "APPROVED";
+        APPROVED.setId(2);
+
+        REJECTED = new Status();
+        REJECTED.title = "REJECTED";
+        REJECTED.setId(3);
+    }
 
     private List<User> users;
 
