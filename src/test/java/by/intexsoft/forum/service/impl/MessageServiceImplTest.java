@@ -5,6 +5,7 @@ import by.intexsoft.forum.entity.Topic;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.repository.MessageRepository;
 import by.intexsoft.forum.service.TopicService;
+import by.intexsoft.forum.service.impl.helper.TestHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

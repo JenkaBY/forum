@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Objects;
 
+import static by.intexsoft.forum.entity.helper.Status.APPROVED;
+
 @Service
 public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<TopicDiscussRequest> implements TopicDiscussRequestService {
     private static Logger LOGGER = (Logger) LoggerFactory.getLogger(TopicDiscussRequestServiceImpl.class);
@@ -35,7 +37,6 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
         this.topicService = topicService;
         this.userService = userService;
         this.statusService = statusService;
-
     }
 
     /**
@@ -51,6 +52,13 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
                 pageable);
     }
 
+    /**
+     * Find user's topic discuss request by Topic Id and User Id.
+     *
+     * @param topicId the id of seek topic
+     * @param userId  the id of user to check if exist his topic discuss request
+     * @return found topic discuss request or null.
+     */
     @Override
     public TopicDiscussRequest getByTopicIdAndUserId(long topicId, long userId) {
         Topic topicFromDb = topicService.find(topicId);
@@ -58,6 +66,13 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
         return ((TopicDiscussRequestRepository) repository).findFirstByInTopicAndRequestedBy(topicFromDb, userFromDb);
     }
 
+
+    /**
+     * Find all user's topic discuss requests per page
+     * @param user object for seek topic discuss requests
+     * @param pageable Parameters for retrieving requests per one page
+     * @return page of all user's requests
+     */
     @Override
     public Page<TopicDiscussRequest> findAllByUser(User user, Pageable pageable) {
         return ((TopicDiscussRequestRepository) repository).findByRequestedBy(user, pageable);
@@ -71,7 +86,7 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
      */
     @Override
     public TopicDiscussRequest save(TopicDiscussRequest topicDiscussRequest) {
-        if (topicDiscussRequest.status.equals(this.statusService.findByTitle(Status.APPROVED.name()))) {
+        if (topicDiscussRequest.status.equals(this.statusService.findByTitle(APPROVED.name()))) {
             Topic topic = topicService.find(topicDiscussRequest.inTopic.getId());
             if (Objects.isNull(topic.allowedUsers)) {
                 topic.allowedUsers = new HashSet<>();
@@ -89,7 +104,7 @@ public class TopicDiscussRequestServiceImpl extends AbstractEntityServiceImpl<To
     @Override
     public void delete(long discussRequestId) {
         TopicDiscussRequest discussRequest = this.find(discussRequestId);
-        if (discussRequest.status.equals(this.statusService.findByTitle(Status.APPROVED.name()))) {
+        if (discussRequest.status.equals(this.statusService.findByTitle(APPROVED.name()))) {
             Topic discussedTopic = discussRequest.inTopic;
             discussedTopic.removeAllowedUser(discussRequest.requestedBy);
             topicService.save(discussedTopic);

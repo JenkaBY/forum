@@ -4,6 +4,8 @@ import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.repository.UserRepository;
 import by.intexsoft.forum.service.RoleService;
+import by.intexsoft.forum.service.impl.helper.TestHelper;
+import by.intexsoft.forum.service.impl.helper.role.RoleTestHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -129,7 +131,7 @@ public class UserServiceImplTest {
         resultUser.email = camelCaseEmail.toLowerCase();
 
         when(mockUserRepository.save(newUser)).thenReturn(helper.cloneUser(resultUser));
-        when(mockRoleService.findByTitle(RoleConst.USER)).thenReturn(TestHelper.USER);
+        when(mockRoleService.findByTitle(RoleConst.USER)).thenReturn(RoleTestHelper.USER);
 
         User savedNewUser = userService.save(newUser);
 
@@ -226,7 +228,7 @@ public class UserServiceImplTest {
     @Test
     public void getUserByNonExistingUsername() throws Exception {
         final String nonExistingName = "NOT_FOUND";
-//        when(mockUserRepository.findByName(nonExistingName)).thenReturn(null);
+
         assertNull("User is not found", userService.getUserByUsername(nonExistingName));
     }
 

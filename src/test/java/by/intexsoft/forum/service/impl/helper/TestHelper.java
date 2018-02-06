@@ -1,8 +1,6 @@
-package by.intexsoft.forum.service.impl;
+package by.intexsoft.forum.service.impl.helper;
 
-import by.intexsoft.forum.constant.RoleConst;
 import by.intexsoft.forum.entity.Role;
-import by.intexsoft.forum.entity.Status;
 import by.intexsoft.forum.entity.User;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,50 +12,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
+import static by.intexsoft.forum.service.impl.helper.role.RoleTestHelper.*;
 import static java.util.stream.Collectors.toList;
 
 public class TestHelper {
     private PasswordEncoder realPasswordEncoder;
-    static final String PASSWORD = "password";
-    static final Role ADMIN;
-    static final Role USER;
-    static final Role MANAGER;
-    static final Role SYSTEM;
-    static final Status PENDING;
-    static final Status APPROVED;
-    static final Status REJECTED;
-
-    static {
-        ADMIN = new Role();
-        ADMIN.title = RoleConst.ADMIN;
-        ADMIN.setId(1);
-
-        USER = new Role();
-        USER.title = RoleConst.USER;
-        USER.setId(2);
-
-        MANAGER = new Role();
-        MANAGER.title = RoleConst.MANAGER;
-        MANAGER.setId(3);
-
-        SYSTEM = new Role();
-        SYSTEM.title = RoleConst.SYSTEM;
-        SYSTEM.setId(4);
-    }
-
-    static {
-        PENDING = new Status();
-        PENDING.title = "PENDING";
-        PENDING.setId(1);
-
-        APPROVED = new Status();
-        APPROVED.title = "APPROVED";
-        APPROVED.setId(2);
-
-        REJECTED = new Status();
-        REJECTED.title = "REJECTED";
-        REJECTED.setId(3);
-    }
+    public static final String PASSWORD = "password";
 
     private List<User> users;
 
@@ -82,7 +42,6 @@ public class TestHelper {
                 .boxed()
                 .map(i -> createUser(i + 1L))
                 .collect(toList());
-
     }
 
     public User cloneUser(User user) {
@@ -126,7 +85,6 @@ public class TestHelper {
                 .findFirst()
                 .orElse(null);
     }
-
 
     public User findByEmail(String email) {
         return users

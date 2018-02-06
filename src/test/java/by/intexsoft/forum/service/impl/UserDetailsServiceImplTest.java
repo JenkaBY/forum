@@ -2,6 +2,7 @@ package by.intexsoft.forum.service.impl;
 
 import by.intexsoft.forum.entity.User;
 import by.intexsoft.forum.service.UserService;
+import by.intexsoft.forum.service.impl.helper.TestHelper;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
